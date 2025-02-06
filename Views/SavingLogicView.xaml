@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WpfApp1.Views"
-    xmlns:models="clr-namespace:WpfApp1.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:WpfApp1.Models"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Background="White"
@@ -16,11 +16,14 @@
             <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock Text="Safing Logic" Style="{StaticResource TitleLabel}" Grid.Row="0" />
-        <StackPanel Orientation="Horizontal" Grid.Row="1">
+        <TextBlock
+            Grid.Row="0"
+            Style="{StaticResource TitleLabel}"
+            Text="Safing Logic" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button Content="Start/Stop" Style="{StaticResource NormalButton}" />
-            <Button Content="Clear" Style="{StaticResource NormalButton}"/>
-            <Button Content="Notes" Style="{StaticResource NormalButton}"/>
+            <Button Content="Clear" Style="{StaticResource NormalButton}" />
+            <Button Content="Notes" Style="{StaticResource NormalButton}" />
         </StackPanel>
         <WrapPanel Grid.Row="2">
             <GroupBox Header=" Level1 Input">
@@ -28,7 +31,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type models:SavingLogicSignal}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Name}" Margin="15,5"/>
+                                <TextBlock Margin="15,5" Text="{Binding Name}" />
                                 <CheckBox IsChecked="{Binding PinHigh}" />
                                 <TextBlock Text="{Binding PinStatus}" />
                             </StackPanel>

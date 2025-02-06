@@ -8,9 +8,9 @@
     xmlns:viewModels="clr-namespace:WpfApp1.ViewModels"
     xmlns:views="clr-namespace:WpfApp1.Views"
     Title="MainWindow"
-    WindowState="Maximized"
     Width="800"
     Height="800"
+    WindowState="Maximized"
     mc:Ignorable="d">
     <Window.Resources>
         <XmlDataProvider x:Key="InventoryData" XPath="Books">
@@ -62,7 +62,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="auto" />
             <RowDefinition />
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.Resources>
             <DataTemplate DataType="{x:Type viewModels:AnalogViewModel}">
@@ -71,27 +71,34 @@
         </Grid.Resources>
         <!--  Device  -->
         <StackPanel Margin="5" Orientation="Horizontal">
-            <TextBlock Text="Device Channel:" Style="{StaticResource labelText}"/>
+            <TextBlock Style="{StaticResource labelText}" Text="Device Channel:" />
             <ComboBox
                 Width="100"
                 DisplayMemberPath="Name"
                 ItemsSource="{Binding Devices}"
-                SelectedItem="{Binding CurrentDevice}" Style="{StaticResource NormalCombox}"/>
-            <Button Content="Connect" Style="{StaticResource NormalButton}"/>
-            <Button Content="Close" Style="{StaticResource NormalButton}"/>
+                SelectedItem="{Binding CurrentDevice}"
+                Style="{StaticResource NormalCombox}" />
+            <Button Content="Connect" Style="{StaticResource NormalButton}" />
+            <Button Content="Close" Style="{StaticResource NormalButton}" />
         </StackPanel>
         <StackPanel
             Grid.Row="1"
             Margin="5"
             Orientation="Horizontal">
-            <Button Content=" Send" Style="{StaticResource NormalButton}"/>
-            <Button Command="{Binding StartCommand}" Content=" Start" Style="{StaticResource NormalButton}"/>
-            <Button Command="{Binding StopCommand}" Content=" Stop" Style="{StaticResource NormalButton}"/>
+            <Button Content=" Send" Style="{StaticResource NormalButton}" />
+            <Button
+                Command="{Binding StartCommand}"
+                Content=" Start"
+                Style="{StaticResource NormalButton}" />
+            <Button
+                Command="{Binding StopCommand}"
+                Content=" Stop"
+                Style="{StaticResource NormalButton}" />
         </StackPanel>
         <ContentControl Grid.Row="2" Content="{Binding CurrentViewModel}" />
         <StatusBar Grid.Row="3">
             <StatusBarItem>
-                <TextBlock Text="{Binding Log}"/>
+                <TextBlock Text="{Binding Log}" />
             </StatusBarItem>
         </StatusBar>
     </Grid>

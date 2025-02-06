@@ -15,8 +15,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
         <TextBlock
             Grid.Row="0"
@@ -44,13 +44,15 @@
                     <GridViewColumn DisplayMemberBinding="{Binding MaxValue}" Header="Max" />
                     <GridViewColumn DisplayMemberBinding="{Binding MinValue}" Header="Min" />
                     <GridViewColumn DisplayMemberBinding="{Binding MaxThreshold}" Header="MaxThreshold" />
-                    --><!--<GridViewColumn Header="Checked">
+        -->
+        <!--<GridViewColumn Header="Checked">
                     <GridViewColumn.CellTemplate>
                     <DataTemplate>
                     <CheckBox IsChecked="{Binding XPath=Saled}" Style="{StaticResource CustomCheckBoxStyle}" />
                     </DataTemplate>
                     </GridViewColumn.CellTemplate>
-                    </GridViewColumn>--><!--
+                    </GridViewColumn>-->
+        <!--
                 </GridView>
             </ListView.View>
         </ListView>-->
@@ -60,19 +62,22 @@
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ColumnHeaderHeight="30"
+            EnableColumnVirtualization="True"
+            EnableRowVirtualization="True"
             IsReadOnly="True"
             ItemsSource="{Binding AnalogSignals}"
             RowHeaderWidth="0"
+            ScrollViewer.CanContentScroll="True"
             SelectionMode="Single"
-            SelectionUnit="Cell" 
+            SelectionUnit="Cell"
             VirtualizingPanel.IsContainerVirtualizable="True"
             VirtualizingPanel.IsVirtualizing="True"
-            VirtualizingPanel.VirtualizationMode="Recycling"
-            ScrollViewer.CanContentScroll="True"
-            EnableColumnVirtualization="True"
-            EnableRowVirtualization="True">
+            VirtualizingPanel.VirtualizationMode="Recycling">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Name}" Header="Signal__Name" Width="*"/>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Name}"
+                    Header="Signal__Name" />
                 <DataGridTextColumn Binding="{Binding PinNumber}" Header="Pin__Number" />
                 <DataGridTextColumn Binding="{Binding ADChannel}" Header="A/D Channel" />
                 <DataGridTextColumn Binding="{Binding Value1}" Header="AI Scaled(Volt/Ampere)" />
@@ -84,65 +89,75 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Width="100" Binding="{Binding MaxThreshold}" Header="Max Threshold Diag(Volt)" />
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding MaxThreshold}"
+                    Header="Max Threshold Diag(Volt)" />
                 <DataGridTextColumn Binding="{Binding MinThreshold}" Header="Min Threshold Diag(Volt)" />
                 <DataGridTextColumn Binding="{Binding MaxValue}" Header="AI Max" />
                 <DataGridTextColumn Binding="{Binding MinValue}" Header="AI Min" />
                 <DataGridTextColumn Binding="{Binding StandardDev}" Header="Standard Dev" />
             </DataGrid.Columns>
         </DataGrid>
-        <!--Control-->
-        <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
-           
+        <!--  Control  -->
+        <StackPanel
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="1">
+
             <GroupBox Header="Modify Threshold">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <ComboBox
-                        Style="{StaticResource NormalCombox}"
+                        Width="200"
                         DisplayMemberPath="Name"
                         ItemsSource="{Binding AnalogSignals}"
-                        SelectedItem="{Binding CurrentAnalogSignal}" 
-                        Width="200"/>
+                        SelectedItem="{Binding CurrentAnalogSignal}"
+                        Style="{StaticResource NormalCombox}" />
                     <UniformGrid Grid.Row="1">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Min:"
-                                       Style="{StaticResource labelText}"/>
-                            <TextBox MinWidth="100" Text="{Binding MinThreshold}"
-                                     Style="{StaticResource numTextBox}"/>
+                            <TextBlock Style="{StaticResource labelText}" Text="Min:" />
+                            <TextBox
+                                MinWidth="100"
+                                Style="{StaticResource numTextBox}"
+                                Text="{Binding MinThreshold}" />
                         </StackPanel>
-                        <CheckBox Content="Latch Faluers"
-                                  Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left"/>
+                        <CheckBox
+                            HorizontalAlignment="Left"
+                            Content="Latch Faluers"
+                            Style="{StaticResource NormalCheckBox}" />
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Max:"
-                                       Style="{StaticResource labelText}"/>
-                            <TextBox MinWidth="100" Text="{Binding MaxThreshold}"
-                                     Style="{StaticResource numTextBox}"/>
+                            <TextBlock Style="{StaticResource labelText}" Text="Max:" />
+                            <TextBox
+                                MinWidth="100"
+                                Style="{StaticResource numTextBox}"
+                                Text="{Binding MaxThreshold}" />
                         </StackPanel>
                         <CheckBox Content="Update for all" IsChecked="{Binding UpdateAll}" />
                     </UniformGrid>
                     <UniformGrid Grid.Row="2">
-                        <Button Command="{Binding UpdateSignalThresholdCommand}"
-                                Style="{StaticResource topButton}"
-                                Content="Update" />
-                        <Button Command="{Binding ResetSignalThresholdCommand}"
-                                Style="{StaticResource topButton}"
-                                Content="Reset" />
-                        <Button Content="Load Limits"
-                                Style="{StaticResource topButton}"/>
-                        <Button Content="Save Limits"
-                            Style="{StaticResource topButton}"/>
+                        <Button
+                            Command="{Binding UpdateSignalThresholdCommand}"
+                            Content="Update"
+                            Style="{StaticResource topButton}" />
+                        <Button
+                            Command="{Binding ResetSignalThresholdCommand}"
+                            Content="Reset"
+                            Style="{StaticResource topButton}" />
+                        <Button Content="Load Limits" Style="{StaticResource topButton}" />
+                        <Button Content="Save Limits" Style="{StaticResource topButton}" />
                     </UniformGrid>
                 </Grid>
             </GroupBox>
             <GroupBox Grid.Column="1" Header="Calucate Standard Dev">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Style="{StaticResource labelText}">Enter # samples (Max:100</TextBlock>
-                    <TextBox Style="{StaticResource numTextBox}"/>
-                    <Button Content="Calculate STD" Style="{StaticResource NormalButton}"/>
+                    <TextBox Style="{StaticResource numTextBox}" />
+                    <Button Content="Calculate STD" Style="{StaticResource NormalButton}" />
                 </StackPanel>
             </GroupBox>
         </StackPanel>

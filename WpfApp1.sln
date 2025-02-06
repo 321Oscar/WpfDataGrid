@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navigation.MVVM.WPF", "..\Navigation.MVVM.WPF\Navigation.MVVM.WPF.csproj", "{FA6DF0A3-311A-40F4-9E2C-F297DA79FDC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGridDemo", "..\DataGridDemo\DataGridDemo.csproj", "{3C83D94D-5A16-4DC3-99D5-D019F627512F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{FA6DF0A3-311A-40F4-9E2C-F297DA79FDC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA6DF0A3-311A-40F4-9E2C-F297DA79FDC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA6DF0A3-311A-40F4-9E2C-F297DA79FDC1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C83D94D-5A16-4DC3-99D5-D019F627512F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C83D94D-5A16-4DC3-99D5-D019F627512F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C83D94D-5A16-4DC3-99D5-D019F627512F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C83D94D-5A16-4DC3-99D5-D019F627512F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
