@@ -30,6 +30,8 @@ namespace WpfApp1.ViewModels
         
         }
 
+        public IEnumerable<NavigationBarCommand> Commands => _commands;
+
         protected override void OnDeactivated()
         {
             //_accountStore.CurrentAccountChanged -= OnCurrentAccountChanged;
