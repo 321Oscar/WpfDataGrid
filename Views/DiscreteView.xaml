@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="WpfApp1.Views.DiscreteView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.Views" xmlns:converters="clr-namespace:WpfApp1.Converters"
+             mc:Ignorable="d" Background="White"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:UpdateSourceTriggerConverter x:Key="UpdateSourceTriggerConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock 
+            Text="Discrete" 
+            Style="{StaticResource TitleLabel}"
+            />
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="130,10,0,10">
+            <Button Content="Set xxx Output" Style="{StaticResource topButton}"/>
+            <Button Content="Reset Motor Faults" Style="{StaticResource topButton}"/>
+        </StackPanel>
+        <GroupBox Header="Inputs" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <DataGrid ItemsSource="{Binding InputSignals}" 
+                          IsReadOnly="True"
+                          AutoGenerateColumns="False" 
+                          CanUserAddRows="False" 
+                          CanUserDeleteRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Signal_Name" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="PinNumber" Binding="{Binding PinNumber}"/>
+                        <DataGridTextColumn Header="State" Binding="{Binding RealValue}"/>
+                        <DataGridTextColumn Header="# Transitions" Binding="{Binding Transitions}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+               
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="0" Grid.Column="1" Header="TLF Test">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Disable" Style="{StaticResource NormalButton}" Padding="5"/>
+                <Button Content="Reset TLF Faults" Style="{StaticResource NormalButton}"/>
+                <ComboBox Style="{StaticResource NormalCombox}"/>
+                <Button Content="Send Bad" Style="{StaticResource NormalButton}"/>
+                <CheckBox Content="Sync" 
+                          IsChecked="{Binding OutputSignalSync}"
+                          Style="{StaticResource NormalCheckBox}"/>
+                <Button Content="Update" Command="{Binding UpdateCommand}" Style="{StaticResource NormalButton}"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="Outputs" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <DataGrid 
+                    ItemsSource="{Binding OutputSignals}" 
+                    AutoGenerateColumns="False" 
+                    CanUserAddRows="False" 
+                    CanUserDeleteRows="False" 
+                    SelectionUnit="Cell">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Signal_Name" Binding="{Binding Name}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="PinNumber" Binding="{Binding PinNumber}" IsReadOnly="True"/>
+                       
+                        <DataGridTemplateColumn Header="Pin_High">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Pin_High, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                              HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn> <DataGridTemplateColumn Header="Pin_Low">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox 
+                                        IsChecked="{Binding Pin_Low, 
+                                            Mode=TwoWay,
+                                            UpdateSourceTrigger=PropertyChanged}" 
+                                        HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="State" Binding="{Binding RealValue}" IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+               
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</UserControl>

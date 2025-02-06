@@ -1,0 +1,25 @@
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using WpfApp1.Stores;
+using WpfApp1.ViewModels;
+
+namespace WpfApp1.Services
+{
+    public class NavigationService<TViewModel> : INavigationService where TViewModel : ObservableRecipient
+    {
+        private readonly INavigationStore _navigationStore;
+        private readonly CreateViewModel<TViewModel> _createViewModel;
+
+        public NavigationService(INavigationStore navigationStore, CreateViewModel<TViewModel> createViewModel)
+        {
+            _navigationStore = navigationStore;
+            _createViewModel = createViewModel;
+        }
+
+        public string NavigationName { get; set; }
+
+        public void Navigate()
+        {
+            _navigationStore.CurrentViewModel = _createViewModel();
+        }
+    }
+}

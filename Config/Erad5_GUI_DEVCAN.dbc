@@ -1,0 +1,162 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: GUI MCU
+
+
+BO_ 256 MCU_TX_0x100_TestCan: 64 Vector__XXX
+ SG_ Test_Sgianl1 : 0|1@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 1541 MCU_TX_0x605_DEVCANFD: 64 MCU
+ SG_ EXC_LO_DIAG_AI : 36|12@1+ (1,0) [0|4095] "" Vector__XXX
+ SG_ EXC_HI_DIAG_AI : 24|12@1+ (1,0) [0|4095] "" Vector__XXX
+ SG_ COS_LO_DIAG_AI : 12|12@1+ (1,0) [0|4095] "" Vector__XXX
+ SG_ SIN_LO_DIAG_AI : 0|12@1+ (1,0) [0|4095] "" Vector__XXX
+
+BO_ 1784 MCU_TX_0x6F8_DEVCANFD: 64 MCU
+ SG_ eLOCKER_LS_ISENSE_AI : 432|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ eLOCKER_HS_VSENSE_AI : 456|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ eLOCKER_HS_ISENSE_AI : 444|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ eLOCKER_LS_VSENSE_AI : 468|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ PPAWL_MTR_CURRENT_SENSE_AI : 420|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ PPAWL_MTR_PWR_AI : 408|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ ACT_DIS_FET_HEALTH_AI : 396|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_5V_COMM_AI : 384|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ AC_BB_TEMP_AI : 372|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ DC_BB_TEMP_AI : 360|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ GDB_TEMP_AI : 348|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_5VA_AI : 336|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ HV_ISOLATION_NEG_AI : 324|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ HV_ISOLATION_POS_AI : 312|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_15V_SAFETY_BOT_AI : 300|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_15V_SAFETY_TOP_AI : 288|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ AI_5V_OUT_AI : 276|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_5V_CURRENT_SENSE_AI : 264|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VBATT2_AI : 252|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_5V_GDIC_TOP_AI : 240|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VBATT1_AI : 228|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ MTR_TEMP_AI : 216|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_18V_FLYBACK_EPS_AI : 204|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_5V_GDIC_BOT_AI : 192|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_16V6_AI : 180|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_1V3_AI : 168|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_3V3_FLASH_AI : 156|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ AD_Temp_Coolant : 144|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ EMC_TEMP_AI : 132|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ CB_PCB_TEMP_AI : 120|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_2V5_AI : 108|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_5V_AI : 96|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ HVDC_CURRENT_SENSE_AI : 84|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ RED_W_CURRENT_SENSE_AI : 72|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ RED_V_CURRENT_SENSE_AI : 60|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ RED_U_CURRENT_SENSE_AI : 48|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ HVDC_SENSE_MAIN_MICRO_AI : 36|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ W_CURRENT_SENSE_AI : 24|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ V_CURRENT_SENSE_AI : 12|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ U_CURRENT_SENSE_AI : 0|12@1+ (1,0) [0|4095] ""  GUI
+
+
+
+CM_ BO_ 1541 "旋变相关信号发送";
+CM_ SG_ 1541 EXC_LO_DIAG_AI "Pin_Number:G2 A/D_Channel:P00.1";
+CM_ SG_ 1541 EXC_HI_DIAG_AI "Pin_Number:L4 A/D_Channel:AN43";
+CM_ SG_ 1541 COS_LO_DIAG_AI "Pin_Number:P5 A/D_Channel:AN34";
+CM_ SG_ 1541 SIN_LO_DIAG_AI "Pin_Number:U2 A/D_Channel:AN28";
+CM_ SG_ 1784 eLOCKER_LS_ISENSE_AI "Pin_Number:N2 A/D_Channel:AN45";
+CM_ SG_ 1784 eLOCKER_HS_VSENSE_AI "Pin_Number:N1 A/D_Channel:AN44";
+CM_ SG_ 1784 eLOCKER_HS_ISENSE_AI "Pin_Number:T5 A/D_Channel:AN22";
+CM_ SG_ 1784 eLOCKER_LS_VSENSE_AI "Pin_Number:W13 A/D_Channel:P33.6";
+CM_ SG_ 1784 PPAWL_MTR_CURRENT_SENSE_AI "Pin_Number:R2 A/D_Channel:AN35";
+CM_ SG_ 1784 PPAWL_MTR_PWR_AI "Pin_Number:U7 A/D_Channel:AN9";
+CM_ SG_ 1784 ACT_DIS_FET_HEALTH_AI "Pin_Number:Y10 A/D_Channel:P33.1";
+CM_ SG_ 1784 VI_5V_COMM_AI "Pin_Number:U11 A/D_Channel:P34.1";
+CM_ SG_ 1784 AC_BB_TEMP_AI "Pin_Number:F4 A/D_Channel:P02.11";
+CM_ SG_ 1784 DC_BB_TEMP_AI "Pin_Number:K5 A/D_Channel:P00.10";
+CM_ SG_ 1784 GDB_TEMP_AI "Pin_Number:K2 A/D_Channel:P00.9";
+CM_ SG_ 1784 VI_5VA_AI "Pin_Number:J4 A/D_Channel:P00.6";
+CM_ SG_ 1784 HV_ISOLATION_NEG_AI "Pin_Number:J1 A/D_Channel:P00.4";
+CM_ SG_ 1784 HV_ISOLATION_POS_AI "Pin_Number:H2 A/D_Channel:P00.3";
+CM_ SG_ 1784 VI_15V_SAFETY_BOT_AI "Pin_Number:M2 A/D_Channel:AN47";
+CM_ SG_ 1784 VI_15V_SAFETY_TOP_AI "Pin_Number:M1 A/D_Channel:AN46";
+CM_ SG_ 1784 AI_5V_OUT_AI "Pin_Number:L5 A/D_Channel:AN42";
+CM_ SG_ 1784 VI_5V_CURRENT_SENSE_AI "Pin_Number:M4 A/D_Channel:AN41";
+CM_ SG_ 1784 VBATT2_AI "Pin_Number:M5 A/D_Channel:AN40";
+CM_ SG_ 1784 VI_5V_GDIC_TOP_AI "Pin_Number:P4 A/D_Channel:AN32";
+CM_ SG_ 1784 VBATT1_AI "Pin_Number:T4 A/D_Channel:AN30";
+CM_ SG_ 1784 MTR_TEMP_AI "Pin_Number:U1 A/D_Channel:AN29";
+CM_ SG_ 1784 VI_18V_FLYBACK_EPS_AI "Pin_Number:W3 A/D_Channel:AN19";
+CM_ SG_ 1784 VI_5V_GDIC_BOT_AI "Pin_Number:W4 A/D_Channel:AN18";
+CM_ SG_ 1784 VI_16V6_AI "Pin_Number:U5 A/D_Channel:AN17";
+CM_ SG_ 1784 VI_1V3_AI "Pin_Number:W5 A/D_Channel:AN16";
+CM_ SG_ 1784 VI_3V3_FLASH_AI "Pin_Number:W6 A/D_Channel:AN14";
+CM_ SG_ 1784 AD_Temp_Coolant "Pin_Number:W6 A/D_Channel:AN13";
+CM_ SG_ 1784 EMC_TEMP_AI "Pin_Number:T7 A/D_Channel:AN12";
+CM_ SG_ 1784 CB_PCB_TEMP_AI "Pin_Number:Y8 A/D_Channel:AN10";
+CM_ SG_ 1784 VI_2V5_AI "Pin_Number:W8 A/D_Channel:AN8";
+CM_ SG_ 1784 VI_5V_AI "Pin_Number:T9 A/D_Channel:AN4";
+CM_ SG_ 1784 HVDC_CURRENT_SENSE_AI "Pin_Number:W7 A/D_Channel:AN11";
+CM_ SG_ 1784 RED_W_CURRENT_SENSE_AI "Pin_Number:W10 A/D_Channel:P33.0";
+CM_ SG_ 1784 RED_V_CURRENT_SENSE_AI "Pin_Number:J2 A/D_Channel:P00.5";
+CM_ SG_ 1784 RED_U_CURRENT_SENSE_AI "Pin_Number:P1 A/D_Channel:AN39";
+CM_ SG_ 1784 HVDC_SENSE_MAIN_MICRO_AI "Pin_Number:R4 A/D_Channel:AN31";
+CM_ SG_ 1784 W_CURRENT_SENSE_AI "Pin_Number:R5 A/D_Channel:AN23";
+CM_ SG_ 1784 V_CURRENT_SENSE_AI "Pin_Number:T6 A/D_Channel:AN15";
+CM_ SG_ 1784 U_CURRENT_SENSE_AI "Pin_Number:U8 A/D_Channel:AN7";
+BA_DEF_ BO_  "CANFD_BRS" ENUM  "0","1";
+BA_DEF_  "DBName" STRING ;
+BA_DEF_  "BusType" STRING ;
+BA_DEF_ BU_  "NodeLayerModules" STRING ;
+BA_DEF_ BU_  "ECU" STRING ;
+BA_DEF_ BU_  "CANoeJitterMax" INT 0 0;
+BA_DEF_ BU_  "CANoeJitterMin" INT 0 0;
+BA_DEF_ BU_  "CANoeDrift" INT 0 0;
+BA_DEF_ BU_  "CANoeStartDelay" INT 0 0;
+BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","StandardCAN_FD","ExtendedCAN_FD";
+BA_DEF_DEF_  "CANFD_BRS" "1";
+BA_DEF_DEF_  "DBName" "";
+BA_DEF_DEF_  "BusType" "";
+BA_DEF_DEF_  "NodeLayerModules" "";
+BA_DEF_DEF_  "ECU" "";
+BA_DEF_DEF_  "CANoeJitterMax" 0;
+BA_DEF_DEF_  "CANoeJitterMin" 0;
+BA_DEF_DEF_  "CANoeDrift" 0;
+BA_DEF_DEF_  "CANoeStartDelay" 0;
+BA_DEF_DEF_  "VFrameFormat" "StandardCAN";
+BA_ "BusType" "CAN FD";
+BA_ "DBName" "Erad5_GUI_DEVCAN";
+BA_ "VFrameFormat" BO_ 256 14;
+BA_ "VFrameFormat" BO_ 1541 14;
+BA_ "VFrameFormat" BO_ 1784 14;
+

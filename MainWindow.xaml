@@ -1,0 +1,98 @@
+﻿<Window
+    x:Class="WpfApp1.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WpfApp1"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:WpfApp1.ViewModels"
+    xmlns:views="clr-namespace:WpfApp1.Views"
+    Title="MainWindow"
+    WindowState="Maximized"
+    Width="800"
+    Height="800"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <XmlDataProvider x:Key="InventoryData" XPath="Books">
+            <x:XData>
+                <Books xmlns="">
+                    <Book
+                        ISBN="0-7356-0562-9"
+                        Number="9"
+                        Stock="in">
+                        <Title>XML in Action</Title>
+                        <Summary>XML Web Technology</Summary>
+                    </Book>
+                    <Book
+                        ISBN="0-7356-1370-2"
+                        Number="8"
+                        Stock="in">
+                        <Title>Programming Microsoft Windows With C#</Title>
+                        <Summary>C# Programming using the .NET Framework</Summary>
+                    </Book>
+                    <Book
+                        ISBN="0-7356-1288-9"
+                        Number="7"
+                        Stock="out">
+                        <Title>Inside C#</Title>
+                        <Summary>C# Language Programming</Summary>
+                    </Book>
+                    <Book
+                        ISBN="0-7356-1377-X"
+                        Number="5"
+                        Stock="in">
+                        <Title>Introducing Microsoft .NET</Title>
+                        <Summary>Overview of .NET Technology</Summary>
+                    </Book>
+                    <Book
+                        ISBN="0-7356-1448-2"
+                        Number="4"
+                        Stock="out">
+                        <Title>Microsoft C# Language Specifications</Title>
+                        <Summary>The C# language definition</Summary>
+                        <Saled>True</Saled>
+                    </Book>
+                </Books>
+            </x:XData>
+        </XmlDataProvider>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type viewModels:AnalogViewModel}">
+                <views:AnalogView />
+            </DataTemplate>
+        </Grid.Resources>
+        <!--  Device  -->
+        <StackPanel Margin="5" Orientation="Horizontal">
+            <TextBlock Text="Device Channel:" Style="{StaticResource labelText}"/>
+            <ComboBox
+                Width="100"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding Devices}"
+                SelectedItem="{Binding CurrentDevice}" Style="{StaticResource NormalCombox}"/>
+            <Button Content="Connect" Style="{StaticResource NormalButton}"/>
+            <Button Content="Close" Style="{StaticResource NormalButton}"/>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Margin="5"
+            Orientation="Horizontal">
+            <Button Content=" Send" Style="{StaticResource NormalButton}"/>
+            <Button Command="{Binding StartCommand}" Content=" Start" Style="{StaticResource NormalButton}"/>
+            <Button Command="{Binding StopCommand}" Content=" Stop" Style="{StaticResource NormalButton}"/>
+        </StackPanel>
+        <ContentControl Grid.Row="2" Content="{Binding CurrentViewModel}" />
+        <StatusBar Grid.Row="3">
+            <StatusBarItem>
+                <TextBlock Text="{Binding Log}"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
