@@ -6,36 +6,43 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using vxlapi_NET;
+using WpfApp1.Services;
 
 namespace WpfApp1.Devices
 {
-    public class VectorCan
+    public class VectorCan : IDevice
     {
         // -----------------------------------------------------------------------------------------------
         // DLL Import for RX events
         // -----------------------------------------------------------------------------------------------
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern int WaitForSingleObject(int handle, int timeOut);
+
+        private readonly LogService logService;
+
         // -----------------------------------------------------------------------------------------------
+        private readonly VectorCanService _vectorCanService;
+
+        
 
         // -----------------------------------------------------------------------------------------------
         // Global variables
         // -----------------------------------------------------------------------------------------------
         // Driver access through XLDriver (wrapper)
-        private XLDriver CANDemo = new XLDriver();
-        private String appName = "xlCANdemoNET";
+        public XLDriver VectorDriver { get => _vectorCanService.VectorDriver; }
+        //private String appName = "xlCANdemoNET";
 
         /// <summary>
         /// // Driver configuration
         /// </summary>
-        private XLClass.xl_driver_config driverConfig = new XLClass.xl_driver_config();
+        //private XLClass.xl_driver_config driverConfig = new XLClass.xl_driver_config();
 
         /// <summary>
         /// Variables required by XLDriver
         /// </summary>
-        private XLDefine.XL_HardwareType hwType = XLDefine.XL_HardwareType.XL_HWTYPE_NONE;
-        private uint hwIndex = 0;
-        private uint hwChannel = 0;
+        //private XLDefine.XL_HardwareType hwType = XLDefine.XL_HardwareType.XL_HWTYPE_NONE;
+        //private uint hwIndex = 0;
+        //private uint hwChannel = 0;
         private int portHandle = -1;
         private int eventHandle = -1;
         private UInt64 accessMask = 0;
@@ -54,58 +61,41 @@ namespace WpfApp1.Devices
         private Thread rxThread;
         private bool blockRxThread = false;
         // -----------------------------------------------------------------------------------------------
+
+        public VectorCan(LogService logService,VectorCanService vectorCanService, XLClass.xl_channel_config cfg,string name)
+        {
+            this.logService = logService;
+            _vectorCanService = vectorCanService;
+            ChannelCfg = cfg;
+            Name = name;
+        }
+
+
+        public XLClass.xl_channel_config ChannelCfg { get; }
         public event OnMsgReceived OnMsgReceived;
         public XLDefine.XL_Status OpenDriver()
         {
-            return CANDemo.XL_OpenDriver();
+            return VectorDriver.XL_OpenDriver();
         }
-        public List<XLClass.xl_channel_config> Channels { get; private set; }
-
-        public VectorCan()
+       
+        public void OpenPort()
         {
-            GetDriverConfig();
-        }
+            //var channelCfg = Channels[channelIndex];
 
-        public void GetDriverConfig()
-        {
-            var status = CANDemo.XL_GetDriverConfig(ref driverConfig);
-            if (status == XLDefine.XL_Status.XL_SUCCESS)
-            {
-                Channels = new List<XLClass.xl_channel_config>();
-                for (int i = 0; i < driverConfig.channelCount; i++)
-                {
-                    //Console.WriteLine("\n                   [{0}] " + driverConfig.channel[i].name, i);
-                    //Console.WriteLine("                    - Channel Mask    : " + driverConfig.channel[i].channelMask);
-                    //Console.WriteLine("                    - Transceiver Name: " + driverConfig.channel[i].transceiverName);
-                    //Console.WriteLine("                    - Serial Number   : " + driverConfig.channel[i].serialNumber);
-                    //cbbChannels.Items.Add($"[{i}] {driverConfig.channel[i].name}");
-                    Channels.Add(driverConfig.channel[i]);
-                }
-            }
-            else
-            {
-                throw new Exception("Get Vector Driver Config Fail!!");
-            }
-
-        }
-
-        public void OpenPort(int channelIndex)
-        {
-            var channelCfg = Channels[channelIndex];
-
-            var status = CANDemo.XL_SetApplConfig(appName: appName,
+            var status = VectorDriver.XL_SetApplConfig(appName: VectorCanService.AppName,
                                      appChannel: 0,
-                                     hwType: channelCfg.hwType,
-                                     hwIndex: channelCfg.hwIndex,
-                                     hwChannel: channelCfg.hwChannel,
+                                     hwType: ChannelCfg.hwType,
+                                     hwIndex: ChannelCfg.hwIndex,
+                                     hwChannel: ChannelCfg.hwChannel,
                                      XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
 
-            if (status == XLDefine.XL_Status.XL_SUCCESS && GetAppChannelAndTestIsOk(0, ref txMask, ref txCi))
+            if (status == XLDefine.XL_Status.XL_SUCCESS && _vectorCanService.GetAppChannelAndTestIsOk(0, ref txMask, ref txCi,
+                ChannelCfg.hwType, ChannelCfg.hwIndex, ChannelCfg.hwChannel, canFdModeNoIso,VectorCanService.AppName))
             {
                 accessMask = txMask | rxMask;
                 permissionMask = accessMask;
 
-                status = CANDemo.XL_OpenPort(ref portHandle, appName, accessMask, ref permissionMask, 16000, XLDefine.XL_InterfaceVersion.XL_INTERFACE_VERSION_V4, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
+                status = VectorDriver.XL_OpenPort(ref portHandle, VectorCanService.AppName, accessMask, ref permissionMask, 16000, XLDefine.XL_InterfaceVersion.XL_INTERFACE_VERSION_V4, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
 
                 // --------------------
                 // Set CAN FD config
@@ -135,29 +125,19 @@ namespace WpfApp1.Devices
                     canFdConf.options = 0;
                 }
 
-                status = CANDemo.XL_CanFdSetConfiguration(portHandle, accessMask, canFdConf);
+                status = VectorDriver.XL_CanFdSetConfiguration(portHandle, accessMask, canFdConf);
 
                 // Get RX event handle
-                status = CANDemo.XL_SetNotification(portHandle, ref eventHandle, 1);
+                status = VectorDriver.XL_SetNotification(portHandle, ref eventHandle, 1);
                 // Activate channel - with reset clock
-                status = CANDemo.XL_ActivateChannel(portHandle, accessMask, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN, XLDefine.XL_AC_Flags.XL_ACTIVATE_RESET_CLOCK);
-                // Run Rx thread
-                //Console.WriteLine("Start Rx thread...");
-                rxThread = new Thread(new ThreadStart(RXThread));
-                rxThread.Start();
-
+                status = VectorDriver.XL_ActivateChannel(portHandle, accessMask, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN, XLDefine.XL_AC_Flags.XL_ACTIVATE_RESET_CLOCK);
             }
         }
 
         public void ClosePort()
         {
-            CANDemo.XL_ClosePort(portHandle);
-            CANDemo.XL_DeactivateChannel(portHandle, accessMask);
-        }
-
-        public void CloseDriver()
-        {
-            CANDemo.XL_CloseDriver();
+            VectorDriver.XL_DeactivateChannel(portHandle, accessMask);
+            VectorDriver.XL_ClosePort(portHandle);
         }
 
         public void CANFDTransmitTest()
@@ -201,15 +181,17 @@ namespace WpfApp1.Devices
 
             // Transmit events
             uint messageCounterSent = 0;
-            txStatus = CANDemo.XL_CanTransmitEx(portHandle, txMask, ref messageCounterSent, xlEventCollection);
+            txStatus = VectorDriver.XL_CanTransmitEx(portHandle, txMask, ref messageCounterSent, xlEventCollection);
             Console.WriteLine("Transmit Message ({0})     : " + txStatus, messageCounterSent);
 
         }
 
-        public uint Transmit(uint msgID, byte[] data, int dlc)
+        public bool Transmit(uint msgID, byte[] data, int dlc,ref string fail)
         {
+            //CANFDTransmitTest();
+
             // Create an event collection with 2 messages (events)
-            XLClass.xl_canfd_event_collection xlEventCollection = new XLClass.xl_canfd_event_collection(2);
+            XLClass.xl_canfd_event_collection xlEventCollection = new XLClass.xl_canfd_event_collection(1);
 
             // event 1
             xlEventCollection.xlCANFDEvent[0].tag = XLDefine.XL_CANFD_TX_EventTags.XL_CAN_EV_TAG_TX_MSG;
@@ -220,10 +202,12 @@ namespace WpfApp1.Devices
                 case 8:
                     xlEventCollection.xlCANFDEvent[0].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CAN_CANFD_8_BYTES;
                     break;
-
+                case 15:
+                    xlEventCollection.xlCANFDEvent[0].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CANFD_64_BYTES;
+                    break;
             }
 
-            xlEventCollection.xlCANFDEvent[0].tagData.msgFlags = XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_BRS
+            xlEventCollection.xlCANFDEvent[0].tagData.msgFlags = XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_BRS 
                 | XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_EDL;
             for (int i = 0; i < data.Length; i++)
             {
@@ -232,26 +216,254 @@ namespace WpfApp1.Devices
 
             // Transmit events
             uint messageCounterSent = 0;
-            var txStatus = CANDemo.XL_CanTransmitEx(portHandle, txMask, ref messageCounterSent, xlEventCollection);
-            return messageCounterSent;
+            var txStatus = VectorDriver.XL_CanTransmitEx(portHandle, txMask, ref messageCounterSent, xlEventCollection);
+            fail = txStatus.ToString();
+            return messageCounterSent == 1;
+        }
+
+        public bool Transmit(IEnumerable<IFrame> frames, ref string status)
+        {
+            uint count = (uint)frames.Count();
+            XLClass.xl_canfd_event_collection xlEventCollection = new XLClass.xl_canfd_event_collection(count);
+            for (int i = 0; i < count; i++)
+            {
+                IFrame frame = frames.Skip(i).Take(1).FirstOrDefault();
+                xlEventCollection.xlCANFDEvent[i].tag = XLDefine.XL_CANFD_TX_EventTags.XL_CAN_EV_TAG_TX_MSG;
+                xlEventCollection.xlCANFDEvent[i].tagData.canId = frame.MessageID;
+                switch (frame.DLC)
+                {
+                    default:
+                    case 8:
+                        xlEventCollection.xlCANFDEvent[0].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CAN_CANFD_8_BYTES;
+                        break;
+                    case 15:
+                        xlEventCollection.xlCANFDEvent[0].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CANFD_64_BYTES;
+                        break;
+                }
+
+                xlEventCollection.xlCANFDEvent[0].tagData.msgFlags = XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_BRS
+                    | XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_EDL;
+                for (int j = 0; j < frame.Data.Length; j++)
+                {
+                    xlEventCollection.xlCANFDEvent[0].tagData.data[j] = frame.Data[j];
+                }
+            }
+            uint messageCounterSent = 0;
+            var txStatus = VectorDriver.XL_CanTransmitEx(portHandle, txMask, ref messageCounterSent, xlEventCollection);
+            status = txStatus.ToString();
+            return messageCounterSent == count;
         }
 
         // -----------------------------------------------------------------------------------------------
         /// <summary>
-        /// Retrieve the application channel assignment and test if this channel can be opened
+        /// EVENT THREAD (RX)
+        /// 
+        /// RX thread waits for Vector interface events and displays filtered CAN messages.
         /// </summary>
-        // -----------------------------------------------------------------------------------------------
-        private bool GetAppChannelAndTestIsOk(uint appChIdx, ref UInt64 chMask, ref int chIdx)
+        // ----------------------------------------------------------------------------------------------- 
+        public void RXThread()
         {
-            XLDefine.XL_Status status = CANDemo.XL_GetApplConfig(appName, appChIdx, ref hwType, ref hwIndex, ref hwChannel, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
+            // Create new object containing received data 
+            XLClass.XLcanRxEvent receivedEvent = new XLClass.XLcanRxEvent();
+
+            // Result of XL Driver function calls
+            XLDefine.XL_Status xlStatus = XLDefine.XL_Status.XL_SUCCESS;
+
+            // Result values of WaitForSingleObject 
+            XLDefine.WaitResults waitResult = new XLDefine.WaitResults();
+
+            int receiveFlag = 0;
+            // Note: this thread will be destroyed by MAIN
+            while (true)
+            {
+                // Wait for hardware events
+                logService.Debug($"{Name} Wait for hardware events {receiveFlag++}");
+                waitResult = (XLDefine.WaitResults)WaitForSingleObject(eventHandle, 1000);
+                
+                //int count = 0;
+                // If event occurred...
+                if (waitResult != XLDefine.WaitResults.WAIT_TIMEOUT)
+                {
+                    // ...init xlStatus first
+                    xlStatus = XLDefine.XL_Status.XL_SUCCESS;
+                    logService.Debug($"{Name} receive success {receiveFlag}");
+                    // afterwards: while hw queue is not empty...
+                    while (xlStatus != XLDefine.XL_Status.XL_ERR_QUEUE_IS_EMPTY)
+                    {
+                        // ...block RX thread to generate RX-Queue overflows
+                        while (blockRxThread) Thread.Sleep(1000);
+                        logService.Debug($"{Name} receive not Empty {receiveFlag}");
+                        // ...receive data from hardware.
+                        xlStatus = VectorDriver.XL_CanReceive(portHandle, ref receivedEvent);
+
+                        //  If receiving succeed....
+                        if (xlStatus == XLDefine.XL_Status.XL_SUCCESS)
+                        {
+                            if (receivedEvent.tagData.canRxOkMsg.canId != 0)
+                            {
+                                List<CanFrame> frames = new List<CanFrame>();
+                                CanFrame frame = new CanFrame(receivedEvent.tagData.canRxOkMsg.canId, receivedEvent.tagData.canRxOkMsg.data);
+                                frames.Add(frame);
+                                //count++;
+                                OnMsgReceived?.Invoke(frames);
+                                logService.Debug($"{Name} add Frame {receiveFlag}");
+                            }
+                            //if (count == 10)
+                            //{
+                            //    OnMsgReceived?.Invoke(frames.Take(frames.Count));
+                            //    frames.Clear();
+                            //    count = 0;
+                            //    logService.Debug($"{Name} Invoke Frame {receiveFlag}");
+                            //}
+                            //Console.WriteLine(CANDemo.XL_CanGetEventString(receivedEvent));
+                        }
+                    }
+                }
+                // No event occurred
+            }
+        }
+        // -----------------------------------------------------------------------------------------------
+
+        public string Name { get; set; }
+        public void Open()
+        {
+            try
+            {
+                OpenPort();
+            }
+            catch (Exception ex)
+            {
+                logService.Error($"Vector Can[{Name}] Open Fail", ex);
+                //throw;
+            }
+
+        }
+
+        public void Close()
+        {
+            if (rxThread != null && rxThread.ThreadState == ThreadState.Running)
+                rxThread.Abort();
+            ClosePort();
+        }
+
+        public void Start()
+        {
+            // Run Rx thread
+            //Console.WriteLine("Start Rx thread...");
+            rxThread = new Thread(new ThreadStart(RXThread));
+            rxThread.Start();
+        }
+
+        public void Stop()
+        {
+            if (rxThread != null && rxThread.ThreadState == ThreadState.Running)
+                rxThread.Abort();
+            //ClosePort();
+        }
+
+        public bool Send(IFrame frame)
+        {
+            string fail = "";
+            if (!Transmit(frame.MessageID, frame.Data, frame.DLC, ref fail))
+            {
+                logService.Debug($"Send Fail:{fail}");
+                return false;
+            }
+            return true;
+        }
+
+        public bool SendMultip(IEnumerable<IFrame> multiples)
+        {
+            string fail = "";
+            if (!Transmit(multiples, ref fail))
+            {
+                logService.Debug($"Send Fail:{fail}");
+                return false;
+            }
+            return true;
+        }
+    }
+
+    public class VectorCanService
+    {
+        /// <summary>
+        /// // Driver configuration
+        /// </summary>
+        private XLClass.xl_driver_config driverConfig = new XLClass.xl_driver_config();
+        private List<IDevice> vectorChannels;
+
+        public const string AppName = "WPF_ERad5";
+        private readonly LogService logService;
+
+        //public string AppName { get => appName; }
+
+        public VectorCanService(LogService logService)
+        {
+            VectorDriver = new XLDriver();
+            VectorDriver.XL_OpenDriver();
+            this.logService = logService;
+            //GetDriverConfig();
+        }
+
+        public XLDriver VectorDriver { get; }
+
+        //public List<XLClass.xl_channel_config> VectorChannels 
+        //{
+        //    get 
+        //    {
+        //        if (vectorChannels == null)
+        //            GetDriverConfig();
+        //        return vectorChannels; 
+        //    } 
+        //    private set => vectorChannels = value; 
+        //}
+        public XLClass.xl_driver_config DriverConfig => driverConfig;
+       
+        public List<IDevice> VectorChannels
+        {
+            get
+            {
+                if (vectorChannels == null)
+                    GetDriverConfig();
+                return vectorChannels;
+            }
+            private set => vectorChannels = value;
+        }
+        public void GetDriverConfig()
+        {
+            var status = VectorDriver.XL_GetDriverConfig(ref driverConfig);
+            if (status == XLDefine.XL_Status.XL_SUCCESS)
+            {
+                VectorChannels = new List<IDevice>();
+                for (int i = 0; i < driverConfig.channelCount; i++)
+                {
+                    //Console.WriteLine("\n                   [{0}] " + driverConfig.channel[i].name, i);
+                    //Console.WriteLine("                    - Channel Mask    : " + driverConfig.channel[i].channelMask);
+                    //Console.WriteLine("                    - Transceiver Name: " + driverConfig.channel[i].transceiverName);
+                    //Console.WriteLine("                    - Serial Number   : " + driverConfig.channel[i].serialNumber);
+                    //cbbChannels.Items.Add($"[{i}] {driverConfig.channel[i].name}");
+                    VectorChannels.Add(new VectorCan(logService, this, driverConfig.channel[i], driverConfig.channel[i].name));
+                }
+            }
+            else
+            {
+                throw new Exception("Get Vector Driver Config Fail!!");
+            }
+
+        }
+
+        public bool GetAppChannelAndTestIsOk(uint appChIdx, ref UInt64 chMask, ref int chIdx,
+             XLDefine.XL_HardwareType hwType, uint hwIndex, uint hwChannel, uint canFdModeNoIso, string appName = "eRad5WPF")
+        {
+            XLDefine.XL_Status status = VectorDriver.XL_GetApplConfig(appName, appChIdx, ref hwType, ref hwIndex, ref hwChannel, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
             if (status != XLDefine.XL_Status.XL_SUCCESS)
             {
                 throw new Exception("XL_GetApplConfig      : " + status);
                 //PrintFunctionError();
             }
 
-            chMask = CANDemo.XL_GetChannelMask(hwType, (int)hwIndex, (int)hwChannel);
-            chIdx = CANDemo.XL_GetChannelIndex(hwType, (int)hwIndex, (int)hwChannel);
+            chMask = VectorDriver.XL_GetChannelMask(hwType, (int)hwIndex, (int)hwChannel);
+            chIdx = VectorDriver.XL_GetChannelIndex(hwType, (int)hwIndex, (int)hwChannel);
             if (chIdx < 0 || chIdx >= driverConfig.channelCount)
             {
                 // the (hwType, hwIndex, hwChannel) triplet stored in the application configuration does not refer to any available channel.
@@ -285,72 +497,6 @@ namespace WpfApp1.Devices
 
             return true;
         }
-
-        // -----------------------------------------------------------------------------------------------
-        /// <summary>
-        /// EVENT THREAD (RX)
-        /// 
-        /// RX thread waits for Vector interface events and displays filtered CAN messages.
-        /// </summary>
-        // ----------------------------------------------------------------------------------------------- 
-        public void RXThread()
-        {
-            // Create new object containing received data 
-            XLClass.XLcanRxEvent receivedEvent = new XLClass.XLcanRxEvent();
-
-            // Result of XL Driver function calls
-            XLDefine.XL_Status xlStatus = XLDefine.XL_Status.XL_SUCCESS;
-
-            // Result values of WaitForSingleObject 
-            XLDefine.WaitResults waitResult = new XLDefine.WaitResults();
-
-
-            // Note: this thread will be destroyed by MAIN
-            while (true)
-            {
-                // Wait for hardware events
-                waitResult = (XLDefine.WaitResults)WaitForSingleObject(eventHandle, 1000);
-                List<CanFrame> frames = new List<CanFrame>();
-                int count = 0;
-                // If event occurred...
-                if (waitResult != XLDefine.WaitResults.WAIT_TIMEOUT)
-                {
-                    // ...init xlStatus first
-                    xlStatus = XLDefine.XL_Status.XL_SUCCESS;
-
-                    // afterwards: while hw queue is not empty...
-                    while (xlStatus != XLDefine.XL_Status.XL_ERR_QUEUE_IS_EMPTY)
-                    {
-                        // ...block RX thread to generate RX-Queue overflows
-                        while (blockRxThread) Thread.Sleep(1000);
-
-                        // ...receive data from hardware.
-                        xlStatus = CANDemo.XL_CanReceive(portHandle, ref receivedEvent);
-
-                        //  If receiving succeed....
-                        if (xlStatus == XLDefine.XL_Status.XL_SUCCESS)
-                        {
-                            if (receivedEvent.tagData.canRxOkMsg.canId != 0)
-                            {
-                                CanFrame frame = new CanFrame(receivedEvent.tagData.canRxOkMsg.canId, receivedEvent.tagData.canRxOkMsg.data);
-                                frames.Add(frame);
-                                count++;
-                            }
-                            if(count == 10)
-                            {
-                                OnMsgReceived?.Invoke(frames.Take(frames.Count));
-                                frames.Clear();
-                                count = 0;
-                            }
-                            //Console.WriteLine(CANDemo.XL_CanGetEventString(receivedEvent));
-                        }
-                    }
-                }
-                // No event occurred
-            }
-        }
-        // -----------------------------------------------------------------------------------------------
-
     }
 
     public delegate void OnMsgReceived(IEnumerable<IFrame> can_msg);

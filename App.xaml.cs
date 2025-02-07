@@ -48,6 +48,8 @@ namespace WpfApp1
 
             //services.AddSingleton<INavigationService>(s => CreateAnalogService(s));
 
+            services.AddTransient<ViewModels.DeviceViewModel>(s => CreateDeviceViewModel(s));
+            //services.AddTransient<ViewModels.DeviceViewModel>();
             services.AddTransient<ViewModels.AnalogViewModel>();
             services.AddTransient<ViewModels.DiscreteViewModel>();
             services.AddTransient<ViewModels.PulseInViewModel>();
@@ -82,6 +84,13 @@ namespace WpfApp1
             MainWindow mainWindow = Services.GetRequiredService<MainWindow>();
             mainWindow.Show();
             //base.OnStartup(e);
+        }
+
+        private DeviceViewModel CreateDeviceViewModel(IServiceProvider serviceProvider)
+        {
+            return new DeviceViewModel(serviceProvider.GetRequiredService<DeviceStore>(),
+                serviceProvider.GetRequiredService<LogService>(),
+                new CloseModalNavigationService(serviceProvider.GetRequiredService<ModalNavigationStore>()));
         }
 
         private INavigationService CreateAnalogService(IServiceProvider serviceProvider)

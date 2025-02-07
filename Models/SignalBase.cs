@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
+using System.Collections.Generic;
 using System.Windows.Media;
 
 namespace WpfApp1.Models
@@ -91,6 +92,11 @@ namespace WpfApp1.Models
         {
             RealValue = TransForm(originValue);
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 
     public class SavingLogicSignal : SignalBase
@@ -127,6 +133,29 @@ namespace WpfApp1.Models
             OnPropertyChanged(nameof(PinHigh));
             OnPropertyChanged(nameof(PinStatus));
         }
+    }
+
+    public class GDICStatusSignal : SignalBase
+    {
+        public GDICStatusSignal(string groupName)
+        {
+            GroupName = groupName;
+        }
+
+        public string GroupName { get; }
+    }
+
+    public class GDICStatusGroup : ObservableObject
+    {
+        public string GroupName { get; set; }
+
+        public GDICStatusGroup(string groupName)
+        {
+            GroupName = groupName;
+            GDICStatusSignals = new List<GDICStatusSignal>();
+        }
+
+        public List<GDICStatusSignal> GDICStatusSignals { get; set; }
     }
 
     public interface IDBCSignal

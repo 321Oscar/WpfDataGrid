@@ -54,7 +54,8 @@ namespace WpfApp1.ViewModels
 
         private void DeviceStore_CurrentDeviceChanged()
         {
-            DeviceStore.CurrentDevice.OnMsgReceived += CurrentDevice_OnMsgReceived;
+            if (DeviceStore.HasDevice)
+                DeviceStore.CurrentDevice.OnMsgReceived += CurrentDevice_OnMsgReceived;
         }
 
         protected virtual void CurrentDevice_OnMsgReceived(IEnumerable<IFrame> frames)

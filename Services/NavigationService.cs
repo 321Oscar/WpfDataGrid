@@ -22,4 +22,22 @@ namespace WpfApp1.Services
             _navigationStore.CurrentViewModel = _createViewModel();
         }
     }
+
+    public class ModalNavigationService<TViewModel> : INavigationService
+       where TViewModel : ObservableRecipient
+    {
+        private readonly ModalNavigationStore _navigationStore;
+        private readonly CreateViewModel<TViewModel> _createViewModel;
+
+        public ModalNavigationService(ModalNavigationStore navigationStore, CreateViewModel<TViewModel> createViewModel)
+        {
+            _navigationStore = navigationStore;
+            _createViewModel = createViewModel;
+        }
+        public string NavigationName { get; set; }
+        public void Navigate()
+        {
+            _navigationStore.CurrentViewModel = _createViewModel();
+        }
+    }
 }

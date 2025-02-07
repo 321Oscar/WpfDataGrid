@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace WpfApp1.ViewModels
 
     public class MainViewModel : ObservableObject
     {
+        private readonly IServiceProvider serviceProvider;
         private readonly NavigationStore _navigationStore;
         private readonly ModalNavigationStore _modalNavigationStore;
         private readonly DeviceStore deviceStore;
@@ -37,7 +39,7 @@ namespace WpfApp1.ViewModels
             set
             {
                 deviceStore.CurrentDevice = value;
-                logService.Debug($"Change Device: {deviceStore.CurrentDevice}");
+                logService.Debug($"Change Device: {deviceStore.CurrentDevice.Name}");
             }
         }
 
@@ -45,29 +47,23 @@ namespace WpfApp1.ViewModels
 
         public string Log { get => log; set => SetProperty(ref log , value); }
 
-        public MainViewModel(NavigationStore navigationStore, ModalNavigationStore modalNavigationStore,
+        public MainViewModel(IServiceProvider serviceProvider,NavigationStore navigationStore, ModalNavigationStore modalNavigationStore,
             DeviceStore deviceStore, LogService logService)
         {
             this.logService = logService;
             this.logService.LogAdded += LogService_LogAdded;
+            this.serviceProvider = serviceProvider;
             _navigationStore = navigationStore;
             _modalNavigationStore = modalNavigationStore;
             this.deviceStore = deviceStore;
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
             _modalNavigationStore.CurrentViewModelChanged += OnCurrentModalViewModelChanged;
             this.deviceStore.CurrentDeviceChanged += OnCurrentDeviceChanged;
-            StartCommand = new RelayCommand(() =>
-            {
-                //start receive msg from Device 
-                CurrentDevice?.Start();
-                logService.Debug($"Start");
-            });
-            StopCommand = new RelayCommand(() =>
-            {
-                //start receive msg from Device 
-                CurrentDevice?.Stop();
-                logService.Debug($"Stop");
-            });
+            OpenCommand = new RelayCommand(Open, () => HasDevice);
+            CloseCommand = new RelayCommand(Close, () => HasDevice);
+            StartCommand = new RelayCommand(Start, () => HasDevice);
+            StopCommand = new RelayCommand(Stop, () => HasDevice);
+            DeivceConfigCommand = new RelayCommand(DeivceConfig);
         }
 
         private void LogService_LogAdded(string obj)
@@ -78,6 +74,10 @@ namespace WpfApp1.ViewModels
         private void OnCurrentDeviceChanged()
         {
             OnPropertyChanged(nameof(HasDevice));
+            (OpenCommand as IRelayCommand).NotifyCanExecuteChanged();
+            (CloseCommand as IRelayCommand).NotifyCanExecuteChanged();
+            (StartCommand as IRelayCommand).NotifyCanExecuteChanged();
+            (StopCommand as IRelayCommand).NotifyCanExecuteChanged();
         }
 
         private void OnCurrentViewModelChanged()
@@ -91,7 +91,38 @@ namespace WpfApp1.ViewModels
             OnPropertyChanged(nameof(IsOpen));
         }
 
+        public ICommand OpenCommand { get; }
+        public ICommand CloseCommand { get; }
         public ICommand StartCommand { get; }
         public ICommand StopCommand { get; }
+        public ICommand DeivceConfigCommand { get; }
+
+        private void Open()
+        {
+            CurrentDevice?.Open();
+            logService.Debug($"{CurrentDevice.Name} Open");
+        }
+
+        private void Close()
+        {
+            CurrentDevice?.Close();
+            logService.Debug($"{CurrentDevice.Name} Close");
+        }
+
+        private void Start() {
+            CurrentDevice?.Start();
+            logService.Debug($"{CurrentDevice.Name} Start Receive");
+        }
+        private void Stop() {
+            CurrentDevice?.Stop();
+            logService.Debug($"{CurrentDevice.Name} Stop Receive");
+        }
+
+        private void DeivceConfig()
+        {
+            ModalNavigationService<DeviceViewModel> modalNavigationService = new ModalNavigationService<DeviceViewModel>(this._modalNavigationStore,
+                serviceProvider.GetRequiredService<DeviceViewModel>);
+            modalNavigationService.Navigate();
+        }
     }
 }

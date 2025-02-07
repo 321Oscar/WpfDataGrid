@@ -6,100 +6,85 @@
     xmlns:local="clr-namespace:WpfApp1"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:WpfApp1.ViewModels"
-    xmlns:views="clr-namespace:WpfApp1.Views"
+    xmlns:views="clr-namespace:WpfApp1.Views" xmlns:components="clr-namespace:WpfApp1.Components"
     Title="MainWindow"
     Width="800"
     Height="800"
     WindowState="Maximized"
     mc:Ignorable="d">
-    <Window.Resources>
-        <XmlDataProvider x:Key="InventoryData" XPath="Books">
-            <x:XData>
-                <Books xmlns="">
-                    <Book
-                        ISBN="0-7356-0562-9"
-                        Number="9"
-                        Stock="in">
-                        <Title>XML in Action</Title>
-                        <Summary>XML Web Technology</Summary>
-                    </Book>
-                    <Book
-                        ISBN="0-7356-1370-2"
-                        Number="8"
-                        Stock="in">
-                        <Title>Programming Microsoft Windows With C#</Title>
-                        <Summary>C# Programming using the .NET Framework</Summary>
-                    </Book>
-                    <Book
-                        ISBN="0-7356-1288-9"
-                        Number="7"
-                        Stock="out">
-                        <Title>Inside C#</Title>
-                        <Summary>C# Language Programming</Summary>
-                    </Book>
-                    <Book
-                        ISBN="0-7356-1377-X"
-                        Number="5"
-                        Stock="in">
-                        <Title>Introducing Microsoft .NET</Title>
-                        <Summary>Overview of .NET Technology</Summary>
-                    </Book>
-                    <Book
-                        ISBN="0-7356-1448-2"
-                        Number="4"
-                        Stock="out">
-                        <Title>Microsoft C# Language Specifications</Title>
-                        <Summary>The C# language definition</Summary>
-                        <Saled>True</Saled>
-                    </Book>
-                </Books>
-            </x:XData>
-        </XmlDataProvider>
-
-    </Window.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
-        <Grid.Resources>
-            <DataTemplate DataType="{x:Type viewModels:AnalogViewModel}">
-                <views:AnalogView />
-            </DataTemplate>
-        </Grid.Resources>
-        <!--  Device  -->
-        <StackPanel Margin="5" Orientation="Horizontal">
-            <TextBlock Style="{StaticResource labelText}" Text="Device Channel:" />
-            <ComboBox
-                Width="100"
-                DisplayMemberPath="Name"
-                ItemsSource="{Binding Devices}"
-                SelectedItem="{Binding CurrentDevice}"
-                Style="{StaticResource NormalCombox}" />
-            <Button Content="Connect" Style="{StaticResource NormalButton}" />
-            <Button Content="Close" Style="{StaticResource NormalButton}" />
-        </StackPanel>
-        <StackPanel
-            Grid.Row="1"
-            Margin="5"
-            Orientation="Horizontal">
-            <Button Content=" Send" Style="{StaticResource NormalButton}" />
-            <Button
-                Command="{Binding StartCommand}"
-                Content=" Start"
-                Style="{StaticResource NormalButton}" />
-            <Button
-                Command="{Binding StopCommand}"
-                Content=" Stop"
-                Style="{StaticResource NormalButton}" />
-        </StackPanel>
-        <ContentControl Grid.Row="2" Content="{Binding CurrentViewModel}" />
-        <StatusBar Grid.Row="3">
-            <StatusBarItem>
-                <TextBlock Text="{Binding Log}" />
-            </StatusBarItem>
-        </StatusBar>
+        <components:Modal IsOpen="{Binding IsOpen}" Panel.ZIndex="100">
+            <ContentControl Content="{Binding CurrentModalViewModel}"/>
+        </components:Modal>
+        <Grid>
+            <Grid.RowDefinitions>
+                
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <WrapPanel Grid.Row="0" Margin="0,5,0,10">
+                <!--  Device  -->
+                <WrapPanel Margin="5" Orientation="Horizontal" MaxWidth="500">
+                    <Button Content="Connect" Style="{StaticResource NormalButton}" Command="{Binding OpenCommand}"/>
+                    <Button Content="Close" Style="{StaticResource NormalButton}" Command="{Binding CloseCommand}"/>
+                    <Button Content="Config" Style="{StaticResource NormalButton}" Command="{Binding DeivceConfigCommand}"/>
+                    <Button Content=" Send" Style="{StaticResource NormalButton}" />
+                    <Button
+                        Command="{Binding StartCommand}"
+                        Content="Start"
+                        Style="{StaticResource NormalButton}" />
+                    <Button
+                        Command="{Binding StopCommand}"
+                        Content="Stop"
+                        Style="{StaticResource NormalButton}" />
+                </WrapPanel>
+                <GroupBox Header="Version">
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="EM SW Version:" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="PC SW Version:" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Hardware ID:"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="1.0.0.0" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="1.0.0.0" />
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="1.0.0.0" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="CAN INH State">
+                    <StackPanel>
+                        <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_DevCAN" IsEnabled="False"/>
+                        <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_CANFD_5" IsEnabled="False"/>
+                        <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_CANFD_11" IsEnabled="False"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Controls">
+                    <GroupBox.Resources>
+                        <Style TargetType="Button" BasedOn="{StaticResource NormalButton}"/>
+                    </GroupBox.Resources>
+                    <WrapPanel>
+                        <Button Content="Disable TLF Reset"/>
+                        <Button Content="Can Trcv Normal Mode"/>
+                        <Button Content="Disable CAN INH"/>
+                        <Button Content="Send Can Wake Up"/>
+                        <Button Content="Reset Min/Max"/>
+                        <Button Content="Sleep TLF"/>
+                    </WrapPanel>
+                </GroupBox>
+            </WrapPanel>
+            <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}" />
+            <StatusBar Grid.Row="2">
+                <StatusBarItem>
+                    <TextBlock Text="{Binding Log}" />
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
     </Grid>
 </Window>

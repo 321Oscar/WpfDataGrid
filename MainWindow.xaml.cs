@@ -23,15 +23,15 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        Devices.VectorCan Device;
+        //Devices.VectorCan Device;
         public List<Models.AnalogSignal> AnalogSignals { get; private set; }
 
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = this;
-            LoadVectorDevices();
-            LoadAnalog();
+            //this.DataContext = this;
+            //LoadVectorDevices();
+            //LoadAnalog();
             // 1.列表中的信号值更新，一个信号名能够对应多个值
             // 2.列表修改checkbox，并且能够决定下发报文的时机
             // 3.计算信号的平均值并实时更新：要记录存储的数据
@@ -55,12 +55,12 @@ namespace WpfApp1
 
         void LoadVectorDevices()
         {
-            Device = new Devices.VectorCan();
+            //Device = new Devices.VectorCan();
             //cbbChannels.Items.Clear();
-            foreach (var channelCfg in Device.Channels)
-            {
+            //foreach (var channelCfg in Device.Channels)
+            //{
                 //cbbChannels.Items.Add(channelCfg.name);
-            }
+            //}
         }
 
         private void Button_OpenPort_Click(object sender, RoutedEventArgs e)
@@ -74,8 +74,8 @@ namespace WpfApp1
         }
         private void Button_Close_Click(object sender, RoutedEventArgs e)
         {
-            Device.OnMsgReceived -= Device_OnMsgReceived;
-            Device.ClosePort();
+            //Device.OnMsgReceived -= Device_OnMsgReceived;
+            //Device.ClosePort();
         }
 
         private void Device_OnMsgReceived(IEnumerable<Devices.IFrame> frames)
@@ -89,10 +89,10 @@ namespace WpfApp1
 
         private void Button_Send_Click(object sender, RoutedEventArgs e)
         {
-            if (Device != null)
-            {
-                Device.CANFDTransmitTest();
-            }
+            //if (Device != null)
+            //{
+                //Device.CANFDTransmitTest();
+            //}
         }
 
 

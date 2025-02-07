@@ -22,112 +22,42 @@ namespace WpfApp1.Stores
             LoadAnalogSignals();
             LoadDiscretes();
             LoadSavingLogicSignals();
+            LoadGDICStatusSignals();
         }
-
-        private void LoadAnalogSignals()
-        {
-            foreach (var message in DbcFile.Messages.FindAll(x => x.MessageID == 0x6f8))
-            {
-                foreach (var signal in message.signals)
-                {
-                    AnalogSignal analogSignal = new AnalogSignal()
-                    {
-                        Name = signal.signalName,
-                        StartBit = (int)signal.startBit,
-                        Factor = signal.factor,
-                        Offset = signal.offset,
-                        ByteOrder = (int)signal.byteOrder,
-                        Length = (int)signal.signalSize,
-                        MessageID = message.MessageID
-                    };
-
-                    Comment comment = DbcFile.Comments.Find(x => x.signalName == signal.signalName
-                       && x.messageID == message.MessageID.ToString());
-                    if (comment != null)
-                    {
-                        string commentStr = comment.comment;
-                        string[] strs = commentStr.Split(new string[] { " ", ":" }, StringSplitOptions.RemoveEmptyEntries);
-                        if (strs.Length < 4)
-                            continue;
-                        analogSignal.PinNumber = strs[1];
-                        analogSignal.ADChannel = strs[3];
-                    }
-                    _signals.Add(analogSignal);
-                }
-                
-            }
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    _signals.Add(new AnalogSignal()
-            //    {
-            //        Name = $"AnalogSignal{i}",
-            //        RealValue = i
-            //    });
-            //}
-            logService.Info("add Analog Signals");
-        }
-
-        private void LoadDiscretes()
-        {
-            //input
-            for (int i = 0; i < 10; i++)
-            {
-                _signals.Add(new DiscreteInputSignal()
-                {
-                    Name = $"DiscreteSignalInput{i}",
-                    MessageID = 0x101,
-                    StartBit = i,
-                    Length = 1,
-                    Factor = 1,
-                    Offset = 0,
-                    ByteOrder = 1
-                });
-            }
-            for (int i = 0; i < 10; i++)
-            {
-                _signals.Add(new DiscreteOutputSignal()
-                {
-                    Name = $"DiscreteSignalOutput{i}",
-                    MessageID = 0x100,
-                    StartBit = i,
-                    Length = 1,
-                    Factor = 1,
-                    Offset = 0,
-                    ByteOrder = 1,
-                });
-            }
-        }
-
-        private void LoadSavingLogicSignals()
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                _signals.Add(new SavingLogicSignal()
-                {
-                    Name = $"SavingLogicSignalInput{i}",
-                    Group = "level 1",
-                    InputOrOutput = true,
-                    MessageID = 0x102,
-                    StartBit = i,
-                    Length = 1,
-                    Factor = 1,
-                    Offset = 0,
-                    ByteOrder = 1
-                });
-            }
-        }
-
         public IEnumerable<SignalBase> Signals => _signals;
 
         public IEnumerable<TSignal> GetSignals<TSignal>() where TSignal : SignalBase
         {
+            _signals.Sort((x, y) => {
+                if (y.MessageID > x.MessageID)
+                {
+                    return -1;
+                }
+                else if (y.MessageID == x.MessageID)
+                {
+                    return x.StartBit.CompareTo(y.StartBit);
+                }
+                else
+                    return 1;
+            });
             return _signals.OfType<TSignal>();
         }
 
         public ObservableCollection<TSignal> GetObservableCollection<TSignal>() where TSignal : SignalBase
         {
             ObservableCollection<TSignal> signals = new ObservableCollection<TSignal>();
-
+            _signals.Sort((x, y) => {
+                if (y.MessageID > x.MessageID)
+                {
+                    return -1;
+                }
+                else if (y.MessageID == x.MessageID)
+                {
+                    return x.StartBit.CompareTo(y.StartBit);
+                }
+                else
+                    return 1;
+            });
             foreach (var item in _signals.OfType<TSignal>())
             {
                 signals.Add(item);
@@ -224,6 +154,125 @@ namespace WpfApp1.Stores
                 index += 8;
             }
             return index;
+        }
+
+        private void LoadAnalogSignals()
+        {
+            foreach (var message in DbcFile.Messages.FindAll(x => x.MessageID == 0x6f8))
+            {
+                foreach (var signal in message.signals)
+                {
+                    AnalogSignal analogSignal = new AnalogSignal()
+                    {
+                        Name = signal.signalName,
+                        StartBit = (int)signal.startBit,
+                        Factor = signal.factor,
+                        Offset = signal.offset,
+                        ByteOrder = (int)signal.byteOrder,
+                        Length = (int)signal.signalSize,
+                        MessageID = message.MessageID
+                    };
+
+                    Comment comment = DbcFile.Comments.Find(x => x.signalName == signal.signalName
+                       && x.messageID == message.MessageID.ToString());
+                    if (comment != null)
+                    {
+                        string commentStr = comment.comment;
+                        string[] strs = commentStr.Split(new string[] { " ", ":" }, StringSplitOptions.RemoveEmptyEntries);
+                        if (strs.Length < 4)
+                            continue;
+                        analogSignal.PinNumber = strs[1];
+                        analogSignal.ADChannel = strs[3];
+                    }
+                    _signals.Add(analogSignal);
+                }
+
+            }
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    _signals.Add(new AnalogSignal()
+            //    {
+            //        Name = $"AnalogSignal{i}",
+            //        RealValue = i
+            //    });
+            //}
+            logService.Info("add Analog Signals");
+        }
+
+        private void LoadDiscretes()
+        {
+            //input
+            for (int i = 0; i < 10; i++)
+            {
+                _signals.Add(new DiscreteInputSignal()
+                {
+                    Name = $"DiscreteSignalInput{i}",
+                    MessageID = 0x101,
+                    StartBit = i,
+                    Length = 1,
+                    Factor = 1,
+                    Offset = 0,
+                    ByteOrder = 1
+                });
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                _signals.Add(new DiscreteOutputSignal()
+                {
+                    Name = $"DiscreteSignalOutput{i}",
+                    MessageID = 0x100,
+                    StartBit = i,
+                    Length = 1,
+                    Factor = 1,
+                    Offset = 0,
+                    ByteOrder = 1,
+                });
+            }
+        }
+
+        private void LoadSavingLogicSignals()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                _signals.Add(new SavingLogicSignal()
+                {
+                    Name = $"SavingLogicSignalInput{i}",
+                    Group = "level 1",
+                    InputOrOutput = true,
+                    MessageID = 0x102,
+                    StartBit = i,
+                    Length = 1,
+                    Factor = 1,
+                    Offset = 0,
+                    ByteOrder = 1
+                });
+            }
+        }
+
+        private void LoadGDICStatusSignals()
+        {
+            //Top-U
+            GenerateGDICSignals("Top-U");
+            GenerateGDICSignals("Top-V");
+            GenerateGDICSignals("Top-W");
+            GenerateGDICSignals("Bot-U");
+            GenerateGDICSignals("Bot-V");
+            GenerateGDICSignals("Bot-W");
+        }
+
+        private void GenerateGDICSignals(string groupName)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    GDICStatusSignal gDICStatusSignal = new GDICStatusSignal($"{groupName} Status-{i + 1}")
+                    {
+                        Name = $"Data{j}"
+                    };
+                    _signals.Add(gDICStatusSignal);
+                }
+            }
         }
     }
 }

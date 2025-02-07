@@ -126,6 +126,7 @@
     <Compile Include="Stores\INavigationStore.cs" />
     <Compile Include="Stores\SignalStore.cs" />
     <Compile Include="ViewModels\AnalogViewModel.cs" />
+    <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\DiscreteViewModel.cs" />
     <Compile Include="ViewModels\GDICViewModel.cs" />
     <Compile Include="ViewModels\LayoutViewModel.cs" />

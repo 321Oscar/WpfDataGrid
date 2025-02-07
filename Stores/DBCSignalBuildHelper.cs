@@ -428,6 +428,11 @@ namespace WpfApp1.Stores
 
         public string[] receivers;
         private string unit;
+
+        public override string ToString()
+        {
+            return signalName;
+        }
     }
 
     public class ValEnum

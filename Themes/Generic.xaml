@@ -5,6 +5,9 @@
     xmlns:cvts="clr-namespace:WpfApp1.Converters"
     xmlns:viewModels="clr-namespace:WpfApp1.ViewModels"
     xmlns:views="clr-namespace:WpfApp1.Views">
+    <DataTemplate DataType="{x:Type viewModels:DeviceViewModel}">
+        <views:DevicesView />
+    </DataTemplate>
     <DataTemplate DataType="{x:Type viewModels:AnalogViewModel}">
         <views:AnalogView />
     </DataTemplate>
@@ -46,7 +49,45 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type viewModels:LayoutViewModel}">
         <ctrls:Layout />
-    </DataTemplate> 
+    </DataTemplate>
+
+    <Style TargetType="{x:Type ctrls:Modal}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ctrls:Modal}">
+                    <ControlTemplate.Resources>
+                        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+                    </ControlTemplate.Resources>
+                    <Grid Background="{TemplateBinding Background}" Visibility="{TemplateBinding IsOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Border
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            UseLayoutRounding="True">
+                            <Grid>
+                                <Grid.OpacityMask>
+                                    <VisualBrush Visual="{Binding ElementName=border}" />
+                                </Grid.OpacityMask>
+                                <Border
+                                    x:Name="border"
+                                    Background="White"
+                                    CornerRadius="5" />
+                                <ContentControl Content="{TemplateBinding Content}" />
+                            </Grid>
+                            <Border.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="10"
+                                    ShadowDepth="10"
+                                    Color="Gray" />
+                            </Border.Effect>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="CustomCheckBoxStyle" TargetType="{x:Type CheckBox}">
         <Setter Property="Template">
             <Setter.Value>
