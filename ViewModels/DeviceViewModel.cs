@@ -26,13 +26,14 @@ namespace WpfApp1.ViewModels
             this.logService = logService;
             this.navigationService = navigationService;
 
+            SaveConfigCommand = new RelayCommand(SaveConfig, () => CurrentDevice != null);
+            CancelCommand = new RelayCommand(Cancel);
+
             if (deviceStore.HasDevice)
             {
                 HardWareType = (deviceStore.CurrentDevice is VirtualDevice) ? DeviceHardWareType.Virtual : DeviceHardWareType.Vector;
                 CurrentDevice = deviceStore.CurrentDevice;
             }
-
-            SaveConfigCommand = new RelayCommand(SaveConfig);
         }
         public Devices.DeviceHardWareType HardWareType 
         { 
@@ -55,6 +56,7 @@ namespace WpfApp1.ViewModels
             set
             {
                 SetProperty(ref currentDevice, value);
+                (SaveConfigCommand as IRelayCommand).NotifyCanExecuteChanged();
             }
         }
 
@@ -62,7 +64,16 @@ namespace WpfApp1.ViewModels
         private void SaveConfig()
         {
             deviceStore.CurrentDevice = currentDevice;
+            deviceStore.CurrentDevice.Open();
+            deviceStore.CurrentDevice.Start();
+            //open and start receive
 
+            navigationService.Navigate();
+        }
+
+        public ICommand CancelCommand { get; }
+        private void Cancel()
+        {
             navigationService.Navigate();
         }
     }

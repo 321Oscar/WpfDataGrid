@@ -6,8 +6,9 @@
              xmlns:local="clr-namespace:WpfApp1.Views" 
              xmlns:converters="clr-namespace:WpfApp1.Converters"
              xmlns:dev="clr-namespace:WpfApp1.Devices"
+             Background="White"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="200" d:DesignWidth="300">
     <UserControl.Resources>
         <converters:DeviceHardwareTypeIsCheckedConverter x:Key="DeviceHardwareTypeIsCheckedConverter"/>
     </UserControl.Resources>
@@ -30,6 +31,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <RadioButton  Grid.Row="0" 
+                          Margin="0,2,2,0"
                           Grid.Column="0" 
                           Name="vectorCheck"
                           GroupName="Type"
@@ -70,7 +72,18 @@
                 </StackPanel>
             </GroupBox>-->
         </Grid>
-
-        <Button Content="Ok" Command="{Binding SaveConfigCommand}" Style="{StaticResource NormalButton}" Grid.Row="2" HorizontalAlignment="Right"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button 
+                Content="Cancel" 
+                Command="{Binding CancelCommand}" 
+                Style="{StaticResource NormalButton}" 
+                /> 
+            <Button 
+                Content="Ok" 
+                Command="{Binding SaveConfigCommand}" 
+                Style="{StaticResource NormalButton}" 
+                />
+        </StackPanel>
+       
     </Grid>
 </UserControl>

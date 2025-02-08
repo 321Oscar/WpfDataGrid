@@ -106,15 +106,23 @@
     <Compile Include="Components\NavigationBar.xaml.cs">
       <DependentUpon>NavigationBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ByteExtension.cs" />
+    <Compile Include="Converters\DeviceHardwareTypeIsCheckedConverter.cs" />
+    <Compile Include="Converters\DoubleBooleanConverter.cs" />
     <Compile Include="Converters\OutLimitsColorConverter.cs" />
+    <Compile Include="Converters\UDSConverters.cs" />
     <Compile Include="Devices\IDevice.cs" />
     <Compile Include="Devices\VirtualDevice.cs" />
+    <Compile Include="Helpers\CustomDllInvokeHelper.cs" />
+    <Compile Include="Helpers\XmlHelper.cs" />
+    <Compile Include="Interfaces\ISeedNKey.cs" />
     <Compile Include="Models\AnalogSignal.cs" />
     <Compile Include="Models\DiscreteInputSignal.cs" />
     <Compile Include="Models\DiscreteOutputSignal.cs" />
     <Compile Include="Models\DiscreteSignal.cs" />
     <Compile Include="Services\CloseModalNavigationService.cs" />
     <Compile Include="Services\CompositeNavigationService.cs" />
+    <Compile Include="Services\ILogService.cs" />
     <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\LayoutNavigationService.cs" />
@@ -125,6 +133,37 @@
     <Compile Include="Stores\DeviceStore.cs" />
     <Compile Include="Stores\INavigationStore.cs" />
     <Compile Include="Stores\SignalStore.cs" />
+    <Compile Include="UDS\Base\BinTmpFile.cs" />
+    <Compile Include="UDS\Base\ComplexServers.cs" />
+    <Compile Include="UDS\Base\DIDInfo.cs" />
+    <Compile Include="UDS\Base\FrameType.cs" />
+    <Compile Include="UDS\Base\IUDSEvent.cs" />
+    <Compile Include="UDS\Base\IUDSServer.cs" />
+    <Compile Include="UDS\Base\MultiBase.cs" />
+    <Compile Include="UDS\Base\MultipServer.cs" />
+    <Compile Include="UDS\Base\ServerStatus.cs" />
+    <Compile Include="UDS\Base\SnapDIDInfo.cs" />
+    <Compile Include="UDS\Base\SnapShot.cs" />
+    <Compile Include="UDS\Base\SnapSubDIDInfo.cs" />
+    <Compile Include="UDS\Base\SubDIDInfo.cs" />
+    <Compile Include="UDS\Base\UDSExtendedData.cs" />
+    <Compile Include="UDS\Base\UDSHelper.cs" />
+    <Compile Include="UDS\Base\UDSServerBase.cs" />
+    <Compile Include="UDS\Base\UDSServerBinding.cs" />
+    <Compile Include="UDS\CommonServers\DataTransferServer.cs" />
+    <Compile Include="UDS\CommonServers\DiagnosticSessionControlServer.cs" />
+    <Compile Include="UDS\CommonServers\ReadDataByIdServer.cs" />
+    <Compile Include="UDS\CommonServers\ReadDTCInfo.cs" />
+    <Compile Include="UDS\CommonServers\RoutineControlServer.cs" />
+    <Compile Include="UDS\CommonServers\SercureAccessServer.cs" />
+    <Compile Include="UDS\CommonServers\SimpleSeverFactory.cs" />
+    <Compile Include="UDS\CommonServers\UniversalServer.cs" />
+    <Compile Include="UDS\CommonServers\WriteDataByIdServer.cs" />
+    <Compile Include="UDS\SRecod\CRC32Cls.cs" />
+    <Compile Include="UDS\SRecod\HexFile.cs" />
+    <Compile Include="UDS\SRecod\SrecData.cs" />
+    <Compile Include="UDS\SRecod\SrecFile.cs" />
+    <Compile Include="UDS\SRecod\SrecHelper.cs" />
     <Compile Include="ViewModels\AnalogViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\DiscreteViewModel.cs" />
@@ -138,6 +177,7 @@
     <Compile Include="ViewModels\PulseInViewModel.cs" />
     <Compile Include="ViewModels\PulseOutViewModel.cs" />
     <Compile Include="ViewModels\SavinLogicViewModel.cs" />
+    <Compile Include="ViewModels\UDSUpgradeViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\AnalogView.xaml.cs">
       <DependentUpon>AnalogView.xaml</DependentUpon>
@@ -183,6 +223,9 @@
     </Compile>
     <Compile Include="Views\SPIView.xaml.cs">
       <DependentUpon>SPIView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UDSUpgradeView.xaml.cs">
+      <DependentUpon>UDSUpgradeView.xaml</DependentUpon>
     </Compile>
     <Page Include="Components\Layout.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -269,6 +312,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UDSUpgradeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\SignalBase.cs" />
@@ -304,8 +351,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <None Include="Config\Config.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="vxlapi.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

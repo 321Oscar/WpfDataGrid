@@ -47,6 +47,9 @@
     <DataTemplate DataType="{x:Type viewModels:ResolverViewModel}">
         <views:ResolverView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:UDSUpgradeViewModel}">
+        <views:UDSUpgradeView />
+    </DataTemplate>
     <DataTemplate DataType="{x:Type viewModels:LayoutViewModel}">
         <ctrls:Layout />
     </DataTemplate>

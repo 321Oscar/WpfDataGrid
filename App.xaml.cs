@@ -64,6 +64,7 @@ namespace WpfApp1
             services.AddTransient<ViewModels.LinViewModel>();
             services.AddTransient<ViewModels.NXPFlashViewModel>();
             services.AddTransient<ViewModels.LogViewModel>();
+            services.AddSingleton<ViewModels.UDSUpgradeViewModel>();
 
             services.AddSingleton<ViewModels.MainViewModel>();
 
@@ -126,6 +127,7 @@ namespace WpfApp1
                 CreateService<ViewModels.SavinLogicViewModel>(serviceProvider, "SavingLogic"),
                 CreateService<ViewModels.PPAWLViewModel>(serviceProvider, "PPAWL"),
                 CreateService<ViewModels.SPIViewModel>(serviceProvider, "SPI"),
+                CreateService<ViewModels.UDSUpgradeViewModel>(serviceProvider, "UDSUpgrade"),
                 CreateService<ViewModels.LogViewModel>(serviceProvider, "Log")
                 );
         }

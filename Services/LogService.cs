@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WpfApp1.Services
 {
-    public class LogService
+    public class LogService : ILogService
     {
         private readonly log4net.ILog logInfo;
         public event Action<string> LogAdded;
@@ -19,61 +19,73 @@ namespace WpfApp1.Services
         {
             LogAdded?.Invoke(context);
         }
-        public void Info(string context)
+
+        public void Log(string meesage)
+        {
+            if (logInfo.IsInfoEnabled)
+            {
+                logInfo.Info(meesage);
+            }
+            //log4net.LogManager.
+            OnLogAdded(meesage);
+        }
+        public void Info(string meesage)
         {
             //logs.Enqueue(new LogModel(context, LPLogLevel.Info));
             if (logInfo.IsInfoEnabled)
             {
-                logInfo.Info(context);
+                logInfo.Info(meesage);
             }
             //log4net.LogManager.
-            OnLogAdded(context);
+            OnLogAdded(meesage);
         }
 
-        public void Debug(string content)
+        public void Debug(string meesage)
         {
             if (logInfo.IsDebugEnabled)
             {
-                logInfo.Debug(content);
+                logInfo.Debug(meesage);
             }
-            OnLogAdded(content);
+            OnLogAdded(meesage);
         }
 
-        public void Warn(string type, string formName, string info)
+        public void Warn(string type, string formName, string meesage)
         {
             if (logInfo.IsWarnEnabled)
-                logInfo.Warn(string.Format("【{0}：{2}】{1}", type, info, formName));
+                logInfo.Warn(string.Format("【{0}：{2}】{1}", type, meesage, formName));
 
-            OnLogAdded(info);
+            OnLogAdded(meesage);
         }
 
         /// <summary>
         /// 警告日志
         /// </summary>
-        /// <param name="info"></param>
-        public void Warn(string info)
+        /// <param name="meesage"></param>
+        public void Warn(string meesage)
         {
             if (logInfo.IsWarnEnabled)
-                logInfo.Warn(info);
-            OnLogAdded(info);
+                logInfo.Warn(meesage);
+            OnLogAdded(meesage);
         }
         /// <summary>
         /// 错误日志
         /// </summary>
-        /// <param name="info"></param>
+        /// <param name="meesage"></param>
         /// <param name="ex"></param>
-        public void Error(string info, Exception ex)
+        public void Error(string meesage, Exception ex)
         {
             if (logInfo.IsErrorEnabled)
             {
                 if (null != ex)
-                    logInfo.Error(info, ex);
+                    logInfo.Error(meesage, ex);
                 else
                 {
-                    logInfo.Error(info);
+                    logInfo.Error(meesage);
                 }
             }
-            OnLogAdded(info);
+            OnLogAdded(meesage);
         }
     }
+
+    //public delegate void OutputLog(string log);
 }

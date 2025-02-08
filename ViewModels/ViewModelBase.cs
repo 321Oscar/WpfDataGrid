@@ -22,25 +22,25 @@ namespace WpfApp1.ViewModels
             DeviceStore = deviceStore;
             LogService = logService;
 
-            DeviceStore.BeforeCurrentDeviceChange += DeviceStore_CurrentDeviceChange;
-            DeviceStore.CurrentDeviceChanged += DeviceStore_CurrentDeviceChanged;
+            //DeviceStore.BeforeCurrentDeviceChange += DeviceStore_CurrentDeviceChange;
+            //DeviceStore.CurrentDeviceChanged += DeviceStore_CurrentDeviceChanged;
             
         }
 
         protected override void OnActivated()
         {
             base.OnActivated();
-            if (DeviceStore.HasDevice)
-                DeviceStore.CurrentDevice.OnMsgReceived += CurrentDevice_OnMsgReceived;
+            //if (DeviceStore.HasDevice)
+            //    DeviceStore.CurrentDevice.OnMsgReceived += CurrentDevice_OnMsgReceived;
         }
 
         protected override void OnDeactivated()
         {
             base.OnDeactivated();
-            if (DeviceStore.HasDevice)
-            {
-                DeviceStore.CurrentDevice.OnMsgReceived -= CurrentDevice_OnMsgReceived;
-            }
+            //if (DeviceStore.HasDevice)
+            //{
+            //    DeviceStore.CurrentDevice.OnMsgReceived -= CurrentDevice_OnMsgReceived;
+            //}
         }
 
 
@@ -57,7 +57,10 @@ namespace WpfApp1.ViewModels
             if (DeviceStore.HasDevice)
                 DeviceStore.CurrentDevice.OnMsgReceived += CurrentDevice_OnMsgReceived;
         }
-
+        /// <summary>
+        /// 不在每个界面单独解析信号
+        /// </summary>
+        /// <param name="frames"></param>
         protected virtual void CurrentDevice_OnMsgReceived(IEnumerable<IFrame> frames)
         {
            

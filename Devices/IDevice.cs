@@ -18,6 +18,9 @@ namespace WpfApp1.Devices
         bool SendMultip(IEnumerable<IFrame> multiples);
     }
 
+    public delegate bool SendData();
+    public delegate bool SendMultipData();
+    public delegate void RegisterRecieve();
     public enum DeviceHardWareType
     {
         None,
@@ -34,6 +37,11 @@ namespace WpfApp1.Devices
 
     public class CanFrame : IFrame
     {
+        private bool extendedFrame;
+        private bool isCanFD;
+        private int dlc;
+        private byte fillData;
+
         public CanFrame()
         {
 
@@ -43,14 +51,36 @@ namespace WpfApp1.Devices
             MessageID = messageID;
             Data = data;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="messageID"></param>
+        /// <param name="data"></param>
+        /// <param name="extendedFrame"></param>
+        /// <param name="isCanFD"></param>
+        /// <param name="dlc">1-15</param>
+        /// <param name="fillData"></param>
+        public CanFrame(uint messageID, byte[] data, bool extendedFrame = false, bool isCanFD = false, int dlc = 8, byte fillData=0x00) : this(messageID, data)
+        {
+            this.extendedFrame = extendedFrame;
+            this.isCanFD = isCanFD;
+            this.dlc = dlc;
+            this.fillData = fillData;
+            int length = GetLengthByDlc(dlc);
+            Data = new byte[length];
+            for (int i = 0; i < length; i++)
+            {
+                Data[i] = data[i];
+            }
+        }
 
         public uint MessageID { get; set; }
 
         public byte[] Data { get; set; }
 
-        public int DLC { get => GetDLCDataLength(Data.Length); }
+        public int DLC { get => GetDLCByDataLength(Data.Length); }
 
-        public static int GetDLCDataLength(int dataLength)
+        public static int GetDLCByDataLength(int dataLength)
         {
             if (dataLength <= 8)
             {
@@ -86,6 +116,35 @@ namespace WpfApp1.Devices
             }
 
             return 8;
+        }
+        public static int GetLengthByDlc(int dlc)
+        {
+            if (dlc <= 8)
+                return dlc;
+
+            switch (dlc)
+            {
+                case 9:
+                    return 12;
+                case 10:
+                    return 16;
+                case 11:
+                    return 20;
+                case 12:
+                    return 24;
+                case 13:
+                    return 32; 
+                case 14:
+                    return 48; 
+                case 15:
+                    return 64;
+                default:
+                    return 64;
+            }
+        }
+        public override string ToString()
+        {
+            return $"{MessageID:X} {string.Join(" ",Data.Select(x=>x.ToString("X2")))}";
         }
     }
 }

@@ -14,6 +14,12 @@ namespace WpfApp1.Stores
         private VectorCanService vectorCanService;
         private IDevice currentDevice;
         private ObservableCollection<IDevice> devices;
+        private int framesCount;
+
+        public event Action CurrentDeviceChanged;
+        public event Action FrameCountChanged;
+        public event Action<IDevice> BeforeCurrentDeviceChange;
+
         public DeviceStore(SignalStore signalStore, Services.LogService logService)
         {
             _signalStore = signalStore;
@@ -23,30 +29,6 @@ namespace WpfApp1.Stores
             LoadVirtualDevice();
             LoadVectorDevices();
 
-        }
-
-        private void LoadVectorDevices()
-        {
-            //throw new NotImplementedException();
-            vectorCanService = new VectorCanService(logService);
-            foreach (var device in vectorCanService.VectorChannels)
-            {
-                devices.Add(device);
-            } 
-        }
-
-        private void LoadVirtualDevice()
-        {
-            devices.Add(new VirtualDevice(_signalStore, logService)
-            {
-                Name = "Virtual Device",
-                //Description = "This is a virtual device"
-            });
-        }
-
-        public IEnumerable<TDevice> GetDevices<TDevice>() where TDevice : IDevice
-        {
-            return devices.OfType<TDevice>();
         }
 
         public IEnumerable<IDevice> Devices => devices;
@@ -63,19 +45,76 @@ namespace WpfApp1.Stores
         }
 
         public bool HasDevice { get => CurrentDevice != null; }
+        public int FramesCount
+        {
+            get => framesCount;
+            set
+            {
+                framesCount = value;
+                OnFrameCountChanged();
+            }
+        }
 
+        public IEnumerable<TDevice> GetDevices<TDevice>() where TDevice : IDevice
+        {
+            return devices.OfType<TDevice>();
+        }
+
+        private void LoadVectorDevices()
+        {
+            //throw new NotImplementedException();
+            vectorCanService = new VectorCanService(logService);
+            foreach (var device in vectorCanService.VectorChannels)
+            {
+                devices.Add(device);
+            }
+        }
+
+        private void LoadVirtualDevice()
+        {
+            devices.Add(new VirtualDevice(_signalStore, logService)
+            {
+                Name = "Virtual Device",
+                //Description = "This is a virtual device"
+            });
+        }
+
+       
         private void OnCurrentDeviceChanged()
         {
             if (HasDevice)
+            {
                 logService.Debug($"Change Device: {CurrentDevice.Name}");
+                CurrentDevice.OnMsgReceived += CurrentDevice_OnMsgReceived;
+            }
+
             CurrentDeviceChanged?.Invoke();
         }
+
+        private void CurrentDevice_OnMsgReceived(IEnumerable<IFrame> can_msg)
+        {
+            FramesCount += can_msg.Count();
+            foreach (var item in _signalStore.ParseMsgsYield(can_msg))
+            {
+                if (item != null)
+                    logService.Debug($"{item.Name}: {item.RealValue}");
+            }
+        }
+
         private void OnCurrentDeviceChange(IDevice device)
         {
+            if (device != null)
+            {
+                device.OnMsgReceived -= CurrentDevice_OnMsgReceived;
+            }
             BeforeCurrentDeviceChange?.Invoke(device);
         }
 
-        public event Action CurrentDeviceChanged;
-        public event Action<IDevice> BeforeCurrentDeviceChange;
+        private void OnFrameCountChanged()
+        {
+            FrameCountChanged?.Invoke();
+        }
+
+      
     }
 }

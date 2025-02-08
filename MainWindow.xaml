@@ -8,7 +8,7 @@
     xmlns:viewModels="clr-namespace:WpfApp1.ViewModels"
     xmlns:views="clr-namespace:WpfApp1.Views" xmlns:components="clr-namespace:WpfApp1.Components"
     Title="MainWindow"
-    Width="800"
+    Width="1000"
     Height="800"
     WindowState="Maximized"
     mc:Ignorable="d">
@@ -18,27 +18,54 @@
         </components:Modal>
         <Grid>
             <Grid.RowDefinitions>
-                
                 <RowDefinition Height="auto" />
                 <RowDefinition />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <WrapPanel Grid.Row="0" Margin="0,5,0,10">
                 <!--  Device  -->
-                <WrapPanel Margin="5" Orientation="Horizontal" MaxWidth="500">
-                    <Button Content="Connect" Style="{StaticResource NormalButton}" Command="{Binding OpenCommand}"/>
-                    <Button Content="Close" Style="{StaticResource NormalButton}" Command="{Binding CloseCommand}"/>
-                    <Button Content="Config" Style="{StaticResource NormalButton}" Command="{Binding DeivceConfigCommand}"/>
-                    <Button Content=" Send" Style="{StaticResource NormalButton}" />
-                    <Button
-                        Command="{Binding StartCommand}"
-                        Content="Start"
-                        Style="{StaticResource NormalButton}" />
-                    <Button
-                        Command="{Binding StopCommand}"
-                        Content="Stop"
-                        Style="{StaticResource NormalButton}" />
-                </WrapPanel>
+                <GroupBox Header="CanDevice">
+                    <Grid Margin="0" Width="500">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <!--<Button Content="Connect" Style="{StaticResource NormalButton}" Command="{Binding OpenCommand}"/>
+                        <Button Content="Close" Style="{StaticResource NormalButton}" Command="{Binding CloseCommand}"/>-->
+                        <Button 
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            Content="Config"
+                            Command="{Binding DeivceConfigCommand}"
+                            Style="{StaticResource NormalButton}" />
+                        <!--<Button Content=" Send" Style="{StaticResource NormalButton}" />-->
+                        <!--<Button
+                            Command="{Binding StartCommand}"
+                            Content="Start"
+                            Style="{StaticResource NormalButton}" />-->
+                        <Button
+                            Grid.Row="1"
+                            Command="{Binding StopCommand}"
+                            Content="Stop"
+                            Style="{StaticResource NormalButton}" />
+                        
+                        <TextBlock 
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            Style="{StaticResource labelText}">Comms Counter:</TextBlock>
+
+                        <TextBlock 
+                            Grid.Row="2" 
+                            Grid.Column="1"
+                            d:Text="100" 
+                            Text="{Binding FramesCount}"/>
+                    </Grid>
+                </GroupBox>
                 <GroupBox Header="Version">
                     <Grid Margin="5">
                         <Grid.RowDefinitions>
@@ -69,7 +96,7 @@
                     <GroupBox.Resources>
                         <Style TargetType="Button" BasedOn="{StaticResource NormalButton}"/>
                     </GroupBox.Resources>
-                    <WrapPanel>
+                    <WrapPanel MaxWidth="500">
                         <Button Content="Disable TLF Reset"/>
                         <Button Content="Can Trcv Normal Mode"/>
                         <Button Content="Disable CAN INH"/>

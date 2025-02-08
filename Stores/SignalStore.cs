@@ -23,6 +23,7 @@ namespace WpfApp1.Stores
             LoadDiscretes();
             LoadSavingLogicSignals();
             LoadGDICStatusSignals();
+            LoadPulseInSignals();
         }
         public IEnumerable<SignalBase> Signals => _signals;
 
@@ -64,6 +65,11 @@ namespace WpfApp1.Stores
             }
 
             return signals;
+        }
+
+        public IEnumerable<SignalBase> ParseMsgsYield(IEnumerable<IFrame> can_msg)
+        {
+            return ParseMsgsYield(can_msg, this.Signals);
         }
 
         /// <summary>
@@ -272,6 +278,23 @@ namespace WpfApp1.Stores
                     };
                     _signals.Add(gDICStatusSignal);
                 }
+            }
+        }
+
+        private void LoadPulseInSignals()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                PulseInSignal signal_dc = new PulseInSignal($"PulseInSignal {i}")
+                {
+                    Name = "DC"
+                };
+                PulseInSignal signal_Freq = new PulseInSignal($"PulseInSignal {i}")
+                {
+                    Name ="Freq",
+                };
+                _signals.Add(signal_dc);
+                _signals.Add(signal_Freq);
             }
         }
     }

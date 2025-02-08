@@ -19,51 +19,59 @@ namespace WpfApp1.ViewModels
 
     public class MainViewModel : ObservableObject
     {
-        private readonly IServiceProvider serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
         private readonly NavigationStore _navigationStore;
         private readonly ModalNavigationStore _modalNavigationStore;
-        private readonly DeviceStore deviceStore;
-        private readonly LogService logService;
+        private readonly DeviceStore _deviceStore;
+        private readonly LogService _logService;
         private string log;
 
         public ObservableObject CurrentViewModel => _navigationStore.CurrentViewModel;
         public ObservableObject CurrentModalViewModel => _modalNavigationStore.CurrentViewModel;
         public bool IsOpen => _modalNavigationStore.IsOpen;
-        public IEnumerable<IDevice> Devices => deviceStore.Devices;
+        public IEnumerable<IDevice> Devices => _deviceStore.Devices;
         public IDevice CurrentDevice
         {
             get
             {
-                return deviceStore.CurrentDevice;
+                return _deviceStore.CurrentDevice;
             }
             set
             {
-                deviceStore.CurrentDevice = value;
-                logService.Debug($"Change Device: {deviceStore.CurrentDevice.Name}");
+                _deviceStore.CurrentDevice = value;
+                _logService.Debug($"Change Device: {_deviceStore.CurrentDevice.Name}");
             }
         }
 
-        public bool HasDevice => deviceStore.HasDevice;
+        public bool HasDevice => _deviceStore.HasDevice;
 
         public string Log { get => log; set => SetProperty(ref log , value); }
-
-        public MainViewModel(IServiceProvider serviceProvider,NavigationStore navigationStore, ModalNavigationStore modalNavigationStore,
+        public int FramesCount { get => _deviceStore.FramesCount; }
+        public MainViewModel(IServiceProvider serviceProvider, NavigationStore navigationStore, ModalNavigationStore modalNavigationStore,
             DeviceStore deviceStore, LogService logService)
         {
-            this.logService = logService;
-            this.logService.LogAdded += LogService_LogAdded;
-            this.serviceProvider = serviceProvider;
+            this._logService = logService;
+            this._logService.LogAdded += LogService_LogAdded;
+            this._serviceProvider = serviceProvider;
             _navigationStore = navigationStore;
             _modalNavigationStore = modalNavigationStore;
-            this.deviceStore = deviceStore;
+            this._deviceStore = deviceStore;
+
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
             _modalNavigationStore.CurrentViewModelChanged += OnCurrentModalViewModelChanged;
-            this.deviceStore.CurrentDeviceChanged += OnCurrentDeviceChanged;
-            OpenCommand = new RelayCommand(Open, () => HasDevice);
-            CloseCommand = new RelayCommand(Close, () => HasDevice);
-            StartCommand = new RelayCommand(Start, () => HasDevice);
+            this._deviceStore.CurrentDeviceChanged += OnCurrentDeviceChanged;
+            this._deviceStore.FrameCountChanged += OnFrameCountChanged;
+
+            //OpenCommand = new RelayCommand(Open, () => HasDevice);
+            //CloseCommand = new RelayCommand(Close, () => HasDevice);
+            //StartCommand = new RelayCommand(Start, () => HasDevice);
             StopCommand = new RelayCommand(Stop, () => HasDevice);
             DeivceConfigCommand = new RelayCommand(DeivceConfig);
+        }
+
+        private void OnFrameCountChanged()
+        {
+            OnPropertyChanged(nameof(FramesCount));
         }
 
         private void LogService_LogAdded(string obj)
@@ -74,9 +82,9 @@ namespace WpfApp1.ViewModels
         private void OnCurrentDeviceChanged()
         {
             OnPropertyChanged(nameof(HasDevice));
-            (OpenCommand as IRelayCommand).NotifyCanExecuteChanged();
-            (CloseCommand as IRelayCommand).NotifyCanExecuteChanged();
-            (StartCommand as IRelayCommand).NotifyCanExecuteChanged();
+            //(OpenCommand as IRelayCommand).NotifyCanExecuteChanged();
+            //(CloseCommand as IRelayCommand).NotifyCanExecuteChanged();
+            //(StartCommand as IRelayCommand).NotifyCanExecuteChanged();
             (StopCommand as IRelayCommand).NotifyCanExecuteChanged();
         }
 
@@ -96,32 +104,32 @@ namespace WpfApp1.ViewModels
         public ICommand StartCommand { get; }
         public ICommand StopCommand { get; }
         public ICommand DeivceConfigCommand { get; }
-
+        
         private void Open()
         {
             CurrentDevice?.Open();
-            logService.Debug($"{CurrentDevice.Name} Open");
+            _logService.Debug($"{CurrentDevice.Name} Open");
         }
 
         private void Close()
         {
             CurrentDevice?.Close();
-            logService.Debug($"{CurrentDevice.Name} Close");
+            _logService.Debug($"{CurrentDevice.Name} Close");
         }
 
         private void Start() {
             CurrentDevice?.Start();
-            logService.Debug($"{CurrentDevice.Name} Start Receive");
+            _logService.Debug($"{CurrentDevice.Name} Start Receive");
         }
         private void Stop() {
             CurrentDevice?.Stop();
-            logService.Debug($"{CurrentDevice.Name} Stop Receive");
+            _logService.Debug($"{CurrentDevice.Name} Stop Receive");
         }
 
         private void DeivceConfig()
         {
             ModalNavigationService<DeviceViewModel> modalNavigationService = new ModalNavigationService<DeviceViewModel>(this._modalNavigationStore,
-                serviceProvider.GetRequiredService<DeviceViewModel>);
+                _serviceProvider.GetRequiredService<DeviceViewModel>);
             modalNavigationService.Navigate();
         }
     }

@@ -158,6 +158,30 @@ namespace WpfApp1.Models
         public List<GDICStatusSignal> GDICStatusSignals { get; set; }
     }
 
+    public class PulseInSignalGroup : ObservableObject
+    {
+        public string SignalName { get; set; }
+
+        public PulseInSignalGroup(string signalName)
+        {
+            SignalName = signalName;
+        }
+
+        public PulseInSignal Signal_DC { get; set; }
+
+        public PulseInSignal Signal_Freq { get; set; }
+    }
+
+    public class PulseInSignal : SignalBase
+    {
+        public string GroupName { get; }
+
+        public PulseInSignal(string groupName)
+        {
+            GroupName = groupName;
+        }
+    }
+
     public interface IDBCSignal
     {
         uint MessageID { get; }

@@ -277,7 +277,7 @@ namespace WpfApp1.Devices
             while (true)
             {
                 // Wait for hardware events
-                logService.Debug($"{Name} Wait for hardware events {receiveFlag++}");
+                //logService.Debug($"{Name} Wait for hardware events {receiveFlag++}");
                 waitResult = (XLDefine.WaitResults)WaitForSingleObject(eventHandle, 1000);
                 
                 //int count = 0;
@@ -286,13 +286,13 @@ namespace WpfApp1.Devices
                 {
                     // ...init xlStatus first
                     xlStatus = XLDefine.XL_Status.XL_SUCCESS;
-                    logService.Debug($"{Name} receive success {receiveFlag}");
+                    //logService.Debug($"{Name} receive success {receiveFlag}");
                     // afterwards: while hw queue is not empty...
                     while (xlStatus != XLDefine.XL_Status.XL_ERR_QUEUE_IS_EMPTY)
                     {
                         // ...block RX thread to generate RX-Queue overflows
                         while (blockRxThread) Thread.Sleep(1000);
-                        logService.Debug($"{Name} receive not Empty {receiveFlag}");
+                        //logService.Debug($"{Name} receive not Empty {receiveFlag}");
                         // ...receive data from hardware.
                         xlStatus = VectorDriver.XL_CanReceive(portHandle, ref receivedEvent);
 
@@ -302,11 +302,14 @@ namespace WpfApp1.Devices
                             if (receivedEvent.tagData.canRxOkMsg.canId != 0)
                             {
                                 List<CanFrame> frames = new List<CanFrame>();
-                                CanFrame frame = new CanFrame(receivedEvent.tagData.canRxOkMsg.canId, receivedEvent.tagData.canRxOkMsg.data);
+                                CanFrame frame = new CanFrame(
+                                    receivedEvent.tagData.canRxOkMsg.canId,
+                                    receivedEvent.tagData.canRxOkMsg.data,
+                                    dlc: (int)receivedEvent.tagData.canRxOkMsg.dlc);
                                 frames.Add(frame);
                                 //count++;
                                 OnMsgReceived?.Invoke(frames);
-                                logService.Debug($"{Name} add Frame {receiveFlag}");
+                                //logService.Debug($"{Name} add Frame {receiveFlag}");
                             }
                             //if (count == 10)
                             //{

@@ -12,12 +12,10 @@ namespace WpfApp1.ViewModels
 {
     public class GDICViewModel : ViewModelBase
     {
-        private readonly SignalStore _signalStore;
-
         public GDICViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService)
             : base(signalStore, deviceStore, logService)
         {
-            _signalStore = signalStore;
+            //_signalStore = signalStore;
             GetGDICStatusGroups();
         }
 
@@ -28,7 +26,7 @@ namespace WpfApp1.ViewModels
         public IEnumerable<GDICStatusGroup> GDICStatusGroups => gDICStatusGroups;
         private void GetGDICStatusGroups()
         {
-            var gdicSignals = _signalStore.GetSignals<GDICStatusSignal>();
+            var gdicSignals = SignalStore.GetSignals<GDICStatusSignal>();
 
             gDICStatusGroups = gdicSignals
             .GroupBy(s => s.GroupName)
