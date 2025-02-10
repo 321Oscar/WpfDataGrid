@@ -11,8 +11,64 @@
     Background="White"
     mc:Ignorable="d">
     <Grid>
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type models:SavingLogicInOutGroup}">
+                <Grid Margin="5">
+                    <ItemsControl ItemsSource="{Binding InOutGroups}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type models:SavingLogicGroup}">
+                                <GroupBox Header="{Binding SignalName}" MinWidth="280">
+                                    <ItemsControl ItemsSource="{Binding Signals}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type models:SavingLogicSignal}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Margin="15,5" Text="{Binding Name}" />
+                                                    <CheckBox IsChecked="{Binding PinHigh}" Content="{Binding PinStatus}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </GroupBox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type models:SavingLogicButtonSignalGroup}">
+                <GroupBox Header="{Binding SignalName}" Grid.IsSharedSizeScope="True" Margin="5">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition SharedSizeGroup="Direction"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Current Direction" Grid.Column="1"/>
+                        <ItemsControl ItemsSource="{Binding Signals}" Grid.Row="1" Grid.ColumnSpan="2">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type models:SavingLogicButtonSignal}">
+                                    <Grid Margin="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition SharedSizeGroup="Direction"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Content="{Binding Name}" Command="{Binding DataContext.ChangeSignalInputOutputCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                CommandParameter="{Binding }"/>
+                                        <TextBlock Text="{Binding Direction}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                           
+                        </ItemsControl>
+                    </Grid>
+                    
+                </GroupBox>
+               
+            </DataTemplate>
+        </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
@@ -20,12 +76,24 @@
             Grid.Row="0"
             Style="{StaticResource TitleLabel}"
             Text="Safing Logic" />
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Button Content="Start/Stop" Style="{StaticResource NormalButton}" />
-            <Button Content="Clear" Style="{StaticResource NormalButton}" />
-            <Button Content="Notes" Style="{StaticResource NormalButton}" />
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="180,0,0,0" VerticalAlignment="Center">
+            <Button Content="Start/Stop"  Margin="0,10"/>
+            <Button Content="Clear" Margin="0,10"/>
+            <Button Content="Notes"  Margin="0,10"/>
         </StackPanel>
-        <WrapPanel Grid.Row="2">
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding SavingLogicGroups}" >
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel>
+
+                        </WrapPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+       
+        <!--<WrapPanel Grid.Row="2">
             <GroupBox Header=" Level1 Input">
                 <ItemsControl ItemsSource="{Binding SavingLogicSignals}">
                     <ItemsControl.ItemTemplate>
@@ -38,24 +106,6 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <!--<StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="xx" />
-                        <CheckBox Content="Low" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="xx" />
-                        <CheckBox Content="Low" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="xx" />
-                        <CheckBox Content="Low" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="xx" />
-                        <CheckBox Content="Low" />
-                    </StackPanel>
-                </StackPanel>-->
             </GroupBox>
             <GroupBox Header=" Level2 Input">
                 <StackPanel>
@@ -66,6 +116,6 @@
                 </StackPanel>
             </GroupBox>
             <GroupBox Header=" Level1" />
-        </WrapPanel>
+        </WrapPanel>-->
     </Grid>
 </UserControl>

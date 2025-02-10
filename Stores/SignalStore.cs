@@ -238,19 +238,49 @@ namespace WpfApp1.Stores
 
         private void LoadSavingLogicSignals()
         {
+            for (int i = 0; i < 4; i++)
+            {
+                //input
+                int j;
+                for (j = 0; j < 7; j++)
+                {
+                    _signals.Add(new SavingLogicSignal()
+                    {
+                        Name = $"SavingLogicSignal{i}",
+                        GroupName = $"level {i + 1}",
+                        InputOrOutput = true,
+                        MessageID = 0x102,
+                        StartBit = i + j,
+                        Length = 1,
+                        Factor = 1,
+                        Offset = 0,
+                        ByteOrder = 1
+                    });
+                }
+                //output
+                for (j = 7; j < 15; j++)
+                {
+                    _signals.Add(new SavingLogicSignal()
+                    {
+                        Name = $"SavingLogicSignal{i}",
+                        GroupName = $"level {i + 1}",
+                        InputOrOutput = false,
+                        MessageID = 0x102,
+                        StartBit = i + j,
+                        Length = 1,
+                        Factor = 1,
+                        Offset = 0,
+                        ByteOrder = 1
+                    });
+                }
+            }
+
+            //pins output
             for (int i = 0; i < 10; i++)
             {
-                _signals.Add(new SavingLogicSignal()
+                _signals.Add(new SavingLogicButtonSignal()
                 {
-                    Name = $"SavingLogicSignalInput{i}",
-                    Group = "level 1",
-                    InputOrOutput = true,
-                    MessageID = 0x102,
-                    StartBit = i,
-                    Length = 1,
-                    Factor = 1,
-                    Offset = 0,
-                    ByteOrder = 1
+                    Name = $"Pins_output {i}",
                 });
             }
         }
@@ -292,6 +322,20 @@ namespace WpfApp1.Stores
                 PulseInSignal signal_Freq = new PulseInSignal($"PulseInSignal {i}")
                 {
                     Name ="Freq",
+                };
+                _signals.Add(signal_dc);
+                _signals.Add(signal_Freq);
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                PulseOutSignal signal_dc = new PulseOutSignal($"PulseOutSignal {i}")
+                {
+                    Name = "Feq"
+                };
+                PulseOutSignal signal_Freq = new PulseOutSignal($"PulseOutSignal {i}")
+                {
+                    Name = "Duty",
                 };
                 _signals.Add(signal_dc);
                 _signals.Add(signal_Freq);

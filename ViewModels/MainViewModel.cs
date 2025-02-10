@@ -91,6 +91,7 @@ namespace WpfApp1.ViewModels
         private void OnCurrentViewModelChanged()
         {
             OnPropertyChanged(nameof(CurrentViewModel));
+            Console.WriteLine($"{DateTime.Now:HH:mm:ss fff} view changed");
         }
 
         private void OnCurrentModalViewModelChanged()

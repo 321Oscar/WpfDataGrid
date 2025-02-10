@@ -12,23 +12,24 @@ namespace WpfApp1.Models
         {
             //this.PropertyChanged += DiscreteSignal_PropertyChanged;
         }
-        private void DiscreteSignal_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(RealValue))
-            {
-                Transitions += 1;
-            }
-        }
+
         public void ClearTransitions()
         {
             Transitions = 0;
         }
-
-        public override void OnRealValueChanged()
+        public override void OnOriginValueChaned(double originValue, bool equal)
         {
-            base.OnRealValueChanged();
-            Transitions += 1;
+            base.OnOriginValueChaned(originValue, equal);
+            if (equal)
+            {
+                Transitions += 1;
+            }
         }
+        //public override void on()
+        //{
+        //    base.OnRealValueChanged();
+        //    Transitions += 1;
+        //}
     }
 
 }

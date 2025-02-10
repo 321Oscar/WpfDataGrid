@@ -7,15 +7,6 @@
             //PropertyChanged += DiscreteOutputSignal_PropertyChanged;
         }
 
-        private void DiscreteOutputSignal_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if(e.PropertyName == nameof(RealValue))
-            {
-                OnPropertyChanged(nameof(Pin_High));
-                OnPropertyChanged(nameof(Pin_Low));
-            }
-        }
-
         public double? TempValue
         {
             get;
@@ -70,12 +61,14 @@
                 }
             }
         }
-
-        public override void OnRealValueChanged()
+        public override void OnOriginValueChaned(double originValue, bool equal)
         {
-            base.OnRealValueChanged();
-            OnPropertyChanged(nameof(Pin_High));
-            OnPropertyChanged(nameof(Pin_Low));
+            base.OnOriginValueChaned(originValue, equal);
+            if (equal)
+            {
+                OnPropertyChanged(nameof(Pin_High));
+                OnPropertyChanged(nameof(Pin_Low));
+            }
         }
 
         public void UpdateRealValue()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,10 +21,15 @@ namespace WpfApp1.Views
     /// </summary>
     public partial class AnalogView : UserControl
     {
+        Stopwatch watch;
+
         public AnalogView()
         {
             InitializeComponent();
-            //this.Loaded += AnalogView_Loaded;
+            Console.WriteLine($"{DateTime.Now:HH:mm:ss fff} analog view");
+            watch = new Stopwatch();
+            watch.Restart();
+            this.Loaded += AnalogView_Loaded;
         }
         ~AnalogView()
         {
@@ -31,7 +37,18 @@ namespace WpfApp1.Views
         }
         private void AnalogView_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
+            //watch.Stop();
+            //Console.WriteLine($"{watch.ElapsedMilliseconds}");
+            this.Loaded-= AnalogView_Loaded;
+        }
+
+        private void datagrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            watch.Stop();
+            Console.WriteLine($"{DateTime.Now:HH:mm:ss fff} datagrid loaded take {watch.ElapsedMilliseconds} ms");
+
+            this.datagrid.Loaded -= datagrid_Loaded;
         }
     }
 }

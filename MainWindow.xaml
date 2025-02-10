@@ -22,10 +22,10 @@
                 <RowDefinition />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <WrapPanel Grid.Row="0" Margin="0,5,0,10">
+            <WrapPanel Grid.Row="0">
                 <!--  Device  -->
-                <GroupBox Header="CanDevice">
-                    <Grid Margin="0" Width="500">
+                <GroupBox Header="CanDevice" Margin="0,5">
+                    <Grid Margin="0" Width="300">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
@@ -66,8 +66,8 @@
                             Text="{Binding FramesCount}"/>
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="Version">
-                    <Grid Margin="5">
+                <GroupBox Header="Version" Margin="5">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
@@ -85,14 +85,14 @@
                         <TextBlock Grid.Row="2" Grid.Column="1" Text="1.0.0.0" />
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="CAN INH State">
+                <GroupBox Header="CAN INH State" Margin="0,5,5,5">
                     <StackPanel>
                         <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_DevCAN" IsEnabled="False"/>
                         <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_CANFD_5" IsEnabled="False"/>
                         <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_CANFD_11" IsEnabled="False"/>
                     </StackPanel>
                 </GroupBox>
-                <GroupBox Header="Controls">
+                <GroupBox Header="Controls" Margin="0,5">
                     <GroupBox.Resources>
                         <Style TargetType="Button" BasedOn="{StaticResource NormalButton}"/>
                     </GroupBox.Resources>

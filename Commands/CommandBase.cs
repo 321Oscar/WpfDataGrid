@@ -26,4 +26,5 @@ namespace WpfApp1.Commands
     }
 
     public delegate ICommand CreateCommand<TViewModel>(TViewModel viewModel) where TViewModel : ObservableObject;
+
 }

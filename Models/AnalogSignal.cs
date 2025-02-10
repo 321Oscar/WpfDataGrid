@@ -4,40 +4,58 @@ using System.Linq;
 
 namespace WpfApp1.Models
 {
-    public class AnalogSignal : SignalBase, ICalStandardDev, ITransform2
+    public class AnalogSignal : AverageSignalBase, ICalStandardDev, ITransform2
     {
-        private double value1;
+        
+        private string value2;
         private double standardDev;
 
         public AnalogSignal()
         {
-            TmpValues = new LengthQueue<double>(100);
+            TmpValues = new LengthQueue<string>(1000);
             MaxThreshold = 5;
             MinThreshold = 0;
         }
 
         public string PinNumber { get; set; }
         public string ADChannel { get; set; }
-
-        public double Value1
+        public string Value2
         {
-            get => value1;
+            get => value2;
             set
             {
-                SetProperty(ref value1, value); 
+                SetProperty(ref value2, value);
             }
         }
-
-        public override void OnRealValueChanged()
+        public override double TransForm(double oldVal)
         {
-            base.OnRealValueChanged();
-            Value1 = TransForm2(RealValue);
+            return oldVal * 5 / 4096; ;
         }
-
-        public override void OnOriginValueChaned(double originValue)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="originValue">new Value</param>
+        /// <param name="changed">is different</param>
+        public override void OnOriginValueChaned(double originValue, bool changed)
         {
-            base.OnOriginValueChaned(originValue);
-            TmpValues.Enqueue(RealValue);
+            base.OnOriginValueChaned(originValue, changed);
+            if (changed)
+            {
+                var realValue = TransForm(originValue);
+                //MaxValue = Math.Max(MaxValue, realValue);
+                //if (MinValue < 0)
+                //    MinValue = realValue;
+                //else
+                //    MinValue = Math.Min(MinValue, realValue);
+                ////cal value1
+                //Value1 = TransForm(originValue).ToString(Format);
+                //cal value2
+                Value2 = TransForm2(realValue).ToString(Format);
+
+                //OutLimits = realValue > MaxThreshold || realValue < MinThreshold;
+            }
+           
+            TmpValues.Enqueue(Value1);
         }
 
         /// <summary>
@@ -45,10 +63,6 @@ namespace WpfApp1.Models
         /// </summary>
         public int Transform2Type { get; set; }
 
-        public override double TransForm(double oldVal)
-        {
-            return oldVal * 5 / 4096;
-        }
         /// <summary>
         /// 根据每个信号的系数/表
         /// </summary>
@@ -71,11 +85,14 @@ namespace WpfApp1.Models
                 SetProperty(ref standardDev, value);
             }
         }
-        public LengthQueue<double> TmpValues { get; }
+        /// <summary>
+        /// cal standard old values
+        /// </summary>
+        public LengthQueue<string> TmpValues { get; }
         public void CalStandard()
         {
-            double[] tmpArray = new double[TmpValues.Count];
-            TmpValues.CopyTo(tmpArray, 0);
+            double[] tmpArray = TmpValues.Select(x=>double.Parse(x)).ToArray();
+            //TmpValues.CopyTo(tmpArray, 0);
 
             // 计算平均值
             double mean = tmpArray.Average();

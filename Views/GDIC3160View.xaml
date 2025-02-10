@@ -5,7 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WpfApp1.Views"
     xmlns:models="clr-namespace:WpfApp1.Models"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:converters="clr-namespace:WpfApp1.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:converters="clr-namespace:WpfApp1.Converters"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Background="White"
@@ -71,7 +72,7 @@
                             ItemsSource="{Binding GDICStatusGroups}" 
                             DisplayMemberPath="GroupName"
                             SelectedValue="{Binding CurrentGDICStatusGroup,Mode=TwoWay}"
-                            Style="{StaticResource NormalCombox}"/>
+                            Width="80"/>
                         <ItemsControl ItemsSource="{Binding CurrentGDICStatusGroup.GDICStatusSignals}" 
                                       MinHeight="30"
                                       Grid.Row="0"
@@ -81,7 +82,6 @@
                                 <ItemsPanelTemplate>
                                     <WrapPanel/>
                                 </ItemsPanelTemplate>
-                                
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:GDICStatusSignal}">
@@ -91,7 +91,7 @@
                         </ItemsControl>
                         <Button Content="Write"  
                                 Grid.Row="1"
-                                Grid.Column="0" Style="{StaticResource NormalButton}"/>
+                                Grid.Column="0"/>
                     </Grid>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"  Grid.Row="1" BorderBrush="Gray" BorderThickness="1">
                         <Border BorderBrush="Gray" BorderThickness="1">
@@ -125,7 +125,7 @@
                                                         <StackPanel Margin="5">
                                                             <TextBlock Text="{Binding Name}"/>
                                                             <Border BorderThickness="1,1,1,1" BorderBrush="Gray" Height="1"/>
-                                                            <TextBlock Text="{Binding RealValue}" Margin="0,2,0,0"/>
+                                                            <TextBlock Text="{Binding Value1}" Margin="0,2,0,0"/>
                                                         </StackPanel>
                                                     </Border>
                                                 </DataTemplate>
@@ -172,7 +172,107 @@
                 </Grid>
             </TabItem>
             <TabItem Header="AOUT">
-                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <UniformGrid Columns="2" Grid.Row="0">
+                        <DataGrid>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="GD Device"/>
+                                <DataGridTextColumn Header="Selection"/>
+                                <DataGridTextColumn Header="Duty Cycle"/>
+                                <DataGridTextColumn Header="DC Min"/>
+                                <DataGridTextColumn Header="DC Max"/>
+                                <DataGridTextColumn Header="Standard Dev"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <DataGrid>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="GD Device"/>
+                                <DataGridTextColumn Header="Selection"/>
+                                <DataGridTextColumn Header="Duty Cycle"/>
+                                <DataGridTextColumn Header="DC Min"/>
+                                <DataGridTextColumn Header="DC Max"/>
+                                <DataGridTextColumn Header="Standard Dev"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <DataGrid>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="GD Device"/>
+                                <DataGridTextColumn Header="Selection"/>
+                                <DataGridTextColumn Header="Frequency"/>
+                                <DataGridTextColumn Header="Frequency Min"/>
+                                <DataGridTextColumn Header="Frequency Max"/>
+                                <DataGridTextColumn Header="Standard Dev"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <DataGrid>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="GD Device"/>
+                                <DataGridTextColumn Header="Selection"/>
+                                <DataGridTextColumn Header="Frequency"/>
+                                <DataGridTextColumn Header="Frequency Min"/>
+                                <DataGridTextColumn Header="Frequency Max"/>
+                                <DataGridTextColumn Header="Standard Dev"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <DataGrid>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="GD Device"/>
+                                <DataGridTextColumn Header="Selection"/>
+                                <DataGridTextColumn Header="Phase Temperature"/>
+                                <DataGridTextColumn Header="PT Min"/>
+                                <DataGridTextColumn Header="PT Max"/>
+                                <DataGridTextColumn Header="Standard Dev"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <DataGrid>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="GD Device"/>
+                                <DataGridTextColumn Header="Selection"/>
+                                <DataGridTextColumn Header="Phase Temperature"/>
+                                <DataGridTextColumn Header="PT Min"/>
+                                <DataGridTextColumn Header="PT Max"/>
+                                <DataGridTextColumn Header="Standard Dev"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </UniformGrid>
+                    <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1">
+                        <StackPanel  Orientation="Horizontal">
+                            <GroupBox Header="Control">
+                                <StackPanel>
+                                    <ComboBox Width="80"/>
+                                    <Button Content="Start"/>
+                                    <Button Content="Stop"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Threshold">
+                                <StackPanel>
+                                    <ComboBox Width="80"/>
+                                    <Button Content="Start"/>
+                                    <Button Content="Stop"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Stadard Dev">
+                                <StackPanel>
+                                    <ComboBox Width="80"/>
+                                    <Button Content="Start"/>
+                                    <Button Content="Stop"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="AMUX">
+                                <StackPanel>
+                                    <ComboBox Width="80"/>
+                                    <Button Content="Start"/>
+                                    <Button Content="Stop"/>
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+                    </Border>
+                    
+                </Grid>
             </TabItem>
         </TabControl>
        

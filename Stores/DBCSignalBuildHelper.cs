@@ -86,7 +86,7 @@ namespace WpfApp1.Stores
             int startIndex = startBit / 8;
             int startOffset = startBit % 8;
 
-            int rawvalue = (int)(((decimal)signal.RealValue - (decimal)signal.Offset) / (decimal)signal.Factor);
+            int rawvalue = (int)(((decimal)(signal.OriginValue) - (decimal)signal.Offset) / (decimal)signal.Factor);
 
             if (signal.ByteOrder == 0)//moto
             {

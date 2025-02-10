@@ -16,21 +16,29 @@
         <TextBlock Grid.Row="0" Style="{StaticResource TitleLabel}">
             Pulse In
         </TextBlock>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Groups}" AutoGenerateColumns="False">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Groups}" AutoGenerateColumns="False" IsReadOnly="True"
+                  RowHeight="20">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="SignalName" Binding="{Binding SignalName}" Width="*"/>
                 <DataGridTemplateColumn Header="DC__Cur" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Background="{Binding Signal_DC.OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Signal_DC.RealValue}" />
+                            <TextBlock Background="{Binding Signal_DC.OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Signal_DC.Value1}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="DC__Max" Binding="{Binding Signal_DC.MaxValue}" Width="*"/>
+                <DataGridTextColumn Header="DC__Max" Binding="{Binding Signal_DC.MaxValue}" Width="*" />
                 <DataGridTextColumn Header="DC__Min" Binding="{Binding Signal_DC.MinValue}" Width="*"/>
-                <DataGridTextColumn Header="Freq__Cur" Binding="{Binding Signal_DC.RealValue}" Width="*"/>
-                <DataGridTextColumn Header="Freq__Max" Binding="{Binding Signal_DC.MaxValue}" Width="*"/>
-                <DataGridTextColumn Header="Freq__Min" Binding="{Binding Signal_DC.MinValue}" Width="*"/>
+                
+                <DataGridTemplateColumn Header="Freq__Cur" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Background="{Binding Signal_DC.OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Signal_Freq.Value1}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Freq__Max" Binding="{Binding Signal_Freq.MaxValue}" Width="*"/>
+                <DataGridTextColumn Header="Freq__Min" Binding="{Binding Signal_Freq.MinValue}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

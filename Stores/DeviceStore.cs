@@ -97,7 +97,7 @@ namespace WpfApp1.Stores
             foreach (var item in _signalStore.ParseMsgsYield(can_msg))
             {
                 if (item != null)
-                    logService.Debug($"{item.Name}: {item.RealValue}");
+                    logService.Debug($"{item.Name}: {item.OriginValue}");
             }
         }
 

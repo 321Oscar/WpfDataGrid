@@ -56,7 +56,13 @@ namespace WpfApp1.ViewModels
         public bool UdsRunning
         {
             get => _udsRunning;
-            set => SetProperty(ref _udsRunning, value);
+            set 
+            {
+                if (SetProperty(ref _udsRunning, value))
+                {
+                    RaiseCommandCanExecute();
+                }
+            }
         }
         public ICommand SelectFileCommand 
         { 
@@ -72,7 +78,7 @@ namespace WpfApp1.ViewModels
             get
             {
                 if (readDIDCommand == null)
-                    readDIDCommand = new AsyncRelayCommand(ReadDID);
+                    readDIDCommand = new AsyncRelayCommand(ReadDID, () => DeviceStore.HasDevice && !UdsRunning, AsyncRelayCommandOptions.None);
                 return readDIDCommand;
             }
         }
@@ -94,6 +100,11 @@ namespace WpfApp1.ViewModels
         public UDSServerAbstract RunningServer { get => runningServer; set => SetProperty(ref runningServer, value); }
 
         private void OnCurrentDeviceChanged()
+        {
+            RaiseCommandCanExecute();
+        }
+
+        private void RaiseCommandCanExecute()
         {
             (ReadDIDCommand as IRelayCommand).NotifyCanExecuteChanged();
         }
@@ -126,7 +137,7 @@ namespace WpfApp1.ViewModels
             //ClearServers();
             AddServer(ms);
 
-            //DisEnableUDSCtrl(true);
+            DisEnableCtrl(true);
 
             var res = await ms.RunAsync();
             if (res.UDSResponse == UDSResponse.Positive)
@@ -141,10 +152,16 @@ namespace WpfApp1.ViewModels
             //
             // ConsoleLog($"{res.UDSResponse},{res.Message}");
 
-            //DisEnableUDSCtrl(false);
+            DisEnableCtrl(false);
 
             return ((res != null) && (res.UDSResponse == UDSResponse.Positive)) ? SUCFLAG : FAILFLAG;
         }
+
+        private void DisEnableCtrl(bool enable)
+        {
+            UdsRunning = enable;
+        }
+
         private void AddServer(IUDSServer server)
         {
             this.Servers.Add(server);

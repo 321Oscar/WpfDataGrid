@@ -20,11 +20,13 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Style="{StaticResource TitleLabel}">Pulse Out</TextBlock>
-        <DataGrid Grid.Row="1">
+        <DataGrid Grid.Row="1" AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding Groups}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="SignalName" />
-                <DataGridTextColumn Width="*" Header="Fre" />
-                <DataGridTextColumn Width="*" Header="Duty" />
+                <DataGridTextColumn Header="SignalName" Binding="{Binding SignalName}"/>
+                <DataGridTextColumn Width="*" Header="Fre" Binding="{Binding Freq.Value1}"/>
+                <DataGridTextColumn Width="*" Header="Duty" Binding="{Binding DutyCycle.Value1}"/>
             </DataGrid.Columns>
         </DataGrid>
         <GroupBox

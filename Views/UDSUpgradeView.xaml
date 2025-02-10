@@ -85,7 +85,7 @@
             <DataTemplate DataType="{x:Type udsModel:MultipServer}">
                 <Expander
                 x:Name="exp"
-                
+                Padding="5"
                 BorderBrush="#e0e0e0"
                 BorderThickness="0,0,0,1">
                     <Expander.Header>
@@ -219,22 +219,28 @@
             </Grid.RowDefinitions>
             <StackPanel>
                 <WrapPanel>
-                    <TextBlock>Upgrade type</TextBlock>
+                    <TextBlock Width="80">Upgrade type</TextBlock>
                     <ComboBox Width="150" ItemsSource="{Binding UpgradeTypeSources}" SelectedValue="{Binding CurrentUpgradeType}"/>
                 </WrapPanel>
                 <WrapPanel>
-                    <TextBlock>DID</TextBlock>
+                    <TextBlock Width="80">DID</TextBlock>
                     <ComboBox ItemsSource="{Binding DIDInfos}" Width="150"
                               SelectedValue="{Binding CurrentDID}"/>
                     <Button Content="read" Command="{Binding ReadDIDCommand}"></Button>
+                    <TextBox Width="80" Text="{Binding DIDData}" />
+                    <Button Content="Write"/>
                 </WrapPanel>
                 <WrapPanel Grid.Row="1">
-                    <TextBlock>Upgrade File:</TextBlock>
+                    <TextBlock Width="80">Upgrade File:</TextBlock>
                     <TextBox IsReadOnly="True" Width="200" />
                     <Button Content="Browse" />
+                    <Button Content="Update" />
                 </WrapPanel>
             </StackPanel>
-            <ItemsControl ItemsSource="{Binding Servers}" Grid.Row="1"/>
+            <GroupBox Header="Details" Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding Servers}"/>
+            </GroupBox>
+           
         </Grid>
     </Grid>
 </UserControl>

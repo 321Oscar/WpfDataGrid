@@ -36,12 +36,23 @@ namespace WpfApp1.ViewModels
         public AnalogSignal CurrentAnalogSignal { get; set; }
 
         public bool UpdateAll { get; set; }
-        [ObservableProperty]
+
         public double MaxThreshold { get; set; }
-        [ObservableProperty]
+
         public double MinThreshold { get; set; }
 
-        public IEnumerable<AnalogSignal> AnalogSignals => SignalStore.GetSignals<AnalogSignal>();
+        public IEnumerable<AnalogSignal> AnalogSignals
+        {
+            get
+            {
+                //System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+                //stopwatch.Restart();
+                var signals = SignalStore.GetSignals<AnalogSignal>();
+                //stopwatch.Stop();
+                //Console.WriteLine($"{DateTime.Now:HH:mm:ss fff} analog get data take {stopwatch.ElapsedMilliseconds} ms");
+                return signals;
+            }
+        }
 
         public ICommand UpdateSignalThresholdCommand { get; }
         public ICommand ResetSignalThresholdCommand { get; }
@@ -58,7 +69,7 @@ namespace WpfApp1.ViewModels
         {
             UpdateSignalThreshold(MaxThreshold, MinThreshold);
         }
-        private void UpdateSignalThreshold(double max,double min)
+        private void UpdateSignalThreshold(double max, double min)
         {
             if (UpdateAll)
             {
@@ -79,16 +90,6 @@ namespace WpfApp1.ViewModels
                 {
                     //do nothing
                 }
-            }
-
-        }
-
-        protected override void CurrentDevice_OnMsgReceived(IEnumerable<IFrame> frames)
-        {
-            foreach (var signal in SignalStore.ParseMsgsYield(frames, AnalogSignals))
-            {
-                if (signal != null)
-                    LogService.Info($"{signal.Name}:{signal.RealValue}");
             }
 
         }

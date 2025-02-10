@@ -1,19 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
-using System.Windows.Media;
 
 namespace WpfApp1.Models
 {
     public class SignalBase : ObservableObject, IDBCSignal
     {
-        private double realValue;
-        private double maxValue;
-        private double minValue = -1;
-        private double maxThreshold;
-        private double minThreshold;
-        private double average;
-        private SolidColorBrush valueColor;
         private double originValue;
 
         public string Name { get; set; }
@@ -23,33 +14,11 @@ namespace WpfApp1.Models
             get => originValue;
             set
             {
-                SetProperty(ref originValue, value);
-                OnOriginValueChaned(value);
+                var equal = SetProperty(ref originValue, value);
+                OnOriginValueChaned(value, equal);
             }
         }
 
-        /// <summary>
-        /// it will Change the MaxValue/MinValue and change the ValueColor
-        /// </summary>
-        public double RealValue
-        {
-            get => realValue;
-            set
-            {
-                //double tmp = TransForm(value);
-                if (SetProperty(ref realValue, value))
-                {
-                    OnRealValueChanged();
-                }
-            }
-        }
-        public System.Windows.Media.SolidColorBrush ValueColor { get => valueColor; set => SetProperty(ref valueColor, value); }
-        public double MaxValue { get => maxValue; set => SetProperty(ref maxValue, value); }
-        public double MinValue { get => minValue; set => SetProperty(ref minValue, value); }
-        public double MaxThreshold { get => maxThreshold; set => SetProperty(ref maxThreshold, value); }
-        public double MinThreshold { get => minThreshold; set => SetProperty(ref minThreshold, value); }
-        public double Average { get => average; set => SetProperty(ref average, value); }
-        public bool OutLimits => RealValue > MaxThreshold || RealValue < MinThreshold;
         public uint MessageID { get; set; }
         public int StartBit { get; set; }
 
@@ -62,35 +31,16 @@ namespace WpfApp1.Models
         public double Factor { get; set; }
 
         public double Offset { get; set; }
-        /// <summary>
-        /// 固定系数转换
-        /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
-        public virtual double TransForm(double val)
-        {
-            return val;
-        }
-        /// <summary>
-        /// 实际值改变
-        /// </summary>
-        public virtual void OnRealValueChanged()
-        {
-            //RealValue = TransForm(originValue);
-            MaxValue = Math.Max(maxValue, RealValue);
-            if (MinValue < 0)
-                MinValue = RealValue;
-            else
-                Math.Min(MinValue, RealValue);
-            OnPropertyChanged(nameof(OutLimits));
-        }
+        public string Format { get; set; } = "f2";
+
         /// <summary>
         /// 传进一个新的原始值引发
         /// </summary>
-        /// <param name="value">originValue</param>
-        public virtual void OnOriginValueChaned(double originValue)
+        /// <param name="originValue">originValue</param>
+        /// <param name="changed"></param>
+        public virtual void OnOriginValueChaned(double originValue, bool changed)
         {
-            RealValue = TransForm(originValue);
+            //RealValue = TransForm(originValue).ToString();
         }
 
         public override string ToString()
@@ -99,89 +49,126 @@ namespace WpfApp1.Models
         }
     }
 
-    public class SavingLogicSignal : SignalBase
+    public class TransFormSignalBase : SignalBase
     {
-        public string Group { get; set; }
-        /// <summary>
-        /// true:Input
-        /// </summary>
-        public bool InputOrOutput { get; set; }
-
-        public bool PinHigh
+        private string value1;
+        public string Value1
         {
-            get
-            {
-                return OriginValue == 1;
-            }
+            get => value1;
             set
             {
-                OriginValue = value ? 1 : 0;
+                SetProperty(ref value1, value);
             }
         }
-
-        public string PinStatus
+        public virtual double TransForm(double oldVal)
         {
-            get
+            return oldVal;
+        }
+
+        public override void OnOriginValueChaned(double originValue, bool changed)
+        {
+            if (changed)
             {
-                return PinHigh ? "High" : "Low";
+                //var realValue = TransForm(originValue);
+                //MaxValue = Math.Max(MaxValue, realValue);
+                //if (MinValue < 0)
+                //    MinValue = realValue;
+                //else
+                //    MinValue = Math.Min(MinValue, realValue);
+                //cal value1
+                Value1 = TransForm(originValue).ToString(Format);
+
+                //OutLimits = realValue > MaxThreshold || realValue < MinThreshold;
             }
         }
-
-        public override void OnRealValueChanged()
-        {
-            //base.OnRealValueChanged();
-            OnPropertyChanged(nameof(PinHigh));
-            OnPropertyChanged(nameof(PinStatus));
-        }
     }
 
-    public class GDICStatusSignal : SignalBase
+    /// <summary>
+    /// max,min value and OutLimits
+    /// </summary>
+    public class LimitsSignalBase : TransFormSignalBase, ILimits
     {
-        public GDICStatusSignal(string groupName)
-        {
-            GroupName = groupName;
-        }
+        //private string value1;
+        private double maxValue;
+        private double minValue = -1;
+        private double maxThreshold;
+        private double minThreshold;
+        private bool outLimits = true;
+       
+        //private SolidColorBrush valueColor;
 
-        public string GroupName { get; }
+        //public System.Windows.Media.SolidColorBrush ValueColor { get => valueColor; set => SetProperty(ref valueColor, value); }
+        public double MaxValue { get => maxValue; set => SetProperty(ref maxValue, value); }
+        public double MinValue { get => minValue; set => SetProperty(ref minValue, value); }
+        public double MaxThreshold { get => maxThreshold; set => SetProperty(ref maxThreshold, value); }
+        public double MinThreshold { get => minThreshold; set => SetProperty(ref minThreshold, value); }
+        public bool OutLimits { get => outLimits; set => SetProperty(ref outLimits, value); }
+
+        public override void OnOriginValueChaned(double originValue, bool changed)
+        {
+            if (changed)
+            {
+                var realValue = TransForm(originValue);
+                MaxValue = Math.Max(MaxValue, realValue);
+                if (MinValue < 0)
+                    MinValue = realValue;
+                else
+                    MinValue = Math.Min(MinValue, realValue);
+                //cal value1
+                //Value1 = TransForm(originValue).ToString(Format);
+
+                OutLimits = realValue > MaxThreshold || realValue < MinThreshold;
+            }
+        }
     }
 
-    public class GDICStatusGroup : ObservableObject
+    public class AverageSignalBase: LimitsSignalBase, IAverage
     {
-        public string GroupName { get; set; }
+        private int valueCount;
+        private double totalValue;
 
-        public GDICStatusGroup(string groupName)
+        private double average;
+
+        public double Average { get => average; set => SetProperty(ref average, value); }
+
+        public override void OnOriginValueChaned(double originValue, bool changed)
         {
-            GroupName = groupName;
-            GDICStatusSignals = new List<GDICStatusSignal>();
+            valueCount++;
+            base.OnOriginValueChaned(originValue, changed);
+            var realValue = TransForm(originValue);
+            totalValue += realValue;
+            Average = totalValue / valueCount;
         }
 
-        public List<GDICStatusSignal> GDICStatusSignals { get; set; }
     }
 
-    public class PulseInSignalGroup : ObservableObject
+    internal interface IAverage
+    {
+        double Average { get; set; }
+    }
+
+    internal interface ILimits
+    {
+        double MaxValue { get; set; }
+        double MinValue { get; set; }
+        double MaxThreshold { get; set; }
+        bool OutLimits { get; }
+        //SolidColorBrush ValueColor { get; set; }
+    }
+
+
+
+    public class SignalGroupBase: ObservableObject
     {
         public string SignalName { get; set; }
 
-        public PulseInSignalGroup(string signalName)
+        public SignalGroupBase(string signalName)
         {
             SignalName = signalName;
         }
-
-        public PulseInSignal Signal_DC { get; set; }
-
-        public PulseInSignal Signal_Freq { get; set; }
     }
 
-    public class PulseInSignal : SignalBase
-    {
-        public string GroupName { get; }
-
-        public PulseInSignal(string groupName)
-        {
-            GroupName = groupName;
-        }
-    }
-
+    
     public interface IDBCSignal
     {
         uint MessageID { get; }
@@ -221,7 +208,7 @@ namespace WpfApp1.Models
 
     public interface ICalStandardDev
     {
-        LengthQueue<double> TmpValues { get; }
+        LengthQueue<string> TmpValues { get; }
 
         double StandardDev { get; set; }
 
@@ -230,7 +217,7 @@ namespace WpfApp1.Models
 
     public class LengthQueue<T> : System.Collections.Generic.Queue<T>
     {
-        int length = 1;
+        private readonly int length;
 
         public LengthQueue(int length) : base(length)
         {

@@ -47,7 +47,7 @@ namespace WpfApp1
                 new Models.AnalogSignal()
                 {
                     Name="AnalogSignal1",
-                    RealValue = 10
+                    OriginValue = 10
                 }
             };
             //analogView.DataContext = AnalogSignals;

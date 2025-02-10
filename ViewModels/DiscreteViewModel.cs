@@ -46,11 +46,11 @@ namespace WpfApp1.ViewModels
 
         protected override void CurrentDevice_OnMsgReceived(IEnumerable<IFrame> frames)
         {
-            foreach (var signal in SignalStore.ParseMsgsYield(frames, InputSignals))
-            {
-                if (signal != null)
-                    LogService.Info($"{signal.Name}:{signal.RealValue}");
-            }
+            //foreach (var signal in SignalStore.ParseMsgsYield(frames, InputSignals))
+            //{
+            //    if (signal != null)
+            //        LogService.Info($"{signal.Name}:{signal.RealValue}");
+            //}
         }
 
         public bool OutputSignalSync 
@@ -81,7 +81,7 @@ namespace WpfApp1.ViewModels
 
         private void Item_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(SignalBase.RealValue) && !OutputSignalSync)
+            if (e.PropertyName == nameof(SignalBase.OriginValue) && !OutputSignalSync)
             {
                 Send();
             }

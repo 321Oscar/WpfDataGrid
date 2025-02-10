@@ -59,6 +59,7 @@
         <DataGrid
             Grid.Row="1"
             Margin="5"
+            Name="datagrid"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ColumnHeaderHeight="30"
@@ -69,10 +70,11 @@
             RowHeaderWidth="0"
             ScrollViewer.CanContentScroll="True"
             SelectionMode="Single"
-            SelectionUnit="Cell"
+            RowHeight="25"
             VirtualizingPanel.IsContainerVirtualizable="True"
             VirtualizingPanel.IsVirtualizing="True"
-            VirtualizingPanel.VirtualizationMode="Recycling">
+            VirtualizingPanel.VirtualizationMode="Recycling"
+            Loaded="datagrid_Loaded">
             <DataGrid.Columns>
                 <DataGridTextColumn
                     Width="*"
@@ -80,12 +82,12 @@
                     Header="Signal__Name" />
                 <DataGridTextColumn Binding="{Binding PinNumber}" Header="Pin__Number" />
                 <DataGridTextColumn Binding="{Binding ADChannel}" Header="A/D Channel" />
-                <DataGridTextColumn Binding="{Binding Value1}" Header="AI Scaled(Volt/Ampere)" />
+                <DataGridTextColumn Binding="{Binding Value2}" Header="AI Scaled(Volt/Ampere)" />
                 <DataGridTextColumn Binding="{Binding OriginValue}" Header="originValue" />
                 <DataGridTemplateColumn Header="AI Raw(volt)">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Background="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding RealValue}" />
+                            <TextBlock Background="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Value1}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -155,9 +157,9 @@
             </GroupBox>
             <GroupBox Grid.Column="1" Header="Calucate Standard Dev">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource labelText}">Enter # samples (Max:100</TextBlock>
-                    <TextBox Style="{StaticResource numTextBox}" />
-                    <Button Content="Calculate STD" Style="{StaticResource NormalButton}" />
+                    <TextBlock Margin="0,0,5,0">Enter # samples (Max:1000)</TextBlock>
+                    <TextBox MinWidth="80"/>
+                    <Button Content="Calculate STD" />
                 </StackPanel>
             </GroupBox>
         </StackPanel>
