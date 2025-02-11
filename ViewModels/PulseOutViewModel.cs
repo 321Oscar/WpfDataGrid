@@ -1,47 +1,66 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
+﻿using CommunityToolkit.Mvvm.Input;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 using WpfApp1.Models;
 using WpfApp1.Services;
 using WpfApp1.Stores;
 
 namespace WpfApp1.ViewModels
 {
-    public class PulseOutViewModel : ViewModelBase
+    public class PulseOutViewModel : SendFrameViewModelBase
     {
+        private IEnumerable<PulseGroupSignalOutGroup> groups;
+        private RelayCommand updateCommand;
+
         public PulseOutViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) 
             : base(signalStore, deviceStore, logService)
         {
+            BuildFramesHelper = new DBCSignalBuildHelper(PulseOutSignals, signalStore.DbcFile.Messages);
+            updateCommand = new RelayCommand(Update);
             GetGroups();
         }
 
-        private IEnumerable<PulseOutGroup> groups;
-
-        public IEnumerable<PulseOutGroup> Groups => groups;
+      
+        public ICommand UpdateCommand { get => updateCommand; }
+        public IEnumerable<PulseGroupSignalOutGroup> Groups => groups;
+        public IEnumerable<PulseOutSingleSignal> PulseOutSignals => SignalStore.GetSignals<PulseOutSingleSignal>();
         private void GetGroups()
         {
-            var gdicSignals = SignalStore.GetSignals<PulseOutSignal>();
+            var gdicSignals = SignalStore.GetSignals<PulseOutGroupSignal>();
 
             groups = gdicSignals
             .GroupBy(s => s.GroupName)
             .Select(g =>
             {
-                var classRoom = new PulseOutGroup(g.Key);
-                var signals = g.ToList();
-                signals.Sort((x, y) =>
+                if (!string.IsNullOrEmpty(g.Key))
                 {
-                    return x.Name.CompareTo(y.Name);
-                });
-                classRoom.Freq = signals[0];
-                classRoom.DutyCycle = signals[1];
-                return classRoom;
+                    var group = new PulseGroupSignalOutGroup(g.Key);
+                    var signals = g.ToList();
+                    signals.Sort((x, y) =>
+                    {
+                        return x.Name.CompareTo(y.Name);
+                    });
+                    group.Freq = signals[0];
+                    group.DutyCycle = signals[1];
+                    return group;
+                }
+                return null;
             })
-            .OrderBy(x => x.SignalName)
+            .OrderBy(x=>x.GroupName)
             .ToList();
             //gDICStatusGroups.Sort
+        }
+
+        private void Update()
+        {
+            foreach (var group in Groups)
+            {
+                group.Freq.UpdateRealValue();
+                group.DutyCycle.UpdateRealValue();
+            }
+
+            Send();
         }
     }
 }

@@ -18,10 +18,11 @@ namespace WpfApp1.Devices
         private bool isOpen;
         private bool isStart;
 
-        public VirtualDevice(SignalStore signalStore,Services.LogService logService)
+        public VirtualDevice(SignalStore signalStore, Services.LogService logService)
         {
             Name = "Virtual Device";
             _signalStore = signalStore;
+            GenerateFrames();
             this.logService = logService;
             random = new Random();
         }
@@ -78,29 +79,8 @@ namespace WpfApp1.Devices
 
             while (true && !tokenSource.Token.IsCancellationRequested)
             {
-                CanFrame frame = new CanFrame()
-                {
-                    MessageID = 0x6f8,
-                    Data = new byte[64]
-                };
-                for (int i = 0; i < 64; i++)
-                {
-                    frame.Data[i] = (byte)random.Next(0xff);
-                }
-                CanFrame frame101 = new CanFrame()
-                {
-                    MessageID = 0x101,
-                    Data = new byte[64]
-                };
-                for (int i = 0; i < 64; i++)
-                {
-                    frame101.Data[i] = (byte)random.Next(0xff);
-                }
-                List<CanFrame> frames = new List<CanFrame>()
-                {
-                   frame,frame101
-                };
-                RasieOnMsgReceived(frames);
+                GenerateFrameData();
+                RasieOnMsgReceived(virtualFrames);
                 //foreach (var signal in _signalStore.ParseMsgsYield(frames, _signalStore.Signals))
                 //{
                 //    if (signal != null)
@@ -121,6 +101,32 @@ namespace WpfApp1.Devices
                 //}
 
                 Thread.Sleep(100);
+            }
+        }
+        private List<IFrame> virtualFrames;
+        private void GenerateFrames()
+        {
+            virtualFrames = new List<IFrame>();
+
+            var msgIDs = _signalStore.GetSignals<Models.SignalBase>().Select(x => x.MessageID).Distinct();
+            foreach (var msgID in msgIDs)
+            {
+                virtualFrames.Add(new CanFrame(msgID, new byte[64]));
+            }
+        }
+        private void GenerateFrameData()
+        {
+            foreach (var frame in virtualFrames)
+            {
+                GenerateFrameData(frame);
+            }
+        }
+
+        private void GenerateFrameData(IFrame frame)
+        {
+            for (int i = 0; i < 64; i++)
+            {
+                frame.Data[i] = (byte)random.Next(0xff);
             }
         }
 

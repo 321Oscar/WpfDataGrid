@@ -122,6 +122,7 @@
     </Style>
 
     <cvts:OutLimitsColorConverter x:Key="OutLimitsColorConverter" />
+    <cvts:DoubleBooleanConverter x:Key="DoubleBooleanConverter"/>
 
     <Style x:Key="NormalCombox" TargetType="ComboBox">
         <Setter Property="Margin" Value="2"/>
@@ -169,5 +170,36 @@
         <Setter Property="FontSize" Value="24"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
+    </Style>
+
+    <Style x:Key="CheckBoxStyle_LowHigh_Horizontal" TargetType="{x:Type CheckBox}">
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <StackPanel Orientation="Horizontal">
+                        <Grid>
+                            <CheckBox
+                                    x:Name="ToggleButton"
+                                    Content="{TemplateBinding Content}"
+                                    IsChecked="{Binding RelativeSource={RelativeSource AncestorType=CheckBox}, Path=IsChecked}" />
+                        </Grid>
+                        <TextBlock
+                                x:Name="StatusTextBlock"
+                                Margin="0,0,0,0"
+                                FontSize="{TemplateBinding FontSize}"
+                                Text="Unchecked" />
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="StatusTextBlock" Property="Text" Value="High" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="StatusTextBlock" Property="Text" Value="Low" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

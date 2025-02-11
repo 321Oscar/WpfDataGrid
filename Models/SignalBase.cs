@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
+using System.Collections.Generic;
 
 namespace WpfApp1.Models
 {
@@ -8,7 +9,7 @@ namespace WpfApp1.Models
         private double originValue;
 
         public string Name { get; set; }
-
+        public string ViewName { get; set; }
         public double OriginValue 
         {
             get => originValue;
@@ -106,6 +107,7 @@ namespace WpfApp1.Models
 
         public override void OnOriginValueChaned(double originValue, bool changed)
         {
+            base.OnOriginValueChaned(originValue, changed);
             if (changed)
             {
                 var realValue = TransForm(originValue);
@@ -158,16 +160,31 @@ namespace WpfApp1.Models
 
 
 
-    public class SignalGroupBase: ObservableObject
+    public class SignalGroupBase : ObservableObject
     {
-        public string SignalName { get; set; }
+        public string GroupName { get; set; }
 
-        public SignalGroupBase(string signalName)
+        public SignalGroupBase(string groupName)
         {
-            SignalName = signalName;
+            GroupName = groupName;
         }
     }
 
+    public class SignalGroup<TSignal> : SignalGroupBase
+        where TSignal : SignalBase, new()
+    {
+        public List<TSignal> Signals { get; }
+
+        public SignalGroup(string groupName) : base(groupName)
+        {
+            Signals = new List<TSignal>();
+        }
+    }
+
+    public interface IGroupSignal
+    {
+        string GroupName { get; }
+    }
     
     public interface IDBCSignal
     {

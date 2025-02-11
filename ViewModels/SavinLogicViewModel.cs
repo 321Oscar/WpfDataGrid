@@ -49,7 +49,7 @@ namespace WpfApp1.ViewModels
                 savingLogicOutputGroup.Signals.AddRange(signals.Where(x => x.InputOrOutput == false));
                 return classRoom;
             })
-            .OrderBy(x => x.SignalName)
+            .OrderBy(x => x.GroupName)
             .ToList());
             //gDICStatusGroups.Sort
         }

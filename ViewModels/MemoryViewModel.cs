@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1.Models;
 using WpfApp1.Services;
 using WpfApp1.Stores;
 
@@ -29,6 +30,15 @@ namespace WpfApp1.ViewModels
     {
         public ResolverViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) : base(signalStore, deviceStore, logService)
         {
+        }
+
+        public IEnumerable<AnalogSignal> AnalogSignals
+        {
+            get
+            {
+                var signals = SignalStore.GetSignals<AnalogSignal>(nameof(ResolverViewModel));
+                return signals;
+            }
         }
     }
 

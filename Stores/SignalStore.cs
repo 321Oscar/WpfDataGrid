@@ -19,15 +19,20 @@ namespace WpfApp1.Stores
             this.logService = logService;
             _signals = new List<SignalBase>();
             DbcFile = new DbcFile(@".\Config\Erad5_GUI_DEVCAN.dbc");
-            LoadAnalogSignals();
+            LoadAnalogSignals(0x6f8, nameof(ViewModels.AnalogViewModel));
+            LoadAnalogSignals(0x605, nameof(ViewModels.ResolverViewModel));
+            LoadPPAWL(0x01, nameof(ViewModels.PPAWLViewModel));
             LoadDiscretes();
             LoadSavingLogicSignals();
             LoadGDICStatusSignals();
-            LoadPulseInSignals();
+            LoadPulseInSignals(0x10, nameof(ViewModels.PulseInViewModel));
+            LoadPulseInSignals(0x20, nameof(ViewModels.PPAWLViewModel));
+            LoadPulseOutSignals(nameof(ViewModels.PPAWLViewModel));
+            LoadPulseOutSignals(nameof(ViewModels.PulseOutViewModel));
         }
         public IEnumerable<SignalBase> Signals => _signals;
 
-        public IEnumerable<TSignal> GetSignals<TSignal>() where TSignal : SignalBase
+        public IEnumerable<TSignal> GetSignals<TSignal>(string viewName = "") where TSignal : SignalBase
         {
             _signals.Sort((x, y) => {
                 if (y.MessageID > x.MessageID)
@@ -41,10 +46,17 @@ namespace WpfApp1.Stores
                 else
                     return 1;
             });
-            return _signals.OfType<TSignal>();
+
+            return _signals.OfType<TSignal>()
+                           .Where(x =>
+                           {
+                               if (string.IsNullOrEmpty(viewName))
+                                   return true;
+                               return x.ViewName == viewName;
+                           });
         }
 
-        public ObservableCollection<TSignal> GetObservableCollection<TSignal>() where TSignal : SignalBase
+        public ObservableCollection<TSignal> GetObservableCollection<TSignal>(string viewName = "") where TSignal : SignalBase
         {
             ObservableCollection<TSignal> signals = new ObservableCollection<TSignal>();
             _signals.Sort((x, y) => {
@@ -61,12 +73,16 @@ namespace WpfApp1.Stores
             });
             foreach (var item in _signals.OfType<TSignal>())
             {
-                signals.Add(item);
+                if (string.IsNullOrEmpty(viewName))
+                    signals.Add(item);
+                else if (item.ViewName == viewName)
+                    signals.Add(item);
             }
 
             return signals;
         }
 
+        #region DBC Parse
         public IEnumerable<SignalBase> ParseMsgsYield(IEnumerable<IFrame> can_msg)
         {
             return ParseMsgsYield(can_msg, this.Signals);
@@ -161,47 +177,39 @@ namespace WpfApp1.Stores
             }
             return index;
         }
+        #endregion
 
-        private void LoadAnalogSignals()
+        private void LoadAnalogSignals(uint id, string viewName)
         {
-            foreach (var message in DbcFile.Messages.FindAll(x => x.MessageID == 0x6f8))
+            var message6f8 = DbcFile.Messages.FindAll(x => x.MessageID == id).FirstOrDefault();
+
+            foreach (var signal in message6f8.signals)
             {
-                foreach (var signal in message.signals)
+                AnalogSignal analogSignal = new AnalogSignal()
                 {
-                    AnalogSignal analogSignal = new AnalogSignal()
-                    {
-                        Name = signal.signalName,
-                        StartBit = (int)signal.startBit,
-                        Factor = signal.factor,
-                        Offset = signal.offset,
-                        ByteOrder = (int)signal.byteOrder,
-                        Length = (int)signal.signalSize,
-                        MessageID = message.MessageID
-                    };
+                    Name = signal.signalName,
+                    StartBit = (int)signal.startBit,
+                    Factor = signal.factor,
+                    Offset = signal.offset,
+                    ByteOrder = (int)signal.byteOrder,
+                    Length = (int)signal.signalSize,
+                    MessageID = message6f8.MessageID,
+                    ViewName = viewName
+                };
 
-                    Comment comment = DbcFile.Comments.Find(x => x.signalName == signal.signalName
-                       && x.messageID == message.MessageID.ToString());
-                    if (comment != null)
-                    {
-                        string commentStr = comment.comment;
-                        string[] strs = commentStr.Split(new string[] { " ", ":" }, StringSplitOptions.RemoveEmptyEntries);
-                        if (strs.Length < 4)
-                            continue;
-                        analogSignal.PinNumber = strs[1];
-                        analogSignal.ADChannel = strs[3];
-                    }
-                    _signals.Add(analogSignal);
+                Comment comment = DbcFile.Comments.Find(x => x.signalName == signal.signalName
+                   && x.messageID == message6f8.MessageID.ToString());
+                if (comment != null)
+                {
+                    string commentStr = comment.comment;
+                    string[] strs = commentStr.Split(new string[] { " ", ":" }, StringSplitOptions.RemoveEmptyEntries);
+                    if (strs.Length < 4)
+                        continue;
+                    analogSignal.PinNumber = strs[1];
+                    analogSignal.ADChannel = strs[3];
                 }
-
+                _signals.Add(analogSignal);
             }
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    _signals.Add(new AnalogSignal()
-            //    {
-            //        Name = $"AnalogSignal{i}",
-            //        RealValue = i
-            //    });
-            //}
             logService.Info("add Analog Signals");
         }
 
@@ -234,6 +242,14 @@ namespace WpfApp1.Stores
                     ByteOrder = 1,
                 });
             }
+        }
+
+        private void LoadPPAWL(uint msgid,string viewName)
+        {
+            int startbit = 0;
+            GenerateVirtualSignals<AnalogSignal>(ref msgid, viewName,ref startbit, signalLength: 12);
+            GenerateVirtualSignals<DiscreteInputSignal>(ref msgid, viewName, ref startbit, signalLength: 1);
+            GenerateVirtualSignals<DiscreteOutputSignal>(ref msgid, viewName, ref startbit, signalLength: 1);
         }
 
         private void LoadSavingLogicSignals()
@@ -311,34 +327,100 @@ namespace WpfApp1.Stores
             }
         }
 
-        private void LoadPulseInSignals()
+        private void LoadPulseInSignals(uint msgID, string viewName)
+        {
+            int startbit = 0;
+            GeneratePulseInSignals(viewName, 12, ref msgID, ref startbit);
+        }
+
+        private void GeneratePulseInSignals(string viewName, int signalLength, ref uint msgID, ref int startbit)
         {
             for (int i = 0; i < 10; i++)
             {
-                PulseInSignal signal_dc = new PulseInSignal($"PulseInSignal {i}")
+                startbit = signalLength * 2 * i;
+                if(startbit + signalLength * 2 > 64 * 8 -1)
+                { 
+                    startbit = 0;
+                    msgID += 1;
+                }
+                PulseInSignal signal_dc = new PulseInSignal($"{viewName}.PulseInSignal {i}")
                 {
-                    Name = "DC"
+                    Name = "DC",
+                    MessageID = msgID,
+                    StartBit = startbit,
+                    Length = signalLength,
+                    Factor = 1,
+                    Offset = 0,
+                    ByteOrder = 1,
+                    ViewName = viewName,
                 };
-                PulseInSignal signal_Freq = new PulseInSignal($"PulseInSignal {i}")
+                PulseInSignal signal_Freq = new PulseInSignal($"{viewName}.PulseInSignal {i}")
                 {
-                    Name ="Freq",
+                    Name = "Freq",
+                    MessageID = msgID,
+                    StartBit = startbit + signalLength,
+                    Length = signalLength,
+                    Factor = 1,
+                    Offset = 0,
+                    ByteOrder = 1,
+                    ViewName = viewName,
+                };
+                _signals.Add(signal_dc);
+                _signals.Add(signal_Freq);
+            }
+        }
+
+        private void LoadPulseOutSignals(string viewName)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                PulseOutGroupSignal signal_dc = new PulseOutGroupSignal($"PulseOutSignal {i}")
+                {
+                    Name = "Feq",
+                    ViewName = viewName
+                };
+                PulseOutGroupSignal signal_Freq = new PulseOutGroupSignal($"PulseOutSignal {i}")
+                {
+                    Name = "Duty",
+                    ViewName = viewName
                 };
                 _signals.Add(signal_dc);
                 _signals.Add(signal_Freq);
             }
 
-            for (int i = 0; i < 4; i++)
+            _signals.Add(new PulseOutSingleSignal()
             {
-                PulseOutSignal signal_dc = new PulseOutSignal($"PulseOutSignal {i}")
+                Name = "Freqency",
+                ViewName = viewName
+            }); _signals.Add(new PulseOutSingleSignal()
+            {
+                Name = "PWMMode",
+                ViewName = viewName
+            });
+        }
+
+        private void GenerateVirtualSignals<TSignal>(ref uint id, string viewName,ref int startbit, int count = 10, int signalLength = 1)
+          where TSignal : SignalBase, new()
+        {
+            for (int i = 0; i < count; i++)
+            {
+                startbit += signalLength * i;
+                if(startbit + signalLength > 64 * 8 - 1)
                 {
-                    Name = "Feq"
-                };
-                PulseOutSignal signal_Freq = new PulseOutSignal($"PulseOutSignal {i}")
+                    startbit = 0;
+                    id += 1;
+                }
+                _signals.Add(new TSignal()
                 {
-                    Name = "Duty",
-                };
-                _signals.Add(signal_dc);
-                _signals.Add(signal_Freq);
+                    Name = $"{viewName}.{typeof(TSignal).Name}{i}",
+                    MessageID = id,
+                    StartBit = signalLength * i,
+                    Length = signalLength,
+                    Factor = 1,
+                    Offset = 0,
+                    ByteOrder = 1,
+                    ViewName = viewName,
+                });
             }
         }
     }

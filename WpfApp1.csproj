@@ -127,6 +127,7 @@
     <Compile Include="Models\DiscreteOutputSignal.cs" />
     <Compile Include="Models\DiscreteSignal.cs" />
     <Compile Include="Models\GDICStatusGroup.cs" />
+    <Compile Include="Models\ISyncValue.cs" />
     <Compile Include="Models\PulseInSignalGroup.cs" />
     <Compile Include="Models\SavingLogicInOutGroup.cs" />
     <Compile Include="Services\CloseModalNavigationService.cs" />

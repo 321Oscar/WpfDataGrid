@@ -47,7 +47,7 @@ namespace WpfApp1.ViewModels
             {
                 //System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
                 //stopwatch.Restart();
-                var signals = SignalStore.GetSignals<AnalogSignal>();
+                var signals = SignalStore.GetSignals<AnalogSignal>(nameof(AnalogViewModel));
                 //stopwatch.Stop();
                 //Console.WriteLine($"{DateTime.Now:HH:mm:ss fff} analog get data take {stopwatch.ElapsedMilliseconds} ms");
                 return signals;

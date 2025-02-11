@@ -17,7 +17,7 @@
                     <ItemsControl ItemsSource="{Binding InOutGroups}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type models:SavingLogicGroup}">
-                                <GroupBox Header="{Binding SignalName}" MinWidth="280">
+                                <GroupBox Header="{Binding GroupName}" MinWidth="280">
                                     <ItemsControl ItemsSource="{Binding Signals}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate DataType="{x:Type models:SavingLogicSignal}">
@@ -35,7 +35,7 @@
                 </Grid>
             </DataTemplate>
             <DataTemplate DataType="{x:Type models:SavingLogicButtonSignalGroup}">
-                <GroupBox Header="{Binding SignalName}" Grid.IsSharedSizeScope="True" Margin="5">
+                <GroupBox Header="{Binding GroupName}" Grid.IsSharedSizeScope="True" Margin="5">
                     <Grid >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>

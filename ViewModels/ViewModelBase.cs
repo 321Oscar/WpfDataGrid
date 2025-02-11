@@ -43,7 +43,7 @@ namespace WpfApp1.ViewModels
             //}
         }
 
-
+        [Obsolete]
         private void DeviceStore_CurrentDeviceChange(IDevice device)
         {
             if (device != null)
@@ -51,7 +51,7 @@ namespace WpfApp1.ViewModels
                 device.OnMsgReceived -= CurrentDevice_OnMsgReceived;
             }
         }
-
+        [Obsolete]
         private void DeviceStore_CurrentDeviceChanged()
         {
             if (DeviceStore.HasDevice)
@@ -61,10 +61,29 @@ namespace WpfApp1.ViewModels
         /// 不在每个界面单独解析信号
         /// </summary>
         /// <param name="frames"></param>
+        [Obsolete]
         protected virtual void CurrentDevice_OnMsgReceived(IEnumerable<IFrame> frames)
         {
            
 
+        }
+    }
+
+    public class SendFrameViewModelBase : ViewModelBase
+    {
+        protected DBCSignalBuildHelper BuildFramesHelper;
+        public SendFrameViewModelBase(SignalStore signalStore, DeviceStore deviceStore, LogService logService) 
+            : base(signalStore, deviceStore, logService)
+        {
+            
+        }
+
+        public virtual void Send()
+        {
+            if (DeviceStore.HasDevice)
+            {
+                DeviceStore.CurrentDevice.SendMultip(BuildFramesHelper.BuildFrames());
+            }
         }
     }
 }

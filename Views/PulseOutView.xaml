@@ -24,7 +24,7 @@
                   IsReadOnly="True"
                   ItemsSource="{Binding Groups}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="SignalName" Binding="{Binding SignalName}"/>
+                <DataGridTextColumn Header="SignalName" Binding="{Binding GroupName}"/>
                 <DataGridTextColumn Width="*" Header="Fre" Binding="{Binding Freq.Value1}"/>
                 <DataGridTextColumn Width="*" Header="Duty" Binding="{Binding DutyCycle.Value1}"/>
             </DataGrid.Columns>

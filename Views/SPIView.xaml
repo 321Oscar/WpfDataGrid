@@ -31,6 +31,7 @@
             <DataGrid>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ChannelName" />
+                    <DataGridTextColumn Header="Current SPI Baudrate" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

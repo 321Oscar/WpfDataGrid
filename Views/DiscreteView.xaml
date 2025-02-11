@@ -31,7 +31,7 @@
             <Button Content="Set xxx Output" Style="{StaticResource topButton}" />
             <Button Content="Reset Motor Faults" Style="{StaticResource topButton}" />
         </StackPanel>
-        <GroupBox Grid.Row="1" Header="Inputs">
+        <GroupBox Grid.Row="1" Header="Inputs" Margin="5">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -42,6 +42,7 @@
                     CanUserAddRows="False"
                     CanUserDeleteRows="False"
                     IsReadOnly="True"
+                    RowHeight="25"
                     ItemsSource="{Binding InputSignals}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Name}" Header="Signal_Name" />
@@ -78,7 +79,7 @@
         <GroupBox
             Grid.Row="1"
             Grid.Column="1"
-            Header="Outputs">
+            Header="Outputs" Margin="0,5,5,5">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -90,7 +91,7 @@
                     CanUserAddRows="False"
                     CanUserDeleteRows="False"
                     ItemsSource="{Binding OutputSignals}"
-                    SelectionUnit="Cell">
+                    RowHeight="25">
                     <DataGrid.Columns>
                         <DataGridTextColumn
                             Binding="{Binding Name}"

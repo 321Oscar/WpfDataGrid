@@ -1,6 +1,6 @@
 ﻿namespace WpfApp1.Models
 {
-    public class DiscreteOutputSignal : DiscreteSignal
+    public class DiscreteOutputSignal : DiscreteSignal, ISyncValue
     {
         public DiscreteOutputSignal()
         {

@@ -31,5 +31,17 @@ namespace WpfApp1.Models
         //    Transitions += 1;
         //}
     }
+    public class DiscreteInputSignalGroup : SignalGroup<DiscreteInputSignal>
+    {
+        public DiscreteInputSignalGroup(string groupName) : base(groupName)
+        {
+        }
+    }
 
+    public class DiscreteOutputSignalGroup : SignalGroup<DiscreteOutputSignal>
+    {
+        public DiscreteOutputSignalGroup(string groupName) : base(groupName)
+        {
+        }
+    }
 }
