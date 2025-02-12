@@ -1,0 +1,168 @@
+﻿<UserControl
+    x:Class="WpfApp1.Views.AnalogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WpfApp1.Views"
+    xmlns:ctrls="clr-namespace:WpfApp1.Components"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="White"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="DataGridData"
+                                      Source="{Binding AnalogSignals}">
+        </CollectionViewSource>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Style="{StaticResource TitleLabel}"
+            Text="Analog" />
+        <!--<ListView
+            x:Name="analogView"
+            Grid.Row="1"
+            ItemsSource="{Binding AnalogSignals}"
+            SelectionMode="Single"
+            >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
+                    <GridViewColumn Header="RealValue">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border Background="{Binding ValueColor}">
+                                    <TextBlock Text="{Binding RealValue}" />
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding MaxValue}" Header="Max" />
+                    <GridViewColumn DisplayMemberBinding="{Binding MinValue}" Header="Min" />
+                    <GridViewColumn DisplayMemberBinding="{Binding MaxThreshold}" Header="MaxThreshold" />
+        -->
+        <!--<GridViewColumn Header="Checked">
+                    <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                    <CheckBox IsChecked="{Binding XPath=Saled}" Style="{StaticResource CustomCheckBoxStyle}" />
+                    </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                    </GridViewColumn>-->
+        <!--
+                </GridView>
+            </ListView.View>
+        </ListView>-->
+        <DataGrid
+            Grid.Row="1"
+            Margin="5"
+            Name="datagrid"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            ColumnHeaderHeight="30"
+            EnableColumnVirtualization="True"
+            EnableRowVirtualization="True"
+            IsReadOnly="True"
+            ItemsSource="{Binding Source={StaticResource DataGridData}}"
+            RowHeaderWidth="0"
+            RowHeight="25" 
+            Loaded="datagrid_Loaded">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Name}"
+                    Header="Signal__Name" />
+                <!--<DataGridTextColumn Binding="{Binding PinNumber}" Header="Pin__Number" />
+                <DataGridTextColumn Binding="{Binding ADChannel}" Header="A/D Channel" />
+                <DataGridTextColumn Binding="{Binding Value2}" Header="AI Scaled(Volt/Ampere)" />
+                <DataGridTextColumn Binding="{Binding OriginValue}" Header="originValue" />-->
+                <!--<DataGridTemplateColumn Header="AI Raw(volt)">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Background="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Value1}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding MaxThreshold}"
+                    Header="Max Threshold Diag(Volt)" />
+                <DataGridTextColumn Binding="{Binding MinThreshold}" Header="Min Threshold Diag(Volt)" />
+                <DataGridTextColumn Binding="{Binding MaxValue}" Header="AI Max" />
+                <DataGridTextColumn Binding="{Binding MinValue}" Header="AI Min" />
+                <DataGridTextColumn Binding="{Binding StandardDev}" Header="Standard Dev" />-->
+            </DataGrid.Columns>
+        </DataGrid>
+        <!--  Control  -->
+        <StackPanel
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="1">
+
+            <GroupBox Header="Modify Threshold">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <ctrls:ControlWithTitle  Title="Signal:" >
+                        <ctrls:ControlWithTitle.Content>
+                            <ComboBox
+                                Width="200"
+                                DisplayMemberPath="Name"
+                                ItemsSource="{Binding AnalogSignals}"
+                                SelectedItem="{Binding CurrentAnalogSignal}" />
+                        </ctrls:ControlWithTitle.Content>
+                    </ctrls:ControlWithTitle>
+                    
+                    <UniformGrid Grid.Row="1" Columns="2" Grid.IsSharedSizeScope="True">
+                        <ctrls:TextBoxWithLabel 
+                            Title="   Min:" 
+                            Content="{Binding MinThreshold,Mode=TwoWay}"
+                            Style="{StaticResource TextBoxWithLabelGridStyle}"/>
+                       
+                        <CheckBox
+                            HorizontalAlignment="Left"
+                            Content="Latch Faluers"
+                             />
+                        <ctrls:TextBoxWithLabel 
+                            Title="  Max:" 
+                            Content="{Binding MaxThreshold,Mode=TwoWay}"
+                            Style="{StaticResource TextBoxWithLabelGridStyle}"/>
+                        <CheckBox Content="Update for all" IsChecked="{Binding UpdateAll}" />
+                    
+                        <Button
+                            Command="{Binding UpdateSignalThresholdCommand}"
+                            Content="Update"
+                             />
+                        <Button
+                            Command="{Binding ResetSignalThresholdCommand}"
+                            Content="Reset"
+                             />
+                        <Button Content="Load Limits" />
+                        <Button Content="Save Limits" />
+                    </UniformGrid>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Header="Calucate Standard Dev">
+                <StackPanel Orientation="Horizontal">
+                    <ctrls:TextBoxWithLabel 
+                            Title="Enter # samples (Max:1000):" 
+                            
+                            Style="{StaticResource TextBoxWithLabelGridStyle}"/>
+                    <Button Content="Calculate STD" />
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</UserControl>

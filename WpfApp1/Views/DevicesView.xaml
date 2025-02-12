@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="WpfApp1.Views.DevicesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.Views" 
+             xmlns:converters="clr-namespace:WpfApp1.Converters"
+             xmlns:dev="clr-namespace:WpfApp1.Devices" xmlns:components="clr-namespace:WpfApp1.Components"
+             Background="White"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:DeviceHardwareTypeIsCheckedConverter x:Key="DeviceHardwareTypeIsCheckedConverter"/>
+    </UserControl.Resources>
+    <Grid Margin="20,10,20,10" MinWidth="200" MaxWidth="220">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Device Config" Style="{StaticResource TitleLabel}" Grid.Row="0"/>
+
+        <Grid Grid.Row="1" MinHeight="100" Margin="0,10,0,0">
+            <Grid.RowDefinitions >
+                <RowDefinition />
+                <RowDefinition />
+                <!--<RowDefinition />-->
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <RadioButton  
+                Grid.Row="0" 
+                Margin="0,2,2,0"
+                Grid.Column="0" 
+                Name="vectorCheck"
+                GroupName="Type"
+                IsChecked="{Binding HardWareType,
+                                    Mode=TwoWay,
+                                    Converter={StaticResource DeviceHardwareTypeIsCheckedConverter},
+                                    ConverterParameter={x:Static dev:DeviceHardWareType.Vector}}" />
+            <RadioButton 
+                Grid.Row="1" 
+                Grid.Column="0" 
+                GroupName="Type"
+                Name="virtualCheck"
+                IsChecked="{Binding HardWareType,
+                                    Mode=TwoWay,
+                                    Converter={StaticResource DeviceHardwareTypeIsCheckedConverter},
+                                    ConverterParameter={x:Static dev:DeviceHardWareType.Virtual}}"/>
+            <components:ControlWithTitle 
+                Title="Vector Channels:" 
+                Orientation="Vertical" 
+                Grid.Row="0" Grid.Column="1"
+                IsEnabled="{Binding ElementName=vectorCheck,Path=IsChecked}">
+                <components:ControlWithTitle.Content>
+                    <ComboBox 
+                        ItemsSource="{Binding VectorDevices}" 
+                        DisplayMemberPath="Name" 
+                        SelectedValue="{Binding CurrentDevice}"></ComboBox>
+                </components:ControlWithTitle.Content>
+            </components:ControlWithTitle>
+            <components:ControlWithTitle 
+                Title="Virtual Channels:" 
+                Orientation="Vertical" 
+                Grid.Row="1" Grid.Column="1"
+                IsEnabled="{Binding ElementName=virtualCheck,Path=IsChecked}">
+                <components:ControlWithTitle.Content>
+                    <ComboBox 
+                        ItemsSource="{Binding VirtualDevices}" 
+                        DisplayMemberPath="Name" 
+                        SelectedValue="{Binding CurrentDevice}"></ComboBox>
+                </components:ControlWithTitle.Content>
+            </components:ControlWithTitle>
+            
+            <!--<GroupBox Header="Zlg Devices" Grid.Row="2" Grid.Column="1">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource labelText}">Device:</TextBlock>
+                    <ComboBox Style="{StaticResource NormalCombox}"></ComboBox>
+                </StackPanel>
+            </GroupBox>-->
+        </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button 
+                Content="Cancel" 
+                Command="{Binding CancelCommand}" 
+                Margin="2"
+                /> 
+            <Button 
+                Content="Ok" 
+                Command="{Binding SaveConfigCommand}" 
+                Margin="2"
+                />
+        </StackPanel>
+    </Grid>
+</UserControl>
