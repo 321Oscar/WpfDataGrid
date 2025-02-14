@@ -28,11 +28,22 @@
                     RowStyle="{x:Null}" 
                     AutoGenerateColumns="False" 
                     EnableColumnVirtualization="True" 
-                    EnableRowVirtualization="True">
+                    x:Name="datagrid"
+                    EnableRowVirtualization="True" MaxHeight="800" MaxWidth="1000">
                     <DataGrid.Resources>
                         <Style TargetType="DataGridRow">
                             <Setter Property="Height" Value="24" />
                         </Style>
+
+                        <!--<Style TargetType="DataGrid">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=datagrid,Path=IsLoaded}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>-->
+
                     </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="F1" Binding="{Binding F1}"></DataGridTextColumn>
@@ -49,7 +60,9 @@
                 </DataGrid>
             </TabItem>
             <TabItem Header="ListView">
-                <ListView ItemsSource="{Binding LvList}">
+                <ListView ItemsSource="{Binding LvList}"
+                          x:Name="listview"
+                          Loaded="listview_Loaded">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Height" Value="20" />

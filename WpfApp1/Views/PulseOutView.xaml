@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WpfApp1.Views"
+    xmlns:ctls="clr-namespace:WpfApp1.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -20,71 +21,47 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Style="{StaticResource TitleLabel}">Pulse Out</TextBlock>
-        <DataGrid Grid.Row="1" AutoGenerateColumns="False"
-                  IsReadOnly="True"
-                  ItemsSource="{Binding Groups}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="SignalName" Binding="{Binding GroupName}"/>
-                <DataGridTextColumn Width="*" Header="Fre" Binding="{Binding Freq.Value1}"/>
-                <DataGridTextColumn Width="*" Header="Duty" Binding="{Binding DutyCycle.Value1}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Button Width="120" Content="Locator Signals" Command="{Binding LocatorSignalsCommand}"/>
+        <GroupBox Header="PWM Output (Hz,DutyCyle)" Grid.Row="1">
+            <DataGrid  
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding Groups}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="SignalName" Binding="{Binding GroupName}" IsReadOnly="True"/>
+                    <DataGridTextColumn Width="*" Header="Fre" Binding="{Binding Freq.TempValue}"/>
+                    <DataGridTextColumn Width="*" Header="Duty" Binding="{Binding DutyCycle.TempValue}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+       
         <GroupBox
             Grid.Row="2"
             MaxWidth="1000"
             HorizontalAlignment="Left"
             Header="Inverter PWM Output">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+                
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
+                   
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0">Frequency in Hz</TextBlock>
-                <TextBlock Grid.Row="0" Grid.Column="1">PWM Mode</TextBlock>
-                <TextBlock Grid.Row="0" Grid.Column="2">CurSmplMode</TextBlock>
-                <TextBlock Grid.Row="2" Grid.Column="0">PWM_U_TOP/BOT Duty Cycle(0%-100%)</TextBlock>
-                <TextBlock Grid.Row="4" Grid.Column="0">PWM_V_TOP/BOT Duty Cycle(0%-100%)</TextBlock>
-                <TextBlock Grid.Row="6" Grid.Column="0">PWM_W_TOP/BOT Duty Cycle(0%-100%)</TextBlock>
-                <TextBox
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    d:Text="8000" />
-                <TextBox
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    d:Text="0" />
-                <TextBox
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    d:Text="0" />
-                <TextBox
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    d:Text="50" />
-                <TextBox
-                    Grid.Row="5"
-                    Grid.Column="0"
-                    d:Text="50" />
-                <TextBox
-                    Grid.Row="7"
-                    Grid.Column="0"
-                    d:Text="50" />
+                <StackPanel  Grid.Row="0" Orientation="Horizontal">
+                    <ctls:TextBoxWithLabel Title="Frequency in Hz" Content="8000" Orientation="Vertical" Style="{StaticResource TextBoxWithLabelStackStyle}"/>
+                    <ctls:TextBoxWithLabel Title="PWM Mode" Content="8000" Orientation="Vertical" Style="{StaticResource TextBoxWithLabelStackStyle}"/>
+                    <ctls:TextBoxWithLabel Title="CurSmplMode" Content="8000" Orientation="Vertical" Style="{StaticResource TextBoxWithLabelStackStyle}"/>
+                </StackPanel>
+
+                <ctls:TextBoxWithLabel  Grid.Row="1" Title="PWM_U_TOP/BOT Duty Cycle(0%-100%)" Content="8000" Orientation="Vertical" Style="{StaticResource TextBoxWithLabelStackStyle}"/>
+                <ctls:TextBoxWithLabel  Grid.Row="2" Title="PWM_V_TOP/BOT Duty Cycle(0%-100%)" Content="8000" Orientation="Vertical" Style="{StaticResource TextBoxWithLabelStackStyle}"/>
+                <ctls:TextBoxWithLabel  Grid.Row="3" Title="PWM_W_TOP/BOT Duty Cycle(0%-100%)" Content="8000" Orientation="Vertical" Style="{StaticResource TextBoxWithLabelStackStyle}"/>
                 <Button
-                    Grid.Row="8"
-                    Grid.Column="0"
-                    Content="Update" />
+                    Grid.Row="4"
+                   
+                    Content="Update" Command="{Binding UpdateCommand}"/>
             </Grid>
         </GroupBox>
     </Grid>

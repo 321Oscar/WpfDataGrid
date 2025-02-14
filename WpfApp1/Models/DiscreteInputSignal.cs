@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel;
+using System.Xml.Serialization;
 
 namespace WpfApp1.Models
 {
     public class DiscreteInputSignal : DiscreteSignal
     {
         private int transitions;
-
+        [XmlIgnore]
         public int Transitions { get => transitions; private set => SetProperty(ref transitions , value); }
 
         public DiscreteInputSignal()

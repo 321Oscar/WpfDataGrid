@@ -79,8 +79,8 @@ namespace WpfApp1.Devices
 
             while (true && !tokenSource.Token.IsCancellationRequested)
             {
-                GenerateFrameData();
-                RasieOnMsgReceived(virtualFrames);
+                
+                RasieOnMsgReceived(GenerateFrameData());
                 //foreach (var signal in _signalStore.ParseMsgsYield(frames, _signalStore.Signals))
                 //{
                 //    if (signal != null)
@@ -103,23 +103,28 @@ namespace WpfApp1.Devices
                 Thread.Sleep(100);
             }
         }
-        private List<IFrame> virtualFrames;
-        private void GenerateFrames()
+        //private List<IFrame> virtualFrames;
+        private List<IFrame> GenerateFrames()
         {
-            virtualFrames = new List<IFrame>();
+            List<IFrame> virtualFrames = new List<IFrame>();
 
             var msgIDs = _signalStore.GetSignals<Models.SignalBase>().Select(x => x.MessageID).Distinct();
             foreach (var msgID in msgIDs)
             {
                 virtualFrames.Add(new CanFrame(msgID, new byte[64]));
             }
+
+            return virtualFrames;
         }
-        private void GenerateFrameData()
+        private List<IFrame> GenerateFrameData()
         {
-            foreach (var frame in virtualFrames)
+            var frames = GenerateFrames();
+            foreach (var frame in frames)
             {
                 GenerateFrameData(frame);
             }
+
+            return frames;
         }
 
         private void GenerateFrameData(IFrame frame)

@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="WpfApp1.Views.SignalLocatorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.Views"
+             xmlns:models="clr-namespace:WpfApp1.Models"
+             xmlns:ctrls="clr-namespace:WpfApp1.Components"
+             mc:Ignorable="d" 
+             Background="White"
+             Width="auto"
+             Height="800">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <TextBlock d:Text="Title" Text="{Binding Title}" Style="{StaticResource TitleLabel}"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="Signal From Dbc">
+                <ListView ItemsSource="{Binding SignalStore.DBCSignals}" SelectedValue="{Binding CurrentDbcSignal,Mode=TwoWay}">
+                    <ListView.View>
+                        <GridView>
+                            <!--<GridViewColumn DisplayMemberBinding="{Binding MessageID}" Header="ID" Width="40"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Page}" Header="Views" Width="60"/>-->
+                            <GridViewColumn DisplayMemberBinding="{Binding Comment}" Header="Comment" Width="600"/>
+                            <!--<GridViewColumn DisplayMemberBinding="{Binding MessageName}" Header="Name" />-->
+                            <!--<GridViewColumn DisplayMemberBinding="{Binding SignalName}" Header="Name" Width="200"/>-->
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </GroupBox>
+           
+            <!--<ScrollViewer>
+                <ItemsControl ItemsSource="{ Binding SignalStore.DBCSignals}" />
+            </ScrollViewer>-->
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" Width="100">
+                <Button Content="add" Margin="5" Command="{Binding AddCommand}"/>
+                <Button Content="del" Margin="5"/>
+            </StackPanel>
+            <GroupBox Header="View's Signals" Grid.Column="2">
+                <Grid>
+                    <ListBox ItemsSource="{Binding TempSignals}" >
+                        <ListBox.Resources>
+                            <DataTemplate DataType="{x:Type models:SignalBase}">
+                                <TextBlock Text="{Binding Name}"/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type models:PulseGroupSignalOutGroup}">
+                                <Grid >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding GroupName}" Margin="0,0,5,0"/>
+                                    <ctrls:ControlWithTitle Title="Duty:" Content="{Binding DutyCycle}" Grid.Column="1" Grid.Row="0"/>
+                                    <ctrls:ControlWithTitle Title="Freq:" Content="{Binding Freq}" Grid.Column="1" Grid.Row="1"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.Resources>
+                        <!--<ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding MessageID}" Header="ID" Width="40"/>
+                                --><!--<GridViewColumn DisplayMemberBinding="{Binding MessageName}" Header="Name" />--><!--
+                                <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"/>
+                            </GridView>
+                        </ListView.View>-->
+                    </ListBox>
+                    <ItemsControl ItemsSource="{Binding TempSignals}" Visibility="Collapsed">
+
+                    </ItemsControl>
+                </Grid>
+            </GroupBox>
+           
+        </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
+            <Button Content="Cancel" Command="{Binding CancelCommand}"/>
+            <Button Content="Ok" Command="{Binding OkCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

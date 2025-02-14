@@ -125,22 +125,24 @@ namespace WpfApp1.Stores
             return index;
         }
 
-        public class CANMessage
+    
+    }
+
+    public class CANMessage
+    {
+        public CANMessage(uint messageID, uint messageSize, int frameType)
         {
-            public CANMessage(uint messageID, uint messageSize, int frameType)
-            {
-                MessageID = messageID;
-                MessageSize = messageSize;
+            MessageID = messageID;
+            MessageSize = messageSize;
 
-                Data = new byte[messageSize];
-                FrameType = frameType;
-            }
-
-            public uint MessageID { get; }
-            public uint MessageSize { get; }
-            public int FrameType { get; }
-            public byte[] Data { get; set; }
+            Data = new byte[messageSize];
+            FrameType = frameType;
         }
+
+        public uint MessageID { get; }
+        public uint MessageSize { get; }
+        public int FrameType { get; }
+        public byte[] Data { get; set; }
     }
 
     public class DbcFile
@@ -249,15 +251,24 @@ namespace WpfApp1.Stores
                             }
                             if (tmp.Count == 5)
                             {
-                                cmt.messageID = tmp[2];
+                                cmt.MessageID = tmp[2];
                                 cmt.signalName = tmp[3];
-                                cmt.comment = tmp[4];
+                                cmt.CommentValue = tmp[4];
                             }
                             else
                             {
-                                cmt.comment = bufferAry[i];
+                                cmt.CommentValue = bufferAry[i];
                             }
-
+                            //get messge 
+                            var msg = Messages.FirstOrDefault(x => x.MessageID == cmt.MsgIDUint);
+                            if (Messages.FirstOrDefault(x => x.MessageID == cmt.MsgIDUint) != null)
+                            {
+                                var signal = msg.signals.FirstOrDefault(x => x.SignalName == cmt.signalName);
+                                if (signal != null)
+                                {
+                                    signal.Comment = cmt;
+                                }
+                            }
                             Comments.Add(cmt);
                             break;
                         case "BU_":
@@ -302,7 +313,7 @@ namespace WpfApp1.Stores
                             {
                                 uint byteOffset = 0;
                                 Signal signal = new Signal();
-                                signal.signalName = lineAry[1];
+                                signal.SignalName = lineAry[1];
 
                                 if (lineAry[2] == ":")
                                 {
@@ -388,7 +399,21 @@ namespace WpfApp1.Stores
 
     public class Signal
     {
-        public string signalName = "";
+        public string MessageName
+        {
+            get => messageName;
+            set
+            {
+                messageName = value;
+                if (messageName.IndexOf("TX") > -1)
+                {
+                    InOrOut = true;
+                }
+            }
+        }
+        public uint MessageID { get; set; }
+
+        public string SignalName { get; set; }
         /// <summary>
         /// -2:普通信号；-1：复用选择信号；0-N：复用信号
         /// </summary>
@@ -428,11 +453,32 @@ namespace WpfApp1.Stores
 
         public string[] receivers;
         private string unit;
+        private string messageName;
+        private Comment comment;
 
         public override string ToString()
         {
-            return signalName;
+            return $"{MessageName} 0x{MessageID:X} {SignalName}";
         }
+
+        public Comment Comment 
+        { 
+            get => comment;
+            set 
+            {
+                comment = value; 
+                //get pageName
+                if(comment.KeyValues.TryGetValue("Page", out string pageName))
+                {
+                    Page = pageName;
+                }
+            }
+        }
+        /// <summary>
+        /// true:TX_Msg(In)
+        /// </summary>
+        public bool InOrOut { get; set; }
+        public string Page { get; set; }
     }
 
     public class ValEnum
@@ -476,7 +522,70 @@ namespace WpfApp1.Stores
     public class Comment
     {
         public string signalName;
-        public string messageID;
-        public string comment = "";
+        public string MessageID 
+        { 
+            get => messageID;
+            set
+            {
+                messageID = value;
+                MsgIDUint = uint.Parse(messageID);
+            }
+        }
+        private string commentValue;
+        private Dictionary<string, string> _keyValues = new Dictionary<string, string>();
+        private string messageID;
+        public uint MsgIDUint { get; private set; }
+        public string CommentValue
+        {
+            get => commentValue;
+            set
+            {
+                commentValue = value;
+                string[] properties = commentValue.Split(" ");
+                if (properties.Length > 0)
+                {
+                    foreach (var property in properties)
+                    {
+                        string[] nameValueArray = property.Split(":");
+                        if (nameValueArray.Length == 2)
+                        {
+                            if (!_keyValues.ContainsKey(nameValueArray[0]))
+                                _keyValues.Add(nameValueArray[0], nameValueArray[1]);
+                        }
+                    }
+                }
+            }
+        }
+
+        public Dictionary<string, string> KeyValues { get => _keyValues; }
+
+        public string GetCommentByKey(string key)
+        {
+            if (_keyValues.TryGetValue(key, out string value)) return value;
+            return "";
+        }
+
+        public double GetCommenDoubleByKey(string key, double defaultVal)
+        {
+            if (!_keyValues.TryGetValue(key, out string value) ||
+                !double.TryParse(value, out double valueDouble))
+                return defaultVal;
+
+            return valueDouble;
+        }
+
+        public override string ToString()
+        {
+            return $"{MessageID} {signalName} {CommentValue}";
+        }
+
+    }
+
+    public static class ExtendMethod
+    {
+        public static string[] Split(this string value, string splitValue, StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries)
+        {
+            return value.Split(new string[] { splitValue }, options);
+        }
     }
 }

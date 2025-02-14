@@ -17,6 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -24,14 +25,16 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Style="{StaticResource TitleLabel}" Text="Discrete" />
-        <StackPanel
+        <WrapPanel
             Grid.Row="0"
             Margin="130,10,0,10"
             Orientation="Horizontal">
-            <Button Content="Set xxx Output" Style="{StaticResource topButton}" />
-            <Button Content="Reset Motor Faults" Style="{StaticResource topButton}" />
-        </StackPanel>
-        <GroupBox Grid.Row="1" Header="Inputs" Margin="5">
+            <Button Content="Locator Inputs" Command="{Binding LocatorSignalsCommand}"/>
+            <Button Content="Locator Outputs" Command="{Binding LocatorOutputsCommand}"/>
+            <Button Content="Set xxx Output" />
+            <Button Content="Reset Motor Faults"  />
+        </WrapPanel>
+        <GroupBox Grid.Row="1" Header="Inputs" Margin="2" Grid.RowSpan="2">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -45,7 +48,7 @@
                     RowHeight="25"
                     ItemsSource="{Binding InputSignals}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Name}" Header="Signal_Name" />
+                        <DataGridTextColumn Binding="{Binding DisplayName}" Header="Signal_Name" />
                         <DataGridTextColumn Binding="{Binding PinNumber}" Header="PinNumber" />
                         <DataGridTextColumn Binding="{Binding OriginValue}" Header="State" />
                         <DataGridTextColumn Binding="{Binding Transitions}" Header="# Transitions" />
@@ -54,18 +57,20 @@
 
             </Grid>
         </GroupBox>
+        <!--output Controls-->
         <GroupBox
-            Grid.Row="0"
+            Grid.Row="2"
             Grid.Column="1"
+            Margin="0,2"
             Header="TLF Test">
             <StackPanel Orientation="Horizontal">
                 <Button
                     Padding="5"
                     Content="Disable"
-                    Style="{StaticResource NormalButton}" />
-                <Button Content="Reset TLF Faults" Style="{StaticResource NormalButton}" />
-                <ComboBox Style="{StaticResource NormalCombox}" />
-                <Button Content="Send Bad" Style="{StaticResource NormalButton}" />
+                     />
+                <Button Content="Reset TLF Faults"  />
+                <ComboBox MinWidth="80" />
+                <Button Content="Send Bad"  />
                 <CheckBox
                     Content="Sync"
                     IsChecked="{Binding OutputSignalSync}"
@@ -73,13 +78,14 @@
                 <Button
                     Command="{Binding UpdateCommand}"
                     Content="Update"
-                    Style="{StaticResource NormalButton}" />
+                     />
             </StackPanel>
         </GroupBox>
+        <!-- Output DataGrid -->
         <GroupBox
             Grid.Row="1"
             Grid.Column="1"
-            Header="Outputs" Margin="0,5,5,5">
+            Header="Outputs" Margin="0,2,2,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -94,7 +100,7 @@
                     RowHeight="25">
                     <DataGrid.Columns>
                         <DataGridTextColumn
-                            Binding="{Binding Name}"
+                            Binding="{Binding DisplayName}"
                             Header="Signal_Name"
                             IsReadOnly="True" />
                         <DataGridTextColumn
@@ -117,7 +123,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn
-                            Binding="{Binding OriginValue}"
+                            Binding="{Binding State.OriginValue}"
                             Header="State"
                             IsReadOnly="True" />
                     </DataGrid.Columns>

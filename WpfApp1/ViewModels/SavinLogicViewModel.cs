@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -13,8 +14,8 @@ namespace WpfApp1.ViewModels
     {
         private List<ObservableObject> datas;
 
-        public SavinLogicViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) 
-            : base(signalStore, deviceStore, logService)
+        public SavinLogicViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) 
+            : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
         {
             ChangeSignalInputOutputCommand = new RelayCommand<object>(ChangeSignalInputOutput);
             datas = new List<ObservableObject>();

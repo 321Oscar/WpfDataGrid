@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WpfApp1.Models;
@@ -11,7 +12,7 @@ namespace WpfApp1.ViewModels
     {
         private readonly List<SignalGroupBase> groups = new List<SignalGroupBase>();
 
-        public PPAWLViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) : base(signalStore, deviceStore, logService)
+        public PPAWLViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
         {
             LoadOtherSignals();
         }

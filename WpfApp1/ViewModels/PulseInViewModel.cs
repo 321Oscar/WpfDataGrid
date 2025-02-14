@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WpfApp1.Models;
@@ -9,8 +10,9 @@ namespace WpfApp1.ViewModels
 {
     public class PulseInViewModel : ViewModelBase
     {
-        public PulseInViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) 
-            : base(signalStore, deviceStore, logService)
+        public const string VIEWNAME = "Pulse_IN"; 
+
+        public PulseInViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
         {
             GetGroups();
         }
@@ -22,7 +24,7 @@ namespace WpfApp1.ViewModels
         {
             //var gdicSignals = SignalStore.GetSignals<PulseInSignal>(nameof(PulseInViewModel));
 
-            groups = SignalStore.GetSignals<PulseInSignal>(nameof(PulseInViewModel))
+            groups = SignalStore.GetSignals<PulseInSignal>(VIEWNAME)
                                 .GroupBy(s => s.GroupName)
                                 .Select(g =>
                                 {

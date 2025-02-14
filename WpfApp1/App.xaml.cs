@@ -51,6 +51,7 @@ namespace WpfApp1
             services.AddTransient<ViewModels.DeviceViewModel>(s => CreateDeviceViewModel(s));
             //services.AddTransient<ViewModels.DeviceViewModel>();
             services.AddTransient<ViewModels.AnalogViewModel>();
+            //services.AddTransient<ViewModels.SignalLocatorViewModel>();
             services.AddTransient<ViewModels.DiscreteViewModel>();
             services.AddTransient<ViewModels.PulseInViewModel>();
             services.AddTransient<ViewModels.GDICViewModel>();

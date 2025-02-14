@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace WpfApp1.Models
 {
@@ -27,8 +28,11 @@ namespace WpfApp1.Models
 
     public class PulseInSignal : LimitsSignalBase, IGroupSignal
     {
-        public string GroupName { get; }
+        public string GroupName { get; set; }
+        public PulseInSignal()
+        {
 
+        }
         public PulseInSignal(string groupName)
         {
             GroupName = groupName;
@@ -38,9 +42,16 @@ namespace WpfApp1.Models
     public class PulseOutSingleSignal : TransFormSignalBase, ISyncValue
     {
         private double tempValue;
-
+        [XmlIgnore]
         public double? TempValue { get => tempValue; set => SetProperty(ref tempValue, value.Value); }
+        [XmlIgnore]
         public bool Sync { get; set; } = true;
+
+        public override void OnOriginValueChaned(double originValue, bool changed)
+        {
+            if (changed)
+                TempValue = TransForm(originValue);
+        }
 
         public void UpdateRealValue()
         {
@@ -65,8 +76,11 @@ namespace WpfApp1.Models
     /// </summary>
     public class PulseOutGroupSignal : PulseOutSingleSignal, IGroupSignal
     {
-        public string GroupName { get; }
+        public string GroupName { get; set; }
+        public PulseOutGroupSignal()
+        {
 
+        }
         public PulseOutGroupSignal(string groupName)
         {
             GroupName = groupName;
@@ -78,11 +92,14 @@ namespace WpfApp1.Models
     /// </summary>
     public class PulseGroupSignalOutGroup : SignalGroupBase
     {
+        private PulseOutGroupSignal freq;
+        private PulseOutGroupSignal dutyCycle;
+
         public PulseGroupSignalOutGroup(string groupName) : base(groupName)
         {
         }
 
-        public PulseOutGroupSignal Freq { get; set; }
-        public PulseOutGroupSignal DutyCycle { get; set; }
+        public PulseOutGroupSignal Freq { get => freq; set =>SetProperty(ref freq ,value); }
+        public PulseOutGroupSignal DutyCycle { get => dutyCycle; set => SetProperty(ref dutyCycle, value); }
     }
 }

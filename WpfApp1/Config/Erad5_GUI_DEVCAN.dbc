@@ -36,14 +36,138 @@ BS_:
 BU_: GUI MCU
 
 
-BO_ 256 MCU_TX_0x100_TestCan: 64 Vector__XXX
- SG_ Test_Sgianl1 : 0|1@1- (1,0) [0|0] "" Vector__XXX
+BO_ 1543 MCU_TX_0x607_DEVCANFD: 64 MCU
+ SG_ PWM_U_BOT_FB_BU_Freq : 392|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ PWM_U_BOT_FB_BU_Duty : 376|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ PWM_V_BOT_FB_BU_Freq : 360|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ PWM_V_BOT_FB_BU_Duty : 344|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ PWM_W_BOT_FB_BU_Freq : 328|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ PWM_W_BOT_FB_BU_Duty : 312|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ PWM_U_TOP_FB_BU_Freq : 296|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ PWM_U_TOP_FB_BU_Duty : 280|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ PWM_V_TOP_FB_BU_Freq : 264|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ PWM_V_TOP_FB_BU_Duty : 248|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ PWM_W_TOP_FB_BU_Freq : 232|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ PWM_W_TOP_FB_BU_Duty : 216|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ HVIL_5_PI_Freq : 200|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ HVIL_5_PI_Duty : 184|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ HVIL_4_PI_Freq : 168|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ HVIL_4_PI_Duty : 152|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ HVIL_3_PI_Freq : 136|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ HVIL_3_PI_Duty : 120|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ HVIL_2_PI_Freq : 104|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ HVIL_2_PI_Duty : 88|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ HVIL_1_PI_Freq : 72|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ HVIL_1_PI_Duty : 56|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ LOW_ACT_DISCHARGE_State : 52|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ KP_ALIVE_MP_State : 51|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_MTR_SPEED_STAT_State : 50|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_3PS_MAIN_MICRO_State : 49|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MTR_TEMP_SEL_State : 48|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ INST_TRIGGER_MAIN_MICRO_State : 47|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_HVOV_PHOC_LATCH_CLR_State : 46|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ OIL_PMP_RLY_CTRL_State : 45|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ SBC_WD_TRIG_State : 44|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ eLOCKER_EN_State : 43|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ HVIL_RTN_SW_State : 42|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ PWM_EN_State : 41|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_RST_PPAWL_MTR_OC_FLT_State : 40|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ PPAWL_MTR_EN_State : 39|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ PPAWL_MTR_CTRL2_State : 38|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ GS_ENL_U_State : 37|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ GS_ENL_V_State : 36|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ GS_ENL_W_State : 35|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ GS_ENH_U_State : 34|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ GS_ENH_V_State : 33|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ GS_ENH_W_State : 32|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ eLOCKER_LS_VSENSE : 25|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_FSENB_FB : 24|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ FSSTATE_BOT_FB : 23|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ FSSTATE_TOP_FB : 22|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ IGN_FB : 21|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ ETK_WAKEUP : 20|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_OUT_EN : 19|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_BOOT_EN_SW : 18|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_E_STOP_MAIN_MICRO : 17|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ FORCE_UPPERS_ON_FB : 16|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ FORCE_LOWERS_ON_FB : 15|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_RES_AMPLIFIER_FLT : 14|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ OIL_PMP_RLY_FB : 13|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_PWM_BUFFER_FB : 12|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_PPAWL_FLT : 11|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_PPAWL_MTR_OC_LATCH : 10|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ CRASH_IN_MAIN_MICRO : 9|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_DSAT_TOP_FLT_FB : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_UVLO_TOP_FLT_FB : 7|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_DSAT_BOT_FLT_FB : 6|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_UVLO_BOT_FLT_FB : 5|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_PHASE_UVW_OC_FLT_FB : 4|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_HVDC_OV_FLT_FB : 3|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_OC_W_FLT : 2|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_OC_V_FLT : 1|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_OC_U_FLT : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 1281 MCU_RX_0x501_DEVCANFD: 32 GUI
+ SG_ UVWPWM_Duty_Freq_Update : 169|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ PWM_Duty_Freq_Update : 168|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ PWM_W_Duty : 152|16@1+ (0.01,0) [0|100] "Hz" Vector__XXX
+ SG_ PWM_V_Duty : 136|16@1+ (0.01,0) [0|100] "Hz" Vector__XXX
+ SG_ PWM_U_Duty : 120|16@1+ (0.01,0) [0|100] "Hz" Vector__XXX
+ SG_ UVW_PWM_Freq : 104|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ HVIL_PWM_SEND_Freq : 88|16@1+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ HVIL_PWM_SEND_Duty : 72|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ PPAWL_MTR_CTRL1_Freq : 56|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ PPAWL_MTR_CTRL1_Duty : 40|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ PinOut_Update : 10|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ PinOut_Sync : 9|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Reset_Motor_Faults : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_ACT_DISCHARGE : 36|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ KP_ALIVE_MP : 35|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_MTR_SPEED_STAT : 26|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_3PS_MAIN_MICRO : 33|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MTR_TEMP_SEL : 32|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ INST_TRIGGER_MAIN_MICRO : 31|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_HVOV_PHOC_LATCH_CLR : 30|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ OIL_PMP_RLY_CTRL : 29|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ SBC_WD_TRIG : 28|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ eLOCKER_EN : 27|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ HVIL_RTN_SW : 34|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ PWM_EN : 25|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_RST_PPAWL_MTR_OC_FLT : 24|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ PPAWL_MTR_EN : 23|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ PPAWL_MTR_CTRL2 : 22|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ GS_ENL_U : 21|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ GS_ENL_V : 20|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ GS_ENL_W : 19|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ GS_ENH_U : 18|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ GS_ENH_V : 17|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ GS_ENH_W : 16|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_NXP_ACT_DISCH : 3|1@1+ (1,0) [0|1] ""  MCU
+ SG_ LOW_F_RESET_NXP : 2|1@1+ (1,0) [0|0] ""  MCU
+ SG_ SPD_HW_3PS_I_O : 1|1@1+ (1,0) [0|1] ""  MCU
+ SG_ INST_TRIGGER : 0|1@1+ (1,0) [0|1] ""  MCU
+
+BO_ 1542 MCU_TX_0x606_DEVCANFD: 12 MCU
+ SG_ LOW_NXP_ACT_DISCH_Stae : 67|1@1+ (1,0) [0|1] ""  GUI
+ SG_ LOW_F_RESET_NXP_State : 66|1@1+ (1,0) [0|0] ""  GUI
+ SG_ SPD_HW_3PS_I_O_State : 65|1@1+ (1,0) [0|1] ""  GUI
+ SG_ INST_TRIGGER_State : 64|1@1+ (1,0) [0|1] ""  GUI
+ SG_ SPEED_FW : 48|16@1+ (1,0) [0|65535] ""  GUI
+ SG_ CRT_V_SPEED : 32|16@1+ (1,0) [0|65535] "Hz"  GUI
+ SG_ HVDC_SENSE1_NXP_AI : 18|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_5V_SAFING_AI : 6|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ LOW_SAFESTATE2_NXP : 5|1@1+ (1,0) [0|1] ""  GUI
+ SG_ LOW_SAFESTATE_NXP : 4|1@1+ (1,0) [0|1] ""  GUI
+ SG_ CRASH_IN_NXP : 3|1@1+ (1,0) [0|1] ""  GUI
+ SG_ LOW_HVDC_OV_FLT : 2|1@1+ (1,0) [0|1] ""  GUI
+ SG_ RXD_CAN : 1|1@1+ (1,0) [0|1] ""  GUI
+ SG_ LOW_SAFESTATE1_NXP : 0|1@1+ (1,0) [0|1] ""  GUI
 
 BO_ 1541 MCU_TX_0x605_DEVCANFD: 64 MCU
- SG_ EXC_LO_DIAG_AI : 36|12@1+ (1,0) [0|4095] "" Vector__XXX
- SG_ EXC_HI_DIAG_AI : 24|12@1+ (1,0) [0|4095] "" Vector__XXX
- SG_ COS_LO_DIAG_AI : 12|12@1+ (1,0) [0|4095] "" Vector__XXX
- SG_ SIN_LO_DIAG_AI : 0|12@1+ (1,0) [0|4095] "" Vector__XXX
+ SG_ EXC_LO_DIAG_AI : 36|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ EXC_HI_DIAG_AI : 24|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ COS_LO_DIAG_AI : 12|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ SIN_LO_DIAG_AI : 0|12@1+ (1,0) [0|4095] ""  GUI
 
 BO_ 1784 MCU_TX_0x6F8_DEVCANFD: 64 MCU
  SG_ eLOCKER_LS_ISENSE_AI : 432|12@1+ (1,0) [0|4095] ""  GUI
@@ -62,7 +186,7 @@ BO_ 1784 MCU_TX_0x6F8_DEVCANFD: 64 MCU
  SG_ HV_ISOLATION_POS_AI : 312|12@1+ (1,0) [0|4095] ""  GUI
  SG_ VI_15V_SAFETY_BOT_AI : 300|12@1+ (1,0) [0|4095] ""  GUI
  SG_ VI_15V_SAFETY_TOP_AI : 288|12@1+ (1,0) [0|4095] ""  GUI
- SG_ AI_5V_OUT_AI : 276|12@1+ (1,0) [0|4095] ""  GUI
+ SG_ VI_5V_OUT_AI : 276|12@1+ (1,0) [0|4095] ""  GUI
  SG_ VI_5V_CURRENT_SENSE_AI : 264|12@1+ (1,0) [0|4095] ""  GUI
  SG_ VBATT2_AI : 252|12@1+ (1,0) [0|4095] ""  GUI
  SG_ VI_5V_GDIC_TOP_AI : 240|12@1+ (1,0) [0|4095] ""  GUI
@@ -89,51 +213,173 @@ BO_ 1784 MCU_TX_0x6F8_DEVCANFD: 64 MCU
 
 
 
+CM_ SG_ 1543 PWM_U_BOT_FB_BU_Freq "Page:Pulse_IN";
+CM_ SG_ 1543 PWM_U_BOT_FB_BU_Duty "Page:Pulse_IN";
+CM_ SG_ 1543 PWM_V_BOT_FB_BU_Freq "Page:Pulse_IN";
+CM_ SG_ 1543 PWM_V_BOT_FB_BU_Duty "Page:Pulse_IN";
+CM_ SG_ 1543 PWM_W_BOT_FB_BU_Freq "Page:Pulse_IN";
+CM_ SG_ 1543 PWM_W_BOT_FB_BU_Duty "Page:Pulse_IN";
+CM_ SG_ 1543 PWM_U_TOP_FB_BU_Freq "Page:Pulse_IN";
+CM_ SG_ 1543 PWM_U_TOP_FB_BU_Duty "Page:Pulse_IN";
+CM_ SG_ 1543 PWM_V_TOP_FB_BU_Freq "Page:Pulse_IN";
+CM_ SG_ 1543 PWM_V_TOP_FB_BU_Duty "Page:Pulse_IN";
+CM_ SG_ 1543 PWM_W_TOP_FB_BU_Freq "Page:Pulse_IN";
+CM_ SG_ 1543 PWM_W_TOP_FB_BU_Duty "Page:Pulse_IN";
+CM_ SG_ 1543 HVIL_5_PI_Freq "Page:Pulse_IN";
+CM_ SG_ 1543 HVIL_5_PI_Duty "Page:Pulse_IN";
+CM_ SG_ 1543 HVIL_4_PI_Freq "Page:Pulse_IN";
+CM_ SG_ 1543 HVIL_4_PI_Duty "Page:Pulse_IN";
+CM_ SG_ 1543 HVIL_3_PI_Freq "Page:Pulse_IN";
+CM_ SG_ 1543 HVIL_3_PI_Duty "Page:Pulse_IN";
+CM_ SG_ 1543 HVIL_2_PI_Freq "Page:Pulse_IN";
+CM_ SG_ 1543 HVIL_2_PI_Duty "Page:Pulse_IN";
+CM_ SG_ 1543 HVIL_1_PI_Freq "Page:Pulse_IN";
+CM_ SG_ 1543 HVIL_1_PI_Duty "Page:Pulse_IN";
+CM_ SG_ 1543 LOW_ACT_DISCHARGE_State "Pin_Number:Y19 Page:Discretes";
+CM_ SG_ 1543 KP_ALIVE_MP_State "Pin_Number:K20 Page:Discretes";
+CM_ SG_ 1543 LOW_MTR_SPEED_STAT_State "Pin_Number:F19 Page:Discretes";
+CM_ SG_ 1543 LOW_3PS_MAIN_MICRO_State "Pin_Number:G20 Page:Discretes";
+CM_ SG_ 1543 MTR_TEMP_SEL_State "Pin_Number:B20 Page:Discretes";
+CM_ SG_ 1543 INST_TRIGGER_MAIN_MICRO_State "Pin_Number:E7 Page:Discretes";
+CM_ SG_ 1543 LOW_HVOV_PHOC_LATCH_CLR_State "Pin_Number:A3 Page:Discretes";
+CM_ SG_ 1543 OIL_PMP_RLY_CTRL_State "Pin_Number:A9 Page:Discretes";
+CM_ SG_ 1543 SBC_WD_TRIG_State "Pin_Number:J17 Page:Discretes";
+CM_ SG_ 1543 eLOCKER_EN_State "Pin_Number:D12 Page:Discretes";
+CM_ SG_ 1543 HVIL_RTN_SW_State "Pin_Number:F5 Page:Discretes";
+CM_ SG_ 1543 PWM_EN_State "Pin_Number:B10 Page:Discretes";
+CM_ SG_ 1543 LOW_RST_PPAWL_MTR_OC_FLT_State "Pin_Number:K17 Page:Discretes";
+CM_ SG_ 1543 PPAWL_MTR_EN_State "Pin_Number:D13 Page:Discretes";
+CM_ SG_ 1543 PPAWL_MTR_CTRL2_State "Pin_Number:A8 Page:Discretes";
+CM_ SG_ 1543 GS_ENL_U_State "Pin_Number:G19 Page:Discretes";
+CM_ SG_ 1543 GS_ENL_V_State "Pin_Number:D10 Page:Discretes";
+CM_ SG_ 1543 GS_ENL_W_State "Pin_Number:R16 Page:Discretes";
+CM_ SG_ 1543 GS_ENH_U_State "Pin_Number:Y18 Page:Discretes";
+CM_ SG_ 1543 GS_ENH_V_State "Pin_Number:N17 Page:Discretes";
+CM_ SG_ 1543 GS_ENH_W_State "Pin_Number:T19 Page:Discretes";
+CM_ SG_ 1543 eLOCKER_LS_VSENSE "Pin_Number:R17 Page:Discretes";
+CM_ SG_ 1543 LOW_FSENB_FB "Pin_Number:U13 Page:Discretes";
+CM_ SG_ 1543 FSSTATE_BOT_FB "Pin_Number:U15 Page:Discretes";
+CM_ SG_ 1543 FSSTATE_TOP_FB "Pin_Number:P16 Page:Discretes";
+CM_ SG_ 1543 IGN_FB "Pin_Number:J19 Page:Discretes";
+CM_ SG_ 1543 ETK_WAKEUP "Pin_Number:A13 Page:Discretes";
+CM_ SG_ 1543 LOW_OUT_EN "Pin_Number:B13 Page:Discretes";
+CM_ SG_ 1543 LOW_BOOT_EN_SW "Pin_Number:A4 Page:Discretes";
+CM_ SG_ 1543 LOW_E_STOP_MAIN_MICRO "Pin_Number:G1 Page:Discretes";
+CM_ SG_ 1543 FORCE_UPPERS_ON_FB "Pin_Number:N5 Page:Discretes";
+CM_ SG_ 1543 FORCE_LOWERS_ON_FB "Pin_Number:R1 Page:Discretes";
+CM_ SG_ 1543 LOW_RES_AMPLIFIER_FLT "Pin_Number:M16 Page:Discretes";
+CM_ SG_ 1543 OIL_PMP_RLY_FB "Pin_Number:Y16 Page:Discretes";
+CM_ SG_ 1543 LOW_PWM_BUFFER_FB "Pin_Number:E9 Page:Discretes";
+CM_ SG_ 1543 LOW_PPAWL_FLT "Pin_Number:A16 Page:Discretes";
+CM_ SG_ 1543 LOW_PPAWL_MTR_OC_LATCH "Pin_Number:B5 Page:Discretes";
+CM_ SG_ 1543 CRASH_IN_MAIN_MICRO "Pin_Number:K4 Page:Discretes";
+CM_ SG_ 1543 LOW_DSAT_TOP_FLT_FB "Pin_Number:E8 Page:Discretes";
+CM_ SG_ 1543 LOW_UVLO_TOP_FLT_FB "Pin_Number:D8 Page:Discretes";
+CM_ SG_ 1543 LOW_DSAT_BOT_FLT_FB "Pin_Number:E10 Page:Discretes";
+CM_ SG_ 1543 LOW_UVLO_BOT_FLT_FB "Pin_Number:F2 Page:Discretes";
+CM_ SG_ 1543 LOW_PHASE_UVW_OC_FLT_FB "Pin_Number:D6 Page:Discretes";
+CM_ SG_ 1543 LOW_HVDC_OV_FLT_FB "Pin_Number:D7 Page:Discretes";
+CM_ SG_ 1543 LOW_OC_W_FLT "Pin_Number:L17 Page:Discretes";
+CM_ SG_ 1543 LOW_OC_V_FLT "Pin_Number:L16 Page:Discretes";
+CM_ SG_ 1543 LOW_OC_U_FLT "Pin_Number:M17 Page:Discretes";
+CM_ SG_ 1281 UVWPWM_Duty_Freq_Update "Page:Pulse_OUT";
+CM_ SG_ 1281 PWM_Duty_Freq_Update "Page:Pulse_OUT";
+CM_ SG_ 1281 PWM_W_Duty "Page:Pulse_OUT";
+CM_ SG_ 1281 PWM_V_Duty "Page:Pulse_OUT";
+CM_ SG_ 1281 PWM_U_Duty "Page:Pulse_OUT";
+CM_ SG_ 1281 UVW_PWM_Freq "Page:Pulse_OUT";
+CM_ SG_ 1281 HVIL_PWM_SEND_Freq "Page:Pulse_OUT";
+CM_ SG_ 1281 HVIL_PWM_SEND_Duty "Page:Pulse_OUT";
+CM_ SG_ 1281 PPAWL_MTR_CTRL1_Freq "Page:Pulse_OUT";
+CM_ SG_ 1281 PPAWL_MTR_CTRL1_Duty "Page:Pulse_OUT";
+CM_ SG_ 1281 PinOut_Update "Page:Discretes";
+CM_ SG_ 1281 PinOut_Sync "Page:Discretes";
+CM_ SG_ 1281 Reset_Motor_Faults "Page:Discretes";
+CM_ SG_ 1281 LOW_ACT_DISCHARGE "Pin_Number:Y19 Page:Discretes";
+CM_ SG_ 1281 KP_ALIVE_MP "Pin_Number:K20 Page:Discretes";
+CM_ SG_ 1281 LOW_MTR_SPEED_STAT "Pin_Number:F19 Page:Discretes";
+CM_ SG_ 1281 LOW_3PS_MAIN_MICRO "Pin_Number:G20 Page:Discretes";
+CM_ SG_ 1281 MTR_TEMP_SEL "Pin_Number:B20 Page:Discretes";
+CM_ SG_ 1281 INST_TRIGGER_MAIN_MICRO "Pin_Number:E7 Page:Discretes";
+CM_ SG_ 1281 LOW_HVOV_PHOC_LATCH_CLR "Pin_Number:A3 Page:Discretes";
+CM_ SG_ 1281 OIL_PMP_RLY_CTRL "Pin_Number:A9 Page:Discretes";
+CM_ SG_ 1281 SBC_WD_TRIG "Pin_Number:J17 Page:Discretes";
+CM_ SG_ 1281 eLOCKER_EN "Pin_Number:D12 Page:Discretes";
+CM_ SG_ 1281 HVIL_RTN_SW "Pin_Number:F5 Page:Discretes";
+CM_ SG_ 1281 PWM_EN "Pin_Number:B10 Page:Discretes";
+CM_ SG_ 1281 LOW_RST_PPAWL_MTR_OC_FLT "Pin_Number:K17 Page:Discretes";
+CM_ SG_ 1281 PPAWL_MTR_EN "Pin_Number:D13 Page:Discretes";
+CM_ SG_ 1281 PPAWL_MTR_CTRL2 "Pin_Number:A8 Page:Discretes";
+CM_ SG_ 1281 GS_ENL_U "Pin_Number:G19 Page:Discretes";
+CM_ SG_ 1281 GS_ENL_V "Pin_Number:D10 Page:Discretes";
+CM_ SG_ 1281 GS_ENL_W "Pin_Number:R16 Page:Discretes";
+CM_ SG_ 1281 GS_ENH_U "Pin_Number:Y18 Page:Discretes";
+CM_ SG_ 1281 GS_ENH_V "Pin_Number:N17 Page:Discretes";
+CM_ SG_ 1281 GS_ENH_W "Pin_Number:T19 Page:Discretes";
+CM_ SG_ 1281 LOW_NXP_ACT_DISCH "Pin_Number:PTA3 Page:NXP";
+CM_ SG_ 1281 LOW_F_RESET_NXP "Pin_Number:PTA7 Page:NXP";
+CM_ SG_ 1281 SPD_HW_3PS_I_O "Pin_Number:PTD5 Page:NXP";
+CM_ SG_ 1281 INST_TRIGGER "Pin_Number:PTC3 Page:NXP";
+CM_ SG_ 1542 LOW_NXP_ACT_DISCH_Stae "Pin_Number:PTA3 Page:NXP";
+CM_ SG_ 1542 LOW_F_RESET_NXP_State "Pin_Number:PTA7 Page:NXP";
+CM_ SG_ 1542 SPD_HW_3PS_I_O_State "Pin_Number:PTD5 Page:NXP";
+CM_ SG_ 1542 INST_TRIGGER_State "Pin_Number:PTC3 Page:NXP";
+CM_ SG_ 1542 SPEED_FW "Pin_Number:PTC2 Page:NXP";
+CM_ SG_ 1542 CRT_V_SPEED "Pin_Number:PTE8 Page:NXP";
+CM_ SG_ 1542 HVDC_SENSE1_NXP_AI "Pin_Number:PTA0 Conversion_mode:0 Factor:0.18780517578125 Page:NXP";
+CM_ SG_ 1542 VI_5V_SAFING_AI "Pin_Number:PTC1 Conversion_mode:0 Factor:0.00244140625 Page:NXP";
+CM_ SG_ 1542 LOW_SAFESTATE2_NXP "Pin_Number:PTA2 Page:NXP";
+CM_ SG_ 1542 LOW_SAFESTATE_NXP "Pin_Number:PTD2 Page:NXP";
+CM_ SG_ 1542 CRASH_IN_NXP "Pin_Number:PTC8 Page:NXP";
+CM_ SG_ 1542 LOW_HVDC_OV_FLT "Pin_Number:PTB5 Page:NXP";
+CM_ SG_ 1542 RXD_CAN "Pin_Number:PTE4";
+CM_ SG_ 1542 LOW_SAFESTATE1_NXP "Pin_Number:PTE5 Page:NXP";
 CM_ BO_ 1541 "旋变相关信号发送";
 CM_ SG_ 1541 EXC_LO_DIAG_AI "Pin_Number:G2 A/D_Channel:P00.1";
 CM_ SG_ 1541 EXC_HI_DIAG_AI "Pin_Number:L4 A/D_Channel:AN43";
 CM_ SG_ 1541 COS_LO_DIAG_AI "Pin_Number:P5 A/D_Channel:AN34";
 CM_ SG_ 1541 SIN_LO_DIAG_AI "Pin_Number:U2 A/D_Channel:AN28";
+CM_ BO_ 1784 "ADC采样值发送报文";
 CM_ SG_ 1784 eLOCKER_LS_ISENSE_AI "Pin_Number:N2 A/D_Channel:AN45";
 CM_ SG_ 1784 eLOCKER_HS_VSENSE_AI "Pin_Number:N1 A/D_Channel:AN44";
 CM_ SG_ 1784 eLOCKER_HS_ISENSE_AI "Pin_Number:T5 A/D_Channel:AN22";
 CM_ SG_ 1784 eLOCKER_LS_VSENSE_AI "Pin_Number:W13 A/D_Channel:P33.6";
 CM_ SG_ 1784 PPAWL_MTR_CURRENT_SENSE_AI "Pin_Number:R2 A/D_Channel:AN35";
 CM_ SG_ 1784 PPAWL_MTR_PWR_AI "Pin_Number:U7 A/D_Channel:AN9";
-CM_ SG_ 1784 ACT_DIS_FET_HEALTH_AI "Pin_Number:Y10 A/D_Channel:P33.1";
-CM_ SG_ 1784 VI_5V_COMM_AI "Pin_Number:U11 A/D_Channel:P34.1";
-CM_ SG_ 1784 AC_BB_TEMP_AI "Pin_Number:F4 A/D_Channel:P02.11";
-CM_ SG_ 1784 DC_BB_TEMP_AI "Pin_Number:K5 A/D_Channel:P00.10";
-CM_ SG_ 1784 GDB_TEMP_AI "Pin_Number:K2 A/D_Channel:P00.9";
-CM_ SG_ 1784 VI_5VA_AI "Pin_Number:J4 A/D_Channel:P00.6";
-CM_ SG_ 1784 HV_ISOLATION_NEG_AI "Pin_Number:J1 A/D_Channel:P00.4";
-CM_ SG_ 1784 HV_ISOLATION_POS_AI "Pin_Number:H2 A/D_Channel:P00.3";
-CM_ SG_ 1784 VI_15V_SAFETY_BOT_AI "Pin_Number:M2 A/D_Channel:AN47";
-CM_ SG_ 1784 VI_15V_SAFETY_TOP_AI "Pin_Number:M1 A/D_Channel:AN46";
-CM_ SG_ 1784 AI_5V_OUT_AI "Pin_Number:L5 A/D_Channel:AN42";
-CM_ SG_ 1784 VI_5V_CURRENT_SENSE_AI "Pin_Number:M4 A/D_Channel:AN41";
-CM_ SG_ 1784 VBATT2_AI "Pin_Number:M5 A/D_Channel:AN40";
-CM_ SG_ 1784 VI_5V_GDIC_TOP_AI "Pin_Number:P4 A/D_Channel:AN32";
-CM_ SG_ 1784 VBATT1_AI "Pin_Number:T4 A/D_Channel:AN30";
-CM_ SG_ 1784 MTR_TEMP_AI "Pin_Number:U1 A/D_Channel:AN29";
-CM_ SG_ 1784 VI_18V_FLYBACK_EPS_AI "Pin_Number:W3 A/D_Channel:AN19";
-CM_ SG_ 1784 VI_5V_GDIC_BOT_AI "Pin_Number:W4 A/D_Channel:AN18";
-CM_ SG_ 1784 VI_16V6_AI "Pin_Number:U5 A/D_Channel:AN17";
-CM_ SG_ 1784 VI_1V3_AI "Pin_Number:W5 A/D_Channel:AN16";
-CM_ SG_ 1784 VI_3V3_FLASH_AI "Pin_Number:W6 A/D_Channel:AN14";
-CM_ SG_ 1784 AD_Temp_Coolant "Pin_Number:W6 A/D_Channel:AN13";
-CM_ SG_ 1784 EMC_TEMP_AI "Pin_Number:T7 A/D_Channel:AN12";
-CM_ SG_ 1784 CB_PCB_TEMP_AI "Pin_Number:Y8 A/D_Channel:AN10";
-CM_ SG_ 1784 VI_2V5_AI "Pin_Number:W8 A/D_Channel:AN8";
-CM_ SG_ 1784 VI_5V_AI "Pin_Number:T9 A/D_Channel:AN4";
-CM_ SG_ 1784 HVDC_CURRENT_SENSE_AI "Pin_Number:W7 A/D_Channel:AN11";
-CM_ SG_ 1784 RED_W_CURRENT_SENSE_AI "Pin_Number:W10 A/D_Channel:P33.0";
-CM_ SG_ 1784 RED_V_CURRENT_SENSE_AI "Pin_Number:J2 A/D_Channel:P00.5";
-CM_ SG_ 1784 RED_U_CURRENT_SENSE_AI "Pin_Number:P1 A/D_Channel:AN39";
-CM_ SG_ 1784 HVDC_SENSE_MAIN_MICRO_AI "Pin_Number:R4 A/D_Channel:AN31";
-CM_ SG_ 1784 W_CURRENT_SENSE_AI "Pin_Number:R5 A/D_Channel:AN23";
-CM_ SG_ 1784 V_CURRENT_SENSE_AI "Pin_Number:T6 A/D_Channel:AN15";
-CM_ SG_ 1784 U_CURRENT_SENSE_AI "Pin_Number:U8 A/D_Channel:AN7";
+CM_ SG_ 1784 ACT_DIS_FET_HEALTH_AI "Pin_Number:Y10 A/D_Channel:P33.1 Conversion_mode:0 Factor:0.001220703125 Page:Analog";
+CM_ SG_ 1784 VI_5V_COMM_AI "Pin_Number:U11 A/D_Channel:P34.1 Conversion_mode:0 Factor:0.00244140625 Page:Analog";
+CM_ SG_ 1784 AC_BB_TEMP_AI "Pin_Number:F4 A/D_Channel:P02.11 Conversion_mode:1 Table:3 Page:Analog";
+CM_ SG_ 1784 DC_BB_TEMP_AI "Pin_Number:K5 A/D_Channel:P00.10 Conversion_mode:1 Table:3 Page:Analog";
+CM_ SG_ 1784 GDB_TEMP_AI "Pin_Number:K2 A/D_Channel:P00.9 Conversion_mode:1 Table:5 Page:Analog";
+CM_ SG_ 1784 VI_5VA_AI "Pin_Number:J4 A/D_Channel:P00.6 Conversion_mode:0 Factor:0.00244140625 Page:Analog";
+CM_ SG_ 1784 HV_ISOLATION_NEG_AI "Pin_Number:J1 A/D_Channel:P00.4 Conversion_mode:0 Factor:0.0070068359375 Page:Analog";
+CM_ SG_ 1784 HV_ISOLATION_POS_AI "Pin_Number:H2 A/D_Channel:P00.3Conversion_mode:0 Factor:0.0070068359375 Page:Analog";
+CM_ SG_ 1784 VI_15V_SAFETY_BOT_AI "Pin_Number:M2 A/D_Channel:AN47 Conversion_mode:0 Factor:0.0070263671875 Page:Analog";
+CM_ SG_ 1784 VI_15V_SAFETY_TOP_AI "Pin_Number:M1 A/D_Channel:AN46 Conversion_mode:0 Factor:0.0070263671875 Page:Analog";
+CM_ SG_ 1784 VI_5V_OUT_AI "Pin_Number:L5 A/D_Channel:AN42 Conversion_mode:0 Factor:0.00244140625 Page:Analog";
+CM_ SG_ 1784 VI_5V_CURRENT_SENSE_AI "Pin_Number:M4 A/D_Channel:AN41 Conversion_mode:0 Factor:0.00244140625 Page:Analog";
+CM_ SG_ 1784 VBATT2_AI "Pin_Number:M5 A/D_Channel:AN40 Conversion_mode:0 Factor:0.00244140625 Page:Analog";
+CM_ SG_ 1784 VI_5V_GDIC_TOP_AI "Pin_Number:P4 A/D_Channel:AN32 Conversion_mode:0 Factor:0.00244140625 Page:Analog";
+CM_ SG_ 1784 VBATT1_AI "Pin_Number:T4 A/D_Channel:AN30 Conversion_mode:0 Factor:0.00625 Page:Analog";
+CM_ SG_ 1784 MTR_TEMP_AI "Pin_Number:U1 A/D_Channel:AN29 Conversion_mode:1 Table:1 Page:Analog";
+CM_ SG_ 1784 VI_18V_FLYBACK_EPS_AI "Pin_Number:W3 A/D_Channel:AN19 Conversion_mode:0 Factor:0.0070263671875 Page:Analog";
+CM_ SG_ 1784 VI_5V_GDIC_BOT_AI "Pin_Number:W4 A/D_Channel:AN18 Conversion_mode:0 Factor:0.00244140625 Page:Analog";
+CM_ SG_ 1784 VI_16V6_AI "Pin_Number:U5 A/D_Channel:AN17 Conversion_mode:0 Factor:0.0070263671875 Page:Analog";
+CM_ SG_ 1784 VI_1V3_AI "Pin_Number:W5 A/D_Channel:AN16 Conversion_mode:0 Factor:0.001220703125 Page:Analog";
+CM_ SG_ 1784 VI_3V3_FLASH_AI "Pin_Number:W6 A/D_Channel:AN14 Conversion_mode:0 Factor:0.001220703125 Page:Analog";
+CM_ SG_ 1784 AD_Temp_Coolant "Pin_Number:W6 A/D_Channel:AN13 Conversion_mode:1 Table:3 Page:Analog";
+CM_ SG_ 1784 EMC_TEMP_AI "Pin_Number:T7 A/D_Channel:AN12 Conversion_mode:1 Table:4 Page:Analog";
+CM_ SG_ 1784 CB_PCB_TEMP_AI "Pin_Number:Y8 A/D_Channel:AN10 Conversion_mode:1 Table:5 Page:Analog";
+CM_ SG_ 1784 VI_2V5_AI "Pin_Number:W8 A/D_Channel:AN8 Conversion_mode:0 Factor:0.001220703125 Page:Analog";
+CM_ SG_ 1784 VI_5V_AI "Pin_Number:T9 A/D_Channel:AN4 Conversion_mode:0 Factor:0.00244140625 Page:Analog";
+CM_ SG_ 1784 HVDC_CURRENT_SENSE_AI "Pin_Number:W7 A/D_Channel:AN11 Conversion_mode:0 Factor:0.6103515625 Offset:-1250 Page:Analog";
+CM_ SG_ 1784 RED_W_CURRENT_SENSE_AI "Pin_Number:W10 A/D_Channel:P33.0 Conversion_mode:0 Factor:0.6103515625 Offset:-1250 Page:Analog";
+CM_ SG_ 1784 RED_V_CURRENT_SENSE_AI "Pin_Number:J2 A/D_Channel:P00.5 Conversion_mode:0 Factor:0.6103515625 Offset:-1250 Page:Analog";
+CM_ SG_ 1784 RED_U_CURRENT_SENSE_AI "Pin_Number:P1 A/D_Channel:AN39 Conversion_mode:0 Factor:0.6103515625 Offset:-1250 Page:Analog";
+CM_ SG_ 1784 HVDC_SENSE_MAIN_MICRO_AI "Pin_Number:R4 A/D_Channel:AN31 Conversion_mode:0 Factor:0.18780517578125 Page:Analog";
+CM_ SG_ 1784 W_CURRENT_SENSE_AI "Pin_Number:R5 A/D_Channel:AN23 Conversion_mode:0 Factor:0.6103515625 Offset:-1250 Page:Analog";
+CM_ SG_ 1784 V_CURRENT_SENSE_AI "Pin_Number:T6 A/D_Channel:AN15 Conversion_mode:0 Factor:0.6103515625 Offset:-1250 Page:Analog";
+CM_ SG_ 1784 U_CURRENT_SENSE_AI "Pin_Number:U8 A/D_Channel:AN7 Conversion_mode:0 Factor:0.6103515625 Offset:-1250 Page:Analog";
 BA_DEF_ BO_  "CANFD_BRS" ENUM  "0","1";
 BA_DEF_  "DBName" STRING ;
 BA_DEF_  "BusType" STRING ;
@@ -156,7 +402,9 @@ BA_DEF_DEF_  "CANoeStartDelay" 0;
 BA_DEF_DEF_  "VFrameFormat" "StandardCAN";
 BA_ "BusType" "CAN FD";
 BA_ "DBName" "Erad5_GUI_DEVCAN";
-BA_ "VFrameFormat" BO_ 256 14;
+BA_ "VFrameFormat" BO_ 1543 14;
+BA_ "VFrameFormat" BO_ 1281 14;
+BA_ "VFrameFormat" BO_ 1542 14;
 BA_ "VFrameFormat" BO_ 1541 14;
 BA_ "VFrameFormat" BO_ 1784 14;
 

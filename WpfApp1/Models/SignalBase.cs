@@ -1,15 +1,26 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace WpfApp1.Models
 {
+    [XmlInclude(typeof(AnalogSignal))]
+    [XmlInclude(typeof(DiscreteInputSignal))]
+    [XmlInclude(typeof(DiscreteOutputSignal))]
+    [XmlInclude(typeof(PulseInSignal))]
+    [XmlInclude(typeof(PulseOutSingleSignal))]
+    [XmlInclude(typeof(PulseOutGroupSignal))]
     public class SignalBase : ObservableObject, IDBCSignal
     {
         private double originValue;
-
+        //private string name;
         public string Name { get; set; }
+
+        public string DisplayName { get => RelaceSignalName(Name); }
+
         public string ViewName { get; set; }
+        [XmlIgnore]
         public double OriginValue 
         {
             get => originValue;
@@ -44,15 +55,50 @@ namespace WpfApp1.Models
             //RealValue = TransForm(originValue).ToString();
         }
 
+        /// <summary>
+        /// start with "VI_" Replace ""
+        /// <para>start with "Low_" Replace "/"</para>
+        /// </summary>
+        /// <param name="signalName"></param>
+        /// <returns></returns>
+        public static string RelaceSignalName(string signalName)
+        {
+            if (signalName.StartsWith("VI_"))
+            {
+                return signalName.Replace("VI_", "");
+            }
+            if (signalName.StartsWith("LOW_"))
+            {
+                return signalName.Replace("LOW_", "/");
+            }
+            return signalName;
+        }
+
         public override string ToString()
         {
             return Name;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is SignalBase otherSignal)
+            {
+                return this.MessageID == otherSignal.MessageID && this.Name == otherSignal.Name;
+            }
+
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return MessageID.GetHashCode() + Name.GetHashCode();
         }
     }
 
     public class TransFormSignalBase : SignalBase
     {
         private string value1;
+        [XmlIgnore]
         public string Value1
         {
             get => value1;
@@ -99,10 +145,13 @@ namespace WpfApp1.Models
         //private SolidColorBrush valueColor;
 
         //public System.Windows.Media.SolidColorBrush ValueColor { get => valueColor; set => SetProperty(ref valueColor, value); }
+        [XmlIgnore]
         public double MaxValue { get => maxValue; set => SetProperty(ref maxValue, value); }
+        [XmlIgnore]
         public double MinValue { get => minValue; set => SetProperty(ref minValue, value); }
         public double MaxThreshold { get => maxThreshold; set => SetProperty(ref maxThreshold, value); }
         public double MinThreshold { get => minThreshold; set => SetProperty(ref minThreshold, value); }
+        [XmlIgnore]
         public bool OutLimits { get => outLimits; set => SetProperty(ref outLimits, value); }
 
         public override void OnOriginValueChaned(double originValue, bool changed)
@@ -130,7 +179,7 @@ namespace WpfApp1.Models
         private double totalValue;
 
         private double average;
-
+        [XmlIgnore]
         public double Average { get => average; set => SetProperty(ref average, value); }
 
         public override void OnOriginValueChaned(double originValue, bool changed)
@@ -221,6 +270,11 @@ namespace WpfApp1.Models
         int Transform2Type { get; }
 
         double TransForm2(double oldVal);
+
+        string TableName { get; }
+
+        double TransForm2Factor { get; }
+        double TransForm2Offset { get; }
     }
 
     public interface ICalStandardDev

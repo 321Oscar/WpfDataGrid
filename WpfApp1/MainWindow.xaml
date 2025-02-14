@@ -11,7 +11,7 @@
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
     xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
     Title="MainWindow"
-    Width="1000"
+    Width="1100"
     Height="800"
     WindowState="Maximized"
     mc:Ignorable="d">
@@ -21,7 +21,7 @@
         </Style>
     </adonisControls:AdonisWindow.Style>
     <Grid>
-        <components:Modal IsOpen="{Binding IsOpen}" Panel.ZIndex="100">
+        <components:Modal IsOpen="{Binding IsOpen}" Panel.ZIndex="1">
             <ContentControl Content="{Binding CurrentModalViewModel}"/>
         </components:Modal>
         <Grid>
@@ -32,7 +32,7 @@
             </Grid.RowDefinitions>
             <WrapPanel Grid.Row="0">
                 <!--  Device  -->
-                <GroupBox Header="CanDevice" Margin="0,5">
+                <GroupBox Header="CanDevice" Margin="5,5,0,5">
                     <Grid Margin="0,-5" Width="300">
                         <Grid.RowDefinitions>
                             <RowDefinition/>

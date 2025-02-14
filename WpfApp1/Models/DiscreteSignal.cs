@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Xml.Serialization;
 
 namespace WpfApp1.Models
 {
@@ -6,6 +7,7 @@ namespace WpfApp1.Models
     {
         [ObservableProperty]
         public string PinNumber { get; set; }
+        [XmlIgnore]
         public int Status { get; set; }
     }
 

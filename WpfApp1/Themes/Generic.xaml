@@ -4,6 +4,7 @@
     xmlns:ctrls="clr-namespace:WpfApp1.Components"
     xmlns:cvts="clr-namespace:WpfApp1.Converters"
     xmlns:viewModels="clr-namespace:WpfApp1.ViewModels"
+    xmlns:models="clr-namespace:WpfApp1.Models"
     xmlns:views="clr-namespace:WpfApp1.Views">
     <DataTemplate DataType="{x:Type viewModels:DeviceViewModel}">
         <views:DevicesView />
@@ -52,6 +53,37 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type viewModels:LayoutViewModel}">
         <ctrls:Layout />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:AnalogSignalLocatorViewModel}">
+        <views:SignalLocatorView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:DiscreteInputSignalLocatorViewModel}">
+        <views:SignalLocatorView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:DiscreteOutputSignalLocatorViewModel}">
+        <views:SignalLocatorView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:PulseOutSignalLocatorViewModel}">
+        <views:SignalLocatorView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:SignalBase}">
+        <TextBlock Text="{Binding Name}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:PulseGroupSignalOutGroup}">
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding GroupName}" Margin="0,0,5,0"/>
+            <ctrls:ControlWithTitle Title="Duty:" Content="{Binding DutyCycle}" Grid.Column="1" Grid.Row="0"/>
+            <ctrls:ControlWithTitle Title="Freq:" Content="{Binding Freq}" Grid.Column="1" Grid.Row="1"/>
+        </Grid>
+        
     </DataTemplate>
 
     <Style TargetType="{x:Type ctrls:Modal}">
@@ -298,6 +330,26 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="TextBoxWithLabelStackStyle" TargetType="{x:Type ctrls:TextBoxWithLabel}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ctrls:TextBoxWithLabel}">
+                    <StackPanel Orientation="{TemplateBinding Orientation}">
+                        
+                        <TextBlock Text="{TemplateBinding Title}" 
+                                   FontWeight="Bold" 
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,10,0"
+                                   Grid.Column="0"/>
+
+                        <TextBox Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}"
+                                 Grid.Column="1"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="TextBoxWithLabelGridStyle" TargetType="{x:Type ctrls:TextBoxWithLabel}">
         <Setter Property="Template">
             <Setter.Value>

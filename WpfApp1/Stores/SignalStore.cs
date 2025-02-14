@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Xml.Serialization;
 using WpfApp1.Devices;
+using WpfApp1.Helpers;
 using WpfApp1.Models;
 using WpfApp1.Services;
 
@@ -11,29 +13,55 @@ namespace WpfApp1.Stores
     public class SignalStore
     {
         private readonly List<SignalBase> _signals;
+        private readonly List<Signal> _dbcSignals = new List<Signal>();
         private readonly LogService logService;
         //public const double AnalogConst = 5 / 4096;
-        public DbcFile DbcFile { get; }
+        public DbcFile DbcFile { get; private set; }
         public SignalStore(Services.LogService logService)
         {
             this.logService = logService;
             _signals = new List<SignalBase>();
-            DbcFile = new DbcFile(@".\Config\Erad5_GUI_DEVCAN.dbc");
-            LoadAnalogSignals(0x6f8, nameof(ViewModels.AnalogViewModel));
-            LoadAnalogSignals(0x605, nameof(ViewModels.ResolverViewModel));
-            LoadPPAWL(0x01, nameof(ViewModels.PPAWLViewModel));
-            LoadDiscretes(nameof(ViewModels.DiscreteViewModel));
-            LoadSavingLogicSignals();
-            LoadGDICStatusSignals();
-            LoadPulseInSignals(0x10, nameof(ViewModels.PulseInViewModel));
-            LoadPulseInSignals(0x20, nameof(ViewModels.PPAWLViewModel));
-            LoadPulseOutSignals(nameof(ViewModels.PPAWLViewModel));
-            LoadPulseOutSignals(nameof(ViewModels.PulseOutViewModel));
+            //LoadDBC();
+            LoadSignalLocator();
+            //LoadAnalogSignals();
+            //LoadAnalogSignals(0x605, nameof(ViewModels.ResolverViewModel));
+            //LoadPPAWL(0x01, nameof(ViewModels.PPAWLViewModel));
+            //LoadDiscretes(nameof(ViewModels.DiscreteViewModel));
+            //LoadSavingLogicSignals();
+            //LoadGDICStatusSignals();
+            //LoadPulseInSignals(0x10, (ViewModels.PulseInViewModel.VIEWNAME));
+            //LoadPulseInSignals(0x20, nameof(ViewModels.PPAWLViewModel));
+            //LoadPulseOutSignals(nameof(ViewModels.PPAWLViewModel));
+            //LoadPulseOutSignals(ViewModels.PulseOutViewModel.VIEWNAME);
         }
+        ~SignalStore()
+        {
+            XmlHelper.SerializeToXml(SignalLocatorInfo, SignalLocatorFilePath);
+        }
+
+        public IEnumerable<Signal> DBCSignals { get => _dbcSignals; }
+
         public IEnumerable<SignalBase> Signals => _signals;
+
+        public List<CANMessage> Messages { get; } = new List<CANMessage>();
+
+        public void AddSignal(SignalBase signal)
+        {
+            if (Signals.FirstOrDefault(x => x.MessageID == signal.MessageID && x.Name == signal.Name) == null)
+            {
+                _signals.Add(signal);
+                if (this.Messages.FirstOrDefault(x => x.MessageID == signal.MessageID) == null)
+                {
+                    //create new CanMessag
+                    CANMessage message = new CANMessage(signal.MessageID, 64, 0);
+                    Messages.Add(message);
+                }
+            }
+        }
 
         public IEnumerable<TSignal> GetSignals<TSignal>(string viewName = "") where TSignal : SignalBase
         {
+            viewName = ReplaceViewModel(viewName);
             _signals.Sort((x, y) => {
                 if (y.MessageID > x.MessageID)
                 {
@@ -52,12 +80,13 @@ namespace WpfApp1.Stores
                            {
                                if (string.IsNullOrEmpty(viewName))
                                    return true;
-                               return x.ViewName == viewName;
+                               return x.ViewName.IndexOf(viewName) > -1;
                            });
         }
 
         public ObservableCollection<TSignal> GetObservableCollection<TSignal>(string viewName = "") where TSignal : SignalBase
         {
+            viewName = ReplaceViewModel(viewName);
             ObservableCollection<TSignal> signals = new ObservableCollection<TSignal>();
             _signals.Sort((x, y) => {
                 if (y.MessageID > x.MessageID)
@@ -75,7 +104,7 @@ namespace WpfApp1.Stores
             {
                 if (string.IsNullOrEmpty(viewName))
                     signals.Add(item);
-                else if (item.ViewName == viewName)
+                else if (item.ViewName.IndexOf(viewName) > -1)
                     signals.Add(item);
             }
 
@@ -169,6 +198,83 @@ namespace WpfApp1.Stores
 
         }
 
+        public IEnumerable<IFrame> BuildFrames(IEnumerable<SignalBase> signals)
+        {
+            List<IFrame> cAN_Msg_BytesList = new List<IFrame>();
+
+            var ids = signals.Select(x => x.MessageID).Distinct();
+
+            foreach (var signal in signals)
+            {
+                ModifyBytesRef(signal);
+            }
+
+            foreach (var messageid in ids)
+            {
+                // var bitsdata =
+                var message = Messages.FirstOrDefault(x => x.MessageID == messageid);
+                if (message != null)
+                {
+                    byte[] resData = message.Data;//8 帧数据
+                    cAN_Msg_BytesList.Add(new CanFrame(messageid, resData));
+                }
+            }
+
+            return cAN_Msg_BytesList;
+        }
+
+        private void ModifyBytesRef(SignalBase signal)
+        {
+            var message = Messages.FirstOrDefault(x => x.MessageID == signal.MessageID);
+            if (message != null)
+            {
+                byte[] initdata = message.Data;
+
+                if (signal.StartBit / 8 > initdata.Length)
+                    throw new ArgumentOutOfRangeException("信号Startbit错误，检查是否CANFD！");
+
+                ReConstructByteArray(signal, ref initdata);
+                message.Data = initdata;
+            }
+        }
+
+        public void ReConstructByteArray(SignalBase signal, ref byte[] msg)
+        {
+            int startBit = signal.StartBit;
+
+            int startIndex = startBit / 8;
+            int startOffset = startBit % 8;
+
+            int rawvalue = (int)(((decimal)(signal.OriginValue) - (decimal)signal.Offset) / (decimal)signal.Factor);
+
+            if (signal.ByteOrder == 0)//moto
+            {
+                for (int i = 0; i < signal.Length; i++)
+                {
+                    int byteIndex = startIndex + (7 - startOffset + i) / 8;
+                    int bitIndex = (GetMotorolaBitIndex(startOffset - i) % 8);
+                    int clearmask = ~(1 << bitIndex);
+                    msg[byteIndex] = (byte)(msg[byteIndex] & clearmask);
+                    int bitvaule = (rawvalue >> (signal.Length - i - 1)) & 1;//(msg[byteIndex] >> bitIndex) & 1;
+                    msg[byteIndex] = (byte)(msg[byteIndex] | (bitvaule << bitIndex));
+                }
+            }
+            else
+            {
+                for (int i = 0; i < signal.Length; i++)
+                {
+                    int byteIndex = startIndex + (startOffset + i) / 8;
+                    int bitIndex = (startOffset + i) % 8;
+                    int clearmask = ~(1 << bitIndex);
+                    msg[byteIndex] = (byte)(msg[byteIndex] & clearmask);
+                    if ((rawvalue & (1 << i)) != 0)
+                    {
+                        msg[byteIndex] |= (byte)(1 << bitIndex);
+                    }
+                }
+            }
+        }
+
         private int GetMotorolaBitIndex(int index)
         {
             while (index < 0)
@@ -179,52 +285,165 @@ namespace WpfApp1.Stores
         }
         #endregion
 
-        private void LoadAnalogSignals(uint id, string viewName)
+        private List<Signal> GetSignalsByPageName(string viewName)
         {
-            var message6f8 = DbcFile.Messages.FindAll(x => x.MessageID == id).FirstOrDefault();
+            List<Signal> signals = new List<Signal>();
 
-            foreach (var signal in message6f8.signals)
+            DbcFile.Messages.ForEach(x =>
             {
-                AnalogSignal analogSignal = new AnalogSignal()
+                //List<AnalogSignal> analogSignals = new List<AnalogSignal>();
+                foreach (var signal in x.signals)
                 {
-                    Name = signal.signalName,
-                    StartBit = (int)signal.startBit,
-                    Factor = signal.factor,
-                    Offset = signal.offset,
-                    ByteOrder = (int)signal.byteOrder,
-                    Length = (int)signal.signalSize,
-                    MessageID = message6f8.MessageID,
-                    ViewName = viewName
-                };
-
-                Comment comment = DbcFile.Comments.Find(x => x.signalName == signal.signalName
-                   && x.messageID == message6f8.MessageID.ToString());
-                if (comment != null)
-                {
-                    string commentStr = comment.comment;
-                    string[] strs = commentStr.Split(new string[] { " ", ":" }, StringSplitOptions.RemoveEmptyEntries);
-                    if (strs.Length < 4)
-                        continue;
-                    analogSignal.PinNumber = strs[1];
-                    analogSignal.ADChannel = strs[3];
+                    if (signal.Comment.KeyValues.TryGetValue("Page", out string pageName) && pageName.IndexOf(viewName) > -1)
+                    {
+                        signal.MessageID = x.MessageID;
+                        signal.MessageName = x.messageName;
+                        signals.Add(signal);
+                    }
                 }
-                _signals.Add(analogSignal);
-            }
-            logService.Info("add Analog Signals");
+            });
+
+            return signals;
+        }
+
+        private void LoadDBC()
+        {
+            DbcFile = new DbcFile(@".\Config\Erad5_GUI_DEVCAN.dbc");
+
+            DbcFile.Messages.ForEach(x =>
+            {
+                //List<AnalogSignal> analogSignals = new List<AnalogSignal>();
+                foreach (var signal in x.signals)
+                {
+                    signal.MessageID = x.MessageID;
+                    signal.MessageName = x.messageName;
+                    _dbcSignals.Add(signal);
+                }
+            });
+        }
+
+        private void LoadAnalogSignals(string viewName = nameof(ViewModels.AnalogViewModel))
+        {
+            viewName = ReplaceViewModel(viewName);
+            var analogViewSignals = GetSignalsByPageName(viewName);
+            analogViewSignals.ForEach(signal =>
+            {
+                if (signal.Comment.KeyValues.TryGetValue("Page", out string pageName) && pageName.IndexOf(viewName) > -1)
+                {
+                    AnalogSignal analogSignal = new AnalogSignal()
+                    {
+                        Name = signal.SignalName,
+                        StartBit = (int)signal.startBit,
+                        Factor = signal.factor,
+                        Offset = signal.offset,
+                        ByteOrder = (int)signal.byteOrder,
+                        Length = (int)signal.signalSize,
+                        MessageID = signal.MessageID,
+                        ViewName = pageName
+                    };
+                    analogSignal.PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
+                    analogSignal.ADChannel = signal.Comment.GetCommentByKey("A/D_Channel");
+                    analogSignal.Transform2Type = (int)signal.Comment.GetCommenDoubleByKey("Conversion_mode", 0);
+                    if (analogSignal.Transform2Type == 0)
+                    {
+                        analogSignal.TransForm2Factor = signal.Comment.GetCommenDoubleByKey("Factor", 1);
+                        analogSignal.TransForm2Offset = signal.Comment.GetCommenDoubleByKey("Offset", 0);
+                    }
+                    else
+                    {
+                        analogSignal.TableName = signal.Comment.GetCommentByKey("Table");
+                    }
+                    SaveViewSignalLocator(viewName, analogSignal);
+                    
+                }
+            });
         }
 
         private void LoadDiscretes(string viewName)
         {
             //input
-            uint msgid = 0x101;
-            int startbit = 0;
-            GenerateVirtualSignals<DiscreteInputSignal>(ref msgid, viewName, ref startbit, signalLength: 1);
-            GenerateVirtualSignals<DiscreteOutputSignal>(ref msgid, viewName, ref startbit, signalLength: 1);
+            viewName = ReplaceViewModel(viewName);
+            var discreteViewSignals = GetSignalsByPageName(viewName);
+            var outDiscreteSignals = discreteViewSignals.Where(x => x.InOrOut == false);
+
+            //var analogViewSignals = GetSignalsByPageName(viewName);
+            outDiscreteSignals.ToList().ForEach(signal =>
+            {
+                DiscreteOutputSignal analogSignal = new DiscreteOutputSignal()
+                {
+                    Name = signal.SignalName,
+                    StartBit = (int)signal.startBit,
+                    Factor = signal.factor,
+                    Offset = signal.offset,
+                    ByteOrder = (int)signal.byteOrder,
+                    Length = (int)signal.signalSize,
+                    MessageID = signal.MessageID,
+                };
+                //find a state 
+
+                var signalState = DBCSignals.FirstOrDefault(x => x.SignalName == signal.SignalName + "_State");
+                if (signalState != null)
+                {
+                    var existInput = Signals.FirstOrDefault(x => x.Name == signal.SignalName + "_State");
+                    if (existInput != null && existInput is DiscreteInputSignal exsitDiscrete)
+                    {
+                        analogSignal.State = exsitDiscrete;
+                    }
+                    else
+                    {
+                        var input = new DiscreteInputSignal()
+                        {
+                            Name = signalState.SignalName,
+                            StartBit = (int)signalState.startBit,
+                            Factor = signalState.factor,
+                            Offset = signalState.offset,
+                            ByteOrder = (int)signalState.byteOrder,
+                            Length = (int)signalState.signalSize,
+                            MessageID = signalState.MessageID,
+                        };
+                        analogSignal.State = input;
+                        AddSignal(input);
+                    }
+                }
+                else
+                {
+                    return;
+                }
+                analogSignal.ViewName += "Disrecte";
+                analogSignal.PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
+
+                SaveViewSignalLocator(viewName, analogSignal);
+                AddSignal(analogSignal);
+            });
+
+            var inputs = discreteViewSignals.Where(x => !Signals.Any(y => x.SignalName == y.Name || x.SignalName == y.Name + "_State"));
+
+            inputs.ToList().ForEach(signal =>
+            {
+                DiscreteInputSignal analogSignal = new DiscreteInputSignal()
+                {
+                    Name = signal.SignalName,
+                    StartBit = (int)signal.startBit,
+                    Factor = signal.factor,
+                    Offset = signal.offset,
+                    ByteOrder = (int)signal.byteOrder,
+                    Length = (int)signal.signalSize,
+                    MessageID = signal.MessageID,
+
+                };
+                analogSignal.ViewName += "Disrecte";
+                analogSignal.PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
+                if (string.IsNullOrEmpty(analogSignal.PinNumber))
+                    return;
+                SaveViewSignalLocator(viewName, analogSignal);
+                AddSignal(analogSignal);
+            });
         }
 
         private void LoadPPAWL(uint msgid,string viewName)
         {
             int startbit = 0;
+            viewName = ReplaceViewModel(viewName);
             GenerateVirtualSignals<AnalogSignal>(ref msgid, viewName,ref startbit, signalLength: 12);
             GenerateVirtualSignals<DiscreteInputSignal>(ref msgid, viewName, ref startbit, signalLength: 1);
             GenerateVirtualSignals<DiscreteOutputSignal>(ref msgid, viewName, ref startbit, signalLength: 1);
@@ -307,12 +526,39 @@ namespace WpfApp1.Stores
 
         private void LoadPulseInSignals(uint msgID, string viewName)
         {
-            int startbit = 0;
-            GeneratePulseInSignals(viewName, 12, ref msgID, ref startbit);
+            
+            viewName = ReplaceViewModel(viewName);
+            var pulseInViewSignals = GetSignalsByPageName(viewName);
+
+            pulseInViewSignals.ForEach(signal =>
+            {
+                if(signal.SignalName.IndexOf("_Duty") > -1 || signal.SignalName.IndexOf("_Freq") > -1)
+                {
+                    string[] groupName = signal.SignalName.Split(new string[] { "_Duty", "_Freq" }, StringSplitOptions.RemoveEmptyEntries);
+                    if (groupName.Length == 1)
+                    {
+                        PulseInSignal pulseInSignal = new PulseInSignal(groupName[0])
+                        {
+                            Name = signal.SignalName,
+                            StartBit = (int)signal.startBit,
+                            Factor = signal.factor,
+                            Offset = signal.offset,
+                            ByteOrder = (int)signal.byteOrder,
+                            Length = (int)signal.signalSize,
+                            MessageID = signal.MessageID,
+                            ViewName = viewName
+                        };
+                        SaveViewSignalLocator(viewName, pulseInSignal);
+                    }
+                }
+            });
+            //int startbit = 0;
+            //GeneratePulseInSignals(viewName, 12, ref msgID, ref startbit);
         }
 
         private void GeneratePulseInSignals(string viewName, int signalLength, ref uint msgID, ref int startbit)
         {
+            
             for (int i = 0; i < 10; i++)
             {
                 startbit = signalLength * 2 * i;
@@ -350,36 +596,40 @@ namespace WpfApp1.Stores
 
         private void LoadPulseOutSignals(string viewName)
         {
-            for (int i = 0; i < 4; i++)
-            {
-                PulseOutGroupSignal signal_dc = new PulseOutGroupSignal($"PulseOutSignal {i}")
-                {
-                    Name = "Feq",
-                    ViewName = viewName
-                };
-                PulseOutGroupSignal signal_Freq = new PulseOutGroupSignal($"PulseOutSignal {i}")
-                {
-                    Name = "Duty",
-                    ViewName = viewName
-                };
-                _signals.Add(signal_dc);
-                _signals.Add(signal_Freq);
-            }
+            viewName = ReplaceViewModel(viewName);
+            var pulseOutViewSignals = GetSignalsByPageName(viewName);
 
-            _signals.Add(new PulseOutSingleSignal()
-            {
-                Name = "Freqency",
-                ViewName = viewName
-            }); _signals.Add(new PulseOutSingleSignal()
-            {
-                Name = "PWMMode",
-                ViewName = viewName
-            });
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    PulseOutGroupSignal signal_dc = new PulseOutGroupSignal($"PulseOutSignal {i}")
+            //    {
+            //        Name = "Feq",
+            //        ViewName = viewName
+            //    };
+            //    PulseOutGroupSignal signal_Freq = new PulseOutGroupSignal($"PulseOutSignal {i}")
+            //    {
+            //        Name = "Duty",
+            //        ViewName = viewName
+            //    };
+            //    _signals.Add(signal_dc);
+            //    _signals.Add(signal_Freq);
+            //}
+
+            //_signals.Add(new PulseOutSingleSignal()
+            //{
+            //    Name = "Freqency",
+            //    ViewName = viewName
+            //}); _signals.Add(new PulseOutSingleSignal()
+            //{
+            //    Name = "PWMMode",
+            //    ViewName = viewName
+            //});
         }
 
         private void GenerateVirtualSignals<TSignal>(ref uint id, string viewName,ref int startbit, int count = 10, int signalLength = 1)
           where TSignal : SignalBase, new()
         {
+            
             for (int i = 0; i < count; i++)
             {
                 startbit += signalLength * i;
@@ -400,6 +650,87 @@ namespace WpfApp1.Stores
                     ViewName = viewName,
                 });
             }
+        }
+
+        public static string ReplaceViewModel(string viewName)
+        {
+            return viewName.Replace("ViewModel", "");
+        }
+       
+
+        #region Signal Locator
+        public ViewsSignals SignalLocatorInfo { get; private set; }
+        private const string SignalLocatorFilePath = @"Config/SignalLocator.xml";
+        private void LoadSignalLocator()
+        {
+            //ViewsSignals x = new ViewsSignals();
+            //XmlHelper.SerializeToXml(x, SignalLocatorFilePath);
+            SignalLocatorInfo = XmlHelper.DeserializeFromXml<ViewsSignals>(SignalLocatorFilePath);
+            foreach (var view in SignalLocatorInfo.ViewSignalsInfos)
+            {
+                foreach (var signal in view.Signals)
+                {
+                    AddSignal(signal);
+                    if(signal is DiscreteOutputSignal disout)
+                    {
+                        AddSignal(disout.State);
+                    }
+                }
+            }
+        }
+
+        public void SaveViewSignalLocator(string viewName, SignalBase signal)
+        {
+            var viewLocator = SignalLocatorInfo.GetViewSignalInfo(viewName);
+            if (!viewLocator.Signals.Contains(signal))
+                viewLocator.Signals.Add(signal);
+            AddSignal(signal);
+        }
+        public void SaveViewSignalLocator(string viewName, IEnumerable<SignalBase> signals, bool clear = true)
+        {
+            var viewLocator = SignalLocatorInfo.GetViewSignalInfo(viewName);
+            if (clear)
+                viewLocator.Signals.Clear();
+            viewLocator.Signals.AddRange(signals);
+        }
+        public void SaveSignalLocator()
+        {
+            XmlHelper.SerializeToXml(SignalLocatorInfo, SignalLocatorFilePath);
+        }
+        #endregion
+    }
+    [Serializable]
+    public class ViewSignalsInfo
+    {
+        //[XmlAttribute]
+        public string ViewName { get; set; }
+        public List<SignalBase> Signals { get; set; } = new List<SignalBase>();
+
+        public override string ToString()
+        {
+            return ViewName;
+        }
+    }
+    [Serializable]
+    public class ViewsSignals
+    {
+        public List<ViewSignalsInfo> ViewSignalsInfos { get; set; } = new List<ViewSignalsInfo>();
+
+        public ViewSignalsInfo GetViewSignalInfo(string viewName)
+        {
+            viewName = SignalStore.ReplaceViewModel(viewName);
+
+            ViewSignalsInfo viewSignalsInfo = ViewSignalsInfos.FirstOrDefault(x => x.ViewName == viewName);
+            if (viewSignalsInfo == null)
+            {
+                viewSignalsInfo = new ViewSignalsInfo()
+                {
+                    ViewName = viewName,
+                };
+                ViewSignalsInfos.Add(viewSignalsInfo);
+            }
+
+            return viewSignalsInfo;
         }
     }
 }

@@ -28,6 +28,12 @@
             Grid.Row="0"
             Style="{StaticResource TitleLabel}"
             Text="Analog" />
+        <Button 
+            Grid.Row="0"
+            Height="30"
+            Width="120"
+            Content="Locator Signals" 
+            Command="{Binding LocatorSignalsCommand}"/>
         <!--<ListView
             x:Name="analogView"
             Grid.Row="1"
@@ -79,13 +85,13 @@
             <DataGrid.Columns>
                 <DataGridTextColumn
                     Width="*"
-                    Binding="{Binding Name}"
+                    Binding="{Binding DisplayName}"
                     Header="Signal__Name" />
-                <!--<DataGridTextColumn Binding="{Binding PinNumber}" Header="Pin__Number" />
+                <DataGridTextColumn Binding="{Binding PinNumber}" Header="Pin__Number" />
                 <DataGridTextColumn Binding="{Binding ADChannel}" Header="A/D Channel" />
                 <DataGridTextColumn Binding="{Binding Value2}" Header="AI Scaled(Volt/Ampere)" />
-                <DataGridTextColumn Binding="{Binding OriginValue}" Header="originValue" />-->
-                <!--<DataGridTemplateColumn Header="AI Raw(volt)">
+                <DataGridTextColumn Binding="{Binding OriginValue}" Header="originValue" />
+                <DataGridTemplateColumn Header="AI Raw(volt)">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Background="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Value1}" />
@@ -99,7 +105,7 @@
                 <DataGridTextColumn Binding="{Binding MinThreshold}" Header="Min Threshold Diag(Volt)" />
                 <DataGridTextColumn Binding="{Binding MaxValue}" Header="AI Max" />
                 <DataGridTextColumn Binding="{Binding MinValue}" Header="AI Min" />
-                <DataGridTextColumn Binding="{Binding StandardDev}" Header="Standard Dev" />-->
+                <DataGridTextColumn Binding="{Binding StandardDev}" Header="Standard Dev" />
             </DataGrid.Columns>
         </DataGrid>
         <!--  Control  -->

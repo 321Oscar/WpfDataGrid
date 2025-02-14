@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Xml.Serialization;
 
 namespace WpfApp1.Models
 {
@@ -19,6 +20,7 @@ namespace WpfApp1.Models
 
         public string PinNumber { get; set; }
         public string ADChannel { get; set; }
+        [XmlIgnore]
         public string Value2
         {
             get => value2;
@@ -70,9 +72,23 @@ namespace WpfApp1.Models
         /// <returns></returns>
         public double TransForm2(double oldVal)
         {
+            if(Transform2Type == 0)
+            {
+                return oldVal * TransForm2Factor + TransForm2Offset;
+            }
+            else
+            {
+                //get table from tableName
+            }
+
             return oldVal * 2;
         }
 
+        public string TableName { get; set; }
+        public double TransForm2Factor { get; set; }
+        public double TransForm2Offset { get; set; }
+
+        [XmlIgnore]
         public double StandardDev
         {
             get
@@ -88,6 +104,7 @@ namespace WpfApp1.Models
         /// <summary>
         /// cal standard old values
         /// </summary>
+        [XmlIgnore]
         public LengthQueue<string> TmpValues { get; }
         public void CalStandard()
         {

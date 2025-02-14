@@ -12,8 +12,8 @@ namespace WpfApp1.ViewModels
 {
     public class GDICViewModel : ViewModelBase
     {
-        public GDICViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService)
-            : base(signalStore, deviceStore, logService)
+        public GDICViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider)
+            : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
         {
             //_signalStore = signalStore;
             GetGDICStatusGroups();

@@ -191,6 +191,7 @@
     <Compile Include="ViewModels\PulseInViewModel.cs" />
     <Compile Include="ViewModels\PulseOutViewModel.cs" />
     <Compile Include="ViewModels\SavinLogicViewModel.cs" />
+    <Compile Include="ViewModels\SignalLocatorViewModel.cs" />
     <Compile Include="ViewModels\UDSUpgradeViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\AnalogView.xaml.cs">
@@ -234,6 +235,9 @@
     </Compile>
     <Compile Include="Views\SavingLogicView.xaml.cs">
       <DependentUpon>SavingLogicView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SignalLocatorView.xaml.cs">
+      <DependentUpon>SignalLocatorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SPIView.xaml.cs">
       <DependentUpon>SPIView.xaml</DependentUpon>
@@ -326,6 +330,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SignalLocatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SPIView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -371,6 +379,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\Config.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\SignalLocator.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="vxlapi.dll">

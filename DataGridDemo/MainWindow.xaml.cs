@@ -23,17 +23,19 @@ namespace DataGridDemo
     /// </summary>
     public partial class MainWindow : Window
     {
-        Stopwatch watch;
+        Stopwatch gridwatch;
+        Stopwatch listwatch;
         public MainWindow()
         {
             InitializeComponent();
-            watch = new Stopwatch();
-            watch.Restart();
+            gridwatch = new Stopwatch();
+            gridwatch.Restart(); listwatch = new Stopwatch();
+            listwatch.Restart();
 
             view = new MainWindowView();
             view.DgList = new System.Collections.ObjectModel.ObservableCollection<DgModel>();
             this.DataContext = view;
-            InitData();
+            //InitData();
         }
 
         MainWindowView view;
@@ -77,10 +79,16 @@ namespace DataGridDemo
 
         private void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            watch.Stop();
-            Console.WriteLine($"{DateTime.Now:HH:mm:ss fff} datagrid loaded take {watch.ElapsedMilliseconds} ms");
+            gridwatch.Stop();
+            Console.WriteLine($"{DateTime.Now:HH:mm:ss fff} datagrid loaded take {gridwatch.ElapsedMilliseconds} ms");
 
             //this.datagrid.Loaded -= datagrid_Loaded;
+        }
+
+        private void listview_Loaded(object sender, RoutedEventArgs e)
+        {
+            listwatch.Stop();
+            Console.WriteLine($"{DateTime.Now:HH:mm:ss fff} datagrid loaded take {listwatch.ElapsedMilliseconds} ms");
         }
     }
 

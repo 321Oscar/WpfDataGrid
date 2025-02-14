@@ -1,18 +1,24 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using WpfApp1.Devices;
+using WpfApp1.Models;
 using WpfApp1.Services;
 using WpfApp1.Stores;
 
 namespace WpfApp1.ViewModels
 {
-    public class ViewModelBase : ObservableRecipient
+    public class ViewModelBase : ObservableRecipient,IDisposable
     {
         private bool _isLoading;
+        private RelayCommand _locatorSignalsCommand;
+        public ModalNavigationStore ModalNavigationStore { get; }
+        public  IServiceProvider ServiceProvider { get; }
         public SignalStore SignalStore { get; }
         public DeviceStore DeviceStore { get; }
         public LogService LogService { get; }
@@ -26,18 +32,24 @@ namespace WpfApp1.ViewModels
                 SetProperty(ref _isLoading, value);
             }
         }
+        public ICommand LocatorSignalsCommand { get => _locatorSignalsCommand ?? (_locatorSignalsCommand = new RelayCommand(LocatorSignals)); }
 
+        public ViewModelBase(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider)
+            : this(signalStore, deviceStore, logService)
+        {
+            ModalNavigationStore = modalNavigationStore;
+            ServiceProvider = serviceProvider;
+
+            //DeviceStore.BeforeCurrentDeviceChange += DeviceStore_CurrentDeviceChange;
+            //DeviceStore.CurrentDeviceChanged += DeviceStore_CurrentDeviceChanged;
+
+        }
         public ViewModelBase(SignalStore signalStore, DeviceStore deviceStore, LogService logService)
         {
             SignalStore = signalStore;
             DeviceStore = deviceStore;
             LogService = logService;
-
-            //DeviceStore.BeforeCurrentDeviceChange += DeviceStore_CurrentDeviceChange;
-            //DeviceStore.CurrentDeviceChanged += DeviceStore_CurrentDeviceChanged;
-            
         }
-
         public virtual void Init()
         {
             
@@ -57,6 +69,7 @@ namespace WpfApp1.ViewModels
             //{
             //    DeviceStore.CurrentDevice.OnMsgReceived -= CurrentDevice_OnMsgReceived;
             //}
+            this.Dispose();
         }
 
         [Obsolete]
@@ -83,23 +96,45 @@ namespace WpfApp1.ViewModels
            
 
         }
+
+        public virtual void Dispose()
+        {
+            //throw new NotImplementedException();
+        }
+        /// <summary>
+        /// ModalNavigationService SignalLocatorViewModel
+        /// </summary>
+        public virtual void LocatorSignals()
+        {
+            //ModalNavigationService<AnalogSignalLocatorViewModel> modalNavigationService =
+            //     new ModalNavigationService<AnalogSignalLocatorViewModel>(
+            //         this.ModalNavigationStore,
+            //         () => new AnalogSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore), _signals, SignalStore,
+            //         (signal) =>
+            //         {
+                 
+            //         }));
+            //modalNavigationService.Navigate();
+        }
     }
 
     public class SendFrameViewModelBase : ViewModelBase
     {
+        [Obsolete("SignalStore.BuildFrames()")]
         protected DBCSignalBuildHelper BuildFramesHelper;
-        public SendFrameViewModelBase(SignalStore signalStore, DeviceStore deviceStore, LogService logService) 
-            : base(signalStore, deviceStore, logService)
+        public SendFrameViewModelBase(SignalStore signalStore, DeviceStore deviceStore, LogService logService,
+            ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) 
+            : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
         {
             
         }
 
         public virtual void Send()
         {
-            if (DeviceStore.HasDevice)
-            {
-                DeviceStore.CurrentDevice.SendMultip(BuildFramesHelper.BuildFrames());
-            }
+            //if (DeviceStore.HasDevice)
+            //{
+            //    DeviceStore.CurrentDevice.SendMultip(SignalStore.BuildFrames());
+            //}
         }
     }
 }

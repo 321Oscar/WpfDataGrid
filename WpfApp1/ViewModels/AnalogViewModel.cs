@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,26 +21,32 @@ namespace WpfApp1.ViewModels
         private RelayCommand _resetSignalThresholdCommand;
         private readonly ObservableCollection<AnalogSignal> _signals = new ObservableCollection<AnalogSignal>();
 
-        public AnalogViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService)
-            : base(signalStore, deviceStore, logService)
+        public AnalogViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, 
+            ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider)
+            : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
         {
-           
+            
         }
 
         ~AnalogViewModel()
         {
-
+            
         }
 
-        public override async void Init()
+        public override void Dispose()
+        {
+            SignalStore.SaveViewSignalLocator(nameof(AnalogViewModel), _signals);
+        }
+
+        public override void Init()
         {
             //base.Init();
-            foreach(var signal in SignalStore.GetSignals<AnalogSignal>(nameof(AnalogViewModel)))
+            foreach(var signal in SignalStore.SignalLocatorInfo.GetViewSignalInfo(nameof(AnalogViewModel)).Signals.OfType<AnalogSignal>())
             {
                 _signals.Add(signal);
             }
 
-            await Task.Delay(1000);
+            //await Task.Delay(1000);
         }
 
         public AnalogSignal CurrentAnalogSignal { get; set; }
@@ -85,8 +92,11 @@ namespace WpfApp1.ViewModels
             {
                 foreach (var signal in AnalogSignals)
                 {
-                    signal.MinThreshold = min;
-                    signal.MaxThreshold = max;
+                    if(signal is AnalogSignal analogSignal)
+                    {
+                        analogSignal.MinThreshold = min;
+                        analogSignal.MaxThreshold = max;
+                    }
                 }
             }
             else
@@ -102,6 +112,48 @@ namespace WpfApp1.ViewModels
                 }
             }
 
+        }
+
+        public override void LocatorSignals()
+        {
+            ModalNavigationService<AnalogSignalLocatorViewModel> modalNavigationService =
+                new ModalNavigationService<AnalogSignalLocatorViewModel>(
+                    this.ModalNavigationStore,
+                    () => new AnalogSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore), _signals, SignalStore,
+                    (signal) =>
+                    {
+                        var existSignal = SignalStore.Signals.FirstOrDefault(x => x.Name == signal.SignalName && x.MessageID == signal.MessageID);
+                        if (existSignal != null && existSignal is AnalogSignal analog)
+                            return analog;
+
+                        AnalogSignal analogSignal = new AnalogSignal()
+                        {
+                            Name = signal.SignalName,
+                            StartBit = (int)signal.startBit,
+                            Factor = signal.factor,
+                            Offset = signal.offset,
+                            ByteOrder = (int)signal.byteOrder,
+                            Length = (int)signal.signalSize,
+                            MessageID = signal.MessageID,
+
+                        };
+                        analogSignal.ViewName += "Analog";
+                        analogSignal.PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
+                        analogSignal.ADChannel = signal.Comment.GetCommentByKey("A/D_Channel");
+                        analogSignal.Transform2Type = (int)signal.Comment.GetCommenDoubleByKey("Conversion_mode", 0);
+                        if (analogSignal.Transform2Type == 0)
+                        {
+                            analogSignal.TransForm2Factor = signal.Comment.GetCommenDoubleByKey("Factor", 1);
+                            analogSignal.TransForm2Offset = signal.Comment.GetCommenDoubleByKey("Offset", 0);
+                        }
+                        else
+                        {
+                            analogSignal.TableName = signal.Comment.GetCommentByKey("Table");
+                        }
+                        SignalStore.AddSignal(analogSignal);
+                        return analogSignal;
+                    }));
+            modalNavigationService.Navigate();
         }
     }
 }

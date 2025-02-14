@@ -1,4 +1,7 @@
-﻿namespace WpfApp1.Models
+﻿using System.Linq;
+using System.Xml.Serialization;
+
+namespace WpfApp1.Models
 {
     public class DiscreteOutputSignal : DiscreteSignal, ISyncValue
     {
@@ -6,7 +9,7 @@
         {
             //PropertyChanged += DiscreteOutputSignal_PropertyChanged;
         }
-
+        [XmlIgnore]
         public double? TempValue
         {
             get;
@@ -16,7 +19,7 @@
         /// 如果是同步的，则把数据存在Temp中
         /// </summary>
         public bool Sync { get; set; }
-
+        [XmlIgnore]
         public bool Pin_High
         {
             get
@@ -39,6 +42,7 @@
                 }
             }
         }
+        [XmlIgnore]
         public bool Pin_Low
         {
             get 
@@ -78,6 +82,42 @@
                 OriginValue = TempValue.Value;
                 TempValue = null;
             }
+        }
+
+        public DiscreteInputSignal State { get; set; }
+
+        public bool SetStateSignal(Stores.SignalStore signalStore)
+        {
+            var signalState = signalStore.DBCSignals.FirstOrDefault(x => x.SignalName == Name + "_State");
+            if (signalState != null)
+            {
+                var existInput = signalStore.Signals.FirstOrDefault(x => x.Name == Name + "_State");
+                if (existInput != null && existInput is DiscreteInputSignal exsitDiscrete)
+                {
+                    this.State = exsitDiscrete;
+                }
+                else
+                {
+                    var input = new DiscreteInputSignal()
+                    {
+                        Name = signalState.SignalName,
+                        StartBit = (int)signalState.startBit,
+                        Factor = signalState.factor,
+                        Offset = signalState.offset,
+                        ByteOrder = (int)signalState.byteOrder,
+                        Length = (int)signalState.signalSize,
+                        MessageID = signalState.MessageID,
+                    };
+                    this.State = input;
+                    signalStore.AddSignal(input);
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
