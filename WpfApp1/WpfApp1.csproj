@@ -111,6 +111,7 @@
     <Compile Include="Components\Layout.xaml.cs">
       <DependentUpon>Layout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\ListBoxScroll.cs" />
     <Compile Include="Components\Modal.cs" />
     <Compile Include="Components\NavigationBar.xaml.cs">
       <DependentUpon>NavigationBar.xaml</DependentUpon>
@@ -132,6 +133,7 @@
     <Compile Include="Models\DiscreteSignal.cs" />
     <Compile Include="Models\GDICStatusGroup.cs" />
     <Compile Include="Models\ISyncValue.cs" />
+    <Compile Include="Models\NXPSignal.cs" />
     <Compile Include="Models\PulseInSignalGroup.cs" />
     <Compile Include="Models\SavingLogicInOutGroup.cs" />
     <Compile Include="Services\CloseModalNavigationService.cs" />
@@ -184,9 +186,11 @@
     <Compile Include="ViewModels\GDICViewModel.cs" />
     <Compile Include="ViewModels\LayoutViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
+    <Compile Include="ViewModels\Main2ViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MemoryViewModel.cs" />
     <Compile Include="ViewModels\NavigationBarViewModel.cs" />
+    <Compile Include="ViewModels\NXPViewModel.cs" />
     <Compile Include="ViewModels\PPAWLViewModel.cs" />
     <Compile Include="ViewModels\PulseInViewModel.cs" />
     <Compile Include="ViewModels\PulseOutViewModel.cs" />
@@ -200,6 +204,9 @@
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DialogView.xaml.cs">
+      <DependentUpon>DialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DiscreteView.xaml.cs">
       <DependentUpon>DiscreteView.xaml</DependentUpon>
     </Compile>
@@ -211,6 +218,9 @@
     </Compile>
     <Compile Include="Views\LogView.xaml.cs">
       <DependentUpon>LogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MemoryView.xaml.cs">
       <DependentUpon>MemoryView.xaml</DependentUpon>
@@ -282,6 +292,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\DialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DiscreteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -295,6 +309,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

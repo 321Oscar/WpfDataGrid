@@ -19,13 +19,6 @@ namespace WpfApp1.ViewModels
         }
     }
 
-    public class NXPViewModel : ViewModelBase
-    {
-        public NXPViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
-        {
-        }
-    }
-
     public class ResolverViewModel : ViewModelBase
     {
         public ResolverViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)

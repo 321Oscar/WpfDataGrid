@@ -33,6 +33,12 @@ namespace WpfApp1.ViewModels
             
             
         }
+
+        public DiscreteViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService)
+            : base(signalStore, deviceStore, logService)
+        {
+
+        }
         public ICommand LocatorOutputsCommand => locatorOutputsCommand ?? (locatorOutputsCommand = new RelayCommand(LocatorOutputSignals));
         public IEnumerable<DiscreteInputSignal> InputSignals => _inputSignals;
         public IEnumerable<DiscreteOutputSignal> OutputSignals => _outputSignals;
@@ -49,7 +55,7 @@ namespace WpfApp1.ViewModels
                 _outputSignals.Add(signal);
             }
             //_outputSignals = SignalStore.GetObservableCollection<DiscreteOutputSignal>(nameof(DiscreteViewModel));
-            BuildFramesHelper = new DBCSignalBuildHelper(OutputSignals, SignalStore.DbcFile.Messages);
+            //BuildFramesHelper = new DBCSignalBuildHelper(OutputSignals, SignalStore.DbcFile.Messages);
             updateCommand = new RelayCommand(Update, () => OutputSignalSync);
 
             foreach (var item in OutputSignals)
@@ -120,6 +126,14 @@ namespace WpfApp1.ViewModels
         {
             if (e.PropertyName == nameof(SignalBase.OriginValue) && !OutputSignalSync)
             {
+                if (sender is DiscreteOutputSignal outputSignal)
+                {
+                    if (outputSignal.OriginValue == outputSignal.State.OriginValue)
+                    {
+                        return;
+                    }
+                }
+
                 Send();
             }
         }
@@ -129,96 +143,67 @@ namespace WpfApp1.ViewModels
             if (DeviceStore.HasDevice)
                 DeviceStore.CurrentDevice.SendMultip(SignalStore.BuildFrames(SignalStore.GetSignals<DiscreteOutputSignal>(nameof(DiscreteViewModel))));
         }
-
+        /// <summary>
+        /// locator input
+        /// </summary>
         public override void LocatorSignals()
         {
-            ModalNavigationService<DiscreteInputSignalLocatorViewModel> modalNavigationService =
-                new ModalNavigationService<DiscreteInputSignalLocatorViewModel>(
-                    this.ModalNavigationStore,
-                    () => new DiscreteInputSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore), _inputSignals, SignalStore,
-                    (signal) =>
-                    {
-                        var existSignal = SignalStore.Signals.FirstOrDefault(x => x.Name == signal.SignalName && x.MessageID == signal.MessageID);
-                        if (existSignal != null && existSignal is DiscreteInputSignal analog)
-                            return analog;
+            if (ModalNavigationStore != null)
+            {
+                var modalNavigationService = new ModalNavigationService<DiscreteInputSignalLocatorViewModel>(this.ModalNavigationStore, CreateLocatorInputViewModel);
+                modalNavigationService.Navigate();
+            }
+            else
+            {
+                Views.DialogView dialogView = new Views.DialogView();
+                //var modalNavigationService = new ModalNavigationService<DiscreteInputSignalLocatorViewModel>(this.ModalNavigationStore, CreateLocatorInputViewModel);
+                //modalNavigationService.Navigate();
+            }
+        }
+        private DiscreteInputSignalLocatorViewModel CreateLocatorInputViewModel() 
+            => new DiscreteInputSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore),
+                                                       _inputSignals,
+                                                       SignalStore,
+                                                       CreateDisInSignal);
+        private DiscreteInputSignal CreateDisInSignal(Signal signal)
+        {
+            var existSignal = SignalStore.Signals.FirstOrDefault(x => x.Name == signal.SignalName && x.MessageID == signal.MessageID);
+            if (existSignal != null && existSignal is DiscreteInputSignal analog)
+                return analog;
 
-                        DiscreteInputSignal analogSignal = new DiscreteInputSignal()
-                        {
-                            Name = signal.SignalName,
-                            StartBit = (int)signal.startBit,
-                            Factor = signal.factor,
-                            Offset = signal.offset,
-                            ByteOrder = (int)signal.byteOrder,
-                            Length = (int)signal.signalSize,
-                            MessageID = signal.MessageID,
-
-                        };
-                        analogSignal.ViewName += "Discrete";
-                        analogSignal.PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
-                      
-                        SignalStore.AddSignal(analogSignal);
-                        return analogSignal;
-                    }));
-            modalNavigationService.Navigate();
+            DiscreteInputSignal analogSignal = new DiscreteInputSignal(signal, nameof(DiscreteViewModel));
+            SignalStore.AddSignal(analogSignal);
+            return analogSignal;
         }
 
         private void LocatorOutputSignals()
         {
-            ModalNavigationService<DiscreteOutputSignalLocatorViewModel> modalNavigationService =
-                new ModalNavigationService<DiscreteOutputSignalLocatorViewModel>(
-                    this.ModalNavigationStore,
-                    () => new DiscreteOutputSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore), _outputSignals, SignalStore,
-                    (signal) =>
-                    {
-                        var existSignal = SignalStore.Signals.FirstOrDefault(x => x.Name == signal.SignalName && x.MessageID == signal.MessageID);
-                        if (existSignal != null && existSignal is DiscreteOutputSignal analog)
-                            return analog;
-
-                        DiscreteOutputSignal disOutSignal = new DiscreteOutputSignal()
-                        {
-                            Name = signal.SignalName,
-                            StartBit = (int)signal.startBit,
-                            Factor = signal.factor,
-                            Offset = signal.offset,
-                            ByteOrder = (int)signal.byteOrder,
-                            Length = (int)signal.signalSize,
-                            MessageID = signal.MessageID,
-                        };
-                        disOutSignal.ViewName += "Discrete";
-                        disOutSignal.PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
-                        SignalStore.AddSignal(disOutSignal);
-
-                        //find a state 
-                        if (disOutSignal.SetStateSignal(SignalStore))
-                        {
-                            return disOutSignal;
-                        }
-                        //var signalState = SignalStore.DBCSignals.FirstOrDefault(x => x.SignalName == signal.SignalName + "_State");
-                        //if(signalState != null)
-                        //{
-                        //    var existInput = SignalStore.Signals.FirstOrDefault(x => x.Name == signal.SignalName + "_State");
-                        //    if (existInput != null && existInput is DiscreteInputSignal exsitDiscrete)
-                        //    {
-                        //        analogSignal.State = exsitDiscrete;
-                        //    }
-                        //    else
-                        //    {
-                        //        var input = new DiscreteInputSignal()
-                        //        {
-                        //            Name = signalState.SignalName,
-                        //            StartBit = (int)signalState.startBit,
-                        //            Factor = signalState.factor,
-                        //            Offset = signalState.offset,
-                        //            ByteOrder = (int)signalState.byteOrder,
-                        //            Length = (int)signalState.signalSize,
-                        //            MessageID = signalState.MessageID,
-                        //        };
-                        //        analogSignal.State = input;
-                        //    }
-                        //}
-                        return null;
-                    }));
+            var modalNavigationService = new ModalNavigationService<DiscreteOutputSignalLocatorViewModel>(this.ModalNavigationStore,CreateDisOutLoactorViewModel);
             modalNavigationService.Navigate();
+        }
+
+        private DiscreteOutputSignalLocatorViewModel CreateDisOutLoactorViewModel() 
+            => new DiscreteOutputSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore), 
+                                                        _outputSignals, 
+                                                        SignalStore,
+                                                        CreateDisOutSignal);
+
+        private DiscreteOutputSignal CreateDisOutSignal(Signal signal)
+        {
+            var existSignal = SignalStore.Signals.FirstOrDefault(x => x.Name == signal.SignalName && x.MessageID == signal.MessageID);
+            if (existSignal != null && existSignal is DiscreteOutputSignal analog)
+                return analog;
+
+            DiscreteOutputSignal disOutSignal = new DiscreteOutputSignal(signal, nameof(DiscreteViewModel));
+            
+            SignalStore.AddSignal(disOutSignal);
+
+            //find a state 
+            if (disOutSignal.SetStateSignal(SignalStore))
+            {
+                return disOutSignal;
+            }
+            return null;
         }
     }
 }

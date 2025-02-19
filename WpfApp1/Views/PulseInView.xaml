@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WpfApp1.Views"
+    xmlns:models="clr-namespace:WpfApp1.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -16,30 +17,117 @@
         <TextBlock Grid.Row="0" Style="{StaticResource TitleLabel}">
             Pulse In
         </TextBlock>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Groups}" AutoGenerateColumns="False" IsReadOnly="True"
-                  RowHeight="20">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="SignalName" Binding="{Binding GroupName}" Width="*"/>
-                <DataGridTemplateColumn Header="DC__Cur" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Background="{Binding Signal_DC.OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Signal_DC.Value1}" />
+        <Grid Grid.Row="1" Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Border Style="{StaticResource CardBorder}" Margin="2,2,2,0" Padding="4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="SignalName"/>
+                        <ColumnDefinition SharedSizeGroup="Value1"/>
+                        <ColumnDefinition SharedSizeGroup="Value2"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="SignalName" Margin="10,0,0,0" Style="{StaticResource SignalNameFontStyle}"/>
+                    <TextBlock Text="Duty Value" Grid.Column="1" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Freq Value(HZ)" Grid.Column="2" HorizontalAlignment="Center"/>
+                </Grid>
+            </Border>
+            <ScrollViewer Grid.Row="1">
+                <ScrollViewer.Resources>
+                    <DataTemplate DataType="{x:Type models:PulseInSignal}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto" MinWidth="120"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <!--<TextBlock 
+                                 Grid.Column="0"
+                                Text="{Binding Name}" 
+                                FontSize="17" Margin="0,0,5,0"/>-->
+                            <TextBlock 
+                                Grid.Column="1"
+                                Text="{Binding Value1}" 
+                                Margin="0,0,5,0"
+                                Style="{StaticResource ValueTextBlockStyle}"
+                                Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"
+                                />
+                            <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                                <TextBlock Text="{Binding MaxValue,StringFormat={}{0:f2}}" FontSize="10" Foreground="Gray"/>
+                                <TextBlock Text="{Binding MinValue,StringFormat={}{0:f2}}" FontSize="10"  Margin="0,3,0,0"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                                <TextBlock Text="{Binding MaxThreshold}" FontSize="10"/>
+                                <TextBlock Text="{Binding MinThreshold}" FontSize="10"/>
+                            </StackPanel>
+
+                        </Grid>
+                    </DataTemplate>
+                </ScrollViewer.Resources>
+                <ItemsControl ItemsSource="{Binding Groups}" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:PulseInSignalGroup}">
+                            <Border Style="{StaticResource CardBorder}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" SharedSizeGroup="SignalName"/>
+                                        <ColumnDefinition Width="auto" SharedSizeGroup="Value1"    MinWidth="230" />
+                                        <ColumnDefinition Width="auto" SharedSizeGroup="Value2"    MinWidth="230" />
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}"/>
+                                    <ContentControl 
+                                        Content="{Binding Signal_DC}" 
+                                        Grid.Column="1" 
+                                        VerticalAlignment="Center" 
+                                        HorizontalAlignment="Center" 
+                                        ToolTip="Duty Cycle"/>
+                                    <ContentControl 
+                                        Content="{Binding Signal_Freq}" 
+                                        Grid.Column="2" 
+                                        VerticalAlignment="Center" 
+                                        HorizontalAlignment="Center"
+                                        ToolTip="Freq"/>
+                                </Grid>
+                            </Border>
                         </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="DC__Max" Binding="{Binding Signal_DC.MaxValue}" Width="*" />
-                <DataGridTextColumn Header="DC__Min" Binding="{Binding Signal_DC.MinValue}" Width="*"/>
-                
-                <DataGridTemplateColumn Header="Freq__Cur" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Background="{Binding Signal_DC.OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Signal_Freq.Value1}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Freq__Max" Binding="{Binding Signal_Freq.MaxValue}" Width="*"/>
-                <DataGridTextColumn Header="Freq__Min" Binding="{Binding Signal_Freq.MinValue}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <DataGrid 
+                Visibility="Collapsed"
+                Grid.Row="1" 
+                ItemsSource="{Binding Groups}" 
+                AutoGenerateColumns="False" 
+                IsReadOnly="True"
+                RowHeight="20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="SignalName" Binding="{Binding GroupName}" Width="*"/>
+                    <DataGridTemplateColumn Header="DC__Cur" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Background="{Binding Signal_DC.OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Signal_DC.Value1}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="DC__Max" Binding="{Binding Signal_DC.MaxValue}" Width="*" />
+                    <DataGridTextColumn Header="DC__Min" Binding="{Binding Signal_DC.MinValue}" Width="*"/>
+
+                    <DataGridTemplateColumn Header="Freq__Cur" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Background="{Binding Signal_DC.OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Signal_Freq.Value1}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Freq__Max" Binding="{Binding Signal_Freq.MaxValue}" Width="*"/>
+                    <DataGridTextColumn Header="Freq__Min" Binding="{Binding Signal_Freq.MinValue}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </Grid>
 </UserControl>

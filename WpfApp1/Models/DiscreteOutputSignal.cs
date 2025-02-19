@@ -5,10 +5,18 @@ namespace WpfApp1.Models
 {
     public class DiscreteOutputSignal : DiscreteSignal, ISyncValue
     {
+        private DiscreteInputSignal state;
+
+        //public new bool InOrOut { get; }
+
         public DiscreteOutputSignal()
         {
             //PropertyChanged += DiscreteOutputSignal_PropertyChanged;
+            InOrOut = true;
         }
+
+        public DiscreteOutputSignal(Stores.Signal signal, string viewName) : base(signal, viewName) { InOrOut = true; }
+
         [XmlIgnore]
         public double? TempValue
         {
@@ -45,11 +53,11 @@ namespace WpfApp1.Models
         [XmlIgnore]
         public bool Pin_Low
         {
-            get 
+            get
             {
                 if (Sync && TempValue.HasValue)
-                    return TempValue.Value == 0; 
-                return OriginValue == 0; 
+                    return TempValue.Value == 0;
+                return OriginValue == 0;
             }
             set
             {
@@ -84,7 +92,27 @@ namespace WpfApp1.Models
             }
         }
 
-        public DiscreteInputSignal State { get; set; }
+        public DiscreteInputSignal State 
+        { 
+            get => state;
+            set 
+            { 
+                if(state != null)
+                {
+                    state.OnPinChanged -= StateChanged;
+                }
+                state = value; 
+                if(state != null)
+                {
+                    state.OnPinChanged += StateChanged;
+                }
+            }
+        }
+
+        private void StateChanged(double x)
+        {
+            this.OriginValue = x;
+        }
 
         public bool SetStateSignal(Stores.SignalStore signalStore)
         {

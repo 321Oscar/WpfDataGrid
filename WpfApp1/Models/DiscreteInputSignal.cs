@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Xml.Serialization;
+using WpfApp1.Stores;
 
 namespace WpfApp1.Models
 {
@@ -8,22 +10,29 @@ namespace WpfApp1.Models
         private int transitions;
         [XmlIgnore]
         public int Transitions { get => transitions; private set => SetProperty(ref transitions , value); }
-
+        [XmlIgnore]
+        public Action<double> OnPinChanged { get; set; }
         public DiscreteInputSignal()
         {
             //this.PropertyChanged += DiscreteSignal_PropertyChanged;
+        }
+
+        public DiscreteInputSignal(Signal signal, string viewName):base(signal, viewName)
+        {
+
         }
 
         public void ClearTransitions()
         {
             Transitions = 0;
         }
-        public override void OnOriginValueChaned(double originValue, bool equal)
+        public override void OnOriginValueChaned(double originValue, bool changed)
         {
-            base.OnOriginValueChaned(originValue, equal);
-            if (equal)
+            base.OnOriginValueChaned(originValue, changed);
+            if (changed)
             {
                 Transitions += 1;
+                OnPinChanged?.Invoke(originValue);
             }
         }
         //public override void on()

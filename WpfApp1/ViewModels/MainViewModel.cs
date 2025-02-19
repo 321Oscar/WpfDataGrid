@@ -22,8 +22,8 @@ namespace WpfApp1.ViewModels
         private readonly IServiceProvider _serviceProvider;
         private readonly NavigationStore _navigationStore;
         private readonly ModalNavigationStore _modalNavigationStore;
-        private readonly DeviceStore _deviceStore;
-        private readonly LogService _logService;
+        protected readonly DeviceStore _deviceStore;
+        protected readonly LogService _logService;
         private string log;
 
         public ObservableObject CurrentViewModel => _navigationStore.CurrentViewModel;
@@ -48,17 +48,28 @@ namespace WpfApp1.ViewModels
         public string Log { get => log; set => SetProperty(ref log , value); }
         public int FramesCount { get => _deviceStore.FramesCount; }
         public MainViewModel(IServiceProvider serviceProvider, NavigationStore navigationStore, ModalNavigationStore modalNavigationStore,
-            DeviceStore deviceStore, LogService logService)
+            DeviceStore deviceStore, LogService logService):this(deviceStore, logService)
         {
-            this._logService = logService;
-            this._logService.LogAdded += LogService_LogAdded;
+           
             this._serviceProvider = serviceProvider;
             _navigationStore = navigationStore;
             _modalNavigationStore = modalNavigationStore;
+            
+            if (_navigationStore != null)
+            {
+                _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
+                _modalNavigationStore.CurrentViewModelChanged += OnCurrentModalViewModelChanged;
+            }
+
+           
+        }
+
+        public MainViewModel(DeviceStore deviceStore, LogService logService)
+        {
+            this._logService = logService;
+            this._logService.LogAdded += LogService_LogAdded;
             this._deviceStore = deviceStore;
 
-            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
-            _modalNavigationStore.CurrentViewModelChanged += OnCurrentModalViewModelChanged;
             this._deviceStore.CurrentDeviceChanged += OnCurrentDeviceChanged;
             this._deviceStore.FrameCountChanged += OnFrameCountChanged;
 
@@ -105,29 +116,13 @@ namespace WpfApp1.ViewModels
         public ICommand StartCommand { get; }
         public ICommand StopCommand { get; }
         public ICommand DeivceConfigCommand { get; }
-        
-        private void Open()
-        {
-            CurrentDevice?.Open();
-            _logService.Debug($"{CurrentDevice.Name} Open");
-        }
 
-        private void Close()
-        {
-            CurrentDevice?.Close();
-            _logService.Debug($"{CurrentDevice.Name} Close");
-        }
-
-        private void Start() {
-            CurrentDevice?.Start();
-            _logService.Debug($"{CurrentDevice.Name} Start Receive");
-        }
         private void Stop() {
             CurrentDevice?.Stop();
             _logService.Debug($"{CurrentDevice.Name} Stop Receive");
         }
 
-        private void DeivceConfig()
+        protected virtual void DeivceConfig()
         {
             ModalNavigationService<DeviceViewModel> modalNavigationService = new ModalNavigationService<DeviceViewModel>(this._modalNavigationStore,
                 _serviceProvider.GetRequiredService<DeviceViewModel>);

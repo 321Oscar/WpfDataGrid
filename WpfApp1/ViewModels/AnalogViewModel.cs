@@ -19,55 +19,106 @@ namespace WpfApp1.ViewModels
     {
         private RelayCommand _updateSignalThresholdCommand;
         private RelayCommand _resetSignalThresholdCommand;
+        private RelayCommand _calStandardDevCommand;
+        private AnalogSignal currentAnalogSignal;
+        private double maxThreshold;
+        private double minThreshold;
+        private int standardCount;
+        private RelayCommand _searchSignalByNameCommand;
+        private string searchSignalName;
         private readonly ObservableCollection<AnalogSignal> _signals = new ObservableCollection<AnalogSignal>();
-
-        public AnalogViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, 
+        /// <summary>
+        /// MVVM Mode with DI
+        /// </summary>
+        /// <param name="signalStore"></param>
+        /// <param name="deviceStore"></param>
+        /// <param name="logService"></param>
+        /// <param name="modalNavigationStore"></param>
+        /// <param name="serviceProvider"></param>
+        public AnalogViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService,
             ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider)
             : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
         {
-            
+
+        }
+        /// <summary>
+        /// WinForm Mode,No DependencyInjection
+        /// </summary>
+        /// <param name="signalStore"></param>
+        /// <param name="deviceStore"></param>
+        /// <param name="logService"></param>
+        public AnalogViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) : base(signalStore, deviceStore, logService)
+        {
+
         }
 
         ~AnalogViewModel()
         {
-            
+
+        }
+
+        public override void LocatorSignals()
+        {
+            if (ModalNavigationStore != null)
+            {
+                var modalNavigationService = new ModalNavigationService<AnalogSignalLocatorViewModel>(this.ModalNavigationStore, CreateSignalLocatorViewModel);
+                modalNavigationService.Navigate();
+            }
+            else
+            {
+                Views.DialogView dialogView = new Views.DialogView(CreateSignalLocatorViewModel());
+                dialogView.ShowDialog();
+            }
+        }
+
+        public override void Init()
+        {
+            foreach (var signal in SignalStore.SignalLocatorInfo.GetViewSignalInfo(nameof(AnalogViewModel)).Signals.OfType<AnalogSignal>())
+            {
+                _signals.Add(signal);
+            }
         }
 
         public override void Dispose()
         {
             SignalStore.SaveViewSignalLocator(nameof(AnalogViewModel), _signals);
         }
-
-        public override void Init()
-        {
-            //base.Init();
-            foreach(var signal in SignalStore.SignalLocatorInfo.GetViewSignalInfo(nameof(AnalogViewModel)).Signals.OfType<AnalogSignal>())
+        public string SearchSignalName
+        { 
+            get => searchSignalName; 
+            set 
             {
-                _signals.Add(signal);
+                if (SetProperty(ref searchSignalName, value))
+                {
+                    updateSearchedSignals = true;
+                }
+                _searchSignalByNameCommand.NotifyCanExecuteChanged();
             }
-
-            //await Task.Delay(1000);
         }
-
-        public AnalogSignal CurrentAnalogSignal { get; set; }
+        public AnalogSignal CurrentAnalogSignal
+        {
+            get => currentAnalogSignal;
+            set
+            {
+                if (SetProperty(ref currentAnalogSignal, value))
+                {
+                    MaxThreshold = currentAnalogSignal.MaxThreshold;
+                    MinThreshold = currentAnalogSignal.MinThreshold;
+                }
+            }
+        }
 
         public bool UpdateAll { get; set; }
 
-        public double MaxThreshold { get; set; }
+        public double MaxThreshold { get => maxThreshold; set => SetProperty(ref maxThreshold, value); }
 
-        public double MinThreshold { get; set; }
+        public double MinThreshold { get => minThreshold; set => SetProperty(ref minThreshold, value); }
 
         public IEnumerable<AnalogSignal> AnalogSignals
         {
             get
             {
-                //System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
-                //stopwatch.Restart();
-                //return SignalStore.GetSignals<AnalogSignal>(nameof(AnalogViewModel));
                 return _signals;
-                //stopwatch.Stop();
-                //Console.WriteLine($"{DateTime.Now:HH:mm:ss fff} analog get data take {stopwatch.ElapsedMilliseconds} ms");
-                //return signals;
             }
         }
 
@@ -75,8 +126,42 @@ namespace WpfApp1.ViewModels
         public ICommand ResetSignalThresholdCommand { get => _resetSignalThresholdCommand ?? (_resetSignalThresholdCommand = new RelayCommand(ResetSignalThreshold)); }
         public ICommand LoadSignalThresholdCommand { get; }
         public ICommand SaveSignalThresholdCommand { get; }
-        public ICommand CalculateSignalStdDevCommand { get; }
-       
+        public ICommand CalculateSignalStdDevCommand { get => _calStandardDevCommand ?? (_calStandardDevCommand = new RelayCommand(CalStandardDev, () => StandardCount > 0)); }
+        public ICommand SearchSignalByNameCommand { get => _searchSignalByNameCommand ?? (_searchSignalByNameCommand = new RelayCommand(SearchSignalByName, () => !string.IsNullOrEmpty(SearchSignalName))); }
+        private AnalogSignal[] searchedSignals;
+        private bool updateSearchedSignals = true;
+        private int searchSignalIndexIn = -1;
+        private void SearchSignalByName()
+        {
+            if (updateSearchedSignals)
+            {
+                searchedSignals = AnalogSignals.Where(x => x.Name.IndexOf(SearchSignalName, StringComparison.OrdinalIgnoreCase) > -1).ToArray();
+                updateSearchedSignals = false;
+                searchSignalIndexIn = -1;
+            }
+            
+            if (searchedSignals != null && searchedSignals.Length > 0)
+            {
+                if (searchSignalIndexIn < 0)
+                {
+                    searchSignalIndexIn++;
+                    CurrentAnalogSignal = searchedSignals[searchSignalIndexIn];
+                }
+                else
+                {
+                    searchSignalIndexIn += 1;
+                    if (searchSignalIndexIn == searchedSignals.Length)
+                        searchSignalIndexIn = 0;
+                    CurrentAnalogSignal = searchedSignals[searchSignalIndexIn];
+                }
+            }
+            else
+            {
+                AdonisUI.Controls.MessageBox.Show($"Cannot find signalname Contains [{SearchSignalName}] !"
+                    , "Info", AdonisUI.Controls.MessageBoxButton.OKCancel, AdonisUI.Controls.MessageBoxImage.Information);
+            }
+        }
+
         private void ResetSignalThreshold()
         {
             UpdateSignalThreshold(5, 0);
@@ -92,7 +177,7 @@ namespace WpfApp1.ViewModels
             {
                 foreach (var signal in AnalogSignals)
                 {
-                    if(signal is AnalogSignal analogSignal)
+                    if (signal is AnalogSignal analogSignal)
                     {
                         analogSignal.MinThreshold = min;
                         analogSignal.MaxThreshold = max;
@@ -113,47 +198,42 @@ namespace WpfApp1.ViewModels
             }
 
         }
-
-        public override void LocatorSignals()
+        public int StandardCount
         {
-            ModalNavigationService<AnalogSignalLocatorViewModel> modalNavigationService =
-                new ModalNavigationService<AnalogSignalLocatorViewModel>(
-                    this.ModalNavigationStore,
-                    () => new AnalogSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore), _signals, SignalStore,
-                    (signal) =>
-                    {
-                        var existSignal = SignalStore.Signals.FirstOrDefault(x => x.Name == signal.SignalName && x.MessageID == signal.MessageID);
-                        if (existSignal != null && existSignal is AnalogSignal analog)
-                            return analog;
+            get => standardCount;
+            set
+            {
+                if (value > 1000)
+                    value = 1000;
+                if (SetProperty(ref standardCount, value))
+                {
+                    _calStandardDevCommand.NotifyCanExecuteChanged();
+                }
+            }
+        }
+        private void CalStandardDev()
+        {
+            //throw new NotImplementedException();
+            foreach (var signal in AnalogSignals)
+            {
+                signal.CalStandard(StandardCount);
+            }
+        }
 
-                        AnalogSignal analogSignal = new AnalogSignal()
-                        {
-                            Name = signal.SignalName,
-                            StartBit = (int)signal.startBit,
-                            Factor = signal.factor,
-                            Offset = signal.offset,
-                            ByteOrder = (int)signal.byteOrder,
-                            Length = (int)signal.signalSize,
-                            MessageID = signal.MessageID,
+        private AnalogSignalLocatorViewModel CreateSignalLocatorViewModel()
+        {
+            return new AnalogSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore), _signals, SignalStore, CreateAnalogByDBCSignal);
+        }
 
-                        };
-                        analogSignal.ViewName += "Analog";
-                        analogSignal.PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
-                        analogSignal.ADChannel = signal.Comment.GetCommentByKey("A/D_Channel");
-                        analogSignal.Transform2Type = (int)signal.Comment.GetCommenDoubleByKey("Conversion_mode", 0);
-                        if (analogSignal.Transform2Type == 0)
-                        {
-                            analogSignal.TransForm2Factor = signal.Comment.GetCommenDoubleByKey("Factor", 1);
-                            analogSignal.TransForm2Offset = signal.Comment.GetCommenDoubleByKey("Offset", 0);
-                        }
-                        else
-                        {
-                            analogSignal.TableName = signal.Comment.GetCommentByKey("Table");
-                        }
-                        SignalStore.AddSignal(analogSignal);
-                        return analogSignal;
-                    }));
-            modalNavigationService.Navigate();
+        private AnalogSignal CreateAnalogByDBCSignal(Signal signal)
+        {
+            var existSignal = SignalStore.Signals.FirstOrDefault(x => x.Name == signal.SignalName && x.MessageID == signal.MessageID);
+            if (existSignal != null && existSignal is AnalogSignal analog)
+                return analog;
+
+            AnalogSignal analogSignal = new AnalogSignal(signal, "Analog");
+            SignalStore.AddSignal(analogSignal);
+            return analogSignal;
         }
     }
 }

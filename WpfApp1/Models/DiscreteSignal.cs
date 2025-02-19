@@ -5,10 +5,18 @@ namespace WpfApp1.Models
 {
     public class DiscreteSignal : SignalBase
     {
+        public DiscreteSignal()
+        {
+
+        }
+
+        public DiscreteSignal(Stores.Signal signal, string viewName) : base(signal, viewName)
+        {
+            PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
+        }
+
         [ObservableProperty]
         public string PinNumber { get; set; }
-        [XmlIgnore]
-        public int Status { get; set; }
     }
 
 }

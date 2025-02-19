@@ -48,7 +48,7 @@ namespace WpfApp1.Views
             watch.Stop();
             Console.WriteLine($"{DateTime.Now:HH:mm:ss fff} datagrid loaded take {watch.ElapsedMilliseconds} ms");
 
-            this.datagrid.Loaded -= datagrid_Loaded;
+            //this.datagrid.Loaded -= datagrid_Loaded;
         }
     }
 }

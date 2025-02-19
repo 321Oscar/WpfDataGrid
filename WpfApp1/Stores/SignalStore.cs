@@ -21,7 +21,8 @@ namespace WpfApp1.Stores
         {
             this.logService = logService;
             _signals = new List<SignalBase>();
-            //LoadDBC();
+            ValueTable.LoadTables();
+            LoadDBC();
             LoadSignalLocator();
             //LoadAnalogSignals();
             //LoadAnalogSignals(0x605, nameof(ViewModels.ResolverViewModel));
@@ -32,11 +33,21 @@ namespace WpfApp1.Stores
             //LoadPulseInSignals(0x10, (ViewModels.PulseInViewModel.VIEWNAME));
             //LoadPulseInSignals(0x20, nameof(ViewModels.PPAWLViewModel));
             //LoadPulseOutSignals(nameof(ViewModels.PPAWLViewModel));
-            //LoadPulseOutSignals(ViewModels.PulseOutViewModel.VIEWNAME);
+            LoadPulseOutFixedSignals();
         }
+
+       
+
         ~SignalStore()
         {
-            XmlHelper.SerializeToXml(SignalLocatorInfo, SignalLocatorFilePath);
+            try
+            {
+                XmlHelper.SerializeToXml(SignalLocatorInfo, SignalLocatorFilePath);
+            }
+            catch (Exception ex)
+            {
+                //throw;
+            }
         }
 
         public IEnumerable<Signal> DBCSignals { get => _dbcSignals; }
@@ -50,6 +61,7 @@ namespace WpfApp1.Stores
             if (Signals.FirstOrDefault(x => x.MessageID == signal.MessageID && x.Name == signal.Name) == null)
             {
                 _signals.Add(signal);
+                logService.Debug($"add Signal {signal.Name}");
                 if (this.Messages.FirstOrDefault(x => x.MessageID == signal.MessageID) == null)
                 {
                     //create new CanMessag
@@ -61,7 +73,7 @@ namespace WpfApp1.Stores
 
         public IEnumerable<TSignal> GetSignals<TSignal>(string viewName = "") where TSignal : SignalBase
         {
-            viewName = ReplaceViewModel(viewName);
+            viewName = SignalBase.ReplaceViewModel(viewName);
             _signals.Sort((x, y) => {
                 if (y.MessageID > x.MessageID)
                 {
@@ -86,7 +98,7 @@ namespace WpfApp1.Stores
 
         public ObservableCollection<TSignal> GetObservableCollection<TSignal>(string viewName = "") where TSignal : SignalBase
         {
-            viewName = ReplaceViewModel(viewName);
+            viewName = SignalBase.ReplaceViewModel(viewName);
             ObservableCollection<TSignal> signals = new ObservableCollection<TSignal>();
             _signals.Sort((x, y) => {
                 if (y.MessageID > x.MessageID)
@@ -324,7 +336,7 @@ namespace WpfApp1.Stores
 
         private void LoadAnalogSignals(string viewName = nameof(ViewModels.AnalogViewModel))
         {
-            viewName = ReplaceViewModel(viewName);
+            viewName = SignalBase.ReplaceViewModel(viewName);
             var analogViewSignals = GetSignalsByPageName(viewName);
             analogViewSignals.ForEach(signal =>
             {
@@ -362,7 +374,7 @@ namespace WpfApp1.Stores
         private void LoadDiscretes(string viewName)
         {
             //input
-            viewName = ReplaceViewModel(viewName);
+            viewName = SignalBase.ReplaceViewModel(viewName);
             var discreteViewSignals = GetSignalsByPageName(viewName);
             var outDiscreteSignals = discreteViewSignals.Where(x => x.InOrOut == false);
 
@@ -443,7 +455,7 @@ namespace WpfApp1.Stores
         private void LoadPPAWL(uint msgid,string viewName)
         {
             int startbit = 0;
-            viewName = ReplaceViewModel(viewName);
+            viewName = SignalBase.ReplaceViewModel(viewName);
             GenerateVirtualSignals<AnalogSignal>(ref msgid, viewName,ref startbit, signalLength: 12);
             GenerateVirtualSignals<DiscreteInputSignal>(ref msgid, viewName, ref startbit, signalLength: 1);
             GenerateVirtualSignals<DiscreteOutputSignal>(ref msgid, viewName, ref startbit, signalLength: 1);
@@ -527,7 +539,7 @@ namespace WpfApp1.Stores
         private void LoadPulseInSignals(uint msgID, string viewName)
         {
             
-            viewName = ReplaceViewModel(viewName);
+            viewName = SignalBase.ReplaceViewModel(viewName);
             var pulseInViewSignals = GetSignalsByPageName(viewName);
 
             pulseInViewSignals.ForEach(signal =>
@@ -596,34 +608,19 @@ namespace WpfApp1.Stores
 
         private void LoadPulseOutSignals(string viewName)
         {
-            viewName = ReplaceViewModel(viewName);
+            viewName = SignalBase.ReplaceViewModel(viewName);
             var pulseOutViewSignals = GetSignalsByPageName(viewName);
+        }
 
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    PulseOutGroupSignal signal_dc = new PulseOutGroupSignal($"PulseOutSignal {i}")
-            //    {
-            //        Name = "Feq",
-            //        ViewName = viewName
-            //    };
-            //    PulseOutGroupSignal signal_Freq = new PulseOutGroupSignal($"PulseOutSignal {i}")
-            //    {
-            //        Name = "Duty",
-            //        ViewName = viewName
-            //    };
-            //    _signals.Add(signal_dc);
-            //    _signals.Add(signal_Freq);
-            //}
-
-            //_signals.Add(new PulseOutSingleSignal()
-            //{
-            //    Name = "Freqency",
-            //    ViewName = viewName
-            //}); _signals.Add(new PulseOutSingleSignal()
-            //{
-            //    Name = "PWMMode",
-            //    ViewName = viewName
-            //});
+        private void LoadPulseOutFixedSignals()
+        {
+            string viewName = SignalBase.ReplaceViewModel(ViewModels.PulseOutViewModel.VIEWNAME);
+            var pwm_U_Duty = new PulseOutSingleSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "PWM_U_Duty"), viewName);
+            AddSignal(pwm_U_Duty);
+            var pwm_V_Duty = new PulseOutSingleSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "PWM_V_Duty"), viewName);
+            AddSignal(pwm_V_Duty); 
+            var pwm_W_Duty = new PulseOutSingleSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "PWM_W_Duty"), viewName);
+            AddSignal(pwm_W_Duty);
         }
 
         private void GenerateVirtualSignals<TSignal>(ref uint id, string viewName,ref int startbit, int count = 10, int signalLength = 1)
@@ -651,12 +648,6 @@ namespace WpfApp1.Stores
                 });
             }
         }
-
-        public static string ReplaceViewModel(string viewName)
-        {
-            return viewName.Replace("ViewModel", "");
-        }
-       
 
         #region Signal Locator
         public ViewsSignals SignalLocatorInfo { get; private set; }
@@ -698,39 +689,61 @@ namespace WpfApp1.Stores
             XmlHelper.SerializeToXml(SignalLocatorInfo, SignalLocatorFilePath);
         }
         #endregion
-    }
-    [Serializable]
-    public class ViewSignalsInfo
-    {
-        //[XmlAttribute]
-        public string ViewName { get; set; }
-        public List<SignalBase> Signals { get; set; } = new List<SignalBase>();
 
-        public override string ToString()
+        public List<SignalValueTable> SignalValueTables { get; private set; }
+
+        private void GenerateSignalValueTables()
         {
-            return ViewName;
+            SignalValueTables = new List<SignalValueTable>();
+            var table = new SignalValueTable()
+            {
+                TableName = "Table1",
+                Rows = new List<SignalValueTableRow>()
+            };
+            table.Rows.Add(new SignalValueTableRow(-40, "5*Rt/(Rt+20k)", 217.51));
+            table.Rows.Add(new SignalValueTableRow(-39, "5*Rt/(Rt+20k)", 205.26));
+            SignalValueTables.Add(table);
+
+            var table3 = new SignalValueTable()
+            {
+                TableName = "Table3",
+                Rows = new List<SignalValueTableRow>()
+            };
+            table.Rows.Add(new SignalValueTableRow(-40, "5*Rt/(Rt+20k)", 217.51));
+            table.Rows.Add(new SignalValueTableRow(-39, "5*Rt/(Rt+20k)", 205.26));
+            SignalValueTables.Add(table3);
+        }
+        
+        public double ConvertByTable(string tableName,double origionalValue)
+        {
+            var table = SignalValueTables.FirstOrDefault(x => x.TableName == tableName);
+
+            if (table == null)
+                return origionalValue;
+
+            return table.GetTForV(origionalValue);
         }
     }
-    [Serializable]
-    public class ViewsSignals
+
+    public static class ValueTable
     {
-        public List<ViewSignalsInfo> ViewSignalsInfos { get; set; } = new List<ViewSignalsInfo>();
+        public static string Path = @"Config/ValueTables.xml";
+        private static List<SignalValueTable> signalValueTables;
+        public static List<SignalValueTable> SignalValueTables { get => signalValueTables; }
 
-        public ViewSignalsInfo GetViewSignalInfo(string viewName)
+        public static void LoadTables()
         {
-            viewName = SignalStore.ReplaceViewModel(viewName);
+            signalValueTables = XmlHelper.DeserializeFromXml<List<SignalValueTable>>(Path);
+        }
 
-            ViewSignalsInfo viewSignalsInfo = ViewSignalsInfos.FirstOrDefault(x => x.ViewName == viewName);
-            if (viewSignalsInfo == null)
-            {
-                viewSignalsInfo = new ViewSignalsInfo()
-                {
-                    ViewName = viewName,
-                };
-                ViewSignalsInfos.Add(viewSignalsInfo);
-            }
+        public static double ConvertByTable(string tableName, double origionalValue)
+        {
+            var table = SignalValueTables.FirstOrDefault(x => x.TableName == $"{tableName}");
 
-            return viewSignalsInfo;
+            if (table == null)
+                return origionalValue;
+
+            return table.GetTForV(origionalValue);
         }
     }
 }

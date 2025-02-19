@@ -1,0 +1,128 @@
+﻿<Window x:Class="WpfApp1.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.Views" xmlns:components="clr-namespace:WpfApp1.Components"
+        mc:Ignorable="d"
+        Title="MainView"
+        WindowState="Maximized"
+        Width="1100"
+        Height="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/> 
+            <RowDefinition Height="*"/> 
+            <RowDefinition Height="auto"/> 
+        </Grid.RowDefinitions>
+        <!-- Global Ctrls and States -->
+        <Grid Grid.Row="0">
+            <WrapPanel Grid.Row="0">
+                <!--  Device  -->
+                <GroupBox Header="CanDevice" Margin="5,5,0,5">
+                    <Grid Margin="0,-5" Width="300">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button 
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            Content="Config"
+                            Command="{Binding DeivceConfigCommand}" 
+                            HorizontalAlignment="Left"
+                            Width="80"/>
+                        <Button
+                            Margin="0,2,0,0"
+                            Grid.Row="1"
+                            Command="{Binding StopCommand}"
+                            HorizontalAlignment="Left"
+                            Width="80"
+                            Content="Stop"/>
+                        <components:TextBoxWithLabel 
+                            Margin="0,2,0,0"
+                            Title="Comms Count:" 
+                            Content="{Binding FramesCount}" 
+                            Grid.Row="2" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Version" Margin="5">
+                    <StackPanel Grid.IsSharedSizeScope="True">
+                        <components:TextBoxWithLabel 
+                            Style="{StaticResource TextBlockWithLabelGridStyle}"
+                            Title="EM SW Version:" 
+                            Content="1.0.0.0"                        
+                            Grid.Row="3"/>
+                        <components:TextBoxWithLabel 
+                            Title="PC SW Version:"  Style="{StaticResource TextBlockWithLabelGridStyle}"
+                            Content="1.0.0.0"                        
+                            Grid.Row="3"/>
+                        <components:TextBoxWithLabel  Style="{StaticResource TextBlockWithLabelGridStyle}"
+                            Title="Hardware ID:" 
+                            Content="1.0.0.0"                        
+                            Grid.Row="3"/>
+
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="CAN INH State" Margin="0,5,5,5">
+                    <StackPanel>
+                        <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_DevCAN" IsEnabled="False"/>
+                        <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_CANFD_5" IsEnabled="False"/>
+                        <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_CANFD_11" IsEnabled="False"/>
+
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Controls" Margin="0,5">
+                    <WrapPanel MaxWidth="500">
+                        <WrapPanel.Resources>
+                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                <Setter Property="Margin" Value="2"/>
+                            </Style>
+                        </WrapPanel.Resources>
+                        <Button Content="Disable TLF Reset" IsEnabled="False"/>
+                        <Button Content="Can Trcv Normal Mode"/>
+                        <Button Content="Disable CAN INH"/>
+                        <Button Content="Send Can Wake Up"/>
+                        <Button Content="Reset Min/Max"/>
+                        <Button Content="Sleep TLF"/>
+                    </WrapPanel>
+                </GroupBox>
+            </WrapPanel>
+        </Grid>
+        
+        <!-- Tabs -->
+        <Grid Grid.Row="1">
+            <TabControl>
+                <TabItem Header="Analog">
+                    <local:AnalogView DataContext="{Binding AnalogViewModel}"/>
+                </TabItem>
+                <TabItem Header="Discrete">
+                    <local:DiscreteView DataContext="{Binding DiscreteViewModel}"/>
+                </TabItem>
+                <TabItem Header="PulseIn">
+                    <local:PulseInView DataContext="{Binding PulseInViewModel}"/>
+                </TabItem>
+                <TabItem Header="PulseOut">
+                    <local:PulseOutView DataContext="{Binding PulseOutViewModel}"/>
+                </TabItem>
+                <TabItem Header="NXP">
+                    <local:NXPView DataContext="{Binding NXPViewModel}"/>
+                </TabItem>
+                <TabItem Header="GDIC">
+                    <local:GDIC3160View />
+                </TabItem>
+            </TabControl>
+        </Grid>
+
+        <StatusBar Grid.Row="2" >
+            <StatusBarItem>
+                <TextBlock Text="{Binding Log}" d:Text="Log"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

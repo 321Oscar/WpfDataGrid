@@ -8,8 +8,39 @@
              xmlns:ctrls="clr-namespace:WpfApp1.Components"
              mc:Ignorable="d" 
              Background="White"
-             Width="auto"
-             Height="800">
+             Width="800"
+             Height="400">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type models:AnalogSignal}">
+            <ctrls:ControlWithTitle Title="{Binding DisplayName}" Orientation="Vertical">
+                <ctrls:ControlWithTitle.Content>
+                    <StackPanel Margin="5,2,0,0" Orientation="Horizontal">
+                        <ctrls:LabelWithContent Title="TransformType:" Content="{Binding Transform2Type}"/>
+                        <TextBlock Text="{Binding TableName}" Margin="5,0,0,0"/>
+                    </StackPanel>
+                </ctrls:ControlWithTitle.Content>
+            </ctrls:ControlWithTitle>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type models:PulseGroupSignalOutGroup}">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding GroupName}" Margin="0,0,5,0"/>
+                <ctrls:ControlWithTitle Title="Duty:" Content="{Binding DutyCycle}" Grid.Column="1" Grid.Row="0"/>
+                <ctrls:ControlWithTitle Title="Freq:" Content="{Binding Freq}" Grid.Column="1" Grid.Row="1"/>
+            </Grid>
+
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type models:NXPSignal}">
+            <TextBlock Text="{Binding DisplayName}"/>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -24,14 +55,18 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <GroupBox Header="Signal From Dbc">
-                <ListView ItemsSource="{Binding SignalStore.DBCSignals}" SelectedValue="{Binding CurrentDbcSignal,Mode=TwoWay}">
+                <ListView 
+                    x:Name="dbcSignalView"
+                    ItemsSource="{Binding SignalStore.DBCSignals}" 
+                    SelectionMode="Multiple"
+                    >
                     <ListView.View>
                         <GridView>
-                            <!--<GridViewColumn DisplayMemberBinding="{Binding MessageID}" Header="ID" Width="40"/>
-                            <GridViewColumn DisplayMemberBinding="{Binding Page}" Header="Views" Width="60"/>-->
-                            <GridViewColumn DisplayMemberBinding="{Binding Comment}" Header="Comment" Width="600"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding MessageID,StringFormat=0x{0:X}}" Header="ID" Width="60"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Page}" Header="Views" Width="70"/>
+                            <!--<GridViewColumn DisplayMemberBinding="{Binding Comment}" Header="Comment" Width="600"/>-->
                             <!--<GridViewColumn DisplayMemberBinding="{Binding MessageName}" Header="Name" />-->
-                            <!--<GridViewColumn DisplayMemberBinding="{Binding SignalName}" Header="Name" Width="200"/>-->
+                            <GridViewColumn DisplayMemberBinding="{Binding SignalName}" Header="Name" Width="200"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -41,12 +76,16 @@
                 <ItemsControl ItemsSource="{ Binding SignalStore.DBCSignals}" />
             </ScrollViewer>-->
             <StackPanel Grid.Column="1" VerticalAlignment="Center" Width="100">
-                <Button Content="add" Margin="5" Command="{Binding AddCommand}"/>
-                <Button Content="del" Margin="5"/>
+                <Button 
+                    Content="add" 
+                    Margin="5" 
+                    Command="{Binding AddMultipCommand}"
+                    CommandParameter="{Binding ElementName=dbcSignalView, Path=SelectedItems,Mode=OneWay}"/>
+                <Button Content="del" Margin="5" Command="{Binding DelCommand}"/>
             </StackPanel>
             <GroupBox Header="View's Signals" Grid.Column="2">
                 <Grid>
-                    <ListBox ItemsSource="{Binding TempSignals}" >
+                    <ListBox ItemsSource="{Binding TempSignals}" SelectedValue="{Binding CurrentTSignal}">
                         <ListBox.Resources>
                             <DataTemplate DataType="{x:Type models:SignalBase}">
                                 <TextBlock Text="{Binding Name}"/>

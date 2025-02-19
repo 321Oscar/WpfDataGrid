@@ -148,7 +148,7 @@ BO_ 1281 MCU_RX_0x501_DEVCANFD: 32 GUI
  SG_ INST_TRIGGER : 0|1@1+ (1,0) [0|1] ""  MCU
 
 BO_ 1542 MCU_TX_0x606_DEVCANFD: 12 MCU
- SG_ LOW_NXP_ACT_DISCH_Stae : 67|1@1+ (1,0) [0|1] ""  GUI
+ SG_ LOW_NXP_ACT_DISCH_State : 67|1@1+ (1,0) [0|1] ""  GUI
  SG_ LOW_F_RESET_NXP_State : 66|1@1+ (1,0) [0|0] ""  GUI
  SG_ SPD_HW_3PS_I_O_State : 65|1@1+ (1,0) [0|1] ""  GUI
  SG_ INST_TRIGGER_State : 64|1@1+ (1,0) [0|1] ""  GUI
@@ -320,7 +320,7 @@ CM_ SG_ 1281 LOW_NXP_ACT_DISCH "Pin_Number:PTA3 Page:NXP";
 CM_ SG_ 1281 LOW_F_RESET_NXP "Pin_Number:PTA7 Page:NXP";
 CM_ SG_ 1281 SPD_HW_3PS_I_O "Pin_Number:PTD5 Page:NXP";
 CM_ SG_ 1281 INST_TRIGGER "Pin_Number:PTC3 Page:NXP";
-CM_ SG_ 1542 LOW_NXP_ACT_DISCH_Stae "Pin_Number:PTA3 Page:NXP";
+CM_ SG_ 1542 LOW_NXP_ACT_DISCH_State "Pin_Number:PTA3 Page:NXP";
 CM_ SG_ 1542 LOW_F_RESET_NXP_State "Pin_Number:PTA7 Page:NXP";
 CM_ SG_ 1542 SPD_HW_3PS_I_O_State "Pin_Number:PTD5 Page:NXP";
 CM_ SG_ 1542 INST_TRIGGER_State "Pin_Number:PTC3 Page:NXP";

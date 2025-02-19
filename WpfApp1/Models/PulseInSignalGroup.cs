@@ -16,7 +16,9 @@ namespace WpfApp1.Models
 
         public PulseInSignal Signal_Freq { get; set; }
     }
-
+    /// <summary>
+    /// has List of PulseInSignalGroup
+    /// </summary>
     public class PulseInGroupGroup : SignalGroupBase
     {
         public System.Collections.Generic.List<PulseInSignalGroup> Groups { get; }
@@ -42,6 +44,17 @@ namespace WpfApp1.Models
     public class PulseOutSingleSignal : TransFormSignalBase, ISyncValue
     {
         private double tempValue;
+        //public new bool InOrOut { get; }
+        public PulseOutSingleSignal()
+        {
+            InOrOut = true;
+        }
+
+        public PulseOutSingleSignal(Stores.Signal signal, string viewName) : base(signal, viewName)
+        {
+            InOrOut = true;
+        }
+
         [XmlIgnore]
         public double? TempValue { get => tempValue; set => SetProperty(ref tempValue, value.Value); }
         [XmlIgnore]
@@ -77,11 +90,12 @@ namespace WpfApp1.Models
     public class PulseOutGroupSignal : PulseOutSingleSignal, IGroupSignal
     {
         public string GroupName { get; set; }
-        public PulseOutGroupSignal()
+       
+        public PulseOutGroupSignal():base()
         {
-
+            //InOrOut = true;
         }
-        public PulseOutGroupSignal(string groupName)
+        public PulseOutGroupSignal(Stores.Signal signal, string viewName, string groupName) : base(signal, viewName)
         {
             GroupName = groupName;
         }
@@ -99,7 +113,7 @@ namespace WpfApp1.Models
         {
         }
 
-        public PulseOutGroupSignal Freq { get => freq; set =>SetProperty(ref freq ,value); }
+        public PulseOutGroupSignal Freq { get => freq; set => SetProperty(ref freq, value); }
         public PulseOutGroupSignal DutyCycle { get => dutyCycle; set => SetProperty(ref dutyCycle, value); }
     }
 }

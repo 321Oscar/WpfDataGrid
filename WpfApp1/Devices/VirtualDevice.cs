@@ -108,7 +108,13 @@ namespace WpfApp1.Devices
         {
             List<IFrame> virtualFrames = new List<IFrame>();
 
-            var msgIDs = _signalStore.GetSignals<Models.SignalBase>().Select(x => x.MessageID).Distinct();
+            var inSignals = _signalStore.GetSignals<Models.SignalBase>()
+                                     .Where(x => !x.InOrOut).ToList();
+
+            var msgIDs = _signalStore.GetSignals<Models.SignalBase>()
+                                     .Where(x=> !x.InOrOut)
+                                     .Select(x => x.MessageID)
+                                     .Distinct();
             foreach (var msgID in msgIDs)
             {
                 virtualFrames.Add(new CanFrame(msgID, new byte[64]));

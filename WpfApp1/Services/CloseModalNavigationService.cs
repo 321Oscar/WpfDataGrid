@@ -13,7 +13,7 @@ namespace WpfApp1.Services
         public string NavigationName { get; set; }
         public void Navigate()
         {
-            _navigationStore.Close();
+            _navigationStore?.Close();
         }
     }
 }

@@ -11,6 +11,9 @@
                 <ResourceDictionary Source="pack://application:,,,/AdonisUI;component/ColorSchemes/Light.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <SolidColorBrush x:Key="{x:Static adonisUi:Brushes.AccentForegroundBrush}">#000000</SolidColorBrush>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

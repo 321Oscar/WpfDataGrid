@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Xml.Serialization;
 
 namespace WpfApp1.Helpers
@@ -7,23 +8,39 @@ namespace WpfApp1.Helpers
     {
         public static void SerializeToXml<T>(T obj, string filePath)
         {
-            XmlSerializer xs = new XmlSerializer(typeof(T));
-            using (TextWriter writer = new StreamWriter(filePath))
+            try
             {
-                xs.Serialize(writer, obj);
+                XmlSerializer xs = new XmlSerializer(typeof(T));
+                using (TextWriter writer = new StreamWriter(filePath))
+                {
+                    xs.Serialize(writer, obj);
+                }
             }
+            catch (System.Exception ex)
+            {
+
+                System.Console.WriteLine(ex.Message);
+            }
+            
         }
 
         public static T DeserializeFromXml<T>(string filePath)
         {
             if (!File.Exists(filePath))
-                return default(T);
-
-            XmlSerializer xs = new XmlSerializer(typeof(T));
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+                return default;
+            try
             {
-                return (T)xs.Deserialize(fs);
+                XmlSerializer xs = new XmlSerializer(typeof(T));
+                using (FileStream fs = new FileStream(filePath, FileMode.Open))
+                {
+                    return (T)xs.Deserialize(fs);
+                }
             }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
+            return default;
         }
     }
 }

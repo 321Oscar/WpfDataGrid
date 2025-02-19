@@ -33,7 +33,14 @@ namespace WpfApp1.ViewModels
             }
         }
         public ICommand LocatorSignalsCommand { get => _locatorSignalsCommand ?? (_locatorSignalsCommand = new RelayCommand(LocatorSignals)); }
-
+        /// <summary>
+        /// MVVM Mode with DI
+        /// </summary>
+        /// <param name="signalStore"></param>
+        /// <param name="deviceStore"></param>
+        /// <param name="logService"></param>
+        /// <param name="modalNavigationStore"></param>
+        /// <param name="serviceProvider"></param>
         public ViewModelBase(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider)
             : this(signalStore, deviceStore, logService)
         {
@@ -44,12 +51,21 @@ namespace WpfApp1.ViewModels
             //DeviceStore.CurrentDeviceChanged += DeviceStore_CurrentDeviceChanged;
 
         }
+        /// <summary>
+        /// No DI
+        /// </summary>
+        /// <param name="signalStore"></param>
+        /// <param name="deviceStore"></param>
+        /// <param name="logService"></param>
         public ViewModelBase(SignalStore signalStore, DeviceStore deviceStore, LogService logService)
         {
             SignalStore = signalStore;
             DeviceStore = deviceStore;
             LogService = logService;
         }
+        /// <summary>
+        /// In No DI, must call it 
+        /// </summary>
         public virtual void Init()
         {
             
@@ -128,6 +144,8 @@ namespace WpfApp1.ViewModels
         {
             
         }
+
+        public SendFrameViewModelBase(SignalStore signalStore, DeviceStore deviceStore, LogService logService) :base(signalStore, deviceStore, logService) { }
 
         public virtual void Send()
         {

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace WpfApp1.Models
@@ -11,9 +12,30 @@ namespace WpfApp1.Models
     [XmlInclude(typeof(PulseInSignal))]
     [XmlInclude(typeof(PulseOutSingleSignal))]
     [XmlInclude(typeof(PulseOutGroupSignal))]
+    [XmlInclude(typeof(NXPSignal))]
+    [XmlInclude(typeof(NXPInputSignal))]
     public class SignalBase : ObservableObject, IDBCSignal
     {
         private double originValue;
+
+
+        public SignalBase()
+        {
+
+        }
+
+        public SignalBase(Stores.Signal signal, string viewName)
+        {
+            Name = signal.SignalName;
+            StartBit = (int)signal.startBit;
+            Factor = signal.factor;
+            Offset = signal.offset;
+            ByteOrder = (int)signal.byteOrder;
+            Length = (int)signal.signalSize;
+            MessageID = signal.MessageID;
+            ViewName += viewName;
+        }
+
         //private string name;
         public string Name { get; set; }
 
@@ -44,7 +66,11 @@ namespace WpfApp1.Models
 
         public double Offset { get; set; }
         public string Format { get; set; } = "f2";
-
+        /// <summary>
+        /// In : false
+        ///<para>Out: True</para>
+        /// </summary>
+        public bool InOrOut { get;set; }
         /// <summary>
         /// 传进一个新的原始值引发
         /// </summary>
@@ -73,6 +99,10 @@ namespace WpfApp1.Models
             }
             return signalName;
         }
+        public static string ReplaceViewModel(string viewName)
+        {
+            return viewName.Replace("ViewModel", "");
+        }
 
         public override string ToString()
         {
@@ -97,7 +127,18 @@ namespace WpfApp1.Models
 
     public class TransFormSignalBase : SignalBase
     {
-        private string value1;
+        private string value1 = "NaN";
+
+        public TransFormSignalBase()
+        {
+                
+        }
+
+        public TransFormSignalBase(Stores.Signal signal, string viewName) : base(signal, viewName)
+        {
+
+        }
+
         [XmlIgnore]
         public string Value1
         {
@@ -141,7 +182,19 @@ namespace WpfApp1.Models
         private double maxThreshold;
         private double minThreshold;
         private bool outLimits = true;
-       
+
+        public LimitsSignalBase()
+        {
+            MaxThreshold = 5;
+            MinThreshold = 0;
+        }
+
+        public LimitsSignalBase(Stores.Signal signal, string viewName) : base(signal, viewName)
+        {
+            MaxThreshold = 5;
+            MinThreshold = 0;
+        }
+
         //private SolidColorBrush valueColor;
 
         //public System.Windows.Media.SolidColorBrush ValueColor { get => valueColor; set => SetProperty(ref valueColor, value); }
@@ -149,8 +202,26 @@ namespace WpfApp1.Models
         public double MaxValue { get => maxValue; set => SetProperty(ref maxValue, value); }
         [XmlIgnore]
         public double MinValue { get => minValue; set => SetProperty(ref minValue, value); }
-        public double MaxThreshold { get => maxThreshold; set => SetProperty(ref maxThreshold, value); }
-        public double MinThreshold { get => minThreshold; set => SetProperty(ref minThreshold, value); }
+        public double MaxThreshold 
+        { 
+            get => maxThreshold;
+            set 
+            {
+                if (SetProperty(ref maxThreshold, value))
+                {
+                    ChangeOutLimits();
+                }
+            }
+        }
+        public double MinThreshold
+        {
+            get => minThreshold;
+            set
+            {
+                if (SetProperty(ref minThreshold, value))
+                    ChangeOutLimits();
+            }
+        }
         [XmlIgnore]
         public bool OutLimits { get => outLimits; set => SetProperty(ref outLimits, value); }
 
@@ -167,9 +238,15 @@ namespace WpfApp1.Models
                     MinValue = Math.Min(MinValue, realValue);
                 //cal value1
                 //Value1 = TransForm(originValue).ToString(Format);
-
-                OutLimits = realValue > MaxThreshold || realValue < MinThreshold;
+                ChangeOutLimits();
+                //OutLimits = realValue > MaxThreshold || realValue < MinThreshold;
             }
+        }
+
+        private void ChangeOutLimits()
+        {
+            if (double.TryParse(this.Value1, out double realVal))
+                OutLimits = realVal > MaxThreshold || realVal < MinThreshold;
         }
     }
 
@@ -179,6 +256,17 @@ namespace WpfApp1.Models
         private double totalValue;
 
         private double average;
+
+        public AverageSignalBase()
+        {
+
+        }
+
+        public AverageSignalBase(Stores.Signal signal, string viewName) : base(signal, viewName)
+        {
+
+        }
+
         [XmlIgnore]
         public double Average { get => average; set => SetProperty(ref average, value); }
 
@@ -275,6 +363,7 @@ namespace WpfApp1.Models
 
         double TransForm2Factor { get; }
         double TransForm2Offset { get; }
+        string Value2 { get; set; }
     }
 
     public interface ICalStandardDev
@@ -283,7 +372,7 @@ namespace WpfApp1.Models
 
         double StandardDev { get; set; }
 
-        void CalStandard();
+        void CalStandard(int count);
     }
 
     public class LengthQueue<T> : System.Collections.Generic.Queue<T>
@@ -297,9 +386,200 @@ namespace WpfApp1.Models
 
         public new void Enqueue(T item)
         {
-            if(base.Count == length)
+            if (base.Count == length)
                 base.Dequeue();
             base.Enqueue(item);
+        }
+    }
+
+    public interface IDbcSignalConvert<TOutSignal>
+        where TOutSignal : class
+    {
+        TOutSignal Convert();
+    }
+
+    [Serializable]
+    public class ViewSignalsInfo
+    {
+        //[XmlAttribute]
+        public string ViewName { get; set; }
+        public List<SignalBase> Signals { get; set; } = new List<SignalBase>();
+
+        public override string ToString()
+        {
+            return ViewName;
+        }
+    }
+    [Serializable]
+    public class ViewsSignals
+    {
+        public List<ViewSignalsInfo> ViewSignalsInfos { get; set; } = new List<ViewSignalsInfo>();
+
+        public ViewSignalsInfo GetViewSignalInfo(string viewName)
+        {
+            viewName = SignalBase.ReplaceViewModel(viewName);
+
+            ViewSignalsInfo viewSignalsInfo = ViewSignalsInfos.FirstOrDefault(x => x.ViewName == viewName);
+            if (viewSignalsInfo == null)
+            {
+                viewSignalsInfo = new ViewSignalsInfo()
+                {
+                    ViewName = viewName,
+                };
+                ViewSignalsInfos.Add(viewSignalsInfo);
+            }
+
+            return viewSignalsInfo;
+        }
+    }
+
+    public class SignalValueTables
+    {
+        public List<SignalValueTable> Tables { get; set; }
+    }
+
+    [Serializable]
+    public class SignalValueTable
+    {
+        [XmlAttribute]
+        public string TableName { get; set; }
+
+        public List<SignalValueTableRow> Rows { get; set; }
+
+        public double GetTForV(double v)
+        {
+            var exactMatch = Rows.FirstOrDefault(r => r.ValueV == v);
+            if (exactMatch != null)
+            {
+                return exactMatch.ValueT; // 如果找到完全匹配的V，返回对应的T
+            }
+
+            // 找到最近的两个Row
+            // 使用二分查找找到插入位置
+            int index = Rows.BinarySearch(new SignalValueTableRow(v), new RowComparer());
+
+            // 找到最近的两个Row
+            SignalValueTableRow below = null, above = null;
+            foreach (var item in Rows.OrderBy(x => x.ValueV))
+            {
+                if (item.ValueV > v)
+                {
+                    above = item;
+                    if (Rows.IndexOf(item) + 1 < Rows.Count)
+                        below = Rows[Rows.IndexOf(item) + 1];
+                    break;
+                }
+            }
+
+            // 如果未找到足够的数据点
+            if (below == null || above == null)
+            {
+                return Rows.FirstOrDefault().ValueT;
+            }
+
+            // 计算斜率
+            double slope = (above.ValueT - below.ValueT) / (above.ValueV - below.ValueV);
+            // 根据斜率和下方点计算出新的T
+            double interpolatedT = below.ValueT + slope * (v - below.ValueV);
+
+            return interpolatedT;
+        }
+    }
+
+    public class RowComparer : IComparer<SignalValueTableRow>
+    {
+        public int Compare(SignalValueTableRow x, SignalValueTableRow y)
+        {
+            return x.ValueV.CompareTo(y.ValueV);
+        }
+    }
+
+    public class SignalValueTableRow
+    {
+        private double recent;
+        private string formula;
+        public SignalValueTableRow()
+        {
+
+        }
+        public SignalValueTableRow(double valueT, string formula, double recent)
+        {
+            ValueT = valueT;
+            Formula = formula;
+            Recent = recent;
+        }
+
+        public SignalValueTableRow(double val)
+        {
+            ValueV = val;
+        }
+
+        [XmlAttribute("T")]
+        public double ValueT { get; set; }
+        [XmlAttribute]
+        public string Formula 
+        {
+            get => formula;
+            set 
+            {
+                formula = value;
+                if (Recent != 0)
+                {
+                    ValueV = FormulaCalculator.CalculateV(formula, Recent);
+                }
+            }
+        }
+        [XmlAttribute]
+        public double Recent
+        {
+            get => recent;
+            set
+            {
+                recent = value;
+                if (!string.IsNullOrEmpty(formula))
+                {
+                    ValueV = FormulaCalculator.CalculateV(Formula, recent);
+                }
+            }
+        }
+        [XmlIgnore]
+        public double ValueV { get; private set; }
+
+        public override string ToString()
+        {
+            return $"T:{ValueT} ,{ValueV}";
+        }
+    }
+    /*
+    要根据字符串提取和计算公式 V = 5 * Rt / (Rt + 19.6k)，
+    我们可以使用 C# 的 DataTable.Compute 方法，这个方法可以执行简单的数学表达式。
+    如果需要对字符串进行解析和计算，可以利用正则表达式和自定义解析逻辑来处理更复杂的情况。
+    下面是一个示例，实现了如何解析公式字符串并计算 V 的值：
+    示例代码创建一个 Row 类（如之前所定义）实现一个方法来解析公式并计算 V
+    */
+
+    public class FormulaCalculator
+    {
+        public static double CalculateV(string formula, double Rt)
+        {
+            // 替换公式中的变量
+            string expression = formula.Replace("Rt", Rt.ToString());
+
+            // 处理可能存在的单位，例如 "19.6k" 转为数值
+            expression = ProcessUnits(expression);
+
+            // 使用 DataTable.Compute 进行计算
+            var result = new System.Data.DataTable().Compute(expression, null);
+            return Convert.ToDouble(result);
+        }
+
+        private static string ProcessUnits(string expression)
+        {
+            // 将 "k" 替换为 * 1000
+            return System.Text.RegularExpressions.Regex.Replace(expression, @"(\d+\.?\d*)k", match =>
+            {
+                return (double.Parse(match.Groups[1].Value) * 1000).ToString();
+            });
         }
     }
 

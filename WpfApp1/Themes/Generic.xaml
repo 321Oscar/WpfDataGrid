@@ -66,24 +66,223 @@
     <DataTemplate DataType="{x:Type viewModels:PulseOutSignalLocatorViewModel}">
         <views:SignalLocatorView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type models:SignalBase}">
-        <TextBlock Text="{Binding Name}"/>
+    <DataTemplate DataType="{x:Type viewModels:NXPSignalLocatorViewModel}">
+        <views:SignalLocatorView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type models:PulseGroupSignalOutGroup}">
-        <Grid >
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding GroupName}" Margin="0,0,5,0"/>
-            <ctrls:ControlWithTitle Title="Duty:" Content="{Binding DutyCycle}" Grid.Column="1" Grid.Row="0"/>
-            <ctrls:ControlWithTitle Title="Freq:" Content="{Binding Freq}" Grid.Column="1" Grid.Row="1"/>
-        </Grid>
-        
+    <DataTemplate DataType="{x:Type viewModels:NXPInputSignalLocatorViewModel}">
+        <views:SignalLocatorView />
+    </DataTemplate>
+    <Style x:Key="CardBorder" TargetType="Border">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Margin" Value="1"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+    <Style x:Key="CellBorder" TargetType="Border">
+        <Setter Property="Padding" Value="10,0"/>
+        <Setter Property="BorderBrush" Value="#f6f6f6"/>
+        <Setter Property="BorderThickness" Value="0,0,2,0"/>
+    </Style>
+    <Style x:Key="SignalNameFontStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    <Style x:Key="DescriptionTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="2,0,0,0"/>
+    </Style>
+    <Style x:Key="ValueTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontFamily" Value="Consolas"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+    <DataTemplate DataType="{x:Type models:SignalBase}">
+        <TextBlock Text="{Binding DisplayName}"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:AnalogSignal}">
+        <Border Style="{StaticResource CardBorder}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="SignalName" MinWidth="100"/>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="value2" MinWidth="100"/>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="value1" MinWidth="100"/>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="valueStad" MinWidth="100"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource CellBorder}">
+                    <Grid Grid.Column="0" ToolTip="{Binding DisplayName}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding DisplayName}" Style="{StaticResource SignalNameFontStyle}"/>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="{Binding PinNumber}" Style="{StaticResource DescriptionTextBlockStyle}"/>
+                            <TextBlock Text="{Binding ADChannel}" Style="{StaticResource DescriptionTextBlockStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <!-- AI Raw & AI Scaled-->
+                <Border Style="{StaticResource CellBorder}" Grid.Column="1" >
+                    <TextBlock
+                                            Style="{StaticResource ValueTextBlockStyle}"
+                                            
+                                            Text="{Binding Value2}" 
+                                            ToolTip="AI Scaled"/>
+                </Border>
+                <Border Style="{StaticResource CellBorder}" Grid.Column="2" >
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock 
+                                                Margin="0,0,5,0"
+                                                Style="{StaticResource ValueTextBlockStyle}"
+                                                Text="{Binding Value1}" 
+                                                Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"/>
+                        <StackPanel Grid.Column="1" >
+                            <TextBlock Text="Min/Max:" FontSize="10" />
+                            <TextBlock Text="Threshold:" FontSize="10"  Margin="0,3,0,0"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding MinValue,StringFormat={}{0:f2}}" FontSize="10"/>
+                                <TextBlock Text="--"/>
+                                <TextBlock Text="{Binding MaxValue,StringFormat={}{0:f2}}" FontSize="10"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding MinThreshold}" FontSize="10"/>
+                                <TextBlock Text="--"/>
+                                <TextBlock Text="{Binding MaxThreshold}" FontSize="10"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <!-- Standard -->
+                <TextBlock
+                                            Margin="5,0,5,0"
+                                            Grid.Column="3" 
+                                            Text="{Binding StandardDev,StringFormat={}{0:F2}}" 
+                                            Style="{StaticResource ValueTextBlockStyle}" 
+                                            ToolTip="StandardDev"/>
+            </Grid>
+        </Border>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:DiscreteInputSignal}">
+        <Border Style="{StaticResource CardBorder}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="SignalName"/>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <!--<Border Style="{StaticResource CellBorder}" Grid.Column="0" >-->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource SignalNameFontStyle}" Text="{Binding DisplayName}"/>
+                        <TextBlock 
+                         Style="{StaticResource DescriptionTextBlockStyle}"
+                         Text="{Binding PinNumber}"
+                         Grid.Column="1"/>
+                    </Grid>
+                <!--</Border>-->
+                <!--<Border Style="{StaticResource CellBorder}" Grid.Column="1" >-->
+                    <TextBlock 
+                        Grid.Column="1"
+                    Text="{Binding OriginValue}" 
+                    Style="{StaticResource ValueTextBlockStyle}"/>
+                <!--</Border>
+                <Border Style="{StaticResource CellBorder}" Grid.Column="2" >-->
+                    <TextBlock 
+                         Grid.Column="2"
+                    Text="{Binding Transitions}" 
+                    Style="{StaticResource ValueTextBlockStyle}" 
+                    ToolTip="Transitions"/>
+                <!--</Border>-->
+            </Grid>
+        </Border>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:DiscreteOutputSignal}">
+        <Border Style="{StaticResource CardBorder}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="SignalName"/>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="Value" MinWidth="40"/>
+                    <ColumnDefinition Width="auto" MinWidth="40"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock 
+                        Style="{StaticResource SignalNameFontStyle}"
+                         Text="{Binding DisplayName}"/>
+                    <TextBlock 
+                         Style="{StaticResource DescriptionTextBlockStyle}"
+                         Text="{Binding PinNumber}"
+                         Grid.Column="1"/>
+                </Grid>
+                <StackPanel
+                    Margin="5,0,0,0"
+                    Grid.Column="1" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" 
+                    Orientation="Horizontal">
+                    <CheckBox 
+                        IsChecked="{Binding Pin_High, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        Content="Pin__High"/>
+                    <CheckBox 
+                        Margin="5,0,0,0"
+                        IsChecked="{Binding Pin_Low, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        Content="Pin__Low"/>
+                </StackPanel>
+
+                <TextBlock 
+                    Text="{Binding State.OriginValue}" 
+                    Style="{StaticResource ValueTextBlockStyle}"
+                    Grid.Column="2"/>
+            </Grid>
+        </Border>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:NXPSignal}">
+        <Border Style="{StaticResource CardBorder}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="SignalName" />
+                    <ColumnDefinition Width="auto" SharedSizeGroup="Value" MinWidth="40"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding DisplayName}" Style="{StaticResource SignalNameFontStyle}"/>
+                <TextBlock Text="{Binding OriginValue}" Grid.Column="1" Style="{StaticResource ValueTextBlockStyle}"/>
+                <!--//<TextBlock Text="{Binding me}"-->
+            </Grid>
+        </Border>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:NXPInputSignal}">
+        <Border Style="{StaticResource CardBorder}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="SignalName" />
+                    <ColumnDefinition Width="auto" SharedSizeGroup="Value" MinWidth="40"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource SignalNameFontStyle}" Text="{Binding DisplayName}"/>
+                <TextBlock Grid.Column="1"
+                           Text="{Binding Value2}" 
+                           Style="{StaticResource ValueTextBlockStyle}"/>
+            </Grid>
+        </Border>
     </DataTemplate>
 
     <Style TargetType="{x:Type ctrls:Modal}">

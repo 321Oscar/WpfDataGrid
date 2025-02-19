@@ -10,9 +10,16 @@ namespace WpfApp1.ViewModels
 {
     public class PulseInViewModel : ViewModelBase
     {
-        public const string VIEWNAME = "Pulse_IN"; 
+        public const string VIEWNAME = "Pulse_IN";
 
-        public PulseInViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
+        public PulseInViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService)
+            : base(signalStore, deviceStore, logService)
+        {
+            GetGroups();
+        }
+
+        public PulseInViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) 
+            : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
         {
             GetGroups();
         }

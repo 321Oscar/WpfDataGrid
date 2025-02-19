@@ -5,6 +5,7 @@
     xmlns:converters="clr-namespace:WpfApp1.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WpfApp1.Views"
+    xmlns:models="clr-namespace:WpfApp1.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -37,10 +38,16 @@
         <GroupBox Grid.Row="1" Header="Inputs" Margin="2" Grid.RowSpan="2">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*"/>
+                    <RowDefinition  Height="auto"/>
                 </Grid.RowDefinitions>
-                <DataGrid
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding InputSignals}" Grid.Row="0" Grid.IsSharedSizeScope="True">
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <!--<DataGrid
+                    Grid.Row="1"
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"
                     CanUserDeleteRows="False"
@@ -53,7 +60,7 @@
                         <DataGridTextColumn Binding="{Binding OriginValue}" Header="State" />
                         <DataGridTextColumn Binding="{Binding Transitions}" Header="# Transitions" />
                     </DataGrid.Columns>
-                </DataGrid>
+                </DataGrid>-->
 
             </Grid>
         </GroupBox>
@@ -91,8 +98,12 @@
                     <RowDefinition />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-
-                <DataGrid
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding OutputSignals}" Grid.Row="0" Grid.IsSharedSizeScope="True">
+                       
+                    </ItemsControl>
+                </ScrollViewer>
+                <!--<DataGrid
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"
                     CanUserDeleteRows="False"
@@ -127,7 +138,7 @@
                             Header="State"
                             IsReadOnly="True" />
                     </DataGrid.Columns>
-                </DataGrid>
+                </DataGrid>-->
 
 
             </Grid>

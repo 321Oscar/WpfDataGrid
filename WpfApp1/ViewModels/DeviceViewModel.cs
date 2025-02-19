@@ -20,11 +20,10 @@ namespace WpfApp1.ViewModels
         private IDevice currentDevice;
         private DeviceHardWareType hardWareType;
 
-        public DeviceViewModel(DeviceStore deviceStore, LogService logService, INavigationService navigationService)
+        public DeviceViewModel(DeviceStore deviceStore, LogService logService)
         {
             this.deviceStore = deviceStore;
             this.logService = logService;
-            this.navigationService = navigationService;
 
             SaveConfigCommand = new RelayCommand(SaveConfig, () => CurrentDevice != null);
             CancelCommand = new RelayCommand(Cancel);
@@ -34,6 +33,17 @@ namespace WpfApp1.ViewModels
                 HardWareType = (deviceStore.CurrentDevice is VirtualDevice) ? DeviceHardWareType.Virtual : DeviceHardWareType.Vector;
                 CurrentDevice = deviceStore.CurrentDevice;
             }
+        }
+        /// <summary>
+        /// MVVM Dialog
+        /// </summary>
+        /// <param name="deviceStore"></param>
+        /// <param name="logService"></param>
+        /// <param name="navigationService"></param>
+        public DeviceViewModel(DeviceStore deviceStore, LogService logService, INavigationService navigationService)
+            : this(deviceStore, logService)
+        {
+            this.navigationService = navigationService;
         }
         public Devices.DeviceHardWareType HardWareType 
         { 
@@ -61,20 +71,60 @@ namespace WpfApp1.ViewModels
         }
 
         public ICommand SaveConfigCommand { get; }
-        private void SaveConfig()
+        protected virtual void SaveConfig()
         {
             deviceStore.CurrentDevice = currentDevice;
             deviceStore.CurrentDevice.Open();
             deviceStore.CurrentDevice.Start();
             //open and start receive
-
-            navigationService.Navigate();
+            
+            navigationService?.Navigate();
         }
 
         public ICommand CancelCommand { get; }
-        private void Cancel()
+        protected virtual void Cancel()
         {
-            navigationService.Navigate();
+            navigationService?.Navigate();
         }
+    }
+
+    public class DeviceWithWindowViewModel : DeviceViewModel, IDialogWindow
+    {
+        public System.Windows.Window Window { get; }
+
+        public DeviceWithWindowViewModel(DeviceStore deviceStore, LogService logService, System.Windows.Window window)
+            : base(deviceStore, logService)
+        {
+            Window = window;
+        }
+        public void Ok()
+        {
+            Window.DialogResult = true;
+            Window.Close();
+        }
+
+        //public void Cancel()
+        //{
+           
+        //}
+        protected override void SaveConfig()
+        {
+            base.SaveConfig();
+            Ok();
+        }
+
+        protected override void Cancel()
+        {
+            base.Cancel();
+            Window.DialogResult = false;
+            Window.Close();
+        }
+    }
+
+    public interface IDialogWindow
+    {
+        System.Windows.Window Window { get; }
+        void Ok();
+        //void Cancel();
     }
 }

@@ -4,8 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WpfApp1.Views"
+    xmlns:models="clr-namespace:WpfApp1.Models"
     xmlns:ctrls="clr-namespace:WpfApp1.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Background="White"
@@ -24,97 +26,207 @@
             <ColumnDefinition />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
-        <TextBlock
-            Grid.Row="0"
-            Style="{StaticResource TitleLabel}"
-            Text="Analog" />
-        <Button 
-            Grid.Row="0"
-            Height="30"
-            Width="120"
-            Content="Locator Signals" 
-            Command="{Binding LocatorSignalsCommand}"/>
-        <!--<ListView
-            x:Name="analogView"
-            Grid.Row="1"
-            ItemsSource="{Binding AnalogSignals}"
-            SelectionMode="Single"
-            >
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
-                    <GridViewColumn Header="RealValue">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border Background="{Binding ValueColor}">
-                                    <TextBlock Text="{Binding RealValue}" />
+        <StackPanel Orientation="Horizontal">
+            <TextBlock
+                Style="{StaticResource TitleLabel}"
+                Text="Analog" />
+            <Button 
+                Grid.Row="0"
+                Height="25"
+                Width="120"
+                Content="Locator Signals" 
+                Command="{Binding LocatorSignalsCommand}" />
+            <TextBox 
+                Width="80" 
+                Height="25" 
+                Text="{Binding SearchSignalName,UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.InputBindings>
+                    <KeyBinding Command="{Binding SearchSignalByNameCommand}" Key="Enter"/>
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button Content="Search" Height="25" Width="120" Command="{Binding SearchSignalByNameCommand}"/>
+        </StackPanel>
+       
+
+        <GroupBox Header="Inputs" Grid.Row="1" >
+            <Grid Grid.IsSharedSizeScope="True">
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <!-- Data Column Header-->
+                <Border Grid.Row="0" Style="{StaticResource CardBorder}" Margin="5,0,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="SignalName"/>
+                            <ColumnDefinition SharedSizeGroup="value2"/>
+                            <ColumnDefinition SharedSizeGroup="value1"/>
+                            <ColumnDefinition SharedSizeGroup="valueStad"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Border Style="{StaticResource CellBorder}">
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
+                                <TextBlock Text="SignalName" Style="{StaticResource SignalNameFontStyle}"/>
+                                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                    <TextBlock Text="PinNumber" Style="{StaticResource DescriptionTextBlockStyle}"/>
+                                    <TextBlock Text="ADChannel" Style="{StaticResource DescriptionTextBlockStyle}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <TextBlock Text="AI Scaled" Grid.Column="1" />
+                        <TextBlock Text="AI Raw(min/max)" Grid.Column="2"/>
+                        <TextBlock Text="StandardDev" Grid.Column="3"/>
+                    </Grid>
+                </Border >
+                <!--<ScrollViewer Background="#f6f6f6" Grid.Row="1">-->
+                <ctrls:ListBoxScroll 
+                         Grid.Row="1"
+                    BorderThickness="0"
+                    Background="Transparent"
+                        ItemsSource="{Binding Source={StaticResource DataGridData}}" 
+                        SelectedItem="{Binding CurrentAnalogSignal}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <!--<ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"/>
+                                    --><!--<Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUi:Brushes.AccentForegroundBrush}}"/>--><!--
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>-->
+                    <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type models:AnalogSignal}">
+                                <Border Style="{StaticResource CardBorder}" MinWidth="120">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <Border>
+                                            <Grid Grid.Column="0" ToolTip="{Binding DisplayName}" HorizontalAlignment="Center">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding DisplayName}" Style="{StaticResource SignalNameFontStyle}"/>
+                                                <StackPanel Grid.Column="1">
+                                                    <TextBlock Text="{Binding PinNumber}" Style="{StaticResource DescriptionTextBlockStyle}"/>
+                                                    <TextBlock Text="{Binding ADChannel}" Style="{StaticResource DescriptionTextBlockStyle}"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                        <!-- AI Raw & AI Scaled-->
+                                        <Border  Grid.Row="1" >
+                                            <TextBlock
+                                                Style="{StaticResource ValueTextBlockStyle}"
+                                                FontWeight="Light"
+                                                Text="{Binding Value2}" 
+                                                ToolTip="AI Scaled"/>
+                                        </Border>
+                                        <Border  Grid.Row="2" >
+                                            <Grid HorizontalAlignment="Center">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock 
+                                                    Grid.Column="1"
+                                                    Margin="0,0,5,0"
+                                                    Style="{StaticResource ValueTextBlockStyle}"
+                                                    FontSize="25"
+                                                    Text="{Binding Value1}" 
+                                                    Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"/>
+                                                <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                                                    <TextBlock  Text="{Binding MaxValue,StringFormat={}{0:f2}}" FontSize="10" />
+                                                    <TextBlock  Text="{Binding MinValue,StringFormat={}{0:f2}}" FontSize="10"  Margin="0,3,0,0"/>
+                                                </StackPanel>
+                                                <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                                                    <TextBlock Text="{Binding MaxThreshold}" FontSize="10"/>
+                                                    <TextBlock Text="{Binding MinThreshold}" FontSize="10"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                        <!-- Standard -->
+                                        <TextBlock
+                                            Margin="5,0,5,0"
+                                            Grid.Row="3" 
+                                            Text="{Binding StandardDev,StringFormat={}{0:F2}}" 
+                                            Style="{StaticResource ValueTextBlockStyle}" 
+                                            ToolTip="StandardDev"/>
+                                    </Grid>
                                 </Border>
                             </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <GridViewColumn DisplayMemberBinding="{Binding MaxValue}" Header="Max" />
-                    <GridViewColumn DisplayMemberBinding="{Binding MinValue}" Header="Min" />
-                    <GridViewColumn DisplayMemberBinding="{Binding MaxThreshold}" Header="MaxThreshold" />
-        -->
-        <!--<GridViewColumn Header="Checked">
-                    <GridViewColumn.CellTemplate>
-                    <DataTemplate>
-                    <CheckBox IsChecked="{Binding XPath=Saled}" Style="{StaticResource CustomCheckBoxStyle}" />
-                    </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                    </GridViewColumn>-->
-        <!--
-                </GridView>
-            </ListView.View>
-        </ListView>-->
-        <DataGrid
-            Grid.Row="1"
-            Margin="5"
-            Name="datagrid"
-            AutoGenerateColumns="False"
-            CanUserAddRows="False"
-            ColumnHeaderHeight="30"
-            EnableColumnVirtualization="True"
-            EnableRowVirtualization="True"
-            IsReadOnly="True"
-            ItemsSource="{Binding Source={StaticResource DataGridData}}"
-            RowHeaderWidth="0"
-            RowHeight="25" 
-            Loaded="datagrid_Loaded">
-            <DataGrid.Columns>
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding DisplayName}"
-                    Header="Signal__Name" />
-                <DataGridTextColumn Binding="{Binding PinNumber}" Header="Pin__Number" />
-                <DataGridTextColumn Binding="{Binding ADChannel}" Header="A/D Channel" />
-                <DataGridTextColumn Binding="{Binding Value2}" Header="AI Scaled(Volt/Ampere)" />
-                <DataGridTextColumn Binding="{Binding OriginValue}" Header="originValue" />
-                <DataGridTemplateColumn Header="AI Raw(volt)">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Background="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Value1}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn
-                    Width="100"
-                    Binding="{Binding MaxThreshold}"
-                    Header="Max Threshold Diag(Volt)" />
-                <DataGridTextColumn Binding="{Binding MinThreshold}" Header="Min Threshold Diag(Volt)" />
-                <DataGridTextColumn Binding="{Binding MaxValue}" Header="AI Max" />
-                <DataGridTextColumn Binding="{Binding MinValue}" Header="AI Min" />
-                <DataGridTextColumn Binding="{Binding StandardDev}" Header="Standard Dev" />
-            </DataGrid.Columns>
-        </DataGrid>
+                        </ItemsControl.ItemTemplate>
+                    </ctrls:ListBoxScroll>
+                <!--</ScrollViewer>-->
+                <!--<DataGrid
+                Visibility="Collapsed"
+                Grid.Row="1"
+                Margin="5"
+                Name="datagrid"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                ColumnHeaderHeight="30"
+                EnableColumnVirtualization="True"
+                EnableRowVirtualization="True"
+                IsReadOnly="True"
+                ItemsSource="{Binding Source={StaticResource DataGridData}}"
+                RowHeaderWidth="0"
+                RowHeight="25" 
+                Loaded="datagrid_Loaded">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding DisplayName}"
+                        Header="Signal__Name" />
+                    <DataGridTextColumn Binding="{Binding PinNumber}" Header="Pin__Number" />
+                    <DataGridTextColumn Binding="{Binding ADChannel}" Header="A/D Channel" />
+                    <DataGridTextColumn Binding="{Binding Value2}" Header="AI Scaled(Volt/Ampere)" />
+                    <DataGridTextColumn Binding="{Binding OriginValue}" Header="originValue" />
+                    <DataGridTemplateColumn Header="AI Raw(volt)">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Background="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Value1}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn
+                        Width="100"
+                        Binding="{Binding MaxThreshold}"
+                        Header="Max Threshold Diag(Volt)" />
+                    <DataGridTextColumn Binding="{Binding MinThreshold}" Header="Min Threshold Diag(Volt)" />
+                    <DataGridTextColumn Binding="{Binding MaxValue}" Header="AI Max" />
+                    <DataGridTextColumn Binding="{Binding MinValue}" Header="AI Min" />
+                    <DataGridTextColumn Binding="{Binding StandardDev}" Header="Standard Dev" />
+                </DataGrid.Columns>
+            </DataGrid>-->
+            </Grid>
+        </GroupBox>
+        
         <!--  Control  -->
         <StackPanel
-            Grid.Row="0"
-            Grid.RowSpan="2"
+            Grid.Row="1"
             Grid.Column="1">
-
-            <GroupBox Header="Modify Threshold">
+            <GroupBox Header="Modify Threshold" Margin="2,-1,2,2">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -127,26 +239,23 @@
                                 Width="200"
                                 DisplayMemberPath="Name"
                                 ItemsSource="{Binding AnalogSignals}"
-                                SelectedItem="{Binding CurrentAnalogSignal}" />
+                                SelectedItem="{Binding CurrentAnalogSignal,Mode=TwoWay}" />
                         </ctrls:ControlWithTitle.Content>
                     </ctrls:ControlWithTitle>
-                    
+
                     <UniformGrid Grid.Row="1" Columns="2" Grid.IsSharedSizeScope="True">
                         <ctrls:TextBoxWithLabel 
-                            Title="   Min:" 
+                            Title="Min:" 
                             Content="{Binding MinThreshold,Mode=TwoWay}"
                             Style="{StaticResource TextBoxWithLabelGridStyle}"/>
-                       
-                        <CheckBox
-                            HorizontalAlignment="Left"
-                            Content="Latch Faluers"
-                             />
+
+                        <CheckBox HorizontalAlignment="Left" Content="Latch Faluers" />
                         <ctrls:TextBoxWithLabel 
-                            Title="  Max:" 
+                            Title="Max:" 
                             Content="{Binding MaxThreshold,Mode=TwoWay}"
                             Style="{StaticResource TextBoxWithLabelGridStyle}"/>
                         <CheckBox Content="Update for all" IsChecked="{Binding UpdateAll}" />
-                    
+
                         <Button
                             Command="{Binding UpdateSignalThresholdCommand}"
                             Content="Update"
@@ -160,13 +269,28 @@
                     </UniformGrid>
                 </Grid>
             </GroupBox>
-            <GroupBox Grid.Column="1" Header="Calucate Standard Dev">
-                <StackPanel Orientation="Horizontal">
-                    <ctrls:TextBoxWithLabel 
+            <GroupBox Grid.Column="1" Header="Calucate Standard Dev" Margin="2">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <ctrls:ControlWithTitle Title="Enter # samples (Max:1000):" Orientation="Vertical">
+                        <ctrls:ControlWithTitle.Content>
+                            <StackPanel Margin="0,2,0,0">
+                                <!--<Slider 
+                                    Minimum="0"
+                                    Maximum="1000"
+                                    Style="{StaticResource NumberUpDownStyle}"
+                                    Value="{Binding StandardCount,UpdateSourceTrigger=PropertyChanged}"/>-->
+                                <TextBox Text="{Binding StandardCount,UpdateSourceTrigger=PropertyChanged}"/>
+                                <Button 
+                                    Content="Calculate STD" 
+                                    Margin="0,2,0,0"
+                                    Command="{Binding CalculateSignalStdDevCommand}"/>
+                            </StackPanel>
+                        </ctrls:ControlWithTitle.Content>
+                    </ctrls:ControlWithTitle>
+                    <!--<ctrls:TextBoxWithLabel  
                             Title="Enter # samples (Max:1000):" 
-                            
-                            Style="{StaticResource TextBoxWithLabelGridStyle}"/>
-                    <Button Content="Calculate STD" />
+                            Style="{StaticResource TextBoxWithLabelGridStyle}"/>-->
+
                 </StackPanel>
             </GroupBox>
         </StackPanel>

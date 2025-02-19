@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WpfApp1.Views"
+    xmlns:models="clr-namespace:WpfApp1.Models"
     xmlns:ctls="clr-namespace:WpfApp1.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
@@ -23,15 +24,70 @@
         <TextBlock Style="{StaticResource TitleLabel}">Pulse Out</TextBlock>
         <Button Width="120" Content="Locator Signals" Command="{Binding LocatorSignalsCommand}"/>
         <GroupBox Header="PWM Output (Hz,DutyCyle)" Grid.Row="1">
-            <DataGrid  
-                AutoGenerateColumns="False"
-                ItemsSource="{Binding Groups}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="SignalName" Binding="{Binding GroupName}" IsReadOnly="True"/>
-                    <DataGridTextColumn Width="*" Header="Fre" Binding="{Binding Freq.TempValue}"/>
-                    <DataGridTextColumn Width="*" Header="Duty" Binding="{Binding DutyCycle.TempValue}"/>
-                </DataGrid.Columns>
-            </DataGrid>
+            <Grid Grid.IsSharedSizeScope="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border 
+                    Grid.Row="0"
+                     Background="White" CornerRadius="5" Padding="5" Margin="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="SignalName"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="SignalName" Grid.Column="0" Style="{StaticResource SignalNameFontStyle}"/>
+                        <TextBlock Text="Freq" Grid.Column="1"/>
+                        <TextBlock Text="Duty" Grid.Column="2"/>
+                    </Grid>
+                </Border>
+                <ScrollViewer Grid.Row="1">
+                    <ItemsControl ItemsSource="{Binding Groups}" >
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type models:PulseGroupSignalOutGroup}">
+                                <Border Background="White" CornerRadius="5" Padding="5" Margin="2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="SignalName" Width="auto"></ColumnDefinition>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}"/>
+                                        <TextBox Text="{Binding Freq.TempValue}" Grid.Column="1"/>
+                                        <TextBox Text="{Binding DutyCycle.TempValue}" Grid.Column="2"/>
+                                        <!--<ctls:TextBoxWithLabel 
+                                            Title="Freq:" 
+                                            Content="{Binding Freq.TempValue,Mode=TwoWay}" 
+                                            HorizontalAlignment="Center"      
+                                            Grid.Column="1" 
+                                            Style="{StaticResource TextBoxWithLabelGridStyle}"/>
+                                        <ctls:TextBoxWithLabel 
+                                            Title="DutyCycle:" 
+                                            Content="{Binding DutyCycle.TempValue,Mode=TwoWay}" 
+                                            HorizontalAlignment="Center"                 
+                                            Grid.Column="2" 
+                                            Style="{StaticResource TextBoxWithLabelGridStyle}"/>-->
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+                <DataGrid  
+                    Visibility="Collapsed"
+                    Grid.Row="1"
+                    AutoGenerateColumns="False"
+                    ItemsSource="{Binding Groups}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="SignalName" Binding="{Binding GroupName}" IsReadOnly="True"/>
+                        <DataGridTextColumn Width="*" Header="Fre" Binding="{Binding Freq.TempValue}"/>
+                        <DataGridTextColumn Width="*" Header="Duty" Binding="{Binding DutyCycle.TempValue}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
         </GroupBox>
        
         <GroupBox
@@ -55,9 +111,24 @@
                     <ctls:TextBoxWithLabel Title="CurSmplMode" Content="8000" Orientation="Vertical" Style="{StaticResource TextBoxWithLabelStackStyle}"/>
                 </StackPanel>
 
-                <ctls:TextBoxWithLabel  Grid.Row="1" Title="PWM_U_TOP/BOT Duty Cycle(0%-100%)" Content="8000" Orientation="Vertical" Style="{StaticResource TextBoxWithLabelStackStyle}"/>
-                <ctls:TextBoxWithLabel  Grid.Row="2" Title="PWM_V_TOP/BOT Duty Cycle(0%-100%)" Content="8000" Orientation="Vertical" Style="{StaticResource TextBoxWithLabelStackStyle}"/>
-                <ctls:TextBoxWithLabel  Grid.Row="3" Title="PWM_W_TOP/BOT Duty Cycle(0%-100%)" Content="8000" Orientation="Vertical" Style="{StaticResource TextBoxWithLabelStackStyle}"/>
+                <ctls:TextBoxWithLabel  
+                    Grid.Row="1" 
+                    Title="PWM_U_TOP/BOT Duty Cycle(0%-100%)" 
+                    Content="{Binding PWM_U_Duty.TempValue,Mode=TwoWay}" 
+                    Orientation="Vertical" 
+                    Style="{StaticResource TextBoxWithLabelStackStyle}"/>
+                <ctls:TextBoxWithLabel 
+                    Grid.Row="2" 
+                    Title="PWM_V_TOP/BOT Duty Cycle(0%-100%)" 
+                    Content="{Binding PWM_V_Duty.TempValue,Mode=TwoWay}" 
+                    Orientation="Vertical" 
+                    Style="{StaticResource TextBoxWithLabelStackStyle}"/>
+                <ctls:TextBoxWithLabel 
+                    Grid.Row="3" 
+                    Title="PWM_W_TOP/BOT Duty Cycle(0%-100%)" 
+                    Content="{Binding PWM_W_Duty.TempValue,Mode=TwoWay}" 
+                    Orientation="Vertical"
+                    Style="{StaticResource TextBoxWithLabelStackStyle}"/>
                 <Button
                     Grid.Row="4"
                    
