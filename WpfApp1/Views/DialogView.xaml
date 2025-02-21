@@ -9,7 +9,7 @@
         Title="DialogView"
         d:Width="800"
         d:Height="450"
-        ResizeMode="CanMinimize">
+        >
     <Grid Height="auto">
         <ContentControl Content="{Binding DialogViewModel}"/>
     </Grid>

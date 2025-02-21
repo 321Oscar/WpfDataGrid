@@ -145,7 +145,19 @@ namespace WpfApp1.ViewModels
             
         }
 
-        public SendFrameViewModelBase(SignalStore signalStore, DeviceStore deviceStore, LogService logService) :base(signalStore, deviceStore, logService) { }
+        public SendFrameViewModelBase(SignalStore signalStore, DeviceStore deviceStore, LogService logService) : base(signalStore, deviceStore, logService) { }
+
+        public virtual void Send(IEnumerable<IFrame> frames)
+        {
+            if (DeviceStore.HasDevice)
+            {
+                DeviceStore.CurrentDevice.SendMultip(frames);
+            }
+            else
+            {
+                LogService.Log("No CAN Device Connected!");
+            }
+        }
 
         public virtual void Send()
         {

@@ -5,7 +5,15 @@
     xmlns:cvts="clr-namespace:WpfApp1.Converters"
     xmlns:viewModels="clr-namespace:WpfApp1.ViewModels"
     xmlns:models="clr-namespace:WpfApp1.Models"
-    xmlns:views="clr-namespace:WpfApp1.Views">
+    xmlns:views="clr-namespace:WpfApp1.Views"
+    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI">
+
+    <cvts:OutLimitsColorConverter x:Key="OutLimitsColorConverter" />
+    <cvts:DoubleBooleanConverter x:Key="DoubleBooleanConverter"/>
+    <cvts:BooleanInvertVisibilityConverter x:Key="BooleanInvertVisibilityConverter"/>
+    <cvts:EnumerableNullReplaceConverter x:Key="EnumerableNullReplaceConverter"/>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
     <DataTemplate DataType="{x:Type viewModels:DeviceViewModel}">
         <views:DevicesView />
     </DataTemplate>
@@ -147,7 +155,7 @@
                                                 Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"/>
                         <StackPanel Grid.Column="1" >
                             <TextBlock Text="Min/Max:" FontSize="10" />
-                            <TextBlock Text="Threshold:" FontSize="10"  Margin="0,3,0,0"/>
+                            <TextBlock Text="Limits:" FontSize="10"  Margin="0,3,0,0"/>
                         </StackPanel>
                         <StackPanel Grid.Column="2" Margin="5,0,0,0">
                             <StackPanel Orientation="Horizontal" >
@@ -239,13 +247,19 @@
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Center" 
                     Orientation="Horizontal">
-                    <CheckBox 
+                    <!--<CheckBox 
                         IsChecked="{Binding Pin_High, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                         Content="Pin__High"/>
                     <CheckBox 
                         Margin="5,0,0,0"
                         IsChecked="{Binding Pin_Low, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        Content="Pin__Low"/>
+                        Content="Pin__Low"/>-->
+                    
+                    <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
+                                  IsChecked="{Binding Pin_High, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                       />
+                    <TextBlock Text="Low" Visibility="{Binding Pin_Low,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,0,5,0"/>
+                    <TextBlock Text="High" Visibility="{Binding Pin_High,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </StackPanel>
 
                 <TextBlock 
@@ -281,6 +295,57 @@
                 <TextBlock Grid.Column="1"
                            Text="{Binding Value2}" 
                            Style="{StaticResource ValueTextBlockStyle}"/>
+            </Grid>
+        </Border>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:PulseInSignal}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" MinWidth="120"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock 
+                                Grid.Column="1"
+                                Text="{Binding Value1}" 
+                                Margin="0,0,5,0"
+                                Style="{StaticResource ValueTextBlockStyle}"
+                                Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"
+                                />
+            <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                <TextBlock Text="{Binding MaxValue,StringFormat={}{0:f2}}" FontSize="10" Foreground="Gray"/>
+                <TextBlock Text="{Binding MinValue,StringFormat={}{0:f2}}" FontSize="10"  Margin="0,3,0,0"/>
+                <!--<TextBlock Text="{Binding OutLimits}" FontSize="10"  Margin="0,3,0,0"/>-->
+            </StackPanel>
+            <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                <TextBlock Text="{Binding MaxThreshold}" FontSize="10"/>
+                <TextBlock Text="{Binding MinThreshold}" FontSize="10"/>
+            </StackPanel>
+
+        </Grid>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:PulseInSignalGroup}">
+        <Border Style="{StaticResource CardBorder}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="SignalName"/>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="Value1"    MinWidth="230" />
+                    <ColumnDefinition Width="auto" SharedSizeGroup="Value2"    MinWidth="230" />
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}"/>
+                <ContentControl 
+                                        Content="{Binding Signal_DC}" 
+                                        Grid.Column="1" 
+                                        VerticalAlignment="Center" 
+                                        HorizontalAlignment="Center" 
+                                        ToolTip="Duty Cycle"/>
+                <ContentControl 
+                                        Content="{Binding Signal_Freq}" 
+                                        Grid.Column="2" 
+                                        VerticalAlignment="Center" 
+                                        HorizontalAlignment="Center"
+                                        ToolTip="Freq"/>
             </Grid>
         </Border>
     </DataTemplate>
@@ -352,9 +417,7 @@
         </Setter>
     </Style>
 
-    <cvts:OutLimitsColorConverter x:Key="OutLimitsColorConverter" />
-    <cvts:DoubleBooleanConverter x:Key="DoubleBooleanConverter"/>
-    <cvts:BooleanInvertVisibilityConverter x:Key="BooleanInvertVisibilityConverter"/>
+  
 
     <Style x:Key="NormalCombox" TargetType="ComboBox">
         <Setter Property="Margin" Value="2"/>
@@ -459,7 +522,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBox Grid.RowSpan="2" Height="Auto"
-                                Margin="0" Padding="0"
+                                Margin="0" Padding="{TemplateBinding Padding}"
                                 VerticalAlignment="Stretch" VerticalContentAlignment="Center"
                                 Text="{Binding Value, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}">
                             <TextBox.InputBindings>
@@ -580,7 +643,7 @@
                         <TextBlock Text="{TemplateBinding Title}" 
                                    FontWeight="Bold" 
                                    VerticalAlignment="Center" 
-                                   Margin="0,0,10,0"/>
+                                   Margin="0,0,10,0" TextWrapping="Wrap"/>
 
                         <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}" />
                     </StackPanel>

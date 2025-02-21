@@ -73,7 +73,7 @@ namespace WpfApp1.ViewModels
 
         public override void Init()
         {
-            foreach (var signal in SignalStore.SignalLocatorInfo.GetViewSignalInfo(nameof(AnalogViewModel)).Signals.OfType<AnalogSignal>())
+            foreach (var signal in SignalStore.GetSignals<AnalogSignal>(nameof(AnalogViewModel)))
             {
                 _signals.Add(signal);
             }

@@ -40,7 +40,7 @@ namespace WpfApp1.ViewModels
 
         public override void Init()
         {
-            GetGroups(SignalStore.SignalLocatorInfo.GetViewSignalInfo(VIEWNAME).Signals.OfType<PulseOutGroupSignal>());
+            GetGroups(SignalStore.GetSignals<PulseOutGroupSignal>(VIEWNAME));
         }
 
         public override void LocatorSignals()

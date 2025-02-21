@@ -24,20 +24,18 @@
         <TextBlock Style="{StaticResource TitleLabel}">Pulse Out</TextBlock>
         <Button Width="120" Content="Locator Signals" Command="{Binding LocatorSignalsCommand}"/>
         <GroupBox Header="PWM Output (Hz,DutyCyle)" Grid.Row="1">
-            <Grid Grid.IsSharedSizeScope="True">
+            <Grid Grid.IsSharedSizeScope="True" Margin="-8,-4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Border 
-                    Grid.Row="0"
-                     Background="White" CornerRadius="5" Padding="5" Margin="2">
+                <Border Grid.Row="0" Style="{StaticResource CardBorder}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition SharedSizeGroup="SignalName"/>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
+                            <ColumnDefinition SharedSizeGroup="value1"/>
+                            <ColumnDefinition SharedSizeGroup="value2"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="SignalName" Grid.Column="0" Style="{StaticResource SignalNameFontStyle}"/>
                         <TextBlock Text="Freq" Grid.Column="1"/>
@@ -48,15 +46,16 @@
                     <ItemsControl ItemsSource="{Binding Groups}" >
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type models:PulseGroupSignalOutGroup}">
-                                <Border Background="White" CornerRadius="5" Padding="5" Margin="2">
+                                <Border Style="{StaticResource CardBorder}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition SharedSizeGroup="SignalName" Width="auto"></ColumnDefinition>
-                                            <ColumnDefinition />
+                                            <ColumnDefinition SharedSizeGroup="value1" Width="auto" MinWidth="100"/>
+                                            <ColumnDefinition SharedSizeGroup="value2" Width="auto" MinWidth="100"/>
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}"/>
-                                        <TextBox Text="{Binding Freq.TempValue}" Grid.Column="1"/>
+                                        <TextBox Text="{Binding Freq.TempValue}" Grid.Column="1" Margin="2,0"/>
                                         <TextBox Text="{Binding DutyCycle.TempValue}" Grid.Column="2"/>
                                         <!--<ctls:TextBoxWithLabel 
                                             Title="Freq:" 

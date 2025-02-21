@@ -29,7 +29,7 @@ namespace WpfApp1.Stores
             //LoadPPAWL(0x01, nameof(ViewModels.PPAWLViewModel));
             //LoadDiscretes(nameof(ViewModels.DiscreteViewModel));
             //LoadSavingLogicSignals();
-            //LoadGDICStatusSignals();
+            LoadGDICStatusSignals();
             //LoadPulseInSignals(0x10, (ViewModels.PulseInViewModel.VIEWNAME));
             //LoadPulseInSignals(0x20, nameof(ViewModels.PPAWLViewModel));
             //LoadPulseOutSignals(nameof(ViewModels.PPAWLViewModel));
@@ -42,11 +42,15 @@ namespace WpfApp1.Stores
         {
             try
             {
-                XmlHelper.SerializeToXml(SignalLocatorInfo, SignalLocatorFilePath);
+                //XmlHelper.SerializeToXml(SignalLocatorInfo, SignalLocatorFilePath);
+                //LocatorToLocation();
+                SignalLocation.Signals.Distinct();
+                XmlHelper.SerializeToXml(SignalLocation, SignalLocatorFilePath2);
             }
             catch (Exception ex)
             {
                 //throw;
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -71,6 +75,16 @@ namespace WpfApp1.Stores
             }
         }
 
+        public IEnumerable<TSignal> GetSignals<TSignal>(params string[] viewNames) where TSignal : SignalBase
+        {
+            List<TSignal> signals = new List<TSignal>();
+            foreach (var viewName in viewNames)
+            {
+                signals.AddRange(GetSignals<TSignal>(viewName));
+            }
+
+            return signals.Distinct();
+        }
         public IEnumerable<TSignal> GetSignals<TSignal>(string viewName = "") where TSignal : SignalBase
         {
             viewName = SignalBase.ReplaceViewModel(viewName);
@@ -306,7 +320,7 @@ namespace WpfApp1.Stores
                 //List<AnalogSignal> analogSignals = new List<AnalogSignal>();
                 foreach (var signal in x.signals)
                 {
-                    if (signal.Comment.KeyValues.TryGetValue("Page", out string pageName) && pageName.IndexOf(viewName) > -1)
+                    if (signal.Comment.KeyValues.TryGetValue("Page", out string pageName) && pageName.IndexOf(viewName, StringComparison.OrdinalIgnoreCase) > -1)
                     {
                         signal.MessageID = x.MessageID;
                         signal.MessageName = x.messageName;
@@ -342,31 +356,8 @@ namespace WpfApp1.Stores
             {
                 if (signal.Comment.KeyValues.TryGetValue("Page", out string pageName) && pageName.IndexOf(viewName) > -1)
                 {
-                    AnalogSignal analogSignal = new AnalogSignal()
-                    {
-                        Name = signal.SignalName,
-                        StartBit = (int)signal.startBit,
-                        Factor = signal.factor,
-                        Offset = signal.offset,
-                        ByteOrder = (int)signal.byteOrder,
-                        Length = (int)signal.signalSize,
-                        MessageID = signal.MessageID,
-                        ViewName = pageName
-                    };
-                    analogSignal.PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
-                    analogSignal.ADChannel = signal.Comment.GetCommentByKey("A/D_Channel");
-                    analogSignal.Transform2Type = (int)signal.Comment.GetCommenDoubleByKey("Conversion_mode", 0);
-                    if (analogSignal.Transform2Type == 0)
-                    {
-                        analogSignal.TransForm2Factor = signal.Comment.GetCommenDoubleByKey("Factor", 1);
-                        analogSignal.TransForm2Offset = signal.Comment.GetCommenDoubleByKey("Offset", 0);
-                    }
-                    else
-                    {
-                        analogSignal.TableName = signal.Comment.GetCommentByKey("Table");
-                    }
+                    AnalogSignal analogSignal = new AnalogSignal(signal, viewName);
                     SaveViewSignalLocator(viewName, analogSignal);
-                    
                 }
             });
         }
@@ -381,16 +372,7 @@ namespace WpfApp1.Stores
             //var analogViewSignals = GetSignalsByPageName(viewName);
             outDiscreteSignals.ToList().ForEach(signal =>
             {
-                DiscreteOutputSignal analogSignal = new DiscreteOutputSignal()
-                {
-                    Name = signal.SignalName,
-                    StartBit = (int)signal.startBit,
-                    Factor = signal.factor,
-                    Offset = signal.offset,
-                    ByteOrder = (int)signal.byteOrder,
-                    Length = (int)signal.signalSize,
-                    MessageID = signal.MessageID,
-                };
+                DiscreteOutputSignal analogSignal = new DiscreteOutputSignal(signal, viewName);
                 //find a state 
 
                 var signalState = DBCSignals.FirstOrDefault(x => x.SignalName == signal.SignalName + "_State");
@@ -403,16 +385,7 @@ namespace WpfApp1.Stores
                     }
                     else
                     {
-                        var input = new DiscreteInputSignal()
-                        {
-                            Name = signalState.SignalName,
-                            StartBit = (int)signalState.startBit,
-                            Factor = signalState.factor,
-                            Offset = signalState.offset,
-                            ByteOrder = (int)signalState.byteOrder,
-                            Length = (int)signalState.signalSize,
-                            MessageID = signalState.MessageID,
-                        };
+                        var input = new DiscreteInputSignal(signalState, viewName);
                         analogSignal.State = input;
                         AddSignal(input);
                     }
@@ -421,8 +394,6 @@ namespace WpfApp1.Stores
                 {
                     return;
                 }
-                analogSignal.ViewName += "Disrecte";
-                analogSignal.PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
 
                 SaveViewSignalLocator(viewName, analogSignal);
                 AddSignal(analogSignal);
@@ -432,19 +403,7 @@ namespace WpfApp1.Stores
 
             inputs.ToList().ForEach(signal =>
             {
-                DiscreteInputSignal analogSignal = new DiscreteInputSignal()
-                {
-                    Name = signal.SignalName,
-                    StartBit = (int)signal.startBit,
-                    Factor = signal.factor,
-                    Offset = signal.offset,
-                    ByteOrder = (int)signal.byteOrder,
-                    Length = (int)signal.signalSize,
-                    MessageID = signal.MessageID,
-
-                };
-                analogSignal.ViewName += "Disrecte";
-                analogSignal.PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
+                DiscreteInputSignal analogSignal = new DiscreteInputSignal(signal,viewName);
                 if (string.IsNullOrEmpty(analogSignal.PinNumber))
                     return;
                 SaveViewSignalLocator(viewName, analogSignal);
@@ -512,13 +471,61 @@ namespace WpfApp1.Stores
 
         private void LoadGDICStatusSignals()
         {
+            //load GDIC Status
+            //viewName = SignalBase.ReplaceViewModel(viewName);
+            var gdicStatusSignals = GetSignalsByPageName("GDIC3162_Status");
+            foreach (var signal in gdicStatusSignals)
+            {
+                if (signal.SignalName.IndexOf("status", StringComparison.OrdinalIgnoreCase) > -1
+                    || signal.SignalName.IndexOf("statcon", StringComparison.OrdinalIgnoreCase) > -1
+                    || signal.SignalName.IndexOf("register", StringComparison.OrdinalIgnoreCase) > -1)
+                {
+                    bool inOrOut = signal.SignalName.IndexOf("write", StringComparison.OrdinalIgnoreCase) > -1;
+                    GDICStatusDataSignal statusDataSignal = new GDICStatusDataSignal(signal, "GDIC")
+                    {
+                        InOrOut = inOrOut
+                    };
+                    SaveViewSignalLocator("GDIC", statusDataSignal);
+                }
+            }
+            //load GDIC Aout Signal
+            var gdicAoutSignals = GetSignalsByPageName("GDIC3162_Aout");
+            foreach (var signal in gdicAoutSignals)
+            {
+                var aout = new GDICAoutSignal(signal, "GDIC");
+                if (signal.SignalName.IndexOf("select", StringComparison.OrdinalIgnoreCase) > -1)
+                {
+                    aout.InOrOut = true;
+                }
+                SaveViewSignalLocator("GDIC", aout);
+            }
+
+            var gdicResSignals = GetSignalsByPageName("GDIC3162_Registers");
+            foreach (var signal in gdicResSignals)
+            {
+                var res = new GDICRegisterSignal(signal, ViewModels.GDICViewModel.GDICRegisterViewName);
+               
+                SaveViewSignalLocator(ViewModels.GDICViewModel.GDICRegisterViewName, res);
+            }
+
+            var gdicAdcSignals = GetSignalsByPageName("GDIC3162_ADC");
+            foreach (var signal in gdicAdcSignals)
+            {
+                var res = new GDICRegisterSignal(signal, ViewModels.GDICViewModel.GDICADCViewName);
+                if (signal.SignalName.IndexOf("sel", StringComparison.OrdinalIgnoreCase) > -1)
+                {
+                    res.InOrOut = true;
+                }
+
+                SaveViewSignalLocator(ViewModels.GDICViewModel.GDICADCViewName, res);
+            }
             //Top-U
-            GenerateGDICSignals("Top-U");
-            GenerateGDICSignals("Top-V");
-            GenerateGDICSignals("Top-W");
-            GenerateGDICSignals("Bot-U");
-            GenerateGDICSignals("Bot-V");
-            GenerateGDICSignals("Bot-W");
+            //GenerateGDICSignals("Top-U");
+            //GenerateGDICSignals("Top-V");
+            //GenerateGDICSignals("Top-W");
+            //GenerateGDICSignals("Bot-U");
+            //GenerateGDICSignals("Bot-V");
+            //GenerateGDICSignals("Bot-W");
         }
 
         private void GenerateGDICSignals(string groupName)
@@ -527,7 +534,7 @@ namespace WpfApp1.Stores
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    GDICStatusSignal gDICStatusSignal = new GDICStatusSignal($"{groupName} Status-{i + 1}")
+                    GDICStatusDataSignal gDICStatusSignal = new GDICStatusDataSignal($"{groupName} Status-{i + 1}")
                     {
                         Name = $"Data{j}"
                     };
@@ -650,16 +657,23 @@ namespace WpfApp1.Stores
         }
 
         #region Signal Locator
+        [Obsolete]
         public ViewsSignals SignalLocatorInfo { get; private set; }
+        public SignalCollection SignalLocation { get; private set; }
         private const string SignalLocatorFilePath = @"Config/SignalLocator.xml";
+        private const string SignalLocatorFilePath2 = @"Config/SignalLocator2.xml";
         private void LoadSignalLocator()
         {
             //ViewsSignals x = new ViewsSignals();
             //XmlHelper.SerializeToXml(x, SignalLocatorFilePath);
-            SignalLocatorInfo = XmlHelper.DeserializeFromXml<ViewsSignals>(SignalLocatorFilePath);
-            foreach (var view in SignalLocatorInfo.ViewSignalsInfos)
+            SignalLocation = XmlHelper.DeserializeFromXml<SignalCollection>(SignalLocatorFilePath2);
+            if(SignalLocation == null)
             {
-                foreach (var signal in view.Signals)
+                SignalLocation = new SignalCollection();
+            }
+            //foreach (var view in SignalLocation.ViewSignalsInfos)
+            //{
+                foreach (var signal in SignalLocation.Signals)
                 {
                     AddSignal(signal);
                     if(signal is DiscreteOutputSignal disout)
@@ -667,26 +681,45 @@ namespace WpfApp1.Stores
                         AddSignal(disout.State);
                     }
                 }
-            }
+            //}
         }
 
         public void SaveViewSignalLocator(string viewName, SignalBase signal)
         {
-            var viewLocator = SignalLocatorInfo.GetViewSignalInfo(viewName);
-            if (!viewLocator.Signals.Contains(signal))
-                viewLocator.Signals.Add(signal);
-            AddSignal(signal);
+            //var viewLocator = SignalLocatorInfo.GetViewSignalInfo(viewName);
+            if (!SignalLocation.Signals.Contains(signal))
+            {
+                SignalLocation.Signals.Add(signal);
+                AddSignal(signal);
+            }
+            else
+            {
+                var exsit = SignalLocation.Signals.FirstOrDefault(x => x.Name == signal.Name && x.MessageID == signal.MessageID);
+                exsit.ViewName = exsit.ViewName + viewName;
+            }
         }
         public void SaveViewSignalLocator(string viewName, IEnumerable<SignalBase> signals, bool clear = true)
         {
-            var viewLocator = SignalLocatorInfo.GetViewSignalInfo(viewName);
+            //var viewLocator = SignalLocatorInfo.GetViewSignalInfo(viewName);
             if (clear)
-                viewLocator.Signals.Clear();
-            viewLocator.Signals.AddRange(signals);
+                SignalLocation.Signals.RemoveAll(x => x.ViewNames.Contains(viewName));
+            SignalLocation.Signals.AddRange(signals);
         }
-        public void SaveSignalLocator()
+        //public void SaveSignalLocator()
+        //{
+        //    XmlHelper.SerializeToXml(SignalLocatorInfo, SignalLocatorFilePath);
+        //}
+        /// <summary>
+        /// Delete ViewInfo,only Signal List
+        /// </summary>
+        public void LocatorToLocation()
         {
-            XmlHelper.SerializeToXml(SignalLocatorInfo, SignalLocatorFilePath);
+            SignalLocatorInfo.ViewSignalsInfos.ForEach(viewInfo =>
+            {
+                if(SignalLocation == null) { SignalLocation = new SignalCollection(); }
+
+                SignalLocation.Signals.AddRange(viewInfo.Signals);
+            });
         }
         #endregion
 

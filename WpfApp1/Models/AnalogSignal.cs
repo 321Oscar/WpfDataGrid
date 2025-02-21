@@ -115,11 +115,19 @@ namespace WpfApp1.Models
 
         public void CalStandard(int count)
         {
+            StandardDev = CalStandardDev.Cal(count, TmpValues);
+        }
+    }
+
+    public class CalStandardDev
+    {
+        public static double Cal(int count, LengthQueue<string> TmpValues)
+        {
             double[] tmpArray = TmpValues.Select(x => double.Parse(x)).ToArray();
             //TmpValues.CopyTo(tmpArray, 0);
             if (tmpArray == null || tmpArray.Length == 0)
             {
-                return;
+                return double.NaN;
             }
             tmpArray = GetLastNElements(tmpArray, count);
 
@@ -130,7 +138,7 @@ namespace WpfApp1.Models
             double variance = tmpArray.Select(val => Math.Pow(val - mean, 2)).Average();
 
             // 计算标准差
-            StandardDev = Math.Sqrt(variance);
+            return Math.Sqrt(variance);
         }
 
         public static double[] GetLastNElements(double[] array, int N)
@@ -147,5 +155,4 @@ namespace WpfApp1.Models
             }
         }
     }
-
 }

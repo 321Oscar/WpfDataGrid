@@ -1,29 +1,134 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
+using System.Linq;
+using WpfApp1.Stores;
 
 namespace WpfApp1.Models
 {
+    public class GDICStatusRegisterGroup : ObservableObject
+    {
+        /// <summary>
+        /// RegisterName like: Top U/Top V
+        /// </summary>
+        public string GroupName { get; }
+
+        public GDICStatusRegisterGroup(string groupName)
+        {
+            GroupName = groupName;
+            GDICStatusGroups = new GDICStatusGroup[4];
+        }
+        /// <summary>
+        /// Array of Status that contains 10 Data
+        /// </summary>
+        public GDICStatusGroup[] GDICStatusGroups { get; }
+        /// <summary>
+        /// 1 Group 
+        /// </summary>
+        public GDICStatusGroup WriteStatus { get; set; }
+
+        public override string ToString()
+        {
+            return GroupName;
+        }
+    }
+
+    /// <summary>
+    /// it's Name like Status1/Status2
+    /// </summary>
     public class GDICStatusGroup : ObservableObject
     {
+        /// <summary>
+        /// RegisterName like: Top U/Top V
+        /// </summary>
         public string GroupName { get; set; }
 
         public GDICStatusGroup(string groupName)
         {
             GroupName = groupName;
-            GDICStatusSignals = new List<GDICStatusSignal>();
+            GDICStatusSignals = new GDICStatusDataSignal[10];
+        }
+        public int Startbit
+        {
+            get
+            {
+                var signal = GDICStatusSignals.FirstOrDefault(x => x != null);
+                if (signal != null)
+                    return signal.StartBit;
+                return 0;
+            }
+        }
+        /// <summary>
+        /// In : false
+        /// <para>Out: true</para>
+        /// </summary>
+        public bool InOrOut
+        {
+            get
+            {
+                var signal = GDICStatusSignals.FirstOrDefault(x => x != null);
+                if (signal != null)
+                    return signal.InOrOut;
+                return false;
+            }
+        }
+        /// <summary>
+        /// Write or Read Data [9-10]
+        /// </summary>
+        public GDICStatusDataSignal[] GDICStatusSignals { get; }
+        /// <summary>
+        /// if <see cref="InOrOut"/> == true, need this property
+        /// </summary>
+        public GDICStatusDataSignal WriteIndex { get; set; }
+        public string RegisterName
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(GroupName))
+                {
+                    return string.Join(SignalBase.SignalNameSplit, GroupName.Split(SignalBase.DBCSignalNameSplit).Take(2));
+                }
+                return "";
+            }
         }
 
-        public List<GDICStatusSignal> GDICStatusSignals { get; set; }
-    }
+        public string DisplayName { get => GroupName.Replace(RegisterName, "").Replace("_", ""); }
 
-    public class GDICStatusSignal : TransFormSignalBase
+        public override string ToString()
+        {
+            return GroupName;
+        }
+    }
+    /// <summary>
+    /// Input and Output 
+    /// </summary>
+    public class GDICStatusDataSignal : TransFormSignalBase
     {
-        public GDICStatusSignal(string groupName)
+        public GDICStatusDataSignal()
+        {
+
+        }
+
+        public GDICStatusDataSignal(string groupName)
         {
             GroupName = groupName;
         }
 
-        public string GroupName { get; }
+        public GDICStatusDataSignal(Stores.Signal signal, string viewName) : base(signal, viewName)
+        {
+            string strs = string.Join("_", Name.Split("_").Take(3));
+            this.GroupName = strs;
+        }
+        /// <summary>
+        /// like:TOP_U
+        /// </summary>
+        public string RegisterName { get => string.Join("_", Name.Split("_").Take(2)); }
+
+        /// <summary>
+        /// Status Name like Status1
+        /// </summary>
+        public string GroupName { get; set; }
+
+        public new string DisplayName { get => Name.Replace(GroupName, "").Replace("_", "").Replace("Write", ""); }
     }
 
 }

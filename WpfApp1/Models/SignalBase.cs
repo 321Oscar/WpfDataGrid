@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using WpfApp1.Stores;
 
 namespace WpfApp1.Models
 {
@@ -14,8 +15,21 @@ namespace WpfApp1.Models
     [XmlInclude(typeof(PulseOutGroupSignal))]
     [XmlInclude(typeof(NXPSignal))]
     [XmlInclude(typeof(NXPInputSignal))]
+    [XmlInclude(typeof(GDICStatusDataSignal))]
+    [XmlInclude(typeof(GDICAoutSignal))]
+    [XmlInclude(typeof(GDICRegisterSignal))]
     public class SignalBase : ObservableObject, IDBCSignal
     {
+        public const string ViewNameSplit = ";";
+        /// <summary>
+        /// 显示信号的分割线
+        /// </summary>
+        public const string SignalNameSplit = "-";
+        /// <summary>
+        /// DBC文件中的信号分割线
+        /// </summary>
+        public const string DBCSignalNameSplit = "_";
+
         private double originValue;
 
 
@@ -40,8 +54,23 @@ namespace WpfApp1.Models
         public string Name { get; set; }
 
         public string DisplayName { get => RelaceSignalName(Name); }
+        public string ViewName
+        {
+            get => string.Join(ViewNameSplit, ViewNames.Distinct()) + ViewNameSplit; 
+            set
+            {
+                string[] names = value.Split(ViewNameSplit);
 
-        public string ViewName { get; set; }
+                foreach (var name in names)
+                {
+                    if (ViewNames.Contains(name))
+                        continue;
+                    ViewNames.Add(name);
+                }
+            }
+        }
+        [XmlIgnore]
+        public List<string> ViewNames { get; set; } = new List<string>();
         [XmlIgnore]
         public double OriginValue 
         {
@@ -431,6 +460,11 @@ namespace WpfApp1.Models
 
             return viewSignalsInfo;
         }
+    }
+    [Serializable]
+    public class SignalCollection
+    {
+        public List<SignalBase> Signals { get; set; } = new List<SignalBase>();
     }
 
     public class SignalValueTables

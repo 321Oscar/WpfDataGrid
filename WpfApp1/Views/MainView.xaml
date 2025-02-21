@@ -99,7 +99,7 @@
         <Grid Grid.Row="1">
             <TabControl>
                 <TabItem Header="Analog">
-                    <local:AnalogView DataContext="{Binding AnalogViewModel}"/>
+                    <local:AnalogView DataContext="{Binding AnalogViewModel}" Margin="-5"/>
                 </TabItem>
                 <TabItem Header="Discrete">
                     <local:DiscreteView DataContext="{Binding DiscreteViewModel}"/>
@@ -114,7 +114,7 @@
                     <local:NXPView DataContext="{Binding NXPViewModel}"/>
                 </TabItem>
                 <TabItem Header="GDIC">
-                    <local:GDIC3160View />
+                    <local:GDIC3160View DataContext="{Binding GDICViewModel}"/>
                 </TabItem>
             </TabControl>
         </Grid>

@@ -8,8 +8,7 @@
              xmlns:ctrls="clr-namespace:WpfApp1.Components"
              mc:Ignorable="d" 
              Background="White"
-             Width="800"
-             Height="400">
+             >
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type models:AnalogSignal}">
             <ctrls:ControlWithTitle Title="{Binding DisplayName}" Orientation="Vertical">
@@ -57,9 +56,8 @@
             <GroupBox Header="Signal From Dbc">
                 <ListView 
                     x:Name="dbcSignalView"
-                    ItemsSource="{Binding SignalStore.DBCSignals}" 
-                    SelectionMode="Multiple"
-                    >
+                    ItemsSource="{Binding DbcSignals}" 
+                    SelectionMode="Multiple">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding MessageID,StringFormat=0x{0:X}}" Header="ID" Width="60"/>

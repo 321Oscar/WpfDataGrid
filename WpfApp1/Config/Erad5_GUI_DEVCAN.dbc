@@ -34,7 +34,650 @@ NS_ :
 BS_:
 
 BU_: GUI MCU
+VAL_TABLE_ AMUX_SEL_Value 5 "Die temperature" 4 "Power device temperature" 3 "VEE" 2 "VCC" 1 "AMUXIN" 0 "DESAT" ;
+VAL_TABLE_ AOUT_SELECT_Value 4 "VEE" 3 "VCC" 2 "AMUXIN" 1 "DESAT" 0 "NONE" ;
+VAL_TABLE_ Write_Register_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STATUS1" 0 "NONE" ;
 
+
+BO_ 1282 MCU_RX_0x502_DEVCANFD: 64 GUI
+ SG_ BOT_W_AMUX_SEL : 200|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_AMUX_SEL : 192|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_AMUX_SEL : 184|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_AMUX_SEL : 176|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_AMUX_SEL : 168|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_AMUX_SEL : 160|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_AOUT_SELECT : 152|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_AOUT_SELECT : 144|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_AOUT_SELECT : 136|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_AOUT_SELECT : 128|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_AOUT_SELECT : 120|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_AOUT_SELECT : 112|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_Register_Write_Index : 104|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_Register_Write_Index : 96|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_Register_Write_Index : 88|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_Register_Write_Index : 80|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_Register_Write_Index : 72|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_Register_Write_Index : 64|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_Status_Write_Data9 : 59|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_Status_Write_Data8 : 58|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_Status_Write_Data7 : 57|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_Status_Write_Data6 : 56|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_Status_Write_Data5 : 55|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_Status_Write_Data4 : 54|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_Status_Write_Data3 : 53|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_Status_Write_Data2 : 52|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_Status_Write_Data1 : 51|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_Status_Write_Data0 : 50|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_Status_Write_Data9 : 49|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_Status_Write_Data8 : 48|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_Status_Write_Data7 : 47|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_Status_Write_Data6 : 46|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_Status_Write_Data5 : 45|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_Status_Write_Data4 : 44|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_Status_Write_Data3 : 43|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_Status_Write_Data2 : 42|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_Status_Write_Data1 : 41|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_Status_Write_Data0 : 40|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_Status_Write_Data9 : 39|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_Status_Write_Data8 : 38|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_Status_Write_Data7 : 37|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_Status_Write_Data6 : 36|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_Status_Write_Data5 : 35|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_Status_Write_Data4 : 34|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_Status_Write_Data3 : 33|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_Status_Write_Data2 : 32|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_Status_Write_Data1 : 31|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_Status_Write_Data0 : 30|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_Status_Write_Data9 : 29|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_Status_Write_Data8 : 28|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_Status_Write_Data7 : 27|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_Status_Write_Data6 : 26|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_Status_Write_Data5 : 25|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_Status_Write_Data4 : 24|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_Status_Write_Data3 : 23|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_Status_Write_Data2 : 22|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_Status_Write_Data1 : 21|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_Status_Write_Data0 : 20|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_Status_Write_Data9 : 19|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_Status_Write_Data8 : 18|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_Status_Write_Data7 : 17|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_Status_Write_Data6 : 16|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_Status_Write_Data5 : 15|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_Status_Write_Data4 : 14|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_Status_Write_Data3 : 13|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_Status_Write_Data2 : 12|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_Status_Write_Data1 : 11|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_Status_Write_Data0 : 10|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_Status_Write_Data9 : 9|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_Status_Write_Data8 : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_Status_Write_Data7 : 7|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_Status_Write_Data6 : 6|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_Status_Write_Data5 : 5|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_Status_Write_Data4 : 4|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_Status_Write_Data3 : 3|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_Status_Write_Data2 : 2|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_Status_Write_Data1 : 1|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_Status_Write_Data0 : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 1550 MCU_TX_0x60E_DEVCANFD: 64 MCU
+ SG_ BOT_W_TSENSEA_Freq : 392|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ BOT_W_TSENSEA_Duty : 376|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ BOT_V_TSENSEA_Freq : 360|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ BOT_V_TSENSEA_Duty : 344|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ BOT_U_TSENSEA_Freq : 328|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ BOT_U_TSENSEA_Duty : 312|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ TOP_W_TSENSEA_Freq : 296|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ TOP_W_TSENSEA_Duty : 280|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ TOP_V_TSENSEA_Freq : 264|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ TOP_V_TSENSEA_Duty : 248|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ TOP_U_TSENSEA_Freq : 232|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ TOP_U_TSENSEA_Duty : 216|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ BOT_W_DISCHG_Data : 206|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_DISCHG_CRC : 88|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_DISCHG_Data : 196|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_DISCHG_CRC : 80|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_DISCHG_Data : 186|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_DISCHG_CRC : 72|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_DISCHG_Data : 176|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_DISCHG_CRC : 64|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_DISCHG_Data : 166|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_DISCHG_CRC : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_DISCHG_Data : 156|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_DISCHG_CRC : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_REQBIST_Data : 146|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_REQBIST_CRC : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_REQBIST_Data : 136|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_REQBIST_CRC : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_REQBIST_Data : 126|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_REQBIST_CRC : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_REQBIST_Data : 116|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_REQBIST_CRC : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_REQBIST_Data : 106|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_REQBIST_CRC : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_REQBIST_Data : 96|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_REQBIST_CRC : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1549 MCU_TX_0x60D_DEVCANFD: 64 MCU
+ SG_ BOT_W_CONFIGAOUT_Data : 422|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_CONFIGAOUT_CRC : 184|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_CONFIGAOUT_Data : 412|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_CONFIGAOUT_CRC : 176|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_CONFIGAOUT_Data : 402|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_CONFIGAOUT_CRC : 168|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_CONFIGAOUT_Data : 392|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_CONFIGAOUT_CRC : 160|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_CONFIGAOUT_Data : 382|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_CONFIGAOUT_CRC : 152|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_CONFIGAOUT_Data : 372|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_CONFIGAOUT_CRC : 144|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_STATCON4_Data : 362|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_STATCON4_CRC : 136|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_STATCON4_Data : 352|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_STATCON4_CRC : 128|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_STATCON4_Data : 342|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_STATCON4_CRC : 120|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_STATCON4_Data : 332|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_STATCON4_CRC : 112|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_STATCON4_Data : 322|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_STATCON4_CRC : 104|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_STATCON4_Data : 312|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_STATCON4_CRC : 96|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_STATUS3_Data : 302|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_STATUS3_CRC : 88|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_STATUS3_Data : 292|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_STATUS3_CRC : 80|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_STATUS3_Data : 282|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_STATUS3_CRC : 72|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_STATUS3_Data : 272|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_STATUS3_CRC : 64|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_STATUS3_Data : 262|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_STATUS3_CRC : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_STATUS3_Data : 252|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_STATUS3_CRC : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_RMSK2_Data : 242|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_RMSK2_CRC : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_RMSK2_Data : 232|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_RMSK2_CRC : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_RMSK2_Data : 222|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_RMSK2_CRC : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_RMSK2_Data : 212|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_RMSK2_CRC : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_RMSK2_Data : 202|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_RMSK2_CRC : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_RMSK2_Data : 192|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_RMSK2_CRC : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1548 MCU_TX_0x60C_DEVCANFD: 64 MCU
+ SG_ BOT_W_MSK2_Data : 422|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_MSK2_CRC : 184|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_MSK2_Data : 412|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_MSK2_CRC : 176|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_MSK2_Data : 402|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_MSK2_CRC : 168|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_MSK2_Data : 392|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_MSK2_CRC : 160|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_MSK2_Data : 382|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_MSK2_CRC : 152|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_MSK2_Data : 372|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_MSK2_CRC : 144|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_STATUS2_Data : 362|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_STATUS2_CRC : 136|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_STATUS2_Data : 352|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_STATUS2_CRC : 128|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_STATUS2_Data : 342|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_STATUS2_CRC : 120|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_STATUS2_Data : 332|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_STATUS2_CRC : 112|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_STATUS2_Data : 322|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_STATUS2_CRC : 104|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_STATUS2_Data : 312|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_STATUS2_CRC : 96|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_RMSK1_Data : 302|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_RMSK1_CRC : 88|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_RMSK1_Data : 292|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_RMSK1_CRC : 80|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_RMSK1_Data : 282|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_RMSK1_CRC : 72|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_RMSK1_Data : 272|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_RMSK1_CRC : 64|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_RMSK1_Data : 262|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_RMSK1_CRC : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_RMSK1_Data : 252|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_RMSK1_CRC : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_MSK1_Data : 242|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_MSK1_CRC : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_MSK1_Data : 232|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_MSK1_CRC : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_MSK1_Data : 222|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_MSK1_CRC : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_MSK1_Data : 212|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_MSK1_CRC : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_MSK1_Data : 202|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_MSK1_CRC : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_MSK1_Data : 192|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_MSK1_CRC : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1547 MCU_TX_0x60B_DEVCANFD: 64 MCU
+ SG_ BOT_W_AOUT_Freq : 480|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ BOT_W_AOUT_Duty : 464|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ TOP_W_AOUT_Freq : 448|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ TOP_W_AOUT_Duty : 432|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ BOT_W_STATUS1_Data : 422|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_STATUS1_CRC : 184|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_STATUS1_Data : 412|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_STATUS1_CRC : 176|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_STATUS1_Data : 402|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_STATUS1_CRC : 168|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_STATUS1_Data : 392|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_STATUS1_CRC : 160|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_STATUS1_Data : 382|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_STATUS1_CRC : 152|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_STATUS1_Data : 372|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_STATUS1_CRC : 144|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_OTW_TH_Data : 362|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_OTW_TH_CRC : 136|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_OTW_TH_Data : 352|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_OTW_TH_CRC : 128|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_OTW_TH_Data : 342|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_OTW_TH_CRC : 120|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_OTW_TH_Data : 332|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_OTW_TH_CRC : 112|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_OTW_TH_Data : 322|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_OTW_TH_CRC : 104|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_OTW_TH_Data : 312|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_OTW_TH_CRC : 96|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_OT_TH_Data : 302|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_OT_TH_CRC : 88|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_OT_TH_Data : 292|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_OT_TH_CRC : 80|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_OT_TH_Data : 282|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_OT_TH_CRC : 72|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_OT_TH_Data : 272|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_OT_TH_CRC : 64|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_OT_TH_Data : 262|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_OT_TH_CRC : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_OT_TH_Data : 252|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_OT_TH_CRC : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_CONFIG7_Data : 242|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_CONFIG7_CRC : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_CONFIG7_Data : 232|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_CONFIG7_CRC : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_CONFIG7_Data : 222|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_CONFIG7_CRC : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_CONFIG7_Data : 212|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_CONFIG7_CRC : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_CONFIG7_Data : 202|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_CONFIG7_CRC : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_CONFIG7_Data : 192|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_CONFIG7_CRC : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1546 MCU_TX_0x60A_DEVCANFD: 64 MCU
+ SG_ BOT_V_AOUT_Freq : 480|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ BOT_V_AOUT_Duty : 464|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ TOP_V_AOUT_Freq : 448|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ TOP_V_AOUT_Duty : 432|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ BOT_W_CONFIG6_Data : 422|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_CONFIG6_CRC : 184|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_CONFIG6_Data : 412|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_CONFIG6_CRC : 176|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_CONFIG6_Data : 402|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_CONFIG6_CRC : 168|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_CONFIG6_Data : 392|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_CONFIG6_CRC : 160|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_CONFIG6_Data : 382|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_CONFIG6_CRC : 152|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_CONFIG6_Data : 372|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_CONFIG6_CRC : 144|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_CONFIG5_Data : 362|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_CONFIG5_CRC : 136|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_CONFIG5_Data : 352|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_CONFIG5_CRC : 128|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_CONFIG5_Data : 342|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_CONFIG5_CRC : 120|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_CONFIG5_Data : 332|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_CONFIG5_CRC : 112|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_CONFIG5_Data : 322|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_CONFIG5_CRC : 104|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_CONFIG5_Data : 312|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_CONFIG5_CRC : 96|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_CONFIG4_Data : 302|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_CONFIG4_CRC : 88|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_CONFIG4_Data : 292|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_CONFIG4_CRC : 80|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_CONFIG4_Data : 282|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_CONFIG4_CRC : 72|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_CONFIG4_Data : 272|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_CONFIG4_CRC : 64|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_CONFIG4_Data : 262|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_CONFIG4_CRC : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_CONFIG4_Data : 252|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_CONFIG4_CRC : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_CONFIG3_Data : 242|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_CONFIG3_CRC : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_CONFIG3_Data : 232|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_CONFIG3_CRC : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_CONFIG3_Data : 222|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_CONFIG3_CRC : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_CONFIG3_Data : 212|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_CONFIG3_CRC : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_CONFIG3_Data : 202|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_CONFIG3_CRC : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_CONFIG3_Data : 192|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_CONFIG3_CRC : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1545 MCU_TX_0x609_DEVCANFD: 64 MCU
+ SG_ BOT_U_AOUT_Freq : 480|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ BOT_U_AOUT_Duty : 464|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ TOP_U_AOUT_Freq : 448|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
+ SG_ TOP_U_AOUT_Duty : 432|16@1+ (0.01,0) [0|100] "%" Vector__XXX
+ SG_ BOT_W_CONFIG2_Data : 422|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_CONFIG2_CRC : 184|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_CONFIG2_Data : 412|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_CONFIG2_CRC : 176|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_CONFIG2_Data : 402|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_CONFIG2_CRC : 168|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_CONFIG2_Data : 392|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_CONFIG2_CRC : 160|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_CONFIG2_Data : 382|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_CONFIG2_CRC : 152|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_CONFIG2_Data : 372|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_CONFIG2_CRC : 144|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_CONFIG1_Data : 362|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_CONFIG1_CRC : 136|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_CONFIG1_Data : 352|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_CONFIG1_CRC : 128|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_CONFIG1_Data : 342|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_CONFIG1_CRC : 120|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_CONFIG1_Data : 332|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_CONFIG1_CRC : 112|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_CONFIG1_Data : 322|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_CONFIG1_CRC : 104|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_CONFIG1_Data : 312|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_CONFIG1_CRC : 96|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_MODE2_Data : 302|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_MODE2_CRC : 88|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_MODE2_Data : 292|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_MODE2_CRC : 80|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_MODE2_Data : 282|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_MODE2_CRC : 72|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_MODE2_Data : 272|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_MODE2_CRC : 64|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_MODE2_Data : 262|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_MODE2_CRC : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_MODE2_Data : 252|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_MODE2_CRC : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_MODE1_Data : 242|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_MODE1_CRC : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_MODE1_Data : 232|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_MODE1_CRC : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_MODE1_Data : 222|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_MODE1_CRC : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_MODE1_Data : 212|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_MODE1_CRC : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_MODE1_Data : 202|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_MODE1_CRC : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_MODE1_Data : 192|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_MODE1_CRC : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1544 MCU_TX_0x608_DEVCANFD: 64 MCU
+ SG_ BOT_W_ID_Data : 450|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_ID_CRC : 392|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_ID_Data : 440|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_ID_CRC : 384|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_ID_Data : 430|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_ID_CRC : 376|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_ID_Data : 420|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_ID_CRC : 368|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_ID_Data : 410|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_ID_CRC : 360|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_ID_Data : 400|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_ID_CRC : 352|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_REQADC_Data : 338|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_W_REQADC_CRC : 280|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_V_REQADC_Data : 328|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_V_REQADC_CRC : 272|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_U_REQADC_Data : 318|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ BOT_U_REQADC_CRC : 264|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_W_REQADC_Data : 308|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_W_REQADC_CRC : 256|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_V_REQADC_Data : 298|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_V_REQADC_CRC : 248|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TOP_U_REQADC_Data : 288|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ TOP_U_REQADC_CRC : 240|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BOT_W_STATCON4_CMP_OUT : 238|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATCON4_GS_ERR : 237|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATCON4_GS_H_WS_CNF : 236|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATCON4_GS_H_US_CNF : 235|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATCON4_GS_L_WS_CNF : 234|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATCON4_GS_L_US_CNF : 233|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATCON4_GS_H_WS_ST : 232|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATCON4_GS_H_US_ST : 231|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATCON4_GS_L_WS_ST : 230|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATCON4_GS_L_US_ST : 229|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS3_FSISO_ST : 228|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS3_FSISO : 227|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS3_PWM : 226|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS3_PWMALT : 225|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS3_FSSTATE : 224|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS3_FSENB : 223|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS3_INTB : 222|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS3_INTA_RTRPT : 221|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS3_VRTMON : 220|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS2_BIST_FAIL : 219|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS2_VDD_UVOV : 218|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS2_DTFLT : 217|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS2_SPIERR : 216|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS2_CONFCRCERR : 215|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS2_RTMON_FLT : 214|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS2_WDOG_FLT : 213|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS2_COMERR : 212|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS2_VREF_UV : 211|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS2_VEE_OOR : 210|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS1_VCCOV : 209|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS1_VCCUV : 208|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS1_POR_1 : 207|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS1_OTSD_IC : 206|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS1_OTSD : 205|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS1_OTW : 204|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS1_POR_2 : 203|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS1_DESAT : 202|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS1_SC : 201|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_W_STATUS1_OC : 200|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATCON4_CMP_OUT : 198|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATCON4_GS_ERR : 197|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATCON4_GS_H_WS_CNF : 196|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATCON4_GS_H_US_CNF : 195|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATCON4_GS_L_WS_CNF : 194|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATCON4_GS_L_US_CNF : 193|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATCON4_GS_H_WS_ST : 192|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATCON4_GS_H_US_ST : 191|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATCON4_GS_L_WS_ST : 190|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATCON4_GS_L_US_ST : 189|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS3_FSISO_ST : 188|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS3_FSISO : 187|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS3_PWM : 186|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS3_PWMALT : 185|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS3_FSSTATE : 184|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS3_FSENB : 183|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS3_INTB : 182|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS3_INTA_RTRPT : 181|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS3_VRTMON : 180|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS2_BIST_FAIL : 179|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS2_VDD_UVOV : 178|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS2_DTFLT : 177|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS2_SPIERR : 176|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS2_CONFCRCERR : 175|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS2_RTMON_FLT : 174|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS2_WDOG_FLT : 173|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS2_COMERR : 172|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS2_VREF_UV : 171|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS2_VEE_OOR : 170|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS1_VCCOV : 169|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS1_VCCUV : 168|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS1_POR_1 : 167|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS1_OTSD_IC : 166|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS1_OTSD : 165|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS1_OTW : 164|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS1_POR_2 : 163|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS1_DESAT : 162|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS1_SC : 161|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_STATUS1_OC : 160|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATCON4_CMP_OUT : 158|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATCON4_GS_ERR : 157|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATCON4_GS_H_WS_CNF : 156|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATCON4_GS_H_US_CNF : 155|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATCON4_GS_L_WS_CNF : 154|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATCON4_GS_L_US_CNF : 153|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATCON4_GS_H_WS_ST : 152|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATCON4_GS_H_US_ST : 151|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATCON4_GS_L_WS_ST : 150|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATCON4_GS_L_US_ST : 149|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS3_FSISO_ST : 148|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS3_FSISO : 147|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS3_PWM : 146|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS3_PWMALT : 145|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS3_FSSTATE : 144|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS3_FSENB : 143|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS3_INTB : 142|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS3_INTA_RTRPT : 141|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS3_VRTMON : 140|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS2_BIST_FAIL : 139|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS2_VDD_UVOV : 138|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS2_DTFLT : 137|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS2_SPIERR : 136|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS2_CONFCRCERR : 135|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS2_RTMON_FLT : 134|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS2_WDOG_FLT : 133|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS2_COMERR : 132|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS2_VREF_UV : 131|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS2_VEE_OOR : 130|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS1_VCCOV : 129|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS1_VCCUV : 128|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS1_POR_1 : 127|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS1_OTSD_IC : 126|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS1_OTSD : 125|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS1_OTW : 124|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS1_POR_2 : 123|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS1_DESAT : 122|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS1_SC : 121|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_STATUS1_OC : 120|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATCON4_CMP_OUT : 118|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATCON4_GS_ERR : 117|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATCON4_GS_H_WS_CNF : 116|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATCON4_GS_H_US_CNF : 115|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATCON4_GS_L_WS_CNF : 114|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATCON4_GS_L_US_CNF : 113|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATCON4_GS_H_WS_ST : 112|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATCON4_GS_H_US_ST : 111|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATCON4_GS_L_WS_ST : 110|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATCON4_GS_L_US_ST : 109|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS3_FSISO_ST : 108|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS3_FSISO : 107|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS3_PWM : 106|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS3_PWMALT : 105|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS3_FSSTATE : 104|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS3_FSENB : 103|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS3_INTB : 102|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS3_INTA_RTRPT : 101|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS3_VRTMON : 100|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS2_BIST_FAIL : 99|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS2_VDD_UVOV : 98|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS2_DTFLT : 97|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS2_SPIERR : 96|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS2_CONFCRCERR : 95|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS2_RTMON_FLT : 94|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS2_WDOG_FLT : 93|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS2_COMERR : 92|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS2_VREF_UV : 91|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS2_VEE_OOR : 90|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS1_VCCOV : 89|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS1_VCCUV : 88|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS1_POR_1 : 87|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS1_OTSD_IC : 86|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS1_OTSD : 85|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS1_OTW : 84|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS1_POR_2 : 83|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS1_DESAT : 82|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS1_SC : 81|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_STATUS1_OC : 80|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATCON4_GS_L_WS_ST : 70|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATCON4_GS_L_WS_CNF : 74|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATCON4_GS_L_US_ST : 69|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATCON4_GS_L_US_CNF : 73|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATCON4_GS_H_WS_ST : 72|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATCON4_GS_H_WS_CNF : 76|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATCON4_GS_H_US_ST : 71|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATCON4_GS_H_US_CNF : 75|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATCON4_GS_ERR : 77|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATCON4_CMP_OUT : 78|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS3_VRTMON : 60|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS3_PWM : 66|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS3_PWMALT : 65|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS3_INTB : 62|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS3_INTA_RTRPT : 61|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS3_FSSTATE : 64|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS3_FSISO_ST : 68|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS3_FSISO : 67|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS3_FSENB : 63|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS2_WDOG_FLT : 53|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS2_VREF_UV : 51|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS2_VEE_OOR : 50|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS2_VDD_UVOV : 58|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS2_SPIERR : 56|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS2_RTMON_FLT : 54|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS2_DTFLT : 57|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS2_CONFCRCERR : 55|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS2_COMERR : 52|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS2_BIST_FAIL : 59|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS1_VCCUV : 48|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS1_VCCOV : 49|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS1_SC : 41|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS1_POR_2 : 43|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS1_POR_1 : 47|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS1_OTW : 44|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS1_OTSD_IC : 46|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS1_OTSD : 45|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS1_DESAT : 42|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_STATUS1_OC : 40|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATCON4_CMP_OUT : 38|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATCON4_GS_ERR : 37|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATCON4_GS_H_WS_CNF : 36|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATCON4_GS_H_US_CNF : 35|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATCON4_GS_L_WS_CNF : 34|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATCON4_GS_L_US_CNF : 33|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATCON4_GS_H_WS_ST : 32|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATCON4_GS_H_US_ST : 31|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATCON4_GS_L_WS_ST : 30|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATCON4_GS_L_US_ST : 29|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS3_FSISO_ST : 28|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS3_FSISO : 27|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS3_PWM : 26|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS3_PWMALT : 25|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS3_FSSTATE : 24|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS3_FSENB : 23|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS3_INTB : 22|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS3_INTA_RTRPT : 21|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS3_VRTMON : 20|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS2_BIST_FAIL : 19|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS2_VDD_UVOV : 18|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS2_DTFLT : 17|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS2_SPIERR : 16|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS2_CONFCRCERR : 15|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS2_RTMON_FLT : 14|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS2_WDOG_FLT : 13|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS2_COMERR : 12|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS2_VREF_UV : 11|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS2_VEE_OOR : 10|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS1_VCCOV : 9|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS1_VCCUV : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS1_POR_1 : 7|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS1_OTSD_IC : 6|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS1_OTSD : 5|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS1_OTW : 4|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS1_POR_2 : 3|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS1_DESAT : 2|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS1_SC : 1|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_STATUS1_OC : 0|1@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 1543 MCU_TX_0x607_DEVCANFD: 64 MCU
  SG_ PWM_U_BOT_FB_BU_Freq : 392|16@1+ (1,0) [0|65535] "Hz" Vector__XXX
@@ -213,6 +856,630 @@ BO_ 1784 MCU_TX_0x6F8_DEVCANFD: 64 MCU
 
 
 
+CM_ SG_ 1282 BOT_W_AMUX_SEL "Page:GDIC3162_ADC";
+CM_ SG_ 1282 BOT_V_AMUX_SEL "Page:GDIC3162_ADC";
+CM_ SG_ 1282 BOT_U_AMUX_SEL "Page:GDIC3162_ADC";
+CM_ SG_ 1282 TOP_W_AMUX_SEL "Page:GDIC3162_ADC";
+CM_ SG_ 1282 TOP_V_AMUX_SEL "Page:GDIC3162_ADC";
+CM_ SG_ 1282 TOP_U_AMUX_SEL "Page:GDIC3162_ADC";
+CM_ SG_ 1282 BOT_W_AOUT_SELECT "Page:GDIC3162_AOUT";
+CM_ SG_ 1282 BOT_V_AOUT_SELECT "Page:GDIC3162_AOUT";
+CM_ SG_ 1282 BOT_U_AOUT_SELECT "Page:GDIC3162_AOUT";
+CM_ SG_ 1282 TOP_W_AOUT_SELECT "Page:GDIC3162_AOUT";
+CM_ SG_ 1282 TOP_V_AOUT_SELECT "Page:GDIC3162_AOUT";
+CM_ SG_ 1282 TOP_U_AOUT_SELECT "Page:GDIC3162_AOUT";
+CM_ SG_ 1282 BOT_W_Register_Write_Index "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_V_Register_Write_Index "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_U_Register_Write_Index "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_W_Register_Write_Index "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_V_Register_Write_Index "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_U_Register_Write_Index "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_W_Status_Write_Data9 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_W_Status_Write_Data8 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_W_Status_Write_Data7 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_W_Status_Write_Data6 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_W_Status_Write_Data5 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_W_Status_Write_Data4 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_W_Status_Write_Data3 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_W_Status_Write_Data2 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_W_Status_Write_Data1 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_W_Status_Write_Data0 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_V_Status_Write_Data9 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_V_Status_Write_Data8 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_V_Status_Write_Data7 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_V_Status_Write_Data6 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_V_Status_Write_Data5 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_V_Status_Write_Data4 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_V_Status_Write_Data3 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_V_Status_Write_Data2 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_V_Status_Write_Data1 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_V_Status_Write_Data0 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_U_Status_Write_Data9 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_U_Status_Write_Data8 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_U_Status_Write_Data7 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_U_Status_Write_Data6 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_U_Status_Write_Data5 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_U_Status_Write_Data4 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_U_Status_Write_Data3 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_U_Status_Write_Data2 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_U_Status_Write_Data1 "Page:GDIC3162_Status";
+CM_ SG_ 1282 BOT_U_Status_Write_Data0 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_W_Status_Write_Data9 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_W_Status_Write_Data8 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_W_Status_Write_Data7 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_W_Status_Write_Data6 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_W_Status_Write_Data5 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_W_Status_Write_Data4 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_W_Status_Write_Data3 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_W_Status_Write_Data2 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_W_Status_Write_Data1 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_W_Status_Write_Data0 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_V_Status_Write_Data9 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_V_Status_Write_Data8 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_V_Status_Write_Data7 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_V_Status_Write_Data6 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_V_Status_Write_Data5 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_V_Status_Write_Data4 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_V_Status_Write_Data3 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_V_Status_Write_Data2 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_V_Status_Write_Data1 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_V_Status_Write_Data0 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_U_Status_Write_Data9 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_U_Status_Write_Data8 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_U_Status_Write_Data7 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_U_Status_Write_Data6 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_U_Status_Write_Data5 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_U_Status_Write_Data4 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_U_Status_Write_Data3 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_U_Status_Write_Data2 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_U_Status_Write_Data1 "Page:GDIC3162_Status";
+CM_ SG_ 1282 TOP_U_Status_Write_Data0 "Page:GDIC3162_Status";
+CM_ SG_ 1550 BOT_W_TSENSEA_Freq "Page:GDIC3162_AOUT";
+CM_ SG_ 1550 BOT_W_TSENSEA_Duty "Page:GDIC3162_AOUT";
+CM_ SG_ 1550 BOT_V_TSENSEA_Freq "Page:GDIC3162_AOUT";
+CM_ SG_ 1550 BOT_V_TSENSEA_Duty "Page:GDIC3162_AOUT";
+CM_ SG_ 1550 BOT_U_TSENSEA_Freq "Page:GDIC3162_AOUT";
+CM_ SG_ 1550 BOT_U_TSENSEA_Duty "Page:GDIC3162_AOUT";
+CM_ SG_ 1550 TOP_W_TSENSEA_Freq "Page:GDIC3162_AOUT";
+CM_ SG_ 1550 TOP_W_TSENSEA_Duty "Page:GDIC3162_AOUT";
+CM_ SG_ 1550 TOP_V_TSENSEA_Freq "Page:GDIC3162_AOUT";
+CM_ SG_ 1550 TOP_V_TSENSEA_Duty "Page:GDIC3162_AOUT";
+CM_ SG_ 1550 TOP_U_TSENSEA_Freq "Page:GDIC3162_AOUT";
+CM_ SG_ 1550 TOP_U_TSENSEA_Duty "Page:GDIC3162_AOUT";
+CM_ SG_ 1550 BOT_W_DISCHG_Data "Page:GDIC3162_Registers Address:0x17";
+CM_ SG_ 1550 BOT_W_DISCHG_CRC "Page:GDIC3162_Registers Address:0x17";
+CM_ SG_ 1550 BOT_V_DISCHG_Data "Page:GDIC3162_Registers Address:0x17";
+CM_ SG_ 1550 BOT_V_DISCHG_CRC "Page:GDIC3162_Registers Address:0x17";
+CM_ SG_ 1550 BOT_U_DISCHG_Data "Page:GDIC3162_Registers Address:0x17";
+CM_ SG_ 1550 BOT_U_DISCHG_CRC "Page:GDIC3162_Registers Address:0x17";
+CM_ SG_ 1550 TOP_W_DISCHG_Data "Page:GDIC3162_Registers Address:0x17";
+CM_ SG_ 1550 TOP_W_DISCHG_CRC "Page:GDIC3162_Registers Address:0x17";
+CM_ SG_ 1550 TOP_V_DISCHG_Data "Page:GDIC3162_Registers Address:0x17";
+CM_ SG_ 1550 TOP_V_DISCHG_CRC "Page:GDIC3162_Registers Address:0x17";
+CM_ SG_ 1550 TOP_U_DISCHG_Data "Page:GDIC3162_Registers Address:0x17";
+CM_ SG_ 1550 TOP_U_DISCHG_CRC "Page:GDIC3162_Registers Address:0x17";
+CM_ SG_ 1550 BOT_W_REQBIST_Data "Page:GDIC3162_Registers Address:0x14";
+CM_ SG_ 1550 BOT_W_REQBIST_CRC "Page:GDIC3162_Registers Address:0x14";
+CM_ SG_ 1550 BOT_V_REQBIST_Data "Page:GDIC3162_Registers Address:0x14";
+CM_ SG_ 1550 BOT_V_REQBIST_CRC "Page:GDIC3162_Registers Address:0x14";
+CM_ SG_ 1550 BOT_U_REQBIST_Data "Page:GDIC3162_Registers Address:0x14";
+CM_ SG_ 1550 BOT_U_REQBIST_CRC "Page:GDIC3162_Registers Address:0x14";
+CM_ SG_ 1550 TOP_W_REQBIST_Data "Page:GDIC3162_Registers Address:0x14";
+CM_ SG_ 1550 TOP_W_REQBIST_CRC "Page:GDIC3162_Registers Address:0x14";
+CM_ SG_ 1550 TOP_V_REQBIST_Data "Page:GDIC3162_Registers Address:0x14";
+CM_ SG_ 1550 TOP_V_REQBIST_CRC "Page:GDIC3162_Registers Address:0x14";
+CM_ SG_ 1550 TOP_U_REQBIST_Data "Page:GDIC3162_Registers Address:0x14";
+CM_ SG_ 1550 TOP_U_REQBIST_CRC "Page:GDIC3162_Registers Address:0x14";
+CM_ SG_ 1549 BOT_W_CONFIGAOUT_Data "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1549 BOT_W_CONFIGAOUT_CRC "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1549 BOT_V_CONFIGAOUT_Data "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1549 BOT_V_CONFIGAOUT_CRC "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1549 BOT_U_CONFIGAOUT_Data "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1549 BOT_U_CONFIGAOUT_CRC "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1549 TOP_W_CONFIGAOUT_Data "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1549 TOP_W_CONFIGAOUT_CRC "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1549 TOP_V_CONFIGAOUT_Data "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1549 TOP_V_CONFIGAOUT_CRC "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1549 TOP_U_CONFIGAOUT_Data "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1549 TOP_U_CONFIGAOUT_CRC "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1549 BOT_W_STATCON4_Data "Page:GDIC3162_Registers Address:0x12";
+CM_ SG_ 1549 BOT_W_STATCON4_CRC "Page:GDIC3162_Registers Address:0x12";
+CM_ SG_ 1549 BOT_V_STATCON4_Data "Page:GDIC3162_Registers Address:0x12";
+CM_ SG_ 1549 BOT_V_STATCON4_CRC "Page:GDIC3162_Registers Address:0x12";
+CM_ SG_ 1549 BOT_U_STATCON4_Data "Page:GDIC3162_Registers Address:0x12";
+CM_ SG_ 1549 BOT_U_STATCON4_CRC "Page:GDIC3162_Registers Address:0x12";
+CM_ SG_ 1549 TOP_W_STATCON4_Data "Page:GDIC3162_Registers Address:0x12";
+CM_ SG_ 1549 TOP_W_STATCON4_CRC "Page:GDIC3162_Registers Address:0x12";
+CM_ SG_ 1549 TOP_V_STATCON4_Data "Page:GDIC3162_Registers Address:0x12";
+CM_ SG_ 1549 TOP_V_STATCON4_CRC "Page:GDIC3162_Registers Address:0x12";
+CM_ SG_ 1549 TOP_U_STATCON4_Data "Page:GDIC3162_Registers Address:0x12";
+CM_ SG_ 1549 TOP_U_STATCON4_CRC "Page:GDIC3162_Registers Address:0x12";
+CM_ SG_ 1549 BOT_W_STATUS3_Data "Page:GDIC3162_Registers Address:0x11";
+CM_ SG_ 1549 BOT_W_STATUS3_CRC "Page:GDIC3162_Registers Address:0x11";
+CM_ SG_ 1549 BOT_V_STATUS3_Data "Page:GDIC3162_Registers Address:0x11";
+CM_ SG_ 1549 BOT_V_STATUS3_CRC "Page:GDIC3162_Registers Address:0x11";
+CM_ SG_ 1549 BOT_U_STATUS3_Data "Page:GDIC3162_Registers Address:0x11";
+CM_ SG_ 1549 BOT_U_STATUS3_CRC "Page:GDIC3162_Registers Address:0x11";
+CM_ SG_ 1549 TOP_W_STATUS3_Data "Page:GDIC3162_Registers Address:0x11";
+CM_ SG_ 1549 TOP_W_STATUS3_CRC "Page:GDIC3162_Registers Address:0x11";
+CM_ SG_ 1549 TOP_V_STATUS3_Data "Page:GDIC3162_Registers Address:0x11";
+CM_ SG_ 1549 TOP_V_STATUS3_CRC "Page:GDIC3162_Registers Address:0x11";
+CM_ SG_ 1549 TOP_U_STATUS3_Data "Page:GDIC3162_Registers Address:0x11";
+CM_ SG_ 1549 TOP_U_STATUS3_CRC "Page:GDIC3162_Registers Address:0x11";
+CM_ SG_ 1549 BOT_W_RMSK2_Data "Page:GDIC3162_Registers Address:0x10";
+CM_ SG_ 1549 BOT_W_RMSK2_CRC "Page:GDIC3162_Registers Address:0x10";
+CM_ SG_ 1549 BOT_V_RMSK2_Data "Page:GDIC3162_Registers Address:0x10";
+CM_ SG_ 1549 BOT_V_RMSK2_CRC "Page:GDIC3162_Registers Address:0x10";
+CM_ SG_ 1549 BOT_U_RMSK2_Data "Page:GDIC3162_Registers Address:0x10";
+CM_ SG_ 1549 BOT_U_RMSK2_CRC "Page:GDIC3162_Registers Address:0x10";
+CM_ SG_ 1549 TOP_W_RMSK2_Data "Page:GDIC3162_Registers Address:0x10";
+CM_ SG_ 1549 TOP_W_RMSK2_CRC "Page:GDIC3162_Registers Address:0x10";
+CM_ SG_ 1549 TOP_V_RMSK2_Data "Page:GDIC3162_Registers Address:0x10";
+CM_ SG_ 1549 TOP_V_RMSK2_CRC "Page:GDIC3162_Registers Address:0x10";
+CM_ SG_ 1549 TOP_U_RMSK2_Data "Page:GDIC3162_Registers Address:0x10";
+CM_ SG_ 1549 TOP_U_RMSK2_CRC "Page:GDIC3162_Registers Address:0x10";
+CM_ SG_ 1548 BOT_W_MSK2_Data "Page:GDIC3162_Registers Address:0x0F";
+CM_ SG_ 1548 BOT_W_MSK2_CRC "Page:GDIC3162_Registers Address:0x0F";
+CM_ SG_ 1548 BOT_V_MSK2_Data "Page:GDIC3162_Registers Address:0x0F";
+CM_ SG_ 1548 BOT_V_MSK2_CRC "Page:GDIC3162_Registers Address:0x0F";
+CM_ SG_ 1548 BOT_U_MSK2_Data "Page:GDIC3162_Registers Address:0x0F";
+CM_ SG_ 1548 BOT_U_MSK2_CRC "Page:GDIC3162_Registers Address:0x0F";
+CM_ SG_ 1548 TOP_W_MSK2_Data "Page:GDIC3162_Registers Address:0x0F";
+CM_ SG_ 1548 TOP_W_MSK2_CRC "Page:GDIC3162_Registers Address:0x0F";
+CM_ SG_ 1548 TOP_V_MSK2_Data "Page:GDIC3162_Registers Address:0x0F";
+CM_ SG_ 1548 TOP_V_MSK2_CRC "Page:GDIC3162_Registers Address:0x0F";
+CM_ SG_ 1548 TOP_U_MSK2_Data "Page:GDIC3162_Registers Address:0x0F";
+CM_ SG_ 1548 TOP_U_MSK2_CRC "Page:GDIC3162_Registers Address:0x0F";
+CM_ SG_ 1548 BOT_W_STATUS2_Data "Page:GDIC3162_Registers Address:0x0E";
+CM_ SG_ 1548 BOT_W_STATUS2_CRC "Page:GDIC3162_Registers Address:0x0E";
+CM_ SG_ 1548 BOT_V_STATUS2_Data "Page:GDIC3162_Registers Address:0x0E";
+CM_ SG_ 1548 BOT_V_STATUS2_CRC "Page:GDIC3162_Registers Address:0x0E";
+CM_ SG_ 1548 BOT_U_STATUS2_Data "Page:GDIC3162_Registers Address:0x0E";
+CM_ SG_ 1548 BOT_U_STATUS2_CRC "Page:GDIC3162_Registers Address:0x0E";
+CM_ SG_ 1548 TOP_W_STATUS2_Data "Page:GDIC3162_Registers Address:0x0E";
+CM_ SG_ 1548 TOP_W_STATUS2_CRC "Page:GDIC3162_Registers Address:0x0E";
+CM_ SG_ 1548 TOP_V_STATUS2_Data "Page:GDIC3162_Registers Address:0x0E";
+CM_ SG_ 1548 TOP_V_STATUS2_CRC "Page:GDIC3162_Registers Address:0x0E";
+CM_ SG_ 1548 TOP_U_STATUS2_Data "Page:GDIC3162_Registers Address:0x0E";
+CM_ SG_ 1548 TOP_U_STATUS2_CRC "Page:GDIC3162_Registers Address:0x0E";
+CM_ SG_ 1548 BOT_W_RMSK1_Data "Page:GDIC3162_Registers Address:0x0D";
+CM_ SG_ 1548 BOT_W_RMSK1_CRC "Page:GDIC3162_Registers Address:0x0D";
+CM_ SG_ 1548 BOT_V_RMSK1_Data "Page:GDIC3162_Registers Address:0x0D";
+CM_ SG_ 1548 BOT_V_RMSK1_CRC "Page:GDIC3162_Registers Address:0x0D";
+CM_ SG_ 1548 BOT_U_RMSK1_Data "Page:GDIC3162_Registers Address:0x0D";
+CM_ SG_ 1548 BOT_U_RMSK1_CRC "Page:GDIC3162_Registers Address:0x0D";
+CM_ SG_ 1548 TOP_W_RMSK1_Data "Page:GDIC3162_Registers Address:0x0D";
+CM_ SG_ 1548 TOP_W_RMSK1_CRC "Page:GDIC3162_Registers Address:0x0D";
+CM_ SG_ 1548 TOP_V_RMSK1_Data "Page:GDIC3162_Registers Address:0x0D";
+CM_ SG_ 1548 TOP_V_RMSK1_CRC "Page:GDIC3162_Registers Address:0x0D";
+CM_ SG_ 1548 TOP_U_RMSK1_Data "Page:GDIC3162_Registers Address:0x0D";
+CM_ SG_ 1548 TOP_U_RMSK1_CRC "Page:GDIC3162_Registers Address:0x0D";
+CM_ SG_ 1548 BOT_W_MSK1_Data "Page:GDIC3162_Registers Address:0x0C";
+CM_ SG_ 1548 BOT_W_MSK1_CRC "Page:GDIC3162_Registers Address:0x0C";
+CM_ SG_ 1548 BOT_V_MSK1_Data "Page:GDIC3162_Registers Address:0x0C";
+CM_ SG_ 1548 BOT_V_MSK1_CRC "Page:GDIC3162_Registers Address:0x0C";
+CM_ SG_ 1548 BOT_U_MSK1_Data "Page:GDIC3162_Registers Address:0x0C";
+CM_ SG_ 1548 BOT_U_MSK1_CRC "Page:GDIC3162_Registers Address:0x0C";
+CM_ SG_ 1548 TOP_W_MSK1_Data "Page:GDIC3162_Registers Address:0x0C";
+CM_ SG_ 1548 TOP_W_MSK1_CRC "Page:GDIC3162_Registers Address:0x0C";
+CM_ SG_ 1548 TOP_V_MSK1_Data "Page:GDIC3162_Registers Address:0x0C";
+CM_ SG_ 1548 TOP_V_MSK1_CRC "Page:GDIC3162_Registers Address:0x0C";
+CM_ SG_ 1548 TOP_U_MSK1_Data "Page:GDIC3162_Registers Address:0x0C";
+CM_ SG_ 1548 TOP_U_MSK1_CRC "Page:GDIC3162_Registers Address:0x0C";
+CM_ SG_ 1547 BOT_W_AOUT_Freq "Page:GDIC3162_AOUT";
+CM_ SG_ 1547 BOT_W_AOUT_Duty "Page:GDIC3162_AOUT";
+CM_ SG_ 1547 TOP_W_AOUT_Freq "Page:GDIC3162_AOUT";
+CM_ SG_ 1547 TOP_W_AOUT_Duty "Page:GDIC3162_AOUT";
+CM_ SG_ 1547 BOT_W_STATUS1_Data "Page:GDIC3162_Registers Address:0x0B";
+CM_ SG_ 1547 BOT_W_STATUS1_CRC "Page:GDIC3162_Registers Address:0x0B";
+CM_ SG_ 1547 BOT_V_STATUS1_Data "Page:GDIC3162_Registers Address:0x0B";
+CM_ SG_ 1547 BOT_V_STATUS1_CRC "Page:GDIC3162_Registers Address:0x0B";
+CM_ SG_ 1547 BOT_U_STATUS1_Data "Page:GDIC3162_Registers Address:0x0B";
+CM_ SG_ 1547 BOT_U_STATUS1_CRC "Page:GDIC3162_Registers Address:0x0B";
+CM_ SG_ 1547 TOP_W_STATUS1_Data "Page:GDIC3162_Registers Address:0x0B";
+CM_ SG_ 1547 TOP_W_STATUS1_CRC "Page:GDIC3162_Registers Address:0x0B";
+CM_ SG_ 1547 TOP_V_STATUS1_Data "Page:GDIC3162_Registers Address:0x0B";
+CM_ SG_ 1547 TOP_V_STATUS1_CRC "Page:GDIC3162_Registers Address:0x0B";
+CM_ SG_ 1547 TOP_U_STATUS1_Data "Page:GDIC3162_Registers Address:0x0B";
+CM_ SG_ 1547 TOP_U_STATUS1_CRC "Page:GDIC3162_Registers Address:0x0B";
+CM_ SG_ 1547 BOT_W_OTW_TH_Data "Page:GDIC3162_Registers Address:0x0A";
+CM_ SG_ 1547 BOT_W_OTW_TH_CRC "Page:GDIC3162_Registers Address:0x0A";
+CM_ SG_ 1547 BOT_V_OTW_TH_Data "Page:GDIC3162_Registers Address:0x0A";
+CM_ SG_ 1547 BOT_V_OTW_TH_CRC "Page:GDIC3162_Registers Address:0x0A";
+CM_ SG_ 1547 BOT_U_OTW_TH_Data "Page:GDIC3162_Registers Address:0x0A";
+CM_ SG_ 1547 BOT_U_OTW_TH_CRC "Page:GDIC3162_Registers Address:0x0A";
+CM_ SG_ 1547 TOP_W_OTW_TH_Data "Page:GDIC3162_Registers Address:0x0A";
+CM_ SG_ 1547 TOP_W_OTW_TH_CRC "Page:GDIC3162_Registers Address:0x0A";
+CM_ SG_ 1547 TOP_V_OTW_TH_Data "Page:GDIC3162_Registers Address:0x0A";
+CM_ SG_ 1547 TOP_V_OTW_TH_CRC "Page:GDIC3162_Registers Address:0x0A";
+CM_ SG_ 1547 TOP_U_OTW_TH_Data "Page:GDIC3162_Registers Address:0x0A";
+CM_ SG_ 1547 TOP_U_OTW_TH_CRC "Page:GDIC3162_Registers Address:0x0A";
+CM_ SG_ 1547 BOT_W_OT_TH_Data "Page:GDIC3162_Registers Address:0x09";
+CM_ SG_ 1547 BOT_W_OT_TH_CRC "Page:GDIC3162_Registers Address:0x09";
+CM_ SG_ 1547 BOT_V_OT_TH_Data "Page:GDIC3162_Registers Address:0x09";
+CM_ SG_ 1547 BOT_V_OT_TH_CRC "Page:GDIC3162_Registers Address:0x09";
+CM_ SG_ 1547 BOT_U_OT_TH_Data "Page:GDIC3162_Registers Address:0x09";
+CM_ SG_ 1547 BOT_U_OT_TH_CRC "Page:GDIC3162_Registers Address:0x09";
+CM_ SG_ 1547 TOP_W_OT_TH_Data "Page:GDIC3162_Registers Address:0x09";
+CM_ SG_ 1547 TOP_W_OT_TH_CRC "Page:GDIC3162_Registers Address:0x09";
+CM_ SG_ 1547 TOP_V_OT_TH_Data "Page:GDIC3162_Registers Address:0x09";
+CM_ SG_ 1547 TOP_V_OT_TH_CRC "Page:GDIC3162_Registers Address:0x09";
+CM_ SG_ 1547 TOP_U_OT_TH_Data "Page:GDIC3162_Registers Address:0x09";
+CM_ SG_ 1547 TOP_U_OT_TH_CRC "Page:GDIC3162_Registers Address:0x09";
+CM_ SG_ 1547 BOT_W_CONFIG7_Data "Page:GDIC3162_Registers Address:0x08";
+CM_ SG_ 1547 BOT_W_CONFIG7_CRC "Page:GDIC3162_Registers Address:0x08";
+CM_ SG_ 1547 BOT_V_CONFIG7_Data "Page:GDIC3162_Registers Address:0x08";
+CM_ SG_ 1547 BOT_V_CONFIG7_CRC "Page:GDIC3162_Registers Address:0x08";
+CM_ SG_ 1547 BOT_U_CONFIG7_Data "Page:GDIC3162_Registers Address:0x08";
+CM_ SG_ 1547 BOT_U_CONFIG7_CRC "Page:GDIC3162_Registers Address:0x08";
+CM_ SG_ 1547 TOP_W_CONFIG7_Data "Page:GDIC3162_Registers Address:0x08";
+CM_ SG_ 1547 TOP_W_CONFIG7_CRC "Page:GDIC3162_Registers Address:0x08";
+CM_ SG_ 1547 TOP_V_CONFIG7_Data "Page:GDIC3162_Registers Address:0x08";
+CM_ SG_ 1547 TOP_V_CONFIG7_CRC "Page:GDIC3162_Registers Address:0x08";
+CM_ SG_ 1547 TOP_U_CONFIG7_Data "Page:GDIC3162_Registers Address:0x08";
+CM_ SG_ 1547 TOP_U_CONFIG7_CRC "Page:GDIC3162_Registers Address:0x08";
+CM_ SG_ 1546 BOT_V_AOUT_Freq "Page:GDIC3162_AOUT";
+CM_ SG_ 1546 BOT_V_AOUT_Duty "Page:GDIC3162_AOUT";
+CM_ SG_ 1546 TOP_V_AOUT_Freq "Page:GDIC3162_AOUT";
+CM_ SG_ 1546 TOP_V_AOUT_Duty "Page:GDIC3162_AOUT";
+CM_ SG_ 1546 BOT_W_CONFIG6_Data "Page:GDIC3162_Registers Address:0x07";
+CM_ SG_ 1546 BOT_W_CONFIG6_CRC "Page:GDIC3162_Registers Address:0x07";
+CM_ SG_ 1546 BOT_V_CONFIG6_Data "Page:GDIC3162_Registers Address:0x07";
+CM_ SG_ 1546 BOT_V_CONFIG6_CRC "Page:GDIC3162_Registers Address:0x07";
+CM_ SG_ 1546 BOT_U_CONFIG6_Data "Page:GDIC3162_Registers Address:0x07";
+CM_ SG_ 1546 BOT_U_CONFIG6_CRC "Page:GDIC3162_Registers Address:0x07";
+CM_ SG_ 1546 TOP_W_CONFIG6_Data "Page:GDIC3162_Registers Address:0x07";
+CM_ SG_ 1546 TOP_W_CONFIG6_CRC "Page:GDIC3162_Registers Address:0x07";
+CM_ SG_ 1546 TOP_V_CONFIG6_Data "Page:GDIC3162_Registers Address:0x07";
+CM_ SG_ 1546 TOP_V_CONFIG6_CRC "Page:GDIC3162_Registers Address:0x07";
+CM_ SG_ 1546 TOP_U_CONFIG6_Data "Page:GDIC3162_Registers Address:0x07";
+CM_ SG_ 1546 TOP_U_CONFIG6_CRC "Page:GDIC3162_Registers Address:0x07";
+CM_ SG_ 1546 BOT_W_CONFIG5_Data "Page:GDIC3162_Registers Address:0x06";
+CM_ SG_ 1546 BOT_W_CONFIG5_CRC "Page:GDIC3162_Registers Address:0x06";
+CM_ SG_ 1546 BOT_V_CONFIG5_Data "Page:GDIC3162_Registers Address:0x06";
+CM_ SG_ 1546 BOT_V_CONFIG5_CRC "Page:GDIC3162_Registers Address:0x06";
+CM_ SG_ 1546 BOT_U_CONFIG5_Data "Page:GDIC3162_Registers Address:0x06";
+CM_ SG_ 1546 BOT_U_CONFIG5_CRC "Page:GDIC3162_Registers Address:0x06";
+CM_ SG_ 1546 TOP_W_CONFIG5_Data "Page:GDIC3162_Registers Address:0x06";
+CM_ SG_ 1546 TOP_W_CONFIG5_CRC "Page:GDIC3162_Registers Address:0x06";
+CM_ SG_ 1546 TOP_V_CONFIG5_Data "Page:GDIC3162_Registers Address:0x06";
+CM_ SG_ 1546 TOP_V_CONFIG5_CRC "Page:GDIC3162_Registers Address:0x06";
+CM_ SG_ 1546 TOP_U_CONFIG5_Data "Page:GDIC3162_Registers Address:0x06";
+CM_ SG_ 1546 TOP_U_CONFIG5_CRC "Page:GDIC3162_Registers Address:0x06";
+CM_ SG_ 1546 BOT_W_CONFIG4_Data "Page:GDIC3162_Registers Address:0x05";
+CM_ SG_ 1546 BOT_W_CONFIG4_CRC "Page:GDIC3162_Registers Address:0x05";
+CM_ SG_ 1546 BOT_V_CONFIG4_Data "Page:GDIC3162_Registers Address:0x05";
+CM_ SG_ 1546 BOT_V_CONFIG4_CRC "Page:GDIC3162_Registers Address:0x05";
+CM_ SG_ 1546 BOT_U_CONFIG4_Data "Page:GDIC3162_Registers Address:0x05";
+CM_ SG_ 1546 BOT_U_CONFIG4_CRC "Page:GDIC3162_Registers Address:0x05";
+CM_ SG_ 1546 TOP_W_CONFIG4_Data "Page:GDIC3162_Registers Address:0x05";
+CM_ SG_ 1546 TOP_W_CONFIG4_CRC "Page:GDIC3162_Registers Address:0x05";
+CM_ SG_ 1546 TOP_V_CONFIG4_Data "Page:GDIC3162_Registers Address:0x05";
+CM_ SG_ 1546 TOP_V_CONFIG4_CRC "Page:GDIC3162_Registers Address:0x05";
+CM_ SG_ 1546 TOP_U_CONFIG4_Data "Page:GDIC3162_Registers Address:0x05";
+CM_ SG_ 1546 TOP_U_CONFIG4_CRC "Page:GDIC3162_Registers Address:0x05";
+CM_ SG_ 1546 BOT_W_CONFIG3_Data "Page:GDIC3162_Registers Address:0x04";
+CM_ SG_ 1546 BOT_W_CONFIG3_CRC "Page:GDIC3162_Registers Address:0x04";
+CM_ SG_ 1546 BOT_V_CONFIG3_Data "Page:GDIC3162_Registers Address:0x04";
+CM_ SG_ 1546 BOT_V_CONFIG3_CRC "Page:GDIC3162_Registers Address:0x04";
+CM_ SG_ 1546 BOT_U_CONFIG3_Data "Page:GDIC3162_Registers Address:0x04";
+CM_ SG_ 1546 BOT_U_CONFIG3_CRC "Page:GDIC3162_Registers Address:0x04";
+CM_ SG_ 1546 TOP_W_CONFIG3_Data "Page:GDIC3162_Registers Address:0x04";
+CM_ SG_ 1546 TOP_W_CONFIG3_CRC "Page:GDIC3162_Registers Address:0x04";
+CM_ SG_ 1546 TOP_V_CONFIG3_Data "Page:GDIC3162_Registers Address:0x04";
+CM_ SG_ 1546 TOP_V_CONFIG3_CRC "Page:GDIC3162_Registers Address:0x04";
+CM_ SG_ 1546 TOP_U_CONFIG3_Data "Page:GDIC3162_Registers Address:0x04";
+CM_ SG_ 1546 TOP_U_CONFIG3_CRC "Page:GDIC3162_Registers Address:0x04";
+CM_ SG_ 1545 BOT_U_AOUT_Freq "Page:GDIC3162_AOUT";
+CM_ SG_ 1545 BOT_U_AOUT_Duty "Page:GDIC3162_AOUT";
+CM_ SG_ 1545 TOP_U_AOUT_Freq "Page:GDIC3162_AOUT";
+CM_ SG_ 1545 TOP_U_AOUT_Duty "Page:GDIC3162_AOUT";
+CM_ SG_ 1545 BOT_W_CONFIG2_Data "Page:GDIC3162_Registers Address:0x03";
+CM_ SG_ 1545 BOT_W_CONFIG2_CRC "Page:GDIC3162_Registers Address:0x03";
+CM_ SG_ 1545 BOT_V_CONFIG2_Data "Page:GDIC3162_Registers Address:0x03";
+CM_ SG_ 1545 BOT_V_CONFIG2_CRC "Page:GDIC3162_Registers Address:0x03";
+CM_ SG_ 1545 BOT_U_CONFIG2_Data "Page:GDIC3162_Registers Address:0x03";
+CM_ SG_ 1545 BOT_U_CONFIG2_CRC "Page:GDIC3162_Registers Address:0x03";
+CM_ SG_ 1545 TOP_W_CONFIG2_Data "Page:GDIC3162_Registers Address:0x03";
+CM_ SG_ 1545 TOP_W_CONFIG2_CRC "Page:GDIC3162_Registers Address:0x03";
+CM_ SG_ 1545 TOP_V_CONFIG2_Data "Page:GDIC3162_Registers Address:0x03";
+CM_ SG_ 1545 TOP_V_CONFIG2_CRC "Page:GDIC3162_Registers Address:0x03";
+CM_ SG_ 1545 TOP_U_CONFIG2_Data "Page:GDIC3162_Registers Address:0x03";
+CM_ SG_ 1545 TOP_U_CONFIG2_CRC "Page:GDIC3162_Registers Address:0x03";
+CM_ SG_ 1545 BOT_W_CONFIG1_Data "Page:GDIC3162_Registers Address:0x02";
+CM_ SG_ 1545 BOT_W_CONFIG1_CRC "Page:GDIC3162_Registers Address:0x02";
+CM_ SG_ 1545 BOT_V_CONFIG1_Data "Page:GDIC3162_Registers Address:0x02";
+CM_ SG_ 1545 BOT_V_CONFIG1_CRC "Page:GDIC3162_Registers Address:0x02";
+CM_ SG_ 1545 BOT_U_CONFIG1_Data "Page:GDIC3162_Registers Address:0x02";
+CM_ SG_ 1545 BOT_U_CONFIG1_CRC "Page:GDIC3162_Registers Address:0x02";
+CM_ SG_ 1545 TOP_W_CONFIG1_Data "Page:GDIC3162_Registers Address:0x02";
+CM_ SG_ 1545 TOP_W_CONFIG1_CRC "Page:GDIC3162_Registers Address:0x02";
+CM_ SG_ 1545 TOP_V_CONFIG1_Data "Page:GDIC3162_Registers Address:0x02";
+CM_ SG_ 1545 TOP_V_CONFIG1_CRC "Page:GDIC3162_Registers Address:0x02";
+CM_ SG_ 1545 TOP_U_CONFIG1_Data "Page:GDIC3162_Registers Address:0x02";
+CM_ SG_ 1545 TOP_U_CONFIG1_CRC "Page:GDIC3162_Registers Address:0x02";
+CM_ SG_ 1545 BOT_W_MODE2_Data "Page:GDIC3162_Registers Address:0x01";
+CM_ SG_ 1545 BOT_W_MODE2_CRC "Page:GDIC3162_Registers Address:0x01";
+CM_ SG_ 1545 BOT_V_MODE2_Data "Page:GDIC3162_Registers Address:0x01";
+CM_ SG_ 1545 BOT_V_MODE2_CRC "Page:GDIC3162_Registers Address:0x01";
+CM_ SG_ 1545 BOT_U_MODE2_Data "Page:GDIC3162_Registers Address:0x01";
+CM_ SG_ 1545 BOT_U_MODE2_CRC "Page:GDIC3162_Registers Address:0x01";
+CM_ SG_ 1545 TOP_W_MODE2_Data "Page:GDIC3162_Registers Address:0x01";
+CM_ SG_ 1545 TOP_W_MODE2_CRC "Page:GDIC3162_Registers Address:0x01";
+CM_ SG_ 1545 TOP_V_MODE2_Data "Page:GDIC3162_Registers Address:0x01";
+CM_ SG_ 1545 TOP_V_MODE2_CRC "Page:GDIC3162_Registers Address:0x01";
+CM_ SG_ 1545 TOP_U_MODE2_Data "Page:GDIC3162_Registers Address:0x01";
+CM_ SG_ 1545 TOP_U_MODE2_CRC "Page:GDIC3162_Registers Address:0x01";
+CM_ SG_ 1545 BOT_W_MODE1_Data "Page:GDIC3162_Registers Address:0x00";
+CM_ SG_ 1545 BOT_W_MODE1_CRC "Page:GDIC3162_Registers Address:0x00";
+CM_ SG_ 1545 BOT_V_MODE1_Data "Page:GDIC3162_Registers Address:0x00";
+CM_ SG_ 1545 BOT_V_MODE1_CRC "Page:GDIC3162_Registers Address:0x00";
+CM_ SG_ 1545 BOT_U_MODE1_Data "Page:GDIC3162_Registers Address:0x00";
+CM_ SG_ 1545 BOT_U_MODE1_CRC "Page:GDIC3162_Registers Address:0x00";
+CM_ SG_ 1545 TOP_W_MODE1_Data "Page:GDIC3162_Registers Address:0x00";
+CM_ SG_ 1545 TOP_W_MODE1_CRC "Page:GDIC3162_Registers Address:0x00";
+CM_ SG_ 1545 TOP_V_MODE1_Data "Page:GDIC3162_Registers Address:0x00";
+CM_ SG_ 1545 TOP_V_MODE1_CRC "Page:GDIC3162_Registers Address:0x00";
+CM_ SG_ 1545 TOP_U_MODE1_Data "Page:GDIC3162_Registers Address:0x00";
+CM_ SG_ 1545 TOP_U_MODE1_CRC "Page:GDIC3162_Registers Address:0x00";
+CM_ SG_ 1544 BOT_W_ID_Data "Page:GDIC3162_Registers Address:0x15";
+CM_ SG_ 1544 BOT_W_ID_CRC "Page:GDIC3162_Registers Address:0x15";
+CM_ SG_ 1544 BOT_V_ID_Data "Page:GDIC3162_Registers Address:0x15";
+CM_ SG_ 1544 BOT_V_ID_CRC "Page:GDIC3162_Registers Address:0x15";
+CM_ SG_ 1544 BOT_U_ID_Data "Page:GDIC3162_Registers Address:0x15";
+CM_ SG_ 1544 BOT_U_ID_CRC "Page:GDIC3162_Registers Address:0x15";
+CM_ SG_ 1544 TOP_W_ID_Data "Page:GDIC3162_Registers Address:0x15";
+CM_ SG_ 1544 TOP_W_ID_CRC "Page:GDIC3162_Registers Address:0x15";
+CM_ SG_ 1544 TOP_V_ID_Data "Page:GDIC3162_Registers Address:0x15";
+CM_ SG_ 1544 TOP_V_ID_CRC "Page:GDIC3162_Registers Address:0x15";
+CM_ SG_ 1544 TOP_U_ID_Data "Page:GDIC3162_Registers Address:0x15";
+CM_ SG_ 1544 TOP_U_ID_CRC "Page:GDIC3162_Registers Address:0x15";
+CM_ SG_ 1544 BOT_W_REQADC_Data "Page:GDIC3162_ADC,GDIC3162_Registers Address:0x13";
+CM_ SG_ 1544 BOT_W_REQADC_CRC "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1544 BOT_V_REQADC_Data "Page:GDIC3162_ADC,GDIC3162_Registers Address:0x13";
+CM_ SG_ 1544 BOT_V_REQADC_CRC "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1544 BOT_U_REQADC_Data "Page:GDIC3162_ADC,GDIC3162_Registers Address:0x13";
+CM_ SG_ 1544 BOT_U_REQADC_CRC "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1544 TOP_W_REQADC_Data "Page:GDIC3162_ADC,GDIC3162_Registers Address:0x13";
+CM_ SG_ 1544 TOP_W_REQADC_CRC "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1544 TOP_V_REQADC_Data "Page:GDIC3162_ADC,GDIC3162_Registers Address:0x13";
+CM_ SG_ 1544 TOP_V_REQADC_CRC "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1544 TOP_U_REQADC_Data "Page:GDIC3162_ADC,GDIC3162_Registers Address:0x13";
+CM_ SG_ 1544 TOP_U_REQADC_CRC "Page:GDIC3162_Registers Address:0x13";
+CM_ SG_ 1544 BOT_W_STATCON4_CMP_OUT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATCON4_GS_ERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATCON4_GS_H_WS_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATCON4_GS_H_US_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATCON4_GS_L_WS_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATCON4_GS_L_US_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATCON4_GS_H_WS_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATCON4_GS_H_US_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATCON4_GS_L_WS_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATCON4_GS_L_US_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS3_FSISO_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS3_FSISO "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS3_PWM "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS3_PWMALT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS3_FSSTATE "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS3_FSENB "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS3_INTB "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS3_INTA_RTRPT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS3_VRTMON "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS2_BIST_FAIL "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS2_VDD_UVOV "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS2_DTFLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS2_SPIERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS2_CONFCRCERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS2_RTMON_FLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS2_WDOG_FLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS2_COMERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS2_VREF_UV "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS2_VEE_OOR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS1_VCCOV "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS1_VCCUV "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS1_POR_1 "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS1_OTSD_IC "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS1_OTSD "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS1_OTW "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS1_POR_2 "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS1_DESAT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS1_SC "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_W_STATUS1_OC "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATCON4_CMP_OUT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATCON4_GS_ERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATCON4_GS_H_WS_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATCON4_GS_H_US_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATCON4_GS_L_WS_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATCON4_GS_L_US_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATCON4_GS_H_WS_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATCON4_GS_H_US_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATCON4_GS_L_WS_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATCON4_GS_L_US_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS3_FSISO_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS3_FSISO "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS3_PWM "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS3_PWMALT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS3_FSSTATE "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS3_FSENB "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS3_INTB "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS3_INTA_RTRPT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS3_VRTMON "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS2_BIST_FAIL "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS2_VDD_UVOV "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS2_DTFLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS2_SPIERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS2_CONFCRCERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS2_RTMON_FLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS2_WDOG_FLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS2_COMERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS2_VREF_UV "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS2_VEE_OOR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS1_VCCOV "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS1_VCCUV "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS1_POR_1 "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS1_OTSD_IC "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS1_OTSD "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS1_OTW "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS1_POR_2 "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS1_DESAT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS1_SC "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_V_STATUS1_OC "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATCON4_CMP_OUT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATCON4_GS_ERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATCON4_GS_H_WS_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATCON4_GS_H_US_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATCON4_GS_L_WS_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATCON4_GS_L_US_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATCON4_GS_H_WS_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATCON4_GS_H_US_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATCON4_GS_L_WS_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATCON4_GS_L_US_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS3_FSISO_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS3_FSISO "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS3_PWM "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS3_PWMALT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS3_FSSTATE "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS3_FSENB "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS3_INTB "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS3_INTA_RTRPT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS3_VRTMON "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS2_BIST_FAIL "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS2_VDD_UVOV "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS2_DTFLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS2_SPIERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS2_CONFCRCERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS2_RTMON_FLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS2_WDOG_FLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS2_COMERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS2_VREF_UV "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS2_VEE_OOR "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS1_VCCOV "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS1_VCCUV "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS1_POR_1 "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS1_OTSD_IC "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS1_OTSD "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS1_OTW "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS1_POR_2 "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS1_DESAT "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS1_SC "Page:GDIC3162_Status";
+CM_ SG_ 1544 BOT_U_STATUS1_OC "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATCON4_CMP_OUT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATCON4_GS_ERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATCON4_GS_H_WS_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATCON4_GS_H_US_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATCON4_GS_L_WS_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATCON4_GS_L_US_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATCON4_GS_H_WS_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATCON4_GS_H_US_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATCON4_GS_L_WS_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATCON4_GS_L_US_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS3_FSISO_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS3_FSISO "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS3_PWM "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS3_PWMALT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS3_FSSTATE "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS3_FSENB "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS3_INTB "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS3_INTA_RTRPT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS3_VRTMON "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS2_BIST_FAIL "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS2_VDD_UVOV "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS2_DTFLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS2_SPIERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS2_CONFCRCERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS2_RTMON_FLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS2_WDOG_FLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS2_COMERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS2_VREF_UV "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS2_VEE_OOR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS1_VCCOV "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS1_VCCUV "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS1_POR_1 "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS1_OTSD_IC "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS1_OTSD "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS1_OTW "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS1_POR_2 "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS1_DESAT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS1_SC "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_W_STATUS1_OC "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATCON4_GS_L_WS_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATCON4_GS_L_WS_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATCON4_GS_L_US_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATCON4_GS_L_US_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATCON4_GS_H_WS_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATCON4_GS_H_WS_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATCON4_GS_H_US_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATCON4_GS_H_US_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATCON4_GS_ERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATCON4_CMP_OUT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS3_VRTMON "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS3_PWM "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS3_PWMALT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS3_INTB "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS3_INTA_RTRPT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS3_FSSTATE "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS3_FSISO_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS3_FSISO "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS3_FSENB "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS2_WDOG_FLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS2_VREF_UV "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS2_VEE_OOR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS2_VDD_UVOV "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS2_SPIERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS2_RTMON_FLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS2_DTFLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS2_CONFCRCERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS2_COMERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS2_BIST_FAIL "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS1_VCCUV "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS1_VCCOV "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS1_SC "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS1_POR_2 "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS1_POR_1 "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS1_OTW "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS1_OTSD_IC "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS1_OTSD "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS1_DESAT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_V_STATUS1_OC "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATCON4_CMP_OUT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATCON4_GS_ERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATCON4_GS_H_WS_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATCON4_GS_H_US_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATCON4_GS_L_WS_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATCON4_GS_L_US_CNF "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATCON4_GS_H_WS_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATCON4_GS_H_US_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATCON4_GS_L_WS_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATCON4_GS_L_US_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS3_FSISO_ST "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS3_FSISO "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS3_PWM "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS3_PWMALT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS3_FSSTATE "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS3_FSENB "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS3_INTB "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS3_INTA_RTRPT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS3_VRTMON "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS2_BIST_FAIL "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS2_VDD_UVOV "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS2_DTFLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS2_SPIERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS2_CONFCRCERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS2_RTMON_FLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS2_WDOG_FLT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS2_COMERR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS2_VREF_UV "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS2_VEE_OOR "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS1_VCCOV "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS1_VCCUV "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS1_POR_1 "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS1_OTSD_IC "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS1_OTSD "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS1_OTW "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS1_POR_2 "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS1_DESAT "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS1_SC "Page:GDIC3162_Status";
+CM_ SG_ 1544 TOP_U_STATUS1_OC "Page:GDIC3162_Status";
 CM_ SG_ 1543 PWM_U_BOT_FB_BU_Freq "Page:Pulse_IN";
 CM_ SG_ 1543 PWM_U_BOT_FB_BU_Duty "Page:Pulse_IN";
 CM_ SG_ 1543 PWM_V_BOT_FB_BU_Freq "Page:Pulse_IN";
@@ -353,7 +1620,7 @@ CM_ SG_ 1784 DC_BB_TEMP_AI "Pin_Number:K5 A/D_Channel:P00.10 Conversion_mode:1 T
 CM_ SG_ 1784 GDB_TEMP_AI "Pin_Number:K2 A/D_Channel:P00.9 Conversion_mode:1 Table:5 Page:Analog";
 CM_ SG_ 1784 VI_5VA_AI "Pin_Number:J4 A/D_Channel:P00.6 Conversion_mode:0 Factor:0.00244140625 Page:Analog";
 CM_ SG_ 1784 HV_ISOLATION_NEG_AI "Pin_Number:J1 A/D_Channel:P00.4 Conversion_mode:0 Factor:0.0070068359375 Page:Analog";
-CM_ SG_ 1784 HV_ISOLATION_POS_AI "Pin_Number:H2 A/D_Channel:P00.3Conversion_mode:0 Factor:0.0070068359375 Page:Analog";
+CM_ SG_ 1784 HV_ISOLATION_POS_AI "Pin_Number:H2 A/D_Channel:P00.3 Conversion_mode:0 Factor:0.0070068359375 Page:Analog";
 CM_ SG_ 1784 VI_15V_SAFETY_BOT_AI "Pin_Number:M2 A/D_Channel:AN47 Conversion_mode:0 Factor:0.0070263671875 Page:Analog";
 CM_ SG_ 1784 VI_15V_SAFETY_TOP_AI "Pin_Number:M1 A/D_Channel:AN46 Conversion_mode:0 Factor:0.0070263671875 Page:Analog";
 CM_ SG_ 1784 VI_5V_OUT_AI "Pin_Number:L5 A/D_Channel:AN42 Conversion_mode:0 Factor:0.00244140625 Page:Analog";
@@ -402,9 +1669,35 @@ BA_DEF_DEF_  "CANoeStartDelay" 0;
 BA_DEF_DEF_  "VFrameFormat" "StandardCAN";
 BA_ "BusType" "CAN FD";
 BA_ "DBName" "Erad5_GUI_DEVCAN";
+BA_ "VFrameFormat" BO_ 1282 14;
+BA_ "VFrameFormat" BO_ 1550 14;
+BA_ "VFrameFormat" BO_ 1549 14;
+BA_ "VFrameFormat" BO_ 1548 14;
+BA_ "VFrameFormat" BO_ 1547 14;
+BA_ "VFrameFormat" BO_ 1546 14;
+BA_ "VFrameFormat" BO_ 1545 14;
+BA_ "VFrameFormat" BO_ 1544 14;
 BA_ "VFrameFormat" BO_ 1543 14;
 BA_ "VFrameFormat" BO_ 1281 14;
 BA_ "VFrameFormat" BO_ 1542 14;
 BA_ "VFrameFormat" BO_ 1541 14;
 BA_ "VFrameFormat" BO_ 1784 14;
+VAL_ 1282 BOT_W_AMUX_SEL 5 "Die temperature" 4 "Power device temperature" 3 "VEE" 2 "VCC" 1 "AMUXIN" 0 "DESAT" ;
+VAL_ 1282 BOT_V_AMUX_SEL 5 "Die temperature" 4 "Power device temperature" 3 "VEE" 2 "VCC" 1 "AMUXIN" 0 "DESAT" ;
+VAL_ 1282 BOT_U_AMUX_SEL 5 "Die temperature" 4 "Power device temperature" 3 "VEE" 2 "VCC" 1 "AMUXIN" 0 "DESAT" ;
+VAL_ 1282 TOP_W_AMUX_SEL 5 "Die temperature" 4 "Power device temperature" 3 "VEE" 2 "VCC" 1 "AMUXIN" 0 "DESAT" ;
+VAL_ 1282 TOP_V_AMUX_SEL 5 "Die temperature" 4 "Power device temperature" 3 "VEE" 2 "VCC" 1 "AMUXIN" 0 "DESAT" ;
+VAL_ 1282 TOP_U_AMUX_SEL 5 "Die temperature" 4 "Power device temperature" 3 "VEE" 2 "VCC" 1 "AMUXIN" 0 "DESAT" ;
+VAL_ 1282 BOT_W_AOUT_SELECT 4 "VEE" 3 "VCC" 2 "AMUXIN" 1 "DESAT" 0 "NONE" ;
+VAL_ 1282 BOT_V_AOUT_SELECT 4 "VEE" 3 "VCC" 2 "AMUXIN" 1 "DESAT" 0 "NONE" ;
+VAL_ 1282 BOT_U_AOUT_SELECT 4 "VEE" 3 "VCC" 2 "AMUXIN" 1 "DESAT" 0 "NONE" ;
+VAL_ 1282 TOP_W_AOUT_SELECT 4 "VEE" 3 "VCC" 2 "AMUXIN" 1 "DESAT" 0 "NONE" ;
+VAL_ 1282 TOP_V_AOUT_SELECT 4 "VEE" 3 "VCC" 2 "AMUXIN" 1 "DESAT" 0 "NONE" ;
+VAL_ 1282 TOP_U_AOUT_SELECT 4 "VEE" 3 "VCC" 2 "AMUXIN" 1 "DESAT" 0 "NONE" ;
+VAL_ 1282 BOT_W_Register_Write_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STATUS1" 0 "NONE" ;
+VAL_ 1282 BOT_V_Register_Write_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STATUS1" 0 "NONE" ;
+VAL_ 1282 BOT_U_Register_Write_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STATUS1" 0 "NONE" ;
+VAL_ 1282 TOP_W_Register_Write_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STATUS1" 0 "NONE" ;
+VAL_ 1282 TOP_V_Register_Write_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STATUS1" 0 "NONE" ;
+VAL_ 1282 TOP_U_Register_Write_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STATUS1" 0 "NONE" ;
 

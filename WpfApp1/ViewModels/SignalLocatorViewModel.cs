@@ -48,6 +48,9 @@ namespace WpfApp1.ViewModels
             _addSignal = addSignal;
             Signals = signals;
             SignalStore = signalStore;
+            var dbcSignals = SignalStore.DBCSignals;
+            dbcSignals.OrderBy(x => x.Page);
+            DbcSignals = dbcSignals;
             foreach (var item in Signals)
             {
                 _tmpsignals.Add(item);
@@ -72,6 +75,9 @@ namespace WpfApp1.ViewModels
             _addSignal = addSignal;
             Signals = signals;
             SignalStore = signalStore;
+            var dbcSignals = SignalStore.DBCSignals;
+            dbcSignals.OrderBy(x => x.Page);
+            DbcSignals = dbcSignals;
             foreach (var item in Signals)
             {
                 _tmpsignals.Add(item);
@@ -81,6 +87,7 @@ namespace WpfApp1.ViewModels
         }
         public string Title { get => title; set => SetProperty(ref title , value); }
         public Stores.SignalStore SignalStore { get; }
+        public IEnumerable<Signal> DbcSignals { get; }
         public ObservableCollection<TSignal> Signals { get; }
         public ObservableCollection<TSignal> TempSignals { get => _tmpsignals; }
         public Stores.Signal CurrentDbcSignal

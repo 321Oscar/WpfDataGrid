@@ -46,11 +46,11 @@ namespace WpfApp1.ViewModels
         public override void Init()
         {
             base.Init();
-            foreach (var signal in SignalStore.SignalLocatorInfo.GetViewSignalInfo(nameof(DiscreteViewModel)).Signals.OfType<DiscreteInputSignal>())
+            foreach (var signal in SignalStore.GetSignals<DiscreteInputSignal>(nameof(DiscreteViewModel)))
             {
                 _inputSignals.Add(signal);
             }
-            foreach (var signal in SignalStore.SignalLocatorInfo.GetViewSignalInfo(nameof(DiscreteViewModel)).Signals.OfType<DiscreteOutputSignal>())
+            foreach (var signal in SignalStore.GetSignals<DiscreteOutputSignal>(nameof(DiscreteViewModel)))
             {
                 _outputSignals.Add(signal);
             }
@@ -140,8 +140,7 @@ namespace WpfApp1.ViewModels
 
         public override void Send()
         {
-            if (DeviceStore.HasDevice)
-                DeviceStore.CurrentDevice.SendMultip(SignalStore.BuildFrames(SignalStore.GetSignals<DiscreteOutputSignal>(nameof(DiscreteViewModel))));
+            Send(SignalStore.BuildFrames(SignalStore.GetSignals<DiscreteOutputSignal>(nameof(DiscreteViewModel))));
         }
         /// <summary>
         /// locator input

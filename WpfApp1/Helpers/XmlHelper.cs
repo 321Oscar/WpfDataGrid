@@ -18,7 +18,6 @@ namespace WpfApp1.Helpers
             }
             catch (System.Exception ex)
             {
-
                 System.Console.WriteLine(ex.Message);
             }
             

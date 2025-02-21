@@ -3,10 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:local="clr-namespace:WpfApp1.Views"
     xmlns:models="clr-namespace:WpfApp1.Models"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:converters="clr-namespace:WpfApp1.Converters"
+    xmlns:cvts="clr-namespace:WpfApp1.Converters"
+    xmlns:ctrls="clr-namespace:WpfApp1.Components"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Background="White"
@@ -42,7 +43,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -51,230 +52,447 @@
         </Grid.RowDefinitions>
         <TextBlock Text="GDIC3160" Style="{StaticResource TitleLabel}"/>
         <TabControl Grid.Row="1">
+            <!---->
             <TabItem Header="Status">
-                <Grid>
+                <Grid Margin="-5">
                     <Grid.RowDefinitions >
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <ComboBox 
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            ItemsSource="{Binding GDICStatusGroups}" 
-                            DisplayMemberPath="GroupName"
-                            SelectedValue="{Binding CurrentGDICStatusGroup,Mode=TwoWay}"
-                            Width="80"/>
-                        <ItemsControl ItemsSource="{Binding CurrentGDICStatusGroup.GDICStatusSignals}" 
-                                      MinHeight="30"
-                                      Grid.Row="0"
-                                      Grid.RowSpan="2"
-                                      Grid.Column="1">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="{x:Type models:GDICStatusSignal}">
-                                    <CheckBox Style="{StaticResource CustomCheckBoxStyle}" Content="{Binding Name}" IsChecked="{Binding OriginValue,Converter={StaticResource DoubleBooleanConverter}}"></CheckBox>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <Button Content="Write"  
-                                Grid.Row="1"
-                                Grid.Column="0"/>
-                    </Grid>
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"  Grid.Row="1" BorderBrush="Gray" BorderThickness="1">
-                        <Border BorderBrush="Gray" BorderThickness="1">
-                            <ItemsControl ItemsSource="{Binding GDICStatusGroups}">
-                            <!--<ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <Grid />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>-->
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="{x:Type models:GDICStatusGroup}">
-                                    <Grid Margin="5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                    <ScrollViewer 
+                        VerticalScrollBarVisibility="Auto" 
+                        HorizontalScrollBarVisibility="Auto"  
+                        Background="White"
+                        Grid.Row="1" 
+                        Grid.IsSharedSizeScope="True">
+                        <ScrollViewer.Resources>
+                            <DataTemplate DataType="{x:Type models:GDICStatusDataSignal}">
+                                <Border Style="{StaticResource CellBorder}" Margin="0,1" Background="White">
+                                    <StackPanel Margin="0">
+                                        <TextBlock Text="{Binding DisplayName}" ToolTip="{Binding StartBit}" Padding="2"/>
+                                        <Border BorderThickness="1,1,1,0" BorderBrush="#f6f6f6" Height="2" />
+                                        <TextBlock Text="{Binding OriginValue}" Margin="0,2,0,0" Padding="2"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+
+                            <DataTemplate DataType="{x:Type models:GDICStatusGroup}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition SharedSizeGroup="SignalName" Width="auto"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Style="{StaticResource CellBorder}" Background="White">
+                                        <TextBlock 
+                                        Text="{Binding DisplayName}" 
+                                        Margin="0,0,5,0" 
+                                        Grid.Row="0" 
+                                        HorizontalAlignment="Right" 
+                                        VerticalAlignment="Center"/>
+                                    </Border>
+
+                                    <!--Data0~Data9-->
+                                    <ItemsControl 
+                                        ItemsSource="{Binding GDICStatusSignals}" 
+                                        Grid.Column="1">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid Rows="1"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </Grid>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type models:GDICStatusRegisterGroup}">
+                                <GroupBox Header="{Binding GroupName}">
+                                    <Grid Margin="-5">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
+                                            <RowDefinition MaxHeight="300" Height="auto"/>
+                                            <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <TextBlock  Text="{Binding GroupName}" Margin="5"/>
-                                        <ItemsControl ItemsSource="{Binding GDICStatusSignals}" Grid.Column="1">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <UniformGrid Rows="1" />
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate DataType="{x:Type models:GDICStatusSignal}">
-                                                    <Border BorderThickness="1,1,0,1" BorderBrush="Gray">
-                                                        <StackPanel Margin="5">
-                                                            <TextBlock Text="{Binding Name}"/>
-                                                            <Border BorderThickness="1,1,1,1" BorderBrush="Gray" Height="1"/>
-                                                            <TextBlock Text="{Binding OriginValue}" Margin="0,2,0,0"/>
-                                                        </StackPanel>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
+                                        <ItemsControl ItemsSource="{Binding GDICStatusGroups}"  Grid.Row="1"/>
+
+                                        <!-- Write Controls -->
+                                        <Border Grid.Row="0" Style="{StaticResource CardBorder}">
+
+
+                                            <Grid  Margin="0,5,0,5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition SharedSizeGroup="SignalName"/>
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <ItemsControl 
+                                                ItemsSource="{Binding WriteStatus.GDICStatusSignals}" 
+                                                Background="White" 
+                                                Grid.Column="1">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <UniformGrid Rows="1"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <CheckBox 
+                                                            Style="{StaticResource CustomCheckBoxStyle}" 
+                                                            Content="{Binding DisplayName}" 
+                                                            IsChecked="{Binding OriginValue,Converter={StaticResource DoubleBooleanConverter}}">
+                                                            </CheckBox>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                                <StackPanel>
+                                                    <ComboBox 
+                                                    Width="100"
+                                                    ItemsSource="{Binding GDICStatusGroups, Converter={StaticResource EnumerableNullReplaceConverter}, ConverterParameter='(Empty)'}" 
+                                                    SelectedIndex="{Binding WriteStatus.WriteIndex.OriginValue}">
+                                                        <ComboBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding}"/>
+                                                            </DataTemplate>
+                                                        </ComboBox.ItemTemplate>
+                                                    </ComboBox>
+                                                    <Button Content="Write" Command="{Binding DataContext.WriteStatusCommand, RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"
+                                                        CommandParameter="{Binding WriteStatus}"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
                                     </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        </Border>
+                                </GroupBox>
+                            </DataTemplate>
+
+                        </ScrollViewer.Resources>
+                        <ItemsControl ItemsSource="{Binding GDICStatusGroups}"/>
                     </ScrollViewer>
-                    <UniformGrid Columns="1" Rows="6" Visibility="Collapsed">
-                        <GroupBox Header="top-v">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
-                                <DataGrid>
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Register Name" />
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                                <StackPanel Grid.Row="1" Orientation="Horizontal">
-                                    <!--<StackPanel.Resources>
-                            <Style BasedOn="{StaticResource CustomCheckBoxStyle}" TargetType="CheckBox" />
-                            </StackPanel.Resources>-->
-                                    <CheckBox Content="data9" Style="{StaticResource CustomCheckBoxStyle}" />
-                                    <CheckBox Content="data8" Style="{StaticResource CustomCheckBoxStyle}" />
-                                    <CheckBox Content="data7" Style="{StaticResource CustomCheckBoxStyle}" />
-                                    <CheckBox Content="data6" Style="{StaticResource CustomCheckBoxStyle}" />
-                                    <CheckBox Content="data5" Style="{StaticResource CustomCheckBoxStyle}" />
-                                    <CheckBox Content="data4" Style="{StaticResource CustomCheckBoxStyle}"/>
-                                    <CheckBox Content="data3" Style="{StaticResource CustomCheckBoxStyle}"/>
-                                    <CheckBox Content="data2" Style="{StaticResource CustomCheckBoxStyle}"/>
-                                    <CheckBox Content="data1" Style="{StaticResource CustomCheckBoxStyle}"/>
-                                    <CheckBox Content="data0" Style="{StaticResource CustomCheckBoxStyle}"/>
-                                    <ComboBox Style="{StaticResource NormalCombox}"/>
-                                    <Button Content="Write" Style="{StaticResource NormalButton}"/>
-                                </StackPanel>
-                            </Grid>
-                        </GroupBox>
-                    </UniformGrid>
                 </Grid>
             </TabItem>
+            <!---->
             <TabItem Header="AOUT">
-                <Grid>
+                <Grid Margin="-5">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <UniformGrid Columns="2" Grid.Row="0">
-                        <DataGrid>
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="GD Device"/>
-                                <DataGridTextColumn Header="Selection"/>
-                                <DataGridTextColumn Header="Duty Cycle"/>
-                                <DataGridTextColumn Header="DC Min"/>
-                                <DataGridTextColumn Header="DC Max"/>
-                                <DataGridTextColumn Header="Standard Dev"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <DataGrid>
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="GD Device"/>
-                                <DataGridTextColumn Header="Selection"/>
-                                <DataGridTextColumn Header="Duty Cycle"/>
-                                <DataGridTextColumn Header="DC Min"/>
-                                <DataGridTextColumn Header="DC Max"/>
-                                <DataGridTextColumn Header="Standard Dev"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <DataGrid>
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="GD Device"/>
-                                <DataGridTextColumn Header="Selection"/>
-                                <DataGridTextColumn Header="Frequency"/>
-                                <DataGridTextColumn Header="Frequency Min"/>
-                                <DataGridTextColumn Header="Frequency Max"/>
-                                <DataGridTextColumn Header="Standard Dev"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <DataGrid>
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="GD Device"/>
-                                <DataGridTextColumn Header="Selection"/>
-                                <DataGridTextColumn Header="Frequency"/>
-                                <DataGridTextColumn Header="Frequency Min"/>
-                                <DataGridTextColumn Header="Frequency Max"/>
-                                <DataGridTextColumn Header="Standard Dev"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <DataGrid>
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="GD Device"/>
-                                <DataGridTextColumn Header="Selection"/>
-                                <DataGridTextColumn Header="Phase Temperature"/>
-                                <DataGridTextColumn Header="PT Min"/>
-                                <DataGridTextColumn Header="PT Max"/>
-                                <DataGridTextColumn Header="Standard Dev"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <DataGrid>
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="GD Device"/>
-                                <DataGridTextColumn Header="Selection"/>
-                                <DataGridTextColumn Header="Phase Temperature"/>
-                                <DataGridTextColumn Header="PT Min"/>
-                                <DataGridTextColumn Header="PT Max"/>
-                                <DataGridTextColumn Header="Standard Dev"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </UniformGrid>
-                    <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1">
-                        <StackPanel  Orientation="Horizontal">
-                            <GroupBox Header="Control">
-                                <StackPanel>
-                                    <ComboBox Width="80"/>
-                                    <Button Content="Start"/>
-                                    <Button Content="Stop"/>
+                    <Grid Grid.IsSharedSizeScope="True">
+                        <Grid.Resources>
+                            <DataTemplate DataType="{x:Type models:GDICAoutTemperatureSignal}">
+                                <GroupBox  Margin="1">
+                                    <GroupBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding GDDevice}"></TextBlock>
+                                            <TextBlock Text="{Binding Selection}" Margin="5,0,0,0"></TextBlock>
+                                        </StackPanel>
+                                    </GroupBox.Header>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto" SharedSizeGroup="SignalName" MinWidth="100"/>
+                                                <ColumnDefinition Width="auto" SharedSizeGroup="value2" MinWidth="100"/>
+                                                <ColumnDefinition Width="auto" SharedSizeGroup="value1" MinWidth="100"/>
+                                                <ColumnDefinition Width="auto" SharedSizeGroup="valueStad" MinWidth="100"/>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Style="{StaticResource CellBorder}">
+                                                <Grid Grid.Column="0" ToolTip="{Binding DisplayName}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="Temperature" Style="{StaticResource SignalNameFontStyle}"/>
+                                                </Grid>
+                                            </Border>
+                                            <Border Style="{StaticResource CellBorder}" Grid.Column="2" >
+                                                <Grid HorizontalAlignment="Center">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock 
+                                                        Margin="0,0,5,0"
+                                                        Style="{StaticResource ValueTextBlockStyle}"
+                                                        Text="{Binding Value1}" 
+                                                        Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"/>
+                                                    <StackPanel Grid.Column="1" >
+                                                        <TextBlock Text="Min/Max:" FontSize="10" />
+                                                        <TextBlock Text="Threshold:" FontSize="10"  Margin="0,3,0,0"/>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                                                        <StackPanel Orientation="Horizontal" >
+                                                            <TextBlock Text="{Binding MinValue,StringFormat={}{0:f2}}" FontSize="10"/>
+                                                            <TextBlock Text="--"/>
+                                                            <TextBlock Text="{Binding MaxValue,StringFormat={}{0:f2}}" FontSize="10"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal" >
+                                                            <TextBlock Text="{Binding MinThreshold}" FontSize="10"/>
+                                                            <TextBlock Text="--"/>
+                                                            <TextBlock Text="{Binding MaxThreshold}" FontSize="10"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                            <!-- Standard -->
+                                            <TextBlock
+                                            Margin="5,0,5,0"
+                                            Grid.Column="3" 
+                                            Text="{Binding StandardDev,StringFormat={}{0:F2}}" 
+                                            Style="{StaticResource ValueTextBlockStyle}" 
+                                            ToolTip="StandardDev"/>
+                                        </Grid>
+                                        <ContentControl Content="{Binding Duty}" Grid.Row="1"/>
+                                        <ContentControl Content="{Binding Freq}" Grid.Row="2"/>
+                                    </Grid>
+                                </GroupBox>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type models:GDICAoutSignal}">
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" SharedSizeGroup="SignalName" MinWidth="100"/>
+                                        <ColumnDefinition Width="auto" SharedSizeGroup="value2" MinWidth="100"/>
+                                        <ColumnDefinition Width="auto" SharedSizeGroup="value1" MinWidth="100"/>
+                                        <ColumnDefinition Width="auto" SharedSizeGroup="valueStad" MinWidth="100"/>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Style="{StaticResource CellBorder}">
+                                        <Grid Grid.Column="0" ToolTip="{Binding DisplayName}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding DisplayName}" Style="{StaticResource SignalNameFontStyle}"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border Style="{StaticResource CellBorder}" Grid.Column="2" >
+                                        <Grid HorizontalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock 
+                                                        Margin="0,0,5,0"
+                                                        Style="{StaticResource ValueTextBlockStyle}"
+                                                        Text="{Binding Value1}" 
+                                                        Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"/>
+                                            <StackPanel Grid.Column="1" >
+                                                <TextBlock Text="Min/Max:" FontSize="10" />
+                                                <TextBlock Text="Threshold:" FontSize="10"  Margin="0,3,0,0"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <TextBlock Text="{Binding MinValue,StringFormat={}{0:f2}}" FontSize="10"/>
+                                                    <TextBlock Text="--"/>
+                                                    <TextBlock Text="{Binding MaxValue,StringFormat={}{0:f2}}" FontSize="10"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <TextBlock Text="{Binding MinThreshold}" FontSize="10"/>
+                                                    <TextBlock Text="--"/>
+                                                    <TextBlock Text="{Binding MaxThreshold}" FontSize="10"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                    <!-- Standard -->
+                                    <TextBlock
+                                            Margin="5,0,5,0"
+                                            Grid.Column="3" 
+                                            Text="{Binding StandardDev,StringFormat={}{0:F2}}" 
+                                            Style="{StaticResource ValueTextBlockStyle}" 
+                                            ToolTip="StandardDev"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Grid.Resources>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <ScrollViewer x:Name="sv1" ScrollChanged="s1_ScrollChanged" Margin="0">
+                            <ItemsControl ItemsSource="{Binding TemperatueSignals}">
+
+                            </ItemsControl>
+                        </ScrollViewer>
+                        <ScrollViewer Grid.Column="1" x:Name="sv2" ScrollChanged="s1_ScrollChanged">
+                            <ItemsControl ItemsSource="{Binding TemperatueAoutSignals}">
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                    <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel  Orientation="Horizontal">
+                                <GroupBox Header="Control" IsEnabled="False">
+                                    <StackPanel>
+                                        <ComboBox Width="80"/>
+                                        <Button Content="Start"/>
+                                        <Button Content="Stop"/>
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Threshold" Margin="1">
+                                    <StackPanel Grid.IsSharedSizeScope="True">
+                                        <ctrls:ControlWithTitle Title="Min:" Style="{StaticResource ControlWithTitleGridStyle}">
+                                            <ctrls:ControlWithTitle.Content>
+                                                <Slider Style="{StaticResource NumberUpDownStyle}" Width="100" Padding="2"></Slider>
+                                            </ctrls:ControlWithTitle.Content>
+                                        </ctrls:ControlWithTitle>
+                                        <ctrls:ControlWithTitle Title="Max:" Style="{StaticResource ControlWithTitleGridStyle}"
+                                                                Margin="0,2">
+                                            <ctrls:ControlWithTitle.Content>
+                                                <Slider Style="{StaticResource NumberUpDownStyle}" Width="100" Padding="2"></Slider>
+                                            </ctrls:ControlWithTitle.Content>
+                                        </ctrls:ControlWithTitle>
+                                        <Button Content="Update" Margin="0,2"/>
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Stadard Dev" >
+                                    <StackPanel>
+                                        <ctrls:ControlWithTitle 
+                                            Title="Enter the number of samples(Max:1000):" 
+                                            Orientation="Vertical"
+                                            Width="120">
+                                            <ctrls:ControlWithTitle.Content>
+                                                <Slider Style="{StaticResource NumberUpDownStyle}" Padding="2"></Slider>
+                                            </ctrls:ControlWithTitle.Content>
+                                        </ctrls:ControlWithTitle>
+                                        <Button Content="Calculate" Margin="0,4"/>
+                                    </StackPanel>
+                                </GroupBox>
+
+                            </StackPanel>
+                            <GroupBox Header="AMUX" Grid.Column="1">
+                                <StackPanel Grid.IsSharedSizeScope="True">
+                                    <ctrls:ControlWithTitle Title="Device Selection" Style="{StaticResource ControlWithTitleGridStyle}">
+                                        <ctrls:ControlWithTitle.Content>
+                                            <ComboBox 
+                                                Width="80" 
+                                                ItemsSource="{Binding TemperatueAoutSignals}"
+                                                SelectedValue="{Binding CurrentDevice}"
+                                                 />
+                                        </ctrls:ControlWithTitle.Content>
+                                    </ctrls:ControlWithTitle>
+                                    <ctrls:ControlWithTitle Title="AMUX Selection" Style="{StaticResource ControlWithTitleGridStyle}">
+                                        <ctrls:ControlWithTitle.Content>
+                                            <ComboBox Width="80" ItemsSource="{Binding AmuxSelections}" SelectedValue="{Binding CurrentAmux}"
+                                                      />
+                                        </ctrls:ControlWithTitle.Content>
+                                    </ctrls:ControlWithTitle>
                                 </StackPanel>
                             </GroupBox>
-                            <GroupBox Header="Threshold">
-                                <StackPanel>
-                                    <ComboBox Width="80"/>
-                                    <Button Content="Start"/>
-                                    <Button Content="Stop"/>
-                                </StackPanel>
-                            </GroupBox>
-                            <GroupBox Header="Stadard Dev">
-                                <StackPanel>
-                                    <ComboBox Width="80"/>
-                                    <Button Content="Start"/>
-                                    <Button Content="Stop"/>
-                                </StackPanel>
-                            </GroupBox>
-                            <GroupBox Header="AMUX">
-                                <StackPanel>
-                                    <ComboBox Width="80"/>
-                                    <Button Content="Start"/>
-                                    <Button Content="Stop"/>
-                                </StackPanel>
-                            </GroupBox>
-                        </StackPanel>
+                        </Grid>
+
                     </Border>
+
+                </Grid>
+            </TabItem>
+            <!---->
+            <TabItem Header="Register">
+                <Grid>
+                    <Grid.Resources>
+                        <DataTemplate DataType="{x:Type models:GDICRegisterGroup}">
+                            <Border Style="{StaticResource CardBorder}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                <Grid>
+                                    <TextBlock Text="{Binding GroupName}"/>
+                                    <TextBlock Text="{Binding Address}"/>
+                                    <TextBlock Text="{Binding Data.OriginValue}"/>
+                                    <TextBlock Text="{Binding CRC.OriginValue}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type models:GDICRegisterDeviceGroup}">
+                            <GroupBox Header="{Binding GroupName}" Height="200" Margin="1" MinWidth="600">
+                                <ListView ItemsSource="{Binding RegisterGroups}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding GroupName}"/>
+                                            <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}"/>
+                                            <GridViewColumn Header="Data" DisplayMemberBinding="{Binding Data.OriginValue}"/>
+                                            <GridViewColumn Header="Crc" DisplayMemberBinding="{Binding CRC.OriginValue}"/>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </GroupBox>
+                        </DataTemplate>
+                    </Grid.Resources>
+                    <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        
                     
+                    <ItemsControl ItemsSource="{Binding Registers}"
+                                 >
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            
+            <!-- ADC  -->
+            <TabItem Header="ADC">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <!--<ItemsControl ItemsSource="{Binding AdcSignals}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type models:GDICADCSignal}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding RegisterSignal.Name}"/>
+                                    <TextBlock Text="{Binding PowerTemp}"/>
+                                    <TextBlock Text="{Binding DieTemp}"/>
+                                    <TextBlock Text="{Binding VCC}"/>
+                                    <TextBlock Text="{Binding Amuxin}"/>
+                                    <TextBlock Text="{Binding VEE}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>-->
+                    <ListView ItemsSource="{Binding AdcSignals}" Grid.Row="1">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Device" DisplayMemberBinding="{Binding RegisterSignal.DeviceName}"/>
+                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding RegisterSignal.Name}"/>
+                                <GridViewColumn Header="DESAT" DisplayMemberBinding="{Binding Desat}"/>
+                                <GridViewColumn Header="AMUXIN" DisplayMemberBinding="{Binding Amuxin}"/>
+                                <GridViewColumn Header="VCC" DisplayMemberBinding="{Binding VCC}"/>
+                                <GridViewColumn Header="VEE" DisplayMemberBinding="{Binding VEE}"/>
+                                <GridViewColumn Header="Power Device Temoerature" DisplayMemberBinding="{Binding PowerTemp}"/>
+                                <GridViewColumn Header="Die Device Temoerature" DisplayMemberBinding="{Binding DieTemp}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <GroupBox Grid.Row="0">
+                        <StackPanel Orientation="Horizontal">
+                            <ctrls:ControlWithTitle Title="Device:">
+                                <ctrls:ControlWithTitle.Content>
+                                    <ComboBox Width="100" ItemsSource="{Binding AdcSignals}" SelectedValue="{Binding CurrentAdcSignal}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding RegisterSignal.DeviceName}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ComboBox>
+                                </ctrls:ControlWithTitle.Content>
+                            </ctrls:ControlWithTitle>
+                            <ctrls:ControlWithTitle Title="Value:">
+                                <ctrls:ControlWithTitle.Content>
+                                    <ComboBox Width="100" ItemsSource="{Binding AdcValueSelections}" SelectedValue="{Binding CurrentValueSelection}"/>
+                                </ctrls:ControlWithTitle.Content>
+                            </ctrls:ControlWithTitle>
+                        </StackPanel>
+                    </GroupBox>
                 </Grid>
             </TabItem>
         </TabControl>
-       
+
     </Grid>
 </UserControl>

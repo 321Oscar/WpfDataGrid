@@ -53,15 +53,15 @@ namespace WpfApp1.ViewModels
         public override void Init()
         {
             base.Init();
-            foreach (var signal in SignalStore.SignalLocatorInfo.GetViewSignalInfo(nameof(NXPViewModel)).Signals.OfType<NXPInputSignal>())
+            foreach (var signal in SignalStore.GetSignals<NXPInputSignal>(nameof(NXPViewModel)))
             {
                 _nxpInputSignals.Add(signal);
             }
-            foreach (var signal in SignalStore.SignalLocatorInfo.GetViewSignalInfo(nameof(NXPViewModel)).Signals.OfType<DiscreteOutputSignal>())
+            foreach (var signal in SignalStore.GetSignals<DiscreteOutputSignal>(nameof(NXPViewModel)))
             {
                 _disOutputSignals.Add(signal);
             }
-            foreach (var signal in SignalStore.SignalLocatorInfo.GetViewSignalInfo(nameof(NXPViewModel)).Signals.OfType<NXPSignal>())
+            foreach (var signal in SignalStore.GetSignals<NXPSignal>(nameof(NXPViewModel)))
             {
                 _nxpSignals.Add(signal);
             }
@@ -97,8 +97,7 @@ namespace WpfApp1.ViewModels
 
         public override void Send()
         {
-            if (DeviceStore.HasDevice)
-                DeviceStore.CurrentDevice.SendMultip(SignalStore.BuildFrames(SignalStore.GetSignals<DiscreteOutputSignal>(nameof(NXPViewModel))));
+            Send(SignalStore.BuildFrames(SignalStore.GetSignals<DiscreteOutputSignal>(nameof(NXPViewModel))));
         }
 
         #region Locator Signals
