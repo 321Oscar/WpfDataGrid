@@ -109,6 +109,7 @@ namespace WpfApp1.Stores
             if (device != null)
             {
                 device.OnMsgReceived -= CurrentDevice_OnMsgReceived;
+                device.Close();
             }
             BeforeCurrentDeviceChange?.Invoke(device);
         }

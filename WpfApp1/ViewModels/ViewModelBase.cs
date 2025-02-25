@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using WpfApp1.Devices;
 using WpfApp1.Models;
 using WpfApp1.Services;
@@ -131,6 +133,11 @@ namespace WpfApp1.ViewModels
                  
             //         }));
             //modalNavigationService.Navigate();
+        }
+
+        public void Dispatch(Action action)
+        {
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, action);
         }
     }
 

@@ -75,7 +75,7 @@ namespace WpfApp1.ViewModels
         {
             deviceStore.CurrentDevice = currentDevice;
             deviceStore.CurrentDevice.Open();
-            deviceStore.CurrentDevice.Start();
+            //deviceStore.CurrentDevice.Start();
             //open and start receive
             
             navigationService?.Navigate();

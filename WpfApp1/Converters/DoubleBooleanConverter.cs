@@ -24,6 +24,24 @@ namespace WpfApp1.Converters
         }
     }
 
+    public class DeviceStartConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            //Started
+            if (value is bool valB)
+            {
+                return valB ? "Stop" : "Start";
+            }
+            return "Start";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class InvertBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -45,7 +63,7 @@ namespace WpfApp1.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is bool valB)
+            if (value is bool valB)
             {
                 return valB ? Visibility.Collapsed : Visibility.Visible;
             }

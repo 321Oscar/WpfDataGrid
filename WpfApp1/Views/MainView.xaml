@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1.Views" xmlns:components="clr-namespace:WpfApp1.Components"
+        xmlns:local="clr-namespace:WpfApp1.Views" 
+        xmlns:ctrls="clr-namespace:WpfApp1.Components"
         mc:Ignorable="d"
         Title="MainView"
         WindowState="Maximized"
@@ -43,26 +44,52 @@
                             Command="{Binding StopCommand}"
                             HorizontalAlignment="Left"
                             Width="80"
-                            Content="Stop"/>
-                        <components:TextBoxWithLabel 
+                            Content="{Binding Started,Converter={StaticResource DeviceStartConverter}}"/>
+                        <ctrls:TextBoxWithLabel 
                             Margin="0,2,0,0"
                             Title="Comms Count:" 
                             Content="{Binding FramesCount}" 
-                            Grid.Row="2" />
+                            Grid.Row="1" Grid.Column="1" Orientation="Vertical" />
+                        <!--<ctrls:LabelWithContent
+                            Grid.Column="1"
+                            Title="Connect:"
+                            Content="{Binding CurrentDevice.RecieveStatus}">
+                        </ctrls:LabelWithContent>-->
+                        <ctrls:ControlWithTitle  Grid.Column="1" Title="Connect Status:" Orientation="Vertical">
+                            <ctrls:ControlWithTitle.Content>
+                                <TextBlock Text="{Binding CurrentDevice.RecieveStatus}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                            <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CurrentDevice.RecieveStatus}" Value="Connected">
+                                                    <Setter Property="Foreground" Value="Green" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding CurrentDevice.RecieveStatus}" Value="NoFramesFor1Second">
+                                                    <Setter Property="Foreground" Value="Red" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </ctrls:ControlWithTitle.Content>
+                        </ctrls:ControlWithTitle>
                     </Grid>
                 </GroupBox>
                 <GroupBox Header="Version" Margin="5">
                     <StackPanel Grid.IsSharedSizeScope="True">
-                        <components:TextBoxWithLabel 
+                        <ctrls:TextBoxWithLabel 
                             Style="{StaticResource TextBlockWithLabelGridStyle}"
                             Title="EM SW Version:" 
                             Content="1.0.0.0"                        
                             Grid.Row="3"/>
-                        <components:TextBoxWithLabel 
+                        <ctrls:TextBoxWithLabel 
                             Title="PC SW Version:"  Style="{StaticResource TextBlockWithLabelGridStyle}"
                             Content="1.0.0.0"                        
                             Grid.Row="3"/>
-                        <components:TextBoxWithLabel  Style="{StaticResource TextBlockWithLabelGridStyle}"
+                        <ctrls:TextBoxWithLabel  Style="{StaticResource TextBlockWithLabelGridStyle}"
                             Title="Hardware ID:" 
                             Content="1.0.0.0"                        
                             Grid.Row="3"/>
@@ -115,6 +142,9 @@
                 </TabItem>
                 <TabItem Header="GDIC">
                     <local:GDIC3160View DataContext="{Binding GDICViewModel}"/>
+                </TabItem>
+                <TabItem Header="Memory">
+                    <local:MemoryView DataContext="{Binding MemoryViewModel}"/>
                 </TabItem>
             </TabControl>
         </Grid>

@@ -8,6 +8,7 @@
     xmlns:models="clr-namespace:WpfApp1.Models"
     xmlns:cvts="clr-namespace:WpfApp1.Converters"
     xmlns:ctrls="clr-namespace:WpfApp1.Components"
+    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Background="White"
@@ -51,6 +52,30 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock Text="GDIC3160" Style="{StaticResource TitleLabel}"/>
+
+        <Grid Grid.Row="1" Panel.ZIndex="99">
+            <Grid.Style>
+                <Style TargetType="FrameworkElement">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+
+            <Border Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+                                    Opacity="0.5"/>
+
+            <ContentControl ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingCircle}}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Width="{adonisUi:Space 5}"
+                                            Height="{adonisUi:Space 5}"
+                                            Focusable="False"/>
+        </Grid>
+
         <TabControl Grid.Row="1">
             <!---->
             <TabItem Header="Status">
@@ -70,7 +95,7 @@
                                 <Border Style="{StaticResource CellBorder}" Margin="0,1" Background="White">
                                     <StackPanel Margin="0">
                                         <TextBlock Text="{Binding DisplayName}" ToolTip="{Binding StartBit}" Padding="2"/>
-                                        <Border BorderThickness="1,1,1,0" BorderBrush="#f6f6f6" Height="2" />
+                                        <Rectangle Height="2" Margin="0,2" Fill="#f6f6f6"/>
                                         <TextBlock Text="{Binding OriginValue}" Margin="0,2,0,0" Padding="2"/>
                                     </StackPanel>
                                 </Border>
@@ -82,19 +107,20 @@
                                         <ColumnDefinition SharedSizeGroup="SignalName" Width="auto"/>
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-                                    <Border Style="{StaticResource CellBorder}" Background="White">
-                                        <TextBlock 
+                                    <TextBlock 
                                         Text="{Binding DisplayName}" 
                                         Margin="0,0,5,0" 
                                         Grid.Row="0" 
                                         HorizontalAlignment="Right" 
-                                        VerticalAlignment="Center"/>
-                                    </Border>
+                                        VerticalAlignment="Center"
+                                        />
 
                                     <!--Data0~Data9-->
                                     <ItemsControl 
                                         ItemsSource="{Binding GDICStatusSignals}" 
-                                        Grid.Column="1">
+                                        Grid.Column="1"
+                                        VirtualizingStackPanel.IsVirtualizing="True" 
+                                        VirtualizingStackPanel.VirtualizationMode="Recycling">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <UniformGrid Rows="1"/>
@@ -114,17 +140,17 @@
 
                                         <!-- Write Controls -->
                                         <Border Grid.Row="0" Style="{StaticResource CardBorder}">
-
-
                                             <Grid  Margin="0,5,0,5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition SharedSizeGroup="SignalName"/>
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
                                                 <ItemsControl 
-                                                ItemsSource="{Binding WriteStatus.GDICStatusSignals}" 
-                                                Background="White" 
-                                                Grid.Column="1">
+                                                      ItemsSource="{Binding WriteStatus.GDICStatusSignals}" 
+                                                      Background="White" 
+                                                      Grid.Column="1"
+                                                      VirtualizingStackPanel.IsVirtualizing="True" 
+                                                      VirtualizingStackPanel.VirtualizationMode="Recycling">
                                                     <ItemsControl.ItemsPanel>
                                                         <ItemsPanelTemplate>
                                                             <UniformGrid Rows="1"/>
@@ -133,25 +159,27 @@
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
                                                             <CheckBox 
-                                                            Style="{StaticResource CustomCheckBoxStyle}" 
-                                                            Content="{Binding DisplayName}" 
-                                                            IsChecked="{Binding OriginValue,Converter={StaticResource DoubleBooleanConverter}}">
+                                                                Style="{StaticResource CustomCheckBoxStyle}" 
+                                                                Content="{Binding DisplayName}" 
+                                                                IsChecked="{Binding OriginValue,Converter={StaticResource DoubleBooleanConverter}}">
                                                             </CheckBox>
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
                                                 </ItemsControl>
                                                 <StackPanel>
                                                     <ComboBox 
-                                                    Width="100"
-                                                    ItemsSource="{Binding GDICStatusGroups, Converter={StaticResource EnumerableNullReplaceConverter}, ConverterParameter='(Empty)'}" 
-                                                    SelectedIndex="{Binding WriteStatus.WriteIndex.OriginValue}">
+                                                        Width="100"
+                                                        ItemsSource="{Binding GDICStatusGroups, Converter={StaticResource EnumerableNullReplaceConverter}, ConverterParameter='(Empty)'}" 
+                                                        SelectedIndex="{Binding WriteStatus.WriteIndex.OriginValue}">
                                                         <ComboBox.ItemTemplate>
                                                             <DataTemplate>
                                                                 <TextBlock Text="{Binding}"/>
                                                             </DataTemplate>
                                                         </ComboBox.ItemTemplate>
                                                     </ComboBox>
-                                                    <Button Content="Write" Command="{Binding DataContext.WriteStatusCommand, RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"
+                                                    <Button 
+                                                        Content="Write"
+                                                        Command="{Binding DataContext.WriteStatusCommand, RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"
                                                         CommandParameter="{Binding WriteStatus}"/>
                                                 </StackPanel>
                                             </Grid>
@@ -172,26 +200,26 @@
                         <RowDefinition/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.IsSharedSizeScope="True">
+                    <!-- Signals -->
+                    <Grid Margin="-4">
                         <Grid.Resources>
                             <DataTemplate DataType="{x:Type models:GDICAoutTemperatureSignal}">
                                 <GroupBox  Margin="1">
                                     <GroupBox.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding GDDevice}"></TextBlock>
-                                            <TextBlock Text="{Binding Selection}" Margin="5,0,0,0"></TextBlock>
+                                            <TextBlock Text="{Binding GDDevice}" FontFamily="Segoe UI"></TextBlock>
+                                            <TextBlock Text="{Binding Selection}" FontWeight="Bold" FontFamily="Segoe UI" Margin="5,0,0,0"></TextBlock>
                                         </StackPanel>
                                     </GroupBox.Header>
-                                    <Grid>
+                                    <Grid Margin="-8">
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
                                             <RowDefinition />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <Grid Grid.Row="0">
+                                        <Grid Grid.Row="0" Background="White">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="auto" SharedSizeGroup="SignalName" MinWidth="100"/>
-                                                <ColumnDefinition Width="auto" SharedSizeGroup="value2" MinWidth="100"/>
                                                 <ColumnDefinition Width="auto" SharedSizeGroup="value1" MinWidth="100"/>
                                                 <ColumnDefinition Width="auto" SharedSizeGroup="valueStad" MinWidth="100"/>
                                                 <ColumnDefinition Width="*" />
@@ -205,54 +233,24 @@
                                                     <TextBlock Text="Temperature" Style="{StaticResource SignalNameFontStyle}"/>
                                                 </Grid>
                                             </Border>
-                                            <Border Style="{StaticResource CellBorder}" Grid.Column="2" >
-                                                <Grid HorizontalAlignment="Center">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="auto"/>
-                                                        <ColumnDefinition Width="auto"/>
-                                                        <ColumnDefinition Width="auto"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock 
-                                                        Margin="0,0,5,0"
-                                                        Style="{StaticResource ValueTextBlockStyle}"
-                                                        Text="{Binding Value1}" 
-                                                        Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"/>
-                                                    <StackPanel Grid.Column="1" >
-                                                        <TextBlock Text="Min/Max:" FontSize="10" />
-                                                        <TextBlock Text="Threshold:" FontSize="10"  Margin="0,3,0,0"/>
-                                                    </StackPanel>
-                                                    <StackPanel Grid.Column="2" Margin="5,0,0,0">
-                                                        <StackPanel Orientation="Horizontal" >
-                                                            <TextBlock Text="{Binding MinValue,StringFormat={}{0:f2}}" FontSize="10"/>
-                                                            <TextBlock Text="--"/>
-                                                            <TextBlock Text="{Binding MaxValue,StringFormat={}{0:f2}}" FontSize="10"/>
-                                                        </StackPanel>
-                                                        <StackPanel Orientation="Horizontal" >
-                                                            <TextBlock Text="{Binding MinThreshold}" FontSize="10"/>
-                                                            <TextBlock Text="--"/>
-                                                            <TextBlock Text="{Binding MaxThreshold}" FontSize="10"/>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                </Grid>
-                                            </Border>
+                                            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource CommonSignal}" Grid.Column="1"/>
                                             <!-- Standard -->
                                             <TextBlock
                                             Margin="5,0,5,0"
-                                            Grid.Column="3" 
+                                            Grid.Column="2" 
                                             Text="{Binding StandardDev,StringFormat={}{0:F2}}" 
                                             Style="{StaticResource ValueTextBlockStyle}" 
                                             ToolTip="StandardDev"/>
                                         </Grid>
-                                        <ContentControl Content="{Binding Duty}" Grid.Row="1"/>
+                                        <ContentControl Content="{Binding Duty}" Grid.Row="1" />
                                         <ContentControl Content="{Binding Freq}" Grid.Row="2"/>
                                     </Grid>
                                 </GroupBox>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type models:GDICAoutSignal}">
-                                <Grid Grid.Row="0">
+                                <Grid Grid.Row="0"  Background="White" Margin="0,1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" SharedSizeGroup="SignalName" MinWidth="100"/>
-                                        <ColumnDefinition Width="auto" SharedSizeGroup="value2" MinWidth="100"/>
                                         <ColumnDefinition Width="auto" SharedSizeGroup="value1" MinWidth="100"/>
                                         <ColumnDefinition Width="auto" SharedSizeGroup="valueStad" MinWidth="100"/>
                                         <ColumnDefinition Width="*" />
@@ -261,45 +259,15 @@
                                         <Grid Grid.Column="0" ToolTip="{Binding DisplayName}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="{Binding DisplayName}" Style="{StaticResource SignalNameFontStyle}"/>
                                         </Grid>
                                     </Border>
-                                    <Border Style="{StaticResource CellBorder}" Grid.Column="2" >
-                                        <Grid HorizontalAlignment="Center">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock 
-                                                        Margin="0,0,5,0"
-                                                        Style="{StaticResource ValueTextBlockStyle}"
-                                                        Text="{Binding Value1}" 
-                                                        Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"/>
-                                            <StackPanel Grid.Column="1" >
-                                                <TextBlock Text="Min/Max:" FontSize="10" />
-                                                <TextBlock Text="Threshold:" FontSize="10"  Margin="0,3,0,0"/>
-                                            </StackPanel>
-                                            <StackPanel Grid.Column="2" Margin="5,0,0,0">
-                                                <StackPanel Orientation="Horizontal" >
-                                                    <TextBlock Text="{Binding MinValue,StringFormat={}{0:f2}}" FontSize="10"/>
-                                                    <TextBlock Text="--"/>
-                                                    <TextBlock Text="{Binding MaxValue,StringFormat={}{0:f2}}" FontSize="10"/>
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal" >
-                                                    <TextBlock Text="{Binding MinThreshold}" FontSize="10"/>
-                                                    <TextBlock Text="--"/>
-                                                    <TextBlock Text="{Binding MaxThreshold}" FontSize="10"/>
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </Grid>
-                                    </Border>
-                                    <!-- Standard -->
+                                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource CommonSignal}" Grid.Column="1"/>
+                                    <!--Standard--> 
                                     <TextBlock
                                             Margin="5,0,5,0"
-                                            Grid.Column="3" 
+                                            Grid.Column="2" 
                                             Text="{Binding StandardDev,StringFormat={}{0:F2}}" 
                                             Style="{StaticResource ValueTextBlockStyle}" 
                                             ToolTip="StandardDev"/>
@@ -310,16 +278,27 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <ScrollViewer x:Name="sv1" ScrollChanged="s1_ScrollChanged" Margin="0">
+                        <ScrollViewer
+                            x:Name="sv1" 
+                            ScrollChanged="s1_ScrollChanged" 
+                            
+                            Background="White"
+                            Grid.IsSharedSizeScope="True">
                             <ItemsControl ItemsSource="{Binding TemperatueSignals}">
 
                             </ItemsControl>
                         </ScrollViewer>
-                        <ScrollViewer Grid.Column="1" x:Name="sv2" ScrollChanged="s1_ScrollChanged">
+                        <ScrollViewer 
+                            Grid.Column="1" 
+                            x:Name="sv2"
+                            ScrollChanged="s1_ScrollChanged"
+                            Grid.IsSharedSizeScope="True">
                             <ItemsControl ItemsSource="{Binding TemperatueAoutSignals}">
                             </ItemsControl>
                         </ScrollViewer>
                     </Grid>
+
+                    <!--Control-->
                     <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -338,16 +317,16 @@
                                     <StackPanel Grid.IsSharedSizeScope="True">
                                         <ctrls:ControlWithTitle Title="Min:" Style="{StaticResource ControlWithTitleGridStyle}">
                                             <ctrls:ControlWithTitle.Content>
-                                                <Slider Style="{StaticResource NumberUpDownStyle}" Width="100" Padding="2"></Slider>
+                                                <Slider Style="{StaticResource NumberUpDownStyle}" Width="100" Padding="2" Value="{Binding MinThreshold}"></Slider>
                                             </ctrls:ControlWithTitle.Content>
                                         </ctrls:ControlWithTitle>
                                         <ctrls:ControlWithTitle Title="Max:" Style="{StaticResource ControlWithTitleGridStyle}"
                                                                 Margin="0,2">
                                             <ctrls:ControlWithTitle.Content>
-                                                <Slider Style="{StaticResource NumberUpDownStyle}" Width="100" Padding="2"></Slider>
+                                                <Slider Style="{StaticResource NumberUpDownStyle}" Width="100" Padding="2" Value="{Binding MaxThreshold}" Maximum="99999"></Slider>
                                             </ctrls:ControlWithTitle.Content>
                                         </ctrls:ControlWithTitle>
-                                        <Button Content="Update" Margin="0,2"/>
+                                        <Button Content="Update" Margin="0,2" Command="{Binding UpdateThresholdCommand}"/>
                                     </StackPanel>
                                 </GroupBox>
                                 <GroupBox Header="Stadard Dev" >
@@ -405,7 +384,12 @@
                             </Border>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type models:GDICRegisterDeviceGroup}">
-                            <GroupBox Header="{Binding GroupName}" Height="200" Margin="1" MinWidth="600">
+                            <GroupBox 
+                                Header="{Binding GroupName}" 
+                                Height="200" 
+                                Margin="1" 
+                                MinWidth="600"
+                                Background="White">
                                 <ListView ItemsSource="{Binding RegisterGroups}">
                                     <ListView.View>
                                         <GridView>
@@ -419,18 +403,16 @@
                             </GroupBox>
                         </DataTemplate>
                     </Grid.Resources>
-                    <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                    <ScrollViewer 
+                        ScrollViewer.HorizontalScrollBarVisibility="Visible"
                         ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        
-                    
-                    <ItemsControl ItemsSource="{Binding Registers}"
-                                 >
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Vertical" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding Registers}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
                     </ScrollViewer>
                 </Grid>
             </TabItem>

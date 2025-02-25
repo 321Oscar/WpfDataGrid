@@ -52,10 +52,15 @@
                                                     <RowDefinition />
                                                     <RowDefinition />
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}"/>
-                                                <ContentControl Content="{Binding Signal_DC}" Grid.Row="1"/>
-                                                <ContentControl Content="{Binding Signal_Freq}" Grid.Row="2"/>
-
+                                                <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}" HorizontalAlignment="Center"/>
+                                                <ContentControl 
+                                                    Content="{Binding Signal_DC}" 
+                                                    Grid.Row="1" 
+                                                    ContentTemplate="{StaticResource CommonSignalNoBorder}"/>
+                                                <ContentControl 
+                                                    Content="{Binding Signal_Freq}" 
+                                                    Grid.Row="2" 
+                                                    ContentTemplate="{StaticResource CommonSignalNoBorder}"/>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>

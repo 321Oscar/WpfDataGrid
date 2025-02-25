@@ -2,10 +2,13 @@
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using WpfApp1.Models;
 using WpfApp1.Services;
 using WpfApp1.Stores;
@@ -33,17 +36,25 @@ namespace WpfApp1.ViewModels
 
         public override void Init()
         {
-            GetGDICStatusGroups();
-            GetTemperatueSignals();
-            LoadRegister();
-            LoadAdcSignals();
+            Task.Run(() =>
+            {
+                IsLoading = true;
+                GetGDICStatusGroups();
+                GetTemperatueSignals();
+                LoadRegister();
+                LoadAdcSignals();
+            }).ContinueWith((x) =>
+            {
+                IsLoading = false;
+            });
+           
         }
 
         public override void Send()
         {
             //Send(SignalStore.BuildFrames(SignalStore.GetSignals<DiscreteOutputSignal>(nameof(DiscreteViewModel))));
         }
-
+      
         //--Status-------------------------------------------------------------
         private IEnumerable<GDICStatusRegisterGroup> gDICStatusRegisterGroups;
         private GDICStatusGroup currentGDICStatusGroup;
@@ -113,11 +124,11 @@ namespace WpfApp1.ViewModels
         //--------------------------------------------------------------------
 
         //--Aout--------------------------------------------------------------
-        private IEnumerable<GDICAoutTemperatureSignal> temperatueSignals;
-        private IEnumerable<GDICAoutTemperatureSignal> temperatueAoutSignals;
-        private IEnumerable<GDICAoutSignal> deviceSelections;
+        private ObservableCollection<GDICAoutTemperatureSignal> temperatueSignals = new ObservableCollection<GDICAoutTemperatureSignal>();
+        private ObservableCollection<GDICAoutTemperatureSignal> temperatueAoutSignals = new ObservableCollection<GDICAoutTemperatureSignal>();
+        private ObservableCollection<GDICAoutSignal> deviceSelections = new ObservableCollection<GDICAoutSignal>();
         private GDICAoutTemperatureSignal currentDevice;
-
+        private RelayCommand _updateThresholdCommand;
         public IEnumerable<GDICAoutTemperatureSignal> TemperatueSignals => temperatueSignals;
         public IEnumerable<GDICAoutTemperatureSignal> TemperatueAoutSignals => temperatueAoutSignals;
 
@@ -138,9 +149,9 @@ namespace WpfApp1.ViewModels
 
                     return temperature;
                 });
-            deviceSelections = gdicSignals.Where(x => x.Name.IndexOf("Select", StringComparison.OrdinalIgnoreCase) > -1);
-            temperatueSignals = allTemp.Where(x => !x.CanChangeSelection);
-            temperatueAoutSignals = allTemp.Where(x => x.CanChangeSelection);
+            deviceSelections.AddRange(gdicSignals.Where(x => x.Name.IndexOf("Select", StringComparison.OrdinalIgnoreCase) > -1));
+            temperatueSignals.AddRange(allTemp.Where(x => !x.CanChangeSelection));
+            temperatueAoutSignals.AddRange(allTemp.Where(x => x.CanChangeSelection));
         }
 
         public IEnumerable<GDICAoutSignal> DeviceSelections { get => deviceSelections; }
@@ -207,6 +218,32 @@ namespace WpfApp1.ViewModels
                 }
             }
         }
+        public double MaxThreshold { get; set; }
+        public double MinThreshold { get; set; }
+
+        public ICommand UpdateThresholdCommand { get => _updateThresholdCommand ?? (_updateThresholdCommand = new RelayCommand(UpdateThreshold)); }
+        private void UpdateThreshold()
+        {
+            foreach (var signal in TemperatueSignals)
+            {
+                signal.MaxThreshold = MaxThreshold;
+                signal.MinThreshold = MinThreshold;
+                signal.Duty.MaxThreshold = MaxThreshold;
+                signal.Duty.MinThreshold = MinThreshold;
+                signal.Freq.MaxThreshold = MaxThreshold;
+                signal.Freq.MinThreshold = MinThreshold;
+            }
+
+            foreach (var signal in TemperatueAoutSignals)
+            {
+                signal.MaxThreshold = MaxThreshold;
+                signal.MinThreshold = MinThreshold;
+                signal.Duty.MaxThreshold = MaxThreshold;
+                signal.Duty.MinThreshold = MinThreshold;
+                signal.Freq.MaxThreshold = MaxThreshold;
+                signal.Freq.MinThreshold = MinThreshold;
+            }
+        }
 
         //--------------------------------------------------------------------
         //---Register---------------------------------------------------------
@@ -243,6 +280,8 @@ namespace WpfApp1.ViewModels
         //--ADC---------------------------------------------------------------
         private IEnumerable<GDICADCSignal> adcSignals;
         private string currentValueSelection;
+      
+
         public IEnumerable<GDICADCSignal> AdcSignals => adcSignals;
         public GDICADCSignal CurrentAdcSignal { get; set; }
         public List<string> AdcValueSelections { get; } = new List<string>()

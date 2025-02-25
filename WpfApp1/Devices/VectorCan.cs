@@ -10,7 +10,7 @@ using WpfApp1.Services;
 
 namespace WpfApp1.Devices
 {
-    public class VectorCan : IDevice
+    public class VectorCan : CommunityToolkit.Mvvm.ComponentModel.ObservableObject, IDevice
     {
         // -----------------------------------------------------------------------------------------------
         // DLL Import for RX events
@@ -23,7 +23,7 @@ namespace WpfApp1.Devices
         // -----------------------------------------------------------------------------------------------
         private readonly VectorCanService _vectorCanService;
 
-        
+
 
         // -----------------------------------------------------------------------------------------------
         // Global variables
@@ -60,16 +60,19 @@ namespace WpfApp1.Devices
         // RX thread
         private Thread rxThread;
         private bool blockRxThread = false;
+        private DeviceRecieveFrameStatus recieveStatus;
+
         // -----------------------------------------------------------------------------------------------
 
-        public VectorCan(LogService logService,VectorCanService vectorCanService, XLClass.xl_channel_config cfg,string name)
+        public VectorCan(LogService logService, VectorCanService vectorCanService, XLClass.xl_channel_config cfg, string name)
         {
             this.logService = logService;
             _vectorCanService = vectorCanService;
             ChannelCfg = cfg;
             Name = name;
         }
-
+        public bool Opened { get; private set; }
+        public bool Started { get; private set; }
 
         public XLClass.xl_channel_config ChannelCfg { get; }
         public event OnMsgReceived OnMsgReceived;
@@ -77,11 +80,33 @@ namespace WpfApp1.Devices
         {
             return VectorDriver.XL_OpenDriver();
         }
-       
+
         public void OpenPort()
         {
             //var channelCfg = Channels[channelIndex];
+            //List<Func<(bool, string)>> funcs = new List<Func<(bool, string)>>()
+            //{
+            //    SetAppConfig,
+            //    GetAppChannelAndCheck,
+            //    OpenPortFunc,
+            //    SetCANFDconfigFunc,
+            //    SetNotificationFunc,
+            //    ActivateChannelFunc,
+            //};
+            ////默认值
+            //bool x = true;
+            //bool resTotal = funcs.Aggregate(x, (b, s) =>
+            //{
+            //    if (!b)//第一个为x的值
+            //        return b;
+            //    var res = s.Invoke();
+            //    if (!res.Item1)
+            //        Console.WriteLine(res.Item2);
 
+            //    return res.Item1;
+            //});
+            //Opened = resTotal;
+            //return;
             var status = VectorDriver.XL_SetApplConfig(appName: VectorCanService.AppName,
                                      appChannel: 0,
                                      hwType: ChannelCfg.hwType,
@@ -90,7 +115,7 @@ namespace WpfApp1.Devices
                                      XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
 
             if (status == XLDefine.XL_Status.XL_SUCCESS && _vectorCanService.GetAppChannelAndTestIsOk(0, ref txMask, ref txCi,
-                ChannelCfg.hwType, ChannelCfg.hwIndex, ChannelCfg.hwChannel, canFdModeNoIso,VectorCanService.AppName))
+                ChannelCfg.hwType, ChannelCfg.hwIndex, ChannelCfg.hwChannel, canFdModeNoIso, VectorCanService.AppName))
             {
                 accessMask = txMask | rxMask;
                 permissionMask = accessMask;
@@ -131,13 +156,104 @@ namespace WpfApp1.Devices
                 status = VectorDriver.XL_SetNotification(portHandle, ref eventHandle, 1);
                 // Activate channel - with reset clock
                 status = VectorDriver.XL_ActivateChannel(portHandle, accessMask, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN, XLDefine.XL_AC_Flags.XL_ACTIVATE_RESET_CLOCK);
+
+                Opened = true;
+            }
+            else
+            {
+                Opened = false;
             }
         }
+
+        #region Func<(bool, string)>
+        (bool, string) SetAppConfig()
+        {
+            var status = VectorDriver.XL_SetApplConfig(appName: VectorCanService.AppName,
+                                     appChannel: 0,
+                                     hwType: ChannelCfg.hwType,
+                                     hwIndex: ChannelCfg.hwIndex,
+                                     hwChannel: ChannelCfg.hwChannel,
+                                     XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
+
+            bool suc = status == XLDefine.XL_Status.XL_SUCCESS;
+
+            return (suc, suc ? "" : $"Set App Config Fail {status}");
+        }
+
+        (bool, string) GetAppChannelAndCheck()
+        {
+            var suc = _vectorCanService.GetAppChannelAndTestIsOk(0, ref txMask, ref txCi,
+                ChannelCfg.hwType, ChannelCfg.hwIndex, ChannelCfg.hwChannel, canFdModeNoIso, VectorCanService.AppName);
+
+            //bool suc = status == XLDefine.XL_Status.XL_SUCCESS;
+
+            return (suc, suc ? "" : $"AppChannelNotOK");
+        }
+        (bool, string) OpenPortFunc()
+        {
+            var status = VectorDriver.XL_OpenPort(ref portHandle, VectorCanService.AppName, accessMask, ref permissionMask, 16000, XLDefine.XL_InterfaceVersion.XL_INTERFACE_VERSION_V4, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
+            bool suc = status == XLDefine.XL_Status.XL_SUCCESS;
+
+            return (suc, suc ? "" : $"Open Port Fail {status}");
+        }
+
+        (bool, string) SetCANFDconfigFunc()
+        {
+            XLClass.XLcanFdConf canFdConf = new XLClass.XLcanFdConf();
+
+            // arbitration bitrate
+            //canFdConf.arbitrationBitRate    = 1000000;
+            canFdConf.arbitrationBitRate = 500000;
+            canFdConf.tseg1Abr = 7;
+            canFdConf.tseg2Abr = 2;
+            canFdConf.sjwAbr = 2;
+
+            // data bitrate
+            //canFdConf.dataBitRate           = canFdConf.arbitrationBitRate * 2;
+            canFdConf.dataBitRate = canFdConf.arbitrationBitRate * 4;
+            canFdConf.tseg1Dbr = 7;
+            canFdConf.tseg2Dbr = 2;
+            canFdConf.sjwDbr = 2;
+
+            if (canFdModeNoIso > 0)
+            {
+                canFdConf.options = (byte)XLDefine.XL_CANFD_ConfigOptions.XL_CANFD_CONFOPT_NO_ISO;
+            }
+            else
+            {
+                canFdConf.options = 0;
+            }
+
+            var status = VectorDriver.XL_CanFdSetConfiguration(portHandle, accessMask, canFdConf);
+
+            bool suc = status == XLDefine.XL_Status.XL_SUCCESS;
+
+            return (suc, suc ? "" : $"Set CANFD config Fail {status}");
+        }
+
+        (bool, string) SetNotificationFunc()
+        {
+            var status = VectorDriver.XL_SetNotification(portHandle, ref eventHandle, 1);
+
+            bool suc = status == XLDefine.XL_Status.XL_SUCCESS;
+
+            return (suc, suc ? "" : $"Set Notification Fail {status}");
+        }
+        (bool, string) ActivateChannelFunc()
+        {
+            var status = VectorDriver.XL_ActivateChannel(portHandle, accessMask, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN, XLDefine.XL_AC_Flags.XL_ACTIVATE_RESET_CLOCK);
+
+            bool suc = status == XLDefine.XL_Status.XL_SUCCESS;
+
+            return (suc, suc ? "" : $"Activate Channel Fail {status}");
+        }
+        #endregion
 
         public void ClosePort()
         {
             VectorDriver.XL_DeactivateChannel(portHandle, accessMask);
             VectorDriver.XL_ClosePort(portHandle);
+            Opened = false;
         }
 
         public void CANFDTransmitTest()
@@ -186,7 +302,7 @@ namespace WpfApp1.Devices
 
         }
 
-        public bool Transmit(uint msgID, byte[] data, int dlc,ref string fail)
+        public bool Transmit(uint msgID, byte[] data, int dlc, ref string fail)
         {
             //CANFDTransmitTest();
 
@@ -207,7 +323,7 @@ namespace WpfApp1.Devices
                     break;
             }
 
-            xlEventCollection.xlCANFDEvent[0].tagData.msgFlags = XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_BRS 
+            xlEventCollection.xlCANFDEvent[0].tagData.msgFlags = XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_BRS
                 | XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_EDL;
             for (int i = 0; i < data.Length; i++)
             {
@@ -261,7 +377,8 @@ namespace WpfApp1.Devices
         /// RX thread waits for Vector interface events and displays filtered CAN messages.
         /// </summary>
         // ----------------------------------------------------------------------------------------------- 
-        public void RXThread()
+        public DeviceRecieveFrameStatus RecieveStatus { get => recieveStatus; private set => SetProperty(ref recieveStatus , value); }
+        private void RXThread()
         {
             // Create new object containing received data 
             XLClass.XLcanRxEvent receivedEvent = new XLClass.XLcanRxEvent();
@@ -279,7 +396,7 @@ namespace WpfApp1.Devices
                 // Wait for hardware events
                 //logService.Debug($"{Name} Wait for hardware events {receiveFlag++}");
                 waitResult = (XLDefine.WaitResults)WaitForSingleObject(eventHandle, 1000);
-                
+
                 //int count = 0;
                 // If event occurred...
                 if (waitResult != XLDefine.WaitResults.WAIT_TIMEOUT)
@@ -321,6 +438,11 @@ namespace WpfApp1.Devices
                             //Console.WriteLine(CANDemo.XL_CanGetEventString(receivedEvent));
                         }
                     }
+                    RecieveStatus = DeviceRecieveFrameStatus.Connected;
+                }
+                else
+                {
+                    RecieveStatus = DeviceRecieveFrameStatus.NoFramesFor1Second;
                 }
                 // No event occurred
             }
@@ -346,6 +468,7 @@ namespace WpfApp1.Devices
         {
             if (rxThread != null && rxThread.ThreadState == ThreadState.Running)
                 rxThread.Abort();
+            RecieveStatus = DeviceRecieveFrameStatus.NotStart;
             ClosePort();
         }
 
@@ -355,6 +478,8 @@ namespace WpfApp1.Devices
             //Console.WriteLine("Start Rx thread...");
             rxThread = new Thread(new ThreadStart(RXThread));
             rxThread.Start();
+            Started = true;
+            RecieveStatus = DeviceRecieveFrameStatus.Connected;
         }
 
         public void Stop()
@@ -362,6 +487,7 @@ namespace WpfApp1.Devices
             if (rxThread != null && rxThread.ThreadState == ThreadState.Running)
                 rxThread.Abort();
             //ClosePort();
+            Started = false;
         }
 
         public bool Send(IFrame frame)

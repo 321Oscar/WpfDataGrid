@@ -20,7 +20,7 @@
         <Button Content="LocatorDisOutput" Width="120"  Height="25" Margin="228,5,452,5" Command="{Binding LocatorOutputsCommand}"/>
         <Button Content="LocatorNXP" Width="120"  Height="25" Margin="103,5,577,5" Command="{Binding LocatorNxpCommand}"/>
         <GroupBox Header="Discrete Inputs" Grid.Row="1">
-            <Grid >
+            <Grid Margin="-4">
                 <ScrollViewer >
                     <ItemsControl ItemsSource="{Binding NxpSignals}" >
                         
@@ -36,7 +36,7 @@
             </Grid>
         </GroupBox>
         <GroupBox Header="Discrete Outputs" Grid.Row="2">
-            <Grid>
+            <Grid Margin="-4">
                 <Grid.RowDefinitions >
                     <RowDefinition Height="auto"/>
                     <RowDefinition />
@@ -71,7 +71,7 @@
             </Grid>
         </GroupBox>
         <GroupBox Header="Inputs" Grid.Row="3">
-            <Grid>
+            <Grid Margin="-4">
                 <ScrollViewer>
                     <ItemsControl ItemsSource="{Binding NxpInputSignals}">
                         

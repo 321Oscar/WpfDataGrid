@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp1.Views"
+             xmlns:ctrls="clr-namespace:WpfApp1.Components"
+             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -15,7 +17,97 @@
         <TabControl Grid.Row="1">
             <TabItem Header="Serial EEPROM">
                 <Grid>
-                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <GroupBox Header="Read">
+                            <StackPanel Grid.IsSharedSizeScope="True" Margin="-4">
+                                <ctrls:ControlWithTitle Title="Pattern" Style="{StaticResource ControlWithTitleGridStyle}">
+                                    <ctrls:ControlWithTitle.Content>
+                                        <TextBox Width="100"/>
+                                    </ctrls:ControlWithTitle.Content>
+                                </ctrls:ControlWithTitle>
+                                <ctrls:ControlWithTitle Title="Address" Style="{StaticResource ControlWithTitleGridStyle}">
+                                    <ctrls:ControlWithTitle.Content>
+                                        <TextBox />
+                                    </ctrls:ControlWithTitle.Content>
+                                </ctrls:ControlWithTitle>
+                                <Button Content="Read" Width="80"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Write">
+                            <StackPanel Grid.IsSharedSizeScope="True" Margin="-4">
+                                <ctrls:ControlWithTitle Title="Pattern" Style="{StaticResource ControlWithTitleGridStyle}">
+                                    <ctrls:ControlWithTitle.Content>
+                                        <TextBox Width="100"/>
+                                    </ctrls:ControlWithTitle.Content>
+                                </ctrls:ControlWithTitle>
+                                <ctrls:ControlWithTitle Title="Address" Style="{StaticResource ControlWithTitleGridStyle}">
+                                    <ctrls:ControlWithTitle.Content>
+                                        <TextBox />
+                                    </ctrls:ControlWithTitle.Content>
+                                </ctrls:ControlWithTitle>
+                                <Button Content="Write" Width="80"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Test">
+                            <StackPanel Margin="-4">
+                                <Button Content="Test Serial EEPROM"></Button>
+                                <ProgressBar Height="25" Value="80"/>
+                                <Button Content="Reset"/>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Read All"/>
+                            <Button Content="Write All"/>
+                            <Button Content="Load File" Command="{Binding LoadSrecFileCommand}">
+                                <Button.ToolTip>
+                                    <TextBlock Text="Support Srec File Only"/>
+                                </Button.ToolTip>
+                            </Button>
+                            <ProgressBar Width="80" />
+                        </StackPanel>
+
+                        <Grid Grid.Row="1" Panel.ZIndex="99">
+                            <Grid.Style>
+                                <Style TargetType="FrameworkElement">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+
+                            <Border Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+                                    Opacity="0.5"/>
+
+                            <ContentControl ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingCircle}}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Width="{adonisUi:Space 5}"
+                                            Height="{adonisUi:Space 5}"
+                                            Focusable="False"/>
+                        </Grid>
+
+                        <ListView ItemsSource="{Binding S19Records}" Grid.Column="1" Grid.Row="1" VirtualizingPanel.IsVirtualizing="True">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Address" DisplayMemberBinding="{Binding AddrStr}"/>
+                                    <GridViewColumn Header="Data" DisplayMemberBinding="{Binding Data}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="Serial Flash"></TabItem>

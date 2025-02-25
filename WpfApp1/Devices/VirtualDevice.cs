@@ -10,7 +10,7 @@ using WpfApp1.Stores;
 
 namespace WpfApp1.Devices
 {
-    public class VirtualDevice : IDevice
+    public class VirtualDevice :CommunityToolkit.Mvvm.ComponentModel.ObservableObject, IDevice
     {
         private readonly SignalStore _signalStore;
         private readonly LogService logService;
@@ -30,11 +30,13 @@ namespace WpfApp1.Devices
         //private Thread _receiveThread;
         private Task _receiceTask;
         private CancellationTokenSource tokenSource;
+        private DeviceRecieveFrameStatus recieveStatus;
 
         public event OnMsgReceived OnMsgReceived;
 
         public string Name { get; set; }
-        public bool IsStart { get { return isOpen && isStart; } }
+        public bool Started { get { return isOpen && isStart; } }
+        public bool Opened { get => isOpen; }
         public void Open()
         {
             isOpen = true;
@@ -47,7 +49,7 @@ namespace WpfApp1.Devices
 
         public void Start()
         {
-            if (IsStart)
+            if (Started)
                 return;
             //_receiveThread = new Thread(new ThreadStart(() => Receive()));
             //_receiveThread.IsBackground = true;
@@ -55,6 +57,7 @@ namespace WpfApp1.Devices
             tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;
             isStart = true;
+            RecieveStatus = DeviceRecieveFrameStatus.Connected;
             _receiceTask = Task.Factory.StartNew(Receive, token);
         }
 
@@ -67,12 +70,15 @@ namespace WpfApp1.Devices
                 tokenSource.Cancel();
                 //tokenSource.Dispose();
             }
+            RecieveStatus = DeviceRecieveFrameStatus.NotStart;
         }
 
         private void RasieOnMsgReceived(IEnumerable<IFrame> frames)
         {
             OnMsgReceived?.Invoke(frames);
         }
+        public DeviceRecieveFrameStatus RecieveStatus { get => recieveStatus; private set => SetProperty(ref recieveStatus, value); }
+
         private void Receive()
         {
             tokenSource.Token.ThrowIfCancellationRequested();

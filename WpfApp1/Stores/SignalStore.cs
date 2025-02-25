@@ -62,6 +62,14 @@ namespace WpfApp1.Stores
 
         public void AddSignal(SignalBase signal)
         {
+            var updateSignal = DBCSignals.FirstOrDefault(x => x.SignalName == signal.Name);
+            if (updateSignal != null && updateSignal.MessageID != signal.MessageID)
+            {
+                logService.Debug($"Signal MsgID Update{signal.MessageID:X}->{updateSignal.MessageID:X}");
+                signal.MessageID = updateSignal.MessageID;
+            }
+
+
             if (Signals.FirstOrDefault(x => x.MessageID == signal.MessageID && x.Name == signal.Name) == null)
             {
                 _signals.Add(signal);
@@ -210,7 +218,11 @@ namespace WpfApp1.Stores
                 {
                     int byteIndex = startIndex + (startOffset + i) / 8;
                     int bitIndex = (startOffset + i) % 8;
-
+                    if (byteIndex >= msg.Length)
+                    {
+                        logService.Warn($"{signal.MessageID:X} Can Msg Length Error:${signal.Name}.Startbit bigger than can msg");
+                        continue;
+                    }
                     if ((msg[byteIndex] & (1 << bitIndex)) != 0)
                     {
                         rawValue |= (1 << i);
@@ -673,14 +685,14 @@ namespace WpfApp1.Stores
             }
             //foreach (var view in SignalLocation.ViewSignalsInfos)
             //{
-                foreach (var signal in SignalLocation.Signals)
+            foreach (var signal in SignalLocation.Signals)
+            {
+                AddSignal(signal);
+                if (signal is DiscreteOutputSignal disout)
                 {
-                    AddSignal(signal);
-                    if(signal is DiscreteOutputSignal disout)
-                    {
-                        AddSignal(disout.State);
-                    }
+                    AddSignal(disout.State);
                 }
+            }
             //}
         }
 

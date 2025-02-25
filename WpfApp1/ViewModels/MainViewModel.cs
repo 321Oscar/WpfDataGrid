@@ -44,7 +44,7 @@ namespace WpfApp1.ViewModels
         }
 
         public bool HasDevice => _deviceStore.HasDevice;
-
+        public bool Started => HasDevice && _deviceStore.CurrentDevice.Started;
         public string Log { get => log; set => SetProperty(ref log , value); }
         public int FramesCount { get => _deviceStore.FramesCount; }
         public MainViewModel(IServiceProvider serviceProvider, NavigationStore navigationStore, ModalNavigationStore modalNavigationStore,
@@ -93,6 +93,8 @@ namespace WpfApp1.ViewModels
         private void OnCurrentDeviceChanged()
         {
             OnPropertyChanged(nameof(HasDevice));
+            OnPropertyChanged(nameof(Started));
+            OnPropertyChanged(nameof(CurrentDevice));
             //(OpenCommand as IRelayCommand).NotifyCanExecuteChanged();
             //(CloseCommand as IRelayCommand).NotifyCanExecuteChanged();
             //(StartCommand as IRelayCommand).NotifyCanExecuteChanged();
@@ -117,9 +119,18 @@ namespace WpfApp1.ViewModels
         public ICommand StopCommand { get; }
         public ICommand DeivceConfigCommand { get; }
 
-        private void Stop() {
-            CurrentDevice?.Stop();
-            _logService.Debug($"{CurrentDevice.Name} Stop Receive");
+        private void Stop() 
+        {
+            if (CurrentDevice.Started)
+            {
+                CurrentDevice?.Stop();
+                _logService.Debug($"{CurrentDevice.Name} Stop Receive");
+            }
+            else
+            {
+                CurrentDevice.Start();
+            }
+            OnPropertyChanged(nameof(Started));
         }
 
         protected virtual void DeivceConfig()

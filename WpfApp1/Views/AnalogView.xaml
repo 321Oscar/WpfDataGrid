@@ -60,22 +60,22 @@
                     </Style>
                     <DataTemplate x:Key="CardViewTemplate">
                         <ctrls:ListBoxScroll 
-                         Grid.Row="1"
-                        BorderThickness="0"
-                        Background="Transparent"
-                        ItemsSource="{Binding Source={StaticResource DataGridData}}" 
-                        SelectedItem="{Binding DataContext.CurrentAnalogSignal,RelativeSource={RelativeSource AncestorType=UserControl,Mode=FindAncestor}}"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                        ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            Grid.Row="1"
+                            BorderThickness="0"
+                            Background="Transparent"
+                            ItemsSource="{Binding Source={StaticResource DataGridData}}" 
+                            SelectedItem="{Binding DataContext.CurrentAnalogSignal,RelativeSource={RelativeSource AncestorType=UserControl,Mode=FindAncestor}}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                                     <Setter Property="Padding" Value="2"/>
                                     <Style.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"/>
-                                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"/>
+                                            <!--<Setter Property="Background" Value="#000000"/>-->
+                                            <!--<Setter Property="BorderBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"/>-->
                                             <!--<Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUi:Brushes.AccentForegroundBrush}}"/>-->
-                                            <!--<Setter Property="Foreground" Value="Black"/>-->
+                                            <Setter Property="Foreground" Value="Black"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -87,7 +87,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:AnalogSignal}">
-                                    <Border Style="{StaticResource CardBorder}" >
+                                    <Border Style="{StaticResource CardBorder}">
                                         <Grid Width="250">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="auto" />
@@ -96,7 +96,7 @@
                                                 <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
                                             <Border>
-                                                <Grid Grid.Column="0" ToolTip="{Binding DisplayName}" HorizontalAlignment="Center">
+                                                <Grid Grid.Column="0" HorizontalAlignment="Center">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="auto"/>
                                                         <ColumnDefinition Width="auto"/>
@@ -109,7 +109,7 @@
                                                 </Grid>
                                             </Border>
                                             <!-- AI Raw & AI Scaled-->
-                                            <Border  Grid.Row="1" >
+                                            <Border Grid.Row="1" >
                                                 <TextBlock
                                                 Style="{StaticResource ValueTextBlockStyle}"
                                                 FontWeight="Light"
@@ -148,6 +148,15 @@
                                             Style="{StaticResource ValueTextBlockStyle}" 
                                             ToolTip="StandardDev"/>
                                         </Grid>
+                                        <Border.ToolTip>
+                                            <Border>
+                                                <StackPanel>
+                                                    <ctrls:LabelWithContent Title="Name:" Content="{Binding DisplayName}"/>
+                                                    <ctrls:LabelWithContent Title="MsgID:" Content="{Binding MessageID,StringFormat={}{0:X}}"/>
+                                                    <ctrls:LabelWithContent Title="StartBit:" Content="{Binding StartBit}"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Border.ToolTip>
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -177,9 +186,9 @@
                                             </StackPanel>
                                         </StackPanel>
                                     </Border>
-                                    <TextBlock Text="AI Scaled" Grid.Column="1" />
-                                    <TextBlock Text="AI Raw(min/max)" Grid.Column="2"/>
-                                    <TextBlock Text="StandardDev" Grid.Column="3"/>
+                                    <TextBlock Text="AI Scaled" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="AI Raw(min/max)" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="StandardDev" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Grid>
                             </Border >
                             <ScrollViewer Grid.Row="1">

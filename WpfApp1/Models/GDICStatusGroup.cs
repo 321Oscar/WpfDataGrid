@@ -37,10 +37,12 @@ namespace WpfApp1.Models
     /// </summary>
     public class GDICStatusGroup : ObservableObject
     {
+        private string groupName;
+
         /// <summary>
         /// RegisterName like: Top U/Top V
         /// </summary>
-        public string GroupName { get; set; }
+        public string GroupName { get => groupName; set => groupName = value.Replace(SignalBase.DBCSignalNameSplit, SignalBase.SignalNameSplit); }
 
         public GDICStatusGroup(string groupName)
         {
@@ -85,7 +87,7 @@ namespace WpfApp1.Models
             {
                 if (!string.IsNullOrEmpty(GroupName))
                 {
-                    return string.Join(SignalBase.SignalNameSplit, GroupName.Split(SignalBase.DBCSignalNameSplit).Take(2));
+                    return string.Join(SignalBase.SignalNameSplit, GroupName.Split(SignalBase.SignalNameSplit).Take(2));
                 }
                 return "";
             }
@@ -128,7 +130,13 @@ namespace WpfApp1.Models
         /// </summary>
         public string GroupName { get; set; }
 
-        public new string DisplayName { get => Name.Replace(GroupName, "").Replace("_", "").Replace("Write", ""); }
+        //public new string DisplayName { get => Name.Replace(GroupName, "").Replace("_", "").Replace("Write", ""); }
+
+        public override string RelaceSignalName(string s)
+        {
+            var name = base.RelaceSignalName(Name);
+            return name.Replace(GroupName, "").Replace("_", "").Replace("Write", "");
+        }
     }
 
 }

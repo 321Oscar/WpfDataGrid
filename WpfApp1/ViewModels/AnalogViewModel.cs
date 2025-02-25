@@ -158,7 +158,7 @@ namespace WpfApp1.ViewModels
             else
             {
                 AdonisUI.Controls.MessageBox.Show($"Cannot find signalname Contains [{SearchSignalName}] !"
-                    , "Info", AdonisUI.Controls.MessageBoxButton.OKCancel, AdonisUI.Controls.MessageBoxImage.Information);
+                    , "Info", AdonisUI.Controls.MessageBoxButton.OK, AdonisUI.Controls.MessageBoxImage.Information);
             }
         }
 

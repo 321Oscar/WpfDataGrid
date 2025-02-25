@@ -9,11 +9,16 @@ namespace WpfApp1.Devices
     public interface IDevice
     {
         string Name { get; }
+
+        bool Opened { get; }
+
+        bool Started { get; }
         void Open();
         void Close();
         void Start();
         void Stop();
         event OnMsgReceived OnMsgReceived;
+        DeviceRecieveFrameStatus RecieveStatus { get; }
         bool Send(IFrame frame);
         bool SendMultip(IEnumerable<IFrame> multiples);
     }
@@ -21,6 +26,14 @@ namespace WpfApp1.Devices
     public delegate bool SendData();
     public delegate bool SendMultipData();
     public delegate void RegisterRecieve();
+
+    public enum DeviceRecieveFrameStatus
+    {
+        NotStart,
+        Connected,
+        NoFramesFor1Second
+    }
+
     public enum DeviceHardWareType
     {
         None,

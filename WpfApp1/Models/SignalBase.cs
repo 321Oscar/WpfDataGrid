@@ -116,7 +116,7 @@ namespace WpfApp1.Models
         /// </summary>
         /// <param name="signalName"></param>
         /// <returns></returns>
-        public static string RelaceSignalName(string signalName)
+        public virtual string RelaceSignalName(string signalName)
         {
             if (signalName.StartsWith("VI_"))
             {

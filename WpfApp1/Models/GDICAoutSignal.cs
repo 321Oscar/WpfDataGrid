@@ -46,9 +46,14 @@ namespace WpfApp1.Models
         {
             StandardDev = CalStandardDev.Cal(count, TmpValues);
         }
+
+        public override string RelaceSignalName(string signalName)
+        {
+            return base.RelaceSignalName(signalName);
+        }
     }
 
-    public class GDICAoutTemperatureSignal : GDICAoutSignal
+    public class GDICAoutTemperatureSignal : GDICAoutSignal, ITransform2
     {
         private GDICAoutSignal duty;
         private GDICAoutSignal freq;
@@ -81,24 +86,39 @@ namespace WpfApp1.Models
             get => freq; 
             set
             {
-                if (freq != null)
-                    freq.PropertyChanged -= Duty_PropertyChanged;
+                //if (freq != null)
+                //    freq.PropertyChanged -= Duty_PropertyChanged;
                 freq = value;
-                if (freq != null)
-                    freq.PropertyChanged += Duty_PropertyChanged;
+                //if (freq != null)
+                //    freq.PropertyChanged += Duty_PropertyChanged;
             }
         }
+
+        public int Transform2Type => throw new System.NotImplementedException();
+
+        public string TableName => "2";
+
+        public double TransForm2Factor => throw new System.NotImplementedException();
+
+        public double TransForm2Offset => throw new System.NotImplementedException();
+
+        public string Value2 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         public override void OnOriginValueChaned(double originValue, bool changed)
         {
             base.OnOriginValueChaned(originValue, changed);
         }
 
+        public double TransForm2(double oldVal)
+        {
+            return Stores.ValueTable.ConvertByTable(TableName, oldVal);
+        }
+
         private void Duty_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(OriginValue))
             {
-                this.OriginValue = Duty.OriginValue + Freq.OriginValue;
+                this.OriginValue = TransForm2(Duty.OriginValue);
             }
         }
     }

@@ -28,6 +28,7 @@ namespace WpfApp1.ViewModels
         public PulseOutViewModel PulseOutViewModel { get; private set; }
         public NXPViewModel NXPViewModel { get; private set; }
         public GDICViewModel GDICViewModel { get; private set; }
+        public MemoryViewModel MemoryViewModel { get; private set; }
 
         protected override void DeivceConfig()
         {
@@ -55,7 +56,9 @@ namespace WpfApp1.ViewModels
             NXPViewModel = new NXPViewModel(signalStore, _deviceStore, _logService);
             NXPViewModel.Init();
             GDICViewModel = new GDICViewModel(signalStore, _deviceStore, _logService);
-            GDICViewModel.Init();
+            GDICViewModel.Init(); 
+            MemoryViewModel = new MemoryViewModel(_deviceStore, _logService);
+            MemoryViewModel.Init();
         }
     }
 }
