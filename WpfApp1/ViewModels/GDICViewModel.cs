@@ -56,19 +56,28 @@ namespace WpfApp1.ViewModels
         }
       
         //--Status-------------------------------------------------------------
-        private IEnumerable<GDICStatusRegisterGroup> gDICStatusRegisterGroups;
-        private GDICStatusGroup currentGDICStatusGroup;
-        private RelayCommand<GDICStatusGroup> _WriteStatusCommand;
+        private ObservableCollection<GDICStatusRegisterGroup> _gDICStatusRegisterGroups = new ObservableCollection<GDICStatusRegisterGroup>();
+        private GDICStatusGroup _currentGDICStatusGroup;
+        private RelayCommand<GDICStatusGroup> _writeStatusCommand;
+        private AsyncRelayCommand _addStatusCommand;
+        private RelayCommand _clearStatusCommand;
 
-        public IEnumerable<GDICStatusRegisterGroup> GDICStatusGroups => gDICStatusRegisterGroups;
+        public IEnumerable<GDICStatusRegisterGroup> GDICStatusGroups => _gDICStatusRegisterGroups;
         public GDICStatusGroup CurrentGDICStatusGroup
         {
-            get => currentGDICStatusGroup;
-            set => SetProperty(ref currentGDICStatusGroup, value);
+            get => _currentGDICStatusGroup;
+            set => SetProperty(ref _currentGDICStatusGroup, value);
         }
 
-        public ICommand WriteStatusCommand { get => _WriteStatusCommand ?? (_WriteStatusCommand = new RelayCommand<GDICStatusGroup>(WriteStatus)); }
+        public ICommand WriteStatusCommand { get => _writeStatusCommand ?? (_writeStatusCommand = new RelayCommand<GDICStatusGroup>(WriteStatus)); }
+        public ICommand AddStatusCommand { get => _addStatusCommand ?? (_addStatusCommand = new AsyncRelayCommand(AddStatus)); }
+        public ICommand ClearStatusCommand { get => _clearStatusCommand ?? (_clearStatusCommand = new RelayCommand(ClearStatus)); }
         private void GetGDICStatusGroups()
+        {
+           
+            //gDICStatusGroups.Sort
+        }
+        private Task AddStatus()
         {
             var gdicSignals = SignalStore.GetSignals<GDICStatusDataSignal>();
 
@@ -91,7 +100,7 @@ namespace WpfApp1.ViewModels
                                               .OrderBy(x => x.GroupName)
                                               .ToList();
 
-            gDICStatusRegisterGroups = gdicStatusGroups.GroupBy(s => s.RegisterName)
+            var registerGroups = gdicStatusGroups.GroupBy(s => s.RegisterName)
                                                   .Select(g =>
                                                   {
                                                       var registerGroup = new GDICStatusRegisterGroup(g.Key);
@@ -111,9 +120,24 @@ namespace WpfApp1.ViewModels
 
                                                       return registerGroup;
                                                   });
-            //gDICStatusGroups.Sort
+            IsLoading = true;
+            return Task.Run(() =>
+            {
+                foreach (var g in registerGroups)
+                {
+                    Dispatch(() => _gDICStatusRegisterGroups.Add(g));
+                }
+                
+            }).ContinueWith((x) =>
+            {
+                IsLoading = false;
+            });
         }
-
+       
+        private void ClearStatus()
+        {
+            _gDICStatusRegisterGroups.Clear();
+        }
 
         private void WriteStatus(GDICStatusGroup obj)
         {
@@ -247,7 +271,7 @@ namespace WpfApp1.ViewModels
 
         //--------------------------------------------------------------------
         //---Register---------------------------------------------------------
-        private IEnumerable<GDICRegisterDeviceGroup> registers;
+        private ObservableCollection<GDICRegisterDeviceGroup> registers = new ObservableCollection<GDICRegisterDeviceGroup>();
        
         public IEnumerable<GDICRegisterDeviceGroup> Registers => registers;
 
@@ -267,18 +291,18 @@ namespace WpfApp1.ViewModels
                     return reGroup;
                 });
 
-            registers = regesiterGroup.GroupBy(x => string.Join("-", x.GroupName.Split("-").Take(2))).Select(
+            registers.AddRange( regesiterGroup.GroupBy(x => string.Join("-", x.GroupName.Split("-").Take(2))).Select(
                 g =>
                 {
                     GDICRegisterDeviceGroup d = new GDICRegisterDeviceGroup(g.Key);
                     d.RegisterGroups.AddRange(g);
                     return d;
-                });
+                }));
         }
 
         //--------------------------------------------------------------------
         //--ADC---------------------------------------------------------------
-        private IEnumerable<GDICADCSignal> adcSignals;
+        private ObservableCollection<GDICADCSignal> adcSignals = new ObservableCollection<GDICADCSignal>();
         private string currentValueSelection;
       
 
@@ -312,7 +336,7 @@ namespace WpfApp1.ViewModels
             //var inputs = gdicSignals.Where(x => !x.InOrOut);
             //var writes = gdicSignals.Where(x => x.InOrOut);
 
-            adcSignals = gdicSignals
+            adcSignals.AddRange( gdicSignals
                 .GroupBy(s=>s.DeviceName)
                 .Select(g =>
                 {
@@ -321,7 +345,7 @@ namespace WpfApp1.ViewModels
                         RegisterSignal = g.ToList().FirstOrDefault(x=> !x.InOrOut),
                         WriteSignal = g.ToList().FirstOrDefault(x=> x.InOrOut),
                     };
-                });
+                }));
 
             //adcSignals = 
         }

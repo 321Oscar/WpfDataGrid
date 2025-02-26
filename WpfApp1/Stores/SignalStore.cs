@@ -42,10 +42,8 @@ namespace WpfApp1.Stores
         {
             try
             {
-                //XmlHelper.SerializeToXml(SignalLocatorInfo, SignalLocatorFilePath);
-                //LocatorToLocation();
                 SignalLocation.Signals.Distinct();
-                XmlHelper.SerializeToXml(SignalLocation, SignalLocatorFilePath2);
+                XmlHelper.SerializeToXml(SignalLocation, SignalLocatorFilePath);
             }
             catch (Exception ex)
             {
@@ -65,10 +63,14 @@ namespace WpfApp1.Stores
             var updateSignal = DBCSignals.FirstOrDefault(x => x.SignalName == signal.Name);
             if (updateSignal != null && updateSignal.MessageID != signal.MessageID)
             {
-                logService.Debug($"Signal MsgID Update{signal.MessageID:X}->{updateSignal.MessageID:X}");
+                logService.Debug($"Signal MsgID Update {signal.MessageID:X}->{updateSignal.MessageID:X}");
                 signal.MessageID = updateSignal.MessageID;
             }
 
+            if (updateSignal != null && !string.IsNullOrEmpty(updateSignal.Unit))
+            {
+                signal.Unit = updateSignal.Unit;
+            }
 
             if (Signals.FirstOrDefault(x => x.MessageID == signal.MessageID && x.Name == signal.Name) == null)
             {
@@ -673,12 +675,12 @@ namespace WpfApp1.Stores
         public ViewsSignals SignalLocatorInfo { get; private set; }
         public SignalCollection SignalLocation { get; private set; }
         private const string SignalLocatorFilePath = @"Config/SignalLocator.xml";
-        private const string SignalLocatorFilePath2 = @"Config/SignalLocator2.xml";
+        //private const string SignalLocatorFilePath2 = @"Config/SignalLocator2.xml";
         private void LoadSignalLocator()
         {
             //ViewsSignals x = new ViewsSignals();
             //XmlHelper.SerializeToXml(x, SignalLocatorFilePath);
-            SignalLocation = XmlHelper.DeserializeFromXml<SignalCollection>(SignalLocatorFilePath2);
+            SignalLocation = XmlHelper.DeserializeFromXml<SignalCollection>(SignalLocatorFilePath);
             if(SignalLocation == null)
             {
                 SignalLocation = new SignalCollection();
@@ -724,6 +726,7 @@ namespace WpfApp1.Stores
         /// <summary>
         /// Delete ViewInfo,only Signal List
         /// </summary>
+        [Obsolete]
         public void LocatorToLocation()
         {
             SignalLocatorInfo.ViewSignalsInfos.ForEach(viewInfo =>

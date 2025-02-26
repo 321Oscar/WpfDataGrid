@@ -15,8 +15,8 @@
             <RowDefinition />
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Style="{StaticResource TitleLabel }">Resolver</TextBlock>
-        <GroupBox Header="Inputs" Grid.Row="1">
+        <TextBlock Grid.Row="0" Style="{StaticResource TitleLabel}" Margin="10,5,0,0" VerticalAlignment="Top">Resolver</TextBlock>
+        <GroupBox Header="Inputs" Margin="0,35,0,0" Grid.RowSpan="2">
             <DataGrid 
                 IsReadOnly="True"
                 AutoGenerateColumns="False" 
@@ -63,7 +63,7 @@
                     </Grid.RowDefinitions>
                     <Grid.Resources>
                         <Style TargetType="TextBox" BasedOn="{StaticResource numTextBox}">
-                            
+
                         </Style>
                         <Style TargetType="TextBlock" BasedOn="{StaticResource labelText}">
                             <Setter Property="HorizontalAlignment" Value="Center"/>

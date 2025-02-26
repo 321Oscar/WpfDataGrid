@@ -94,6 +94,7 @@
     </Style>
     <Style x:Key="SignalNameFontStyle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontFamily" Value="Consolas"/>
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
@@ -113,25 +114,27 @@
     </DataTemplate>
 
     <DataTemplate x:Key="CommonSignalNoBorder">
-        <Grid>
+        <Grid >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*" MinWidth="120"/>
+                <ColumnDefinition Width="*" MinWidth="150"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock 
-                 Grid.Column="1"
-                 Text="{Binding Value1}" 
-                 Margin="0,0,5,0"
-                 Style="{StaticResource ValueTextBlockStyle}"
-                 Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"
-                 />
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock 
+                     Margin="0,0,5,0"
+                     Style="{StaticResource ValueTextBlockStyle}"
+                     FontSize="25"
+                     Text="{Binding Value1}" 
+                     Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"/>
+                <TextBlock Text="{Binding Unit}" VerticalAlignment="Center" Foreground="Gray"/>
+            </StackPanel>
             <StackPanel Grid.Column="0" Margin="2">
                 <TextBlock Text="{Binding MaxValue,StringFormat={}{0:f2}}" FontSize="10" Foreground="Gray"/>
                 <TextBlock Text="{Binding MinValue,StringFormat={}{0:f2}}" FontSize="10"  Margin="0,3,0,0"/>
                 <!--<TextBlock Text="{Binding OutLimits}" FontSize="10"  Margin="0,3,0,0"/>-->
             </StackPanel>
-            <StackPanel Grid.Column="2" Margin="2">
+            <StackPanel Grid.Column="2" Margin="5" >
                 <TextBlock Text="{Binding MaxThreshold}" FontSize="10"/>
                 <TextBlock Text="{Binding MinThreshold}" FontSize="10"/>
             </StackPanel>
@@ -139,8 +142,9 @@
                 <Border>
                     <StackPanel>
                         <ctrls:LabelWithContent Title="Name:" Content="{Binding DisplayName}"/>
-                        <ctrls:LabelWithContent Title="MsgID:" Content="{Binding MessageID,StringFormat={}{0:X}}"/>
+                        <ctrls:LabelWithContent Title="MsgID:" Content="{Binding MessageID,StringFormat='0x{0:X}'}"/>
                         <ctrls:LabelWithContent Title="StartBit:" Content="{Binding StartBit}"/>
+                        <ctrls:LabelWithContent Title="Uint:" Content="{Binding Unit}"/>
                     </StackPanel>
                 </Border>
             </Grid.ToolTip>
@@ -171,7 +175,7 @@
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{Binding DisplayName}" Style="{StaticResource SignalNameFontStyle}"/>
-                        <StackPanel Grid.Column="1">
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="{Binding PinNumber}" Style="{StaticResource DescriptionTextBlockStyle}"/>
                             <TextBlock Text="{Binding ADChannel}" Style="{StaticResource DescriptionTextBlockStyle}"/>
                         </StackPanel>
@@ -180,19 +184,18 @@
                 <!-- AI Raw & AI Scaled-->
                 <Border Style="{StaticResource CellBorder}" Grid.Column="1" >
                     <TextBlock
-                                            Style="{StaticResource ValueTextBlockStyle}"
-                                            
-                                            Text="{Binding Value2}" 
-                                            ToolTip="AI Scaled"/>
+                        Style="{StaticResource ValueTextBlockStyle}"
+                        Text="{Binding Value2}" 
+                        ToolTip="AI Scaled"/>
                 </Border>
                 <ContentControl Content="{Binding}" ContentTemplate="{StaticResource CommonSignal}" Grid.Column="2" />
                 <!-- Standard -->
                 <TextBlock
-                                            Margin="5,0,5,0"
-                                            Grid.Column="3" 
-                                            Text="{Binding StandardDev,StringFormat={}{0:F2}}" 
-                                            Style="{StaticResource ValueTextBlockStyle}" 
-                                            ToolTip="StandardDev"/>
+                    Margin="5,0,5,0"
+                    Grid.Column="3" 
+                    Text="{Binding StandardDev,StringFormat={}{0:F2}}" 
+                    Style="{StaticResource ValueTextBlockStyle}" 
+                    ToolTip="StandardDev"/>
             </Grid>
         </Border>
     </DataTemplate>
@@ -320,13 +323,14 @@
                 <ColumnDefinition Width="auto" MinWidth="120"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock 
-                                Grid.Column="1"
-                                Text="{Binding Value1}" 
-                                Margin="0,0,5,0"
-                                Style="{StaticResource ValueTextBlockStyle}"
-                                Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"
-                                />
+            <Border Style="{StaticResource CellBorder}">
+                <TextBlock 
+                 Grid.Column="1"
+                 Text="{Binding Value1}" 
+                 Margin="0,0,5,0"
+                 Style="{StaticResource ValueTextBlockStyle}"
+                 Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"/>
+            </Border>
             <StackPanel Grid.Column="0" Margin="0,0,5,0">
                 <TextBlock Text="{Binding MaxValue,StringFormat={}{0:f2}}" FontSize="10" Foreground="Gray"/>
                 <TextBlock Text="{Binding MinValue,StringFormat={}{0:f2}}" FontSize="10"  Margin="0,3,0,0"/>
@@ -344,25 +348,25 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" SharedSizeGroup="SignalName"/>
-                    <ColumnDefinition Width="auto" SharedSizeGroup="Value1"    MinWidth="230" />
-                    <ColumnDefinition Width="auto" SharedSizeGroup="Value2"    MinWidth="230" />
+                    <ColumnDefinition Width="auto" SharedSizeGroup="Value1" />
+                    <ColumnDefinition Width="auto" SharedSizeGroup="Value2" />
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}"/>
                 <ContentControl 
-                                        Content="{Binding Signal_DC}" 
-                                        Grid.Column="1" 
+                    Content="{Binding Signal_DC}" 
+                    Grid.Column="1" 
                     ContentTemplate="{StaticResource CommonSignal}"
-                                        VerticalAlignment="Center" 
-                                        HorizontalAlignment="Center" 
-                                        ToolTip="Duty Cycle"/>
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" 
+                    ToolTip="Duty Cycle"/>
                 <ContentControl 
-                                        Content="{Binding Signal_Freq}" 
-                                        Grid.Column="2" 
-                                        VerticalAlignment="Center" 
-                                        HorizontalAlignment="Center"
+                    Content="{Binding Signal_Freq}" 
+                    Grid.Column="2" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Center"
                     ContentTemplate="{StaticResource CommonSignal}"
-                                        ToolTip="Freq"/>
+                    ToolTip="Freq"/>
             </Grid>
         </Border>
     </DataTemplate>
@@ -645,7 +649,7 @@
                                    Grid.Column="0"/>
 
                         <TextBox Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}"
-                                 Width="80" Grid.Column="1"/>
+                                 MinWidth="80" Grid.Column="1"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

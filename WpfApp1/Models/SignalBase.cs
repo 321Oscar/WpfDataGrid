@@ -48,6 +48,7 @@ namespace WpfApp1.Models
             Length = (int)signal.signalSize;
             MessageID = signal.MessageID;
             ViewName += viewName;
+            Unit = signal.Unit;
         }
 
         //private string name;
@@ -95,6 +96,7 @@ namespace WpfApp1.Models
 
         public double Offset { get; set; }
         public string Format { get; set; } = "f2";
+        public string Unit { get; set; }
         /// <summary>
         /// In : false
         ///<para>Out: True</para>

@@ -46,7 +46,7 @@
                             Width="80"
                             Content="{Binding Started,Converter={StaticResource DeviceStartConverter}}"/>
                         <ctrls:TextBoxWithLabel 
-                            Margin="0,2,0,0"
+                            Margin="2,2,0,0"
                             Title="Comms Count:" 
                             Content="{Binding FramesCount}" 
                             Grid.Row="1" Grid.Column="1" Orientation="Vertical" />
@@ -55,12 +55,16 @@
                             Title="Connect:"
                             Content="{Binding CurrentDevice.RecieveStatus}">
                         </ctrls:LabelWithContent>-->
-                        <ctrls:ControlWithTitle  Grid.Column="1" Title="Connect Status:" Orientation="Vertical">
+                        <ctrls:ControlWithTitle  
+                            Margin="2,2,0,0"
+                            Grid.Column="1" 
+                            Title="Connect Status:" 
+                            Orientation="Vertical">
                             <ctrls:ControlWithTitle.Content>
                                 <TextBlock Text="{Binding CurrentDevice.RecieveStatus}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
-                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                            <Setter Property="HorizontalAlignment" Value="Left"/>
                                             <Setter Property="VerticalAlignment" Value="Center"/>
                                             <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
                                             <Style.Triggers>
@@ -129,7 +133,7 @@
                     <local:AnalogView DataContext="{Binding AnalogViewModel}" Margin="-5"/>
                 </TabItem>
                 <TabItem Header="Discrete">
-                    <local:DiscreteView DataContext="{Binding DiscreteViewModel}"/>
+                    <local:DiscreteView DataContext="{Binding DiscreteViewModel}" Margin="-4"/>
                 </TabItem>
                 <TabItem Header="PulseIn">
                     <local:PulseInView DataContext="{Binding PulseInViewModel}"/>
@@ -143,8 +147,14 @@
                 <TabItem Header="GDIC">
                     <local:GDIC3160View DataContext="{Binding GDICViewModel}"/>
                 </TabItem>
-                <TabItem Header="Memory">
+                <TabItem Header="Memory-Doing">
                     <local:MemoryView DataContext="{Binding MemoryViewModel}"/>
+                </TabItem>
+                <TabItem Header="Resolver-UnFinish">
+                    <local:ResolverView />
+                </TabItem>
+                <TabItem Header="SPI-Undo">
+                    <local:SPIView/>
                 </TabItem>
             </TabControl>
         </Grid>

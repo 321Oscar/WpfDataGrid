@@ -45,8 +45,19 @@ namespace WpfApp1.ViewModels
 
         public override void LocatorSignals()
         {
-            var modalNavigationService = new ModalNavigationService<PulseOutSignalLocatorViewModel>(this.ModalNavigationStore, CreateLocatorViewModel);
-            modalNavigationService.Navigate();
+            if (ModalNavigationStore != null)
+            {
+                var modalNavigationService = new ModalNavigationService<PulseOutSignalLocatorViewModel>(this.ModalNavigationStore, CreateLocatorViewModel);
+                modalNavigationService.Navigate();
+            }
+            else
+            {
+                Views.DialogView dialogView = new Views.DialogView();
+                var locatorViewModel = CreateLocatorViewModel(dialogView);
+                dialogView.DialogViewModel = locatorViewModel;
+                dialogView.ShowDialog();
+            }
+
         }
 
         public override void Dispose()
@@ -54,6 +65,12 @@ namespace WpfApp1.ViewModels
             //SignalStore.SaveViewSignalLocator(VIEWNAME, PulseOutSignals);
             SignalStore.SaveViewSignalLocator(VIEWNAME, SignalStore.GetSignals<PulseOutGroupSignal>());
         }
+
+        private PulseOutSignalLocatorViewModel CreateLocatorViewModel(System.Windows.Window window)
+          => new PulseOutSignalLocatorViewModel(groups,
+                                           SignalStore,
+                                           CreatePulseOutGroupSignal, window);
+
         private PulseOutSignalLocatorViewModel CreateLocatorViewModel() 
             => new PulseOutSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore),
                                                   groups,

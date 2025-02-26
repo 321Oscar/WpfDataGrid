@@ -207,6 +207,12 @@ namespace WpfApp1.ViewModels
     /// </summary>
     public class AnalogSignalLocatorViewModel : SignalLocatorViewModel<AnalogSignal>
     {
+        public AnalogSignalLocatorViewModel(ObservableCollection<AnalogSignal> signals, SignalStore signalStore, Func<Signal, AnalogSignal> createSignal
+           , Window window)
+           : base(signals, signalStore, createSignal, window)
+        {
+
+        }
         public AnalogSignalLocatorViewModel(INavigationService navigationService, 
             ObservableCollection<AnalogSignal> signals, 
             SignalStore signalStore, 
@@ -256,6 +262,12 @@ namespace WpfApp1.ViewModels
 
     public class PulseOutSignalLocatorViewModel : SignalLocatorViewModel<PulseGroupSignalOutGroup>
     {
+        public PulseOutSignalLocatorViewModel(ObservableCollection<PulseGroupSignalOutGroup> signals, SignalStore signalStore, Func<Signal, PulseGroupSignalOutGroup> createSignal
+            , Window window)
+            : base(signals, signalStore, createSignal, window)
+        {
+
+        }
         public PulseOutSignalLocatorViewModel(INavigationService navigationService, 
             ObservableCollection<PulseGroupSignalOutGroup> signals, 
             SignalStore signalStore, 

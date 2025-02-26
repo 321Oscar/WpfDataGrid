@@ -11,9 +11,6 @@
     d:DesignWidth="800"
     Background="White"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <converters:UpdateSourceTriggerConverter x:Key="UpdateSourceTriggerConverter" />
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -24,19 +21,18 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-
-        <TextBlock Style="{StaticResource TitleLabel}" Text="Discrete" />
+        
         <WrapPanel
             Grid.Row="0"
-            Margin="130,10,0,10"
+           Grid.ColumnSpan="2"
             Orientation="Horizontal">
+            <TextBlock Style="{StaticResource TitleLabel}" Text="Discrete" />
             <Button Content="Locator Inputs" Command="{Binding LocatorSignalsCommand}"/>
             <Button Content="Locator Outputs" Command="{Binding LocatorOutputsCommand}"/>
-            <Button Content="Set xxx Output" />
             <Button Content="Reset Motor Faults"  />
         </WrapPanel>
         <GroupBox Grid.Row="1" Header="Inputs" Margin="2" Grid.RowSpan="2">
-            <Grid Margin="-10">
+            <Grid Margin="-4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition  Height="auto"/>

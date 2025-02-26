@@ -76,6 +76,29 @@
                                             Focusable="False"/>
         </Grid>
 
+        <Grid Grid.Row="1" Panel.ZIndex="99">
+            <Grid.Style>
+                <Style TargetType="FrameworkElement">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+
+            <Border Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+                                    Opacity="0.5"/>
+
+            <ContentControl ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingCircle}}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Width="{adonisUi:Space 5}"
+                                            Height="{adonisUi:Space 5}"
+                                            Focusable="False"/>
+        </Grid>
+
         <TabControl Grid.Row="1">
             <!---->
             <TabItem Header="Status">
@@ -84,6 +107,10 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Init" Command="{Binding AddStatusCommand}"/>
+                        <Button Content="Clear" Command="{Binding ClearStatusCommand}"/>
+                    </StackPanel>
                     <ScrollViewer 
                         VerticalScrollBarVisibility="Auto" 
                         HorizontalScrollBarVisibility="Auto"  
@@ -189,7 +216,9 @@
                             </DataTemplate>
 
                         </ScrollViewer.Resources>
-                        <ItemsControl ItemsSource="{Binding GDICStatusGroups}"/>
+                        <ItemsControl ItemsSource="{Binding GDICStatusGroups}"
+                                       VirtualizingStackPanel.IsVirtualizing="True" 
+                                                      VirtualizingStackPanel.VirtualizationMode="Recycling"/>
                     </ScrollViewer>
                 </Grid>
             </TabItem>
@@ -447,8 +476,8 @@
                                 <GridViewColumn Header="AMUXIN" DisplayMemberBinding="{Binding Amuxin}"/>
                                 <GridViewColumn Header="VCC" DisplayMemberBinding="{Binding VCC}"/>
                                 <GridViewColumn Header="VEE" DisplayMemberBinding="{Binding VEE}"/>
-                                <GridViewColumn Header="Power Device Temoerature" DisplayMemberBinding="{Binding PowerTemp}"/>
-                                <GridViewColumn Header="Die Device Temoerature" DisplayMemberBinding="{Binding DieTemp}"/>
+                                <GridViewColumn Header="Power Device Temperature" DisplayMemberBinding="{Binding PowerTemp}"/>
+                                <GridViewColumn Header="Die Device Temperature" DisplayMemberBinding="{Binding DieTemp}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>

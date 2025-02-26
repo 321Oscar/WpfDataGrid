@@ -191,8 +191,8 @@ namespace WpfApp1.ViewModels
 
         private NXPSignalLocatorViewModel CreateNXPInLocatorViewModel(System.Windows.Window window)
            => new NXPSignalLocatorViewModel(_nxpSignals,
-                                                       SignalStore,
-                                                       CreateNXPInSignal, window);
+                                            SignalStore,
+                                            CreateNXPInSignal, window);
 
         private NXPSignal CreateNXPInSignal(Signal signal)
         {

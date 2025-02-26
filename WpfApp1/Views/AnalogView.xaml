@@ -8,13 +8,14 @@
     xmlns:ctrls="clr-namespace:WpfApp1.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI" 
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Background="White"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="DataGridData"
-                                      Source="{Binding AnalogSignals}">
+        <CollectionViewSource x:Key="DataGridData" Source="{Binding AnalogSignals}">
         </CollectionViewSource>
     </UserControl.Resources>
     <Grid>
@@ -27,26 +28,39 @@
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal">
+            
             <TextBlock
                 Style="{StaticResource TitleLabel}"
-                Text="Analog" />
+                Text="Analog" Margin="0,0,0,2"/>
             <Button 
                 Grid.Row="0"
                 Height="25"
                 Width="120"
                 Content="Locator Signals" 
-                Command="{Binding LocatorSignalsCommand}" />
+                Command="{Binding LocatorSignalsCommand}"
+                Margin="0,2,2,2"/>
             <TextBox 
                 Width="80" 
                 Height="25" 
+                 adonisExtensions:WatermarkExtension.Watermark="Search ..."
                 Text="{Binding SearchSignalName,UpdateSourceTrigger=PropertyChanged}">
                 <TextBox.InputBindings>
                     <KeyBinding Command="{Binding SearchSignalByNameCommand}" Key="Enter"/>
                 </TextBox.InputBindings>
             </TextBox>
-            <Button Content="Search" Height="25" Width="120" Command="{Binding SearchSignalByNameCommand}"/>
-            <ToggleButton Content="Grid OR Card" x:Name="tog" Grid.Row="2" IsChecked="True"
-                              Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"></ToggleButton>
+            <Button 
+                Margin="2,0,0,0"
+                Content="Search" 
+                Height="25" 
+                Width="60" 
+                Command="{Binding SearchSignalByNameCommand}"/>
+            <ToggleButton 
+                Content="Grid OR Card" 
+                Margin="2,0,0,0"
+                x:Name="tog" 
+                Grid.Row="2" 
+                IsChecked="True"
+                Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"/>
 
         </StackPanel>
        
@@ -95,7 +109,7 @@
                                                 <RowDefinition Height="auto" />
                                                 <RowDefinition Height="auto" />
                                             </Grid.RowDefinitions>
-                                            <Border>
+                                            <Border BorderBrush="#f6f6f6" BorderThickness="0,0,0,1">
                                                 <Grid Grid.Column="0" HorizontalAlignment="Center">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="auto"/>
@@ -109,32 +123,40 @@
                                                 </Grid>
                                             </Border>
                                             <!-- AI Raw & AI Scaled-->
-                                            <Border Grid.Row="1" >
+                                            <Border Grid.Row="1">
                                                 <TextBlock
                                                 Style="{StaticResource ValueTextBlockStyle}"
                                                 FontWeight="Light"
                                                 Text="{Binding Value2}" 
                                                 ToolTip="AI Scaled"/>
                                             </Border>
-                                            <Border  Grid.Row="2" >
-                                                <Grid HorizontalAlignment="Center">
+                                            <!--<ContentControl Content="{Binding}" ContentTemplate="{StaticResource CommonSignal}" Grid.Row="2" />-->
+                                            <Border 
+                                                Grid.Row="2" 
+                                                Padding="2"
+                                                CornerRadius="2"
+                                                Background="Transparent">
+                                                <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="auto"/>
-                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition Width="*"/>
                                                         <ColumnDefinition Width="auto"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <TextBlock 
-                                                    Grid.Column="1"
-                                                    Margin="0,0,5,0"
-                                                    Style="{StaticResource ValueTextBlockStyle}"
-                                                    FontSize="25"
-                                                    Text="{Binding Value1}" 
-                                                    Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"/>
-                                                    <StackPanel Grid.Column="0" Margin="0,0,5,0">
-                                                        <TextBlock  Text="{Binding MaxValue,StringFormat={}{0:f2}}" FontSize="10" />
-                                                        <TextBlock  Text="{Binding MinValue,StringFormat={}{0:f2}}" FontSize="10"  Margin="0,3,0,0"/>
+                                                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                                        <TextBlock 
+                                                            Margin="0,0,5,0"
+                                                            Style="{StaticResource ValueTextBlockStyle}"
+                                                            FontSize="25"
+                                                            Text="{Binding Value1}" 
+                                                            Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"/>
+                                                        <TextBlock Text="{Binding Unit}"/>
                                                     </StackPanel>
-                                                    <StackPanel Grid.Column="2" Margin="5,0,0,0">
+
+                                                    <StackPanel Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Center" MinWidth="20">
+                                                        <TextBlock Text="{Binding MaxValue,StringFormat={}{0:f2}}" FontSize="10" />
+                                                        <TextBlock Text="{Binding MinValue,StringFormat={}{0:f2}}" FontSize="10"  Margin="0,3,0,0"/>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="2" Margin="5,0,0,0" MinWidth="20">
                                                         <TextBlock Text="{Binding MaxThreshold}" FontSize="10"/>
                                                         <TextBlock Text="{Binding MinThreshold}" FontSize="10"/>
                                                     </StackPanel>
@@ -142,11 +164,11 @@
                                             </Border>
                                             <!-- Standard -->
                                             <TextBlock
-                                            Margin="5,0,5,0"
-                                            Grid.Row="3" 
-                                            Text="{Binding StandardDev,StringFormat={}{0:F2}}" 
-                                            Style="{StaticResource ValueTextBlockStyle}" 
-                                            ToolTip="StandardDev"/>
+                                                Margin="5,0,5,0"
+                                                Grid.Row="3" 
+                                                Text="{Binding StandardDev,StringFormat={}{0:F2}}" 
+                                                Style="{StaticResource ValueTextBlockStyle}" 
+                                                ToolTip="StandardDev"/>
                                         </Grid>
                                         <Border.ToolTip>
                                             <Border>
@@ -154,6 +176,7 @@
                                                     <ctrls:LabelWithContent Title="Name:" Content="{Binding DisplayName}"/>
                                                     <ctrls:LabelWithContent Title="MsgID:" Content="{Binding MessageID,StringFormat={}{0:X}}"/>
                                                     <ctrls:LabelWithContent Title="StartBit:" Content="{Binding StartBit}"/>
+                                                    <ctrls:LabelWithContent Title="Unit:" Content="{Binding Unit}"/>
                                                 </StackPanel>
                                             </Border>
                                         </Border.ToolTip>
@@ -191,28 +214,18 @@
                                     <TextBlock Text="StandardDev" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Grid>
                             </Border >
-                            <ScrollViewer Grid.Row="1">
+                            <ScrollViewer Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
                                 <ItemsControl ItemsSource="{Binding Source={StaticResource DataGridData}}" >
 
                                 </ItemsControl>
                             </ScrollViewer>
                         </Grid>
-                       
+
                     </DataTemplate>
                     <DataTemplate x:Key="TestTemplate">
                         <TextBlock Text="123"/>
                     </DataTemplate>
                 </Grid.Resources>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <!-- Data Column Header-->
-                
-                <!--<ScrollViewer Background="#f6f6f6" Grid.Row="1">-->
-                
-                <!--</ScrollViewer>-->
                 <!--<DataGrid
                 Visibility="Collapsed"
                 Grid.Row="1"
@@ -255,7 +268,7 @@
                 </DataGrid.Columns>
             </DataGrid>-->
 
-                <ContentControl Grid.Row="1">
+                <ContentControl>
                     <ContentControl.Style>
                         <Style TargetType="ContentControl">
                             <Setter Property="ContentTemplate" Value="{StaticResource GridViewTemplate}"/>
@@ -280,47 +293,34 @@
             Grid.Row="1"
             Grid.Column="1">
             <GroupBox Header="Modify Threshold" Margin="2,-1,2,2">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <ctrls:ControlWithTitle  Title="Signal:" >
-                        <ctrls:ControlWithTitle.Content>
-                            <ComboBox
+                <StackPanel Grid.IsSharedSizeScope="True">
+                    <StackPanel>
+                        <ctrls:ControlWithTitle Title="Signal:" Style="{StaticResource ControlWithTitleGridStyle}" Margin="0,2">
+                            <ctrls:ControlWithTitle.Content>
+                                <ComboBox
                                 Width="200"
                                 DisplayMemberPath="Name"
                                 ItemsSource="{Binding AnalogSignals}"
                                 SelectedItem="{Binding CurrentAnalogSignal,Mode=TwoWay}" />
-                        </ctrls:ControlWithTitle.Content>
-                    </ctrls:ControlWithTitle>
-
-                    <UniformGrid Grid.Row="1" Columns="2" Grid.IsSharedSizeScope="True">
+                            </ctrls:ControlWithTitle.Content>
+                        </ctrls:ControlWithTitle>
                         <ctrls:TextBoxWithLabel 
                             Title="Min:" 
                             Content="{Binding MinThreshold,Mode=TwoWay}"
+                            Margin="0,0,0,2"
                             Style="{StaticResource TextBoxWithLabelGridStyle}"/>
-
-                        <CheckBox HorizontalAlignment="Left" Content="Latch Faluers" />
                         <ctrls:TextBoxWithLabel 
                             Title="Max:" 
                             Content="{Binding MaxThreshold,Mode=TwoWay}"
                             Style="{StaticResource TextBoxWithLabelGridStyle}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,2">
                         <CheckBox Content="Update for all" IsChecked="{Binding UpdateAll}" />
-
-                        <Button
-                            Command="{Binding UpdateSignalThresholdCommand}"
-                            Content="Update"
-                             />
-                        <Button
-                            Command="{Binding ResetSignalThresholdCommand}"
-                            Content="Reset"
-                             />
-                        <Button Content="Load Limits" />
-                        <Button Content="Save Limits" />
-                    </UniformGrid>
-                </Grid>
+                        <Button Command="{Binding UpdateSignalThresholdCommand}" Content="Update" Margin="2,2"/>
+                        <Button Command="{Binding ResetSignalThresholdCommand}" Content="Reset" Margin="0,2"/>
+                        <CheckBox HorizontalAlignment="Left" Content="Latch Faluers" Visibility="Collapsed"/>
+                    </StackPanel>
+                </StackPanel>
             </GroupBox>
             <GroupBox Grid.Column="1" Header="Calucate Standard Dev" Margin="2">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

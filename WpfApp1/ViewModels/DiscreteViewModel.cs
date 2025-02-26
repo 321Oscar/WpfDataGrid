@@ -155,10 +155,16 @@ namespace WpfApp1.ViewModels
             else
             {
                 Views.DialogView dialogView = new Views.DialogView();
-                //var modalNavigationService = new ModalNavigationService<DiscreteInputSignalLocatorViewModel>(this.ModalNavigationStore, CreateLocatorInputViewModel);
-                //modalNavigationService.Navigate();
+                var locatorViewModel = CreateLocatorInputViewModel(dialogView);
+                dialogView.DialogViewModel = locatorViewModel;
+                dialogView.ShowDialog();
             }
         }
+        private DiscreteInputSignalLocatorViewModel CreateLocatorInputViewModel(System.Windows.Window window)
+          => new DiscreteInputSignalLocatorViewModel(_inputSignals,
+                                                      SignalStore,
+                                                      CreateDisInSignal, window);
+
         private DiscreteInputSignalLocatorViewModel CreateLocatorInputViewModel() 
             => new DiscreteInputSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore),
                                                        _inputSignals,
@@ -177,9 +183,25 @@ namespace WpfApp1.ViewModels
 
         private void LocatorOutputSignals()
         {
-            var modalNavigationService = new ModalNavigationService<DiscreteOutputSignalLocatorViewModel>(this.ModalNavigationStore,CreateDisOutLoactorViewModel);
-            modalNavigationService.Navigate();
+            if (ModalNavigationStore != null)
+            {
+                var modalNavigationService = new ModalNavigationService<DiscreteOutputSignalLocatorViewModel>(this.ModalNavigationStore, CreateDisOutLoactorViewModel);
+                modalNavigationService.Navigate();
+            }
+            else
+            {
+                Views.DialogView dialogView = new Views.DialogView();
+                var locatorViewModel = CreateDisOutLoactorViewModel(dialogView);
+                dialogView.DialogViewModel = locatorViewModel;
+                dialogView.ShowDialog();
+            }
+
         }
+
+        private DiscreteOutputSignalLocatorViewModel CreateDisOutLoactorViewModel(System.Windows.Window window)
+         => new DiscreteOutputSignalLocatorViewModel(_outputSignals,
+                                                     SignalStore,
+                                                     CreateDisOutSignal, window);
 
         private DiscreteOutputSignalLocatorViewModel CreateDisOutLoactorViewModel() 
             => new DiscreteOutputSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore), 

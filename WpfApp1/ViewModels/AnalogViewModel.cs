@@ -66,7 +66,9 @@ namespace WpfApp1.ViewModels
             }
             else
             {
-                Views.DialogView dialogView = new Views.DialogView(CreateSignalLocatorViewModel());
+                Views.DialogView dialogView = new Views.DialogView();
+                var locatorViewModel = CreateSignalLocatorViewModel(dialogView);
+                dialogView.DialogViewModel = locatorViewModel;
                 dialogView.ShowDialog();
             }
         }
@@ -219,6 +221,12 @@ namespace WpfApp1.ViewModels
                 signal.CalStandard(StandardCount);
             }
         }
+
+        private AnalogSignalLocatorViewModel CreateSignalLocatorViewModel(System.Windows.Window window)
+            => new AnalogSignalLocatorViewModel(_signals,
+                                                SignalStore,
+                                                CreateAnalogByDBCSignal, 
+                                                window);
 
         private AnalogSignalLocatorViewModel CreateSignalLocatorViewModel()
         {
