@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,12 +34,13 @@ namespace WpfApp1.ViewModels
         public ReadOnlyObservableCollection<UDS.SRecord.SrecData> S19Records { get; set; }
         private Task LoadSrecFile()
         {
-            return Task.Run(() =>
-            {
-                OpenFileDialog ofd = new OpenFileDialog();
-                ofd.Filter = "srec file|*.srec;*.s19;*.s28;*.s37|all|*.*";
+            var ofd = new CommonOpenFileDialog();
+            ofd.Filters.Add(new CommonFileDialogFilter("srec file", "*.srec;*.s19;*.s28;*.s37"));
+            ofd.Filters.Add(new CommonFileDialogFilter("all", "*.*"));
 
-                if (ofd.ShowDialog() == true)
+            if (ofd.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                return Task.Run(() =>
                 {
                     //S19RecordFile s19File = new S19RecordFile();
                     //S19RecordFile.ParseS19File(ofd.FileName, S19Records);
@@ -52,12 +54,16 @@ namespace WpfApp1.ViewModels
                             _s19Records.Add(sData);
                         }
                     });
-                }
-                return;
-            }).ContinueWith((x) =>
+                    return;
+                }).ContinueWith((x) =>
+                {
+                    IsLoading = false;
+                });
+            }
+            else
             {
-                IsLoading = false;
-            });
+                return Task.CompletedTask;
+            }
         }
     }
 

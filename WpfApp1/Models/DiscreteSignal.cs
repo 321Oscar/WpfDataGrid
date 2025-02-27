@@ -15,7 +15,6 @@ namespace WpfApp1.Models
             PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
         }
 
-        [ObservableProperty]
         public string PinNumber { get; set; }
     }
 
