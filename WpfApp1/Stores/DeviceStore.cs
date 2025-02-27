@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using WpfApp1.Devices;
-using WpfApp1.Services;
+using ERad5TestGUI.Devices;
+using ERad5TestGUI.Services;
 
-namespace WpfApp1.Stores
+namespace ERad5TestGUI.Stores
 {
     public class DeviceStore
     {

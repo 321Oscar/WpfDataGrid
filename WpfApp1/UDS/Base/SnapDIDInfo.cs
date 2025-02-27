@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Xml.Serialization;
 
-namespace WpfApp1.UDS
+namespace ERad5TestGUI.UDS
 {
     [Serializable]
     public class SnapDIDInfo

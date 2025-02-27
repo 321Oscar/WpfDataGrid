@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace WpfApp1.Helpers
+namespace ERad5TestGUI.Helpers
 {
     public class CustomDllInvokeHelper
     {

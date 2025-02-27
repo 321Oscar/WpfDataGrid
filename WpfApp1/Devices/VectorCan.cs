@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using vxlapi_NET;
-using WpfApp1.Services;
+using ERad5TestGUI.Services;
 
-namespace WpfApp1.Devices
+namespace ERad5TestGUI.Devices
 {
     public class VectorCan : CommunityToolkit.Mvvm.ComponentModel.ObservableObject, IDevice
     {

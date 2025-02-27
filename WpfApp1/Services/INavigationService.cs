@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Navigation;
 
-namespace WpfApp1.Services
+namespace ERad5TestGUI.Services
 {
     public interface INavigationService
     {

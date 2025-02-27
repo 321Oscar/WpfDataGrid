@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace WpfApp1.Models
+namespace ERad5TestGUI.Models
 {
     public class NXPSignal : SignalBase
     {

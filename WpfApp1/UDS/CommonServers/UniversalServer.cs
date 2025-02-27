@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using WpfApp1.Devices;
-using WpfApp1.Services;
+using ERad5TestGUI.Devices;
+using ERad5TestGUI.Services;
 
-namespace WpfApp1.UDS
+namespace ERad5TestGUI.UDS
 {
     /// <summary>
     /// 通用服务：发送 单帧+serverid+ subfuncid。仅接收一帧，判断正负响应

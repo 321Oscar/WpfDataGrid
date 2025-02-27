@@ -8,11 +8,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
-using WpfApp1.Services;
-using WpfApp1.Stores;
-using WpfApp1.ViewModels;
+using ERad5TestGUI.Services;
+using ERad5TestGUI.Stores;
+using ERad5TestGUI.ViewModels;
 
-namespace WpfApp1
+namespace ERad5TestGUI
 {
     /// <summary>
     /// App.xaml 的交互逻辑
@@ -40,7 +40,7 @@ namespace WpfApp1
         private IServiceProvider ConfigureServices()
         {
             var services = new ServiceCollection();
-            services.AddSingleton<WpfApp1.Services.LogService>();
+            services.AddSingleton<ERad5TestGUI.Services.LogService>();
             services.AddSingleton<Stores.NavigationStore>();
             services.AddSingleton<Stores.ModalNavigationStore>();
             services.AddSingleton<Stores.SignalStore>();
@@ -69,7 +69,7 @@ namespace WpfApp1
 
             services.AddSingleton<ViewModels.MainViewModel>();
 
-            services.AddSingleton<MainWindow>(s => new WpfApp1.MainWindow()
+            services.AddSingleton<MainWindow>(s => new ERad5TestGUI.MainWindow()
             {
                 DataContext = s.GetRequiredService<ViewModels.MainViewModel>()
             });

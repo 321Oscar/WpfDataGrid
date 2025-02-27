@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Xml.Serialization;
 
-namespace WpfApp1.Models
+namespace ERad5TestGUI.Models
 {
     public class DiscreteSignal : SignalBase
     {

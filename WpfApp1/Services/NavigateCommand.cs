@@ -1,6 +1,6 @@
-﻿using WpfApp1.Commands;
+﻿using ERad5TestGUI.Commands;
 
-namespace WpfApp1.Services
+namespace ERad5TestGUI.Services
 {
     public class NavigateCommand : CommandBase
     {

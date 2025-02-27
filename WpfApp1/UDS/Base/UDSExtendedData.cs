@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WpfApp1.UDS
+namespace ERad5TestGUI.UDS
 {
     [Serializable]
     public class UDSExtendedData

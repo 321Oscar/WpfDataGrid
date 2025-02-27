@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace WpfApp1.Helpers
+namespace ERad5TestGUI.Helpers
 {
     public class UDSHelper
     {
@@ -88,7 +88,7 @@ namespace WpfApp1.Helpers
 
 
         /// <summary>
-        /// Error:“对 PInvoke 函数“WpfApp1!WpfApp1.XCPCCP.XCPSeedKeyHelper+XCPComputeKey::Invoke”的调用导致堆栈不对称。原因可能是托管的 PInvoke 签名与非托管的目标签名不匹配。请检查 PInvoke 签名的调用约定和参数与非托管的目标签名是否匹配。”
+        /// Error:“对 PInvoke 函数“ERad5TestGUI!ERad5TestGUI.XCPCCP.XCPSeedKeyHelper+XCPComputeKey::Invoke”的调用导致堆栈不对称。原因可能是托管的 PInvoke 签名与非托管的目标签名不匹配。请检查 PInvoke 签名的调用约定和参数与非托管的目标签名是否匹配。”
         /// Solution:Change XCPComputeKey's Attribute [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         /// </summary>
         /// <param name="dllPath">dll路径</param>

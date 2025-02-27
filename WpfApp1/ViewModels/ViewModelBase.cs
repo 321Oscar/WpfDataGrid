@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using WpfApp1.Devices;
-using WpfApp1.Models;
-using WpfApp1.Services;
-using WpfApp1.Stores;
+using ERad5TestGUI.Devices;
+using ERad5TestGUI.Models;
+using ERad5TestGUI.Services;
+using ERad5TestGUI.Stores;
 
-namespace WpfApp1.ViewModels
+namespace ERad5TestGUI.ViewModels
 {
     public class ViewModelBase : ObservableRecipient,IDisposable
     {

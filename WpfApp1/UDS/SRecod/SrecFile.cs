@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.Converters;
+using ERad5TestGUI.Converters;
 
-namespace WpfApp1.UDS.SRecord
+namespace ERad5TestGUI.UDS.SRecord
 {
     public class SrecFile
     {

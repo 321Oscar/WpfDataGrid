@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.Services;
+using ERad5TestGUI.Services;
 
-namespace WpfApp1.ViewModels
+namespace ERad5TestGUI.ViewModels
 {
     public class LogViewModel: CommunityToolkit.Mvvm.ComponentModel.ObservableRecipient
     {

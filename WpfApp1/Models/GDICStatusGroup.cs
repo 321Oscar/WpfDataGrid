@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
-using WpfApp1.Stores;
+using ERad5TestGUI.Stores;
 
-namespace WpfApp1.Models
+namespace ERad5TestGUI.Models
 {
     public class GDICStatusRegisterGroup : ObservableObject
     {

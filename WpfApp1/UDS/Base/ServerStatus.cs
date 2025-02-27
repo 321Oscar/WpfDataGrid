@@ -1,4 +1,4 @@
-﻿namespace WpfApp1.UDS
+﻿namespace ERad5TestGUI.UDS
 {
     public enum ServerStatus
     {

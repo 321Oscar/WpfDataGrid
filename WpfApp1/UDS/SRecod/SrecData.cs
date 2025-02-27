@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.UDS.SRecord
+namespace ERad5TestGUI.UDS.SRecord
 {
     public class SrecData : IComparable<SrecData>,INotifyPropertyChanged
 	{

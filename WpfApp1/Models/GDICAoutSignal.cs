@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using WpfApp1.Stores;
+using ERad5TestGUI.Stores;
 
-namespace WpfApp1.Models
+namespace ERad5TestGUI.Models
 {
     public class GDICAoutSignal : LimitsSignalBase, ICalStandardDev
     {

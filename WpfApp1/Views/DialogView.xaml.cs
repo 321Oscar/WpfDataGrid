@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace WpfApp1.Views
+namespace ERad5TestGUI.Views
 {
     /// <summary>
     /// DialogView.xaml 的交互逻辑

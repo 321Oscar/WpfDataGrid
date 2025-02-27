@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1.Components
+namespace ERad5TestGUI.Components
 {
     /// <summary>
     /// NavigationBar.xaml 的交互逻辑

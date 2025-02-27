@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using WpfApp1.Devices;
-using WpfApp1.Services;
-using WpfApp1.Stores;
+using ERad5TestGUI.Devices;
+using ERad5TestGUI.Services;
+using ERad5TestGUI.Stores;
 
-namespace WpfApp1.ViewModels
+namespace ERad5TestGUI.ViewModels
 {
     public class DeviceViewModel : ObservableRecipient
     {

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace WpfApp1.Components
+namespace ERad5TestGUI.Components
 {
     public class TextBoxWithLabel : Control
     {

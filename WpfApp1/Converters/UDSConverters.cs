@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using WpfApp1.UDS;
+using ERad5TestGUI.UDS;
 
-namespace WpfApp1.Converters
+namespace ERad5TestGUI.Converters
 {
     public class ColorMultiConverter : IMultiValueConverter
     {

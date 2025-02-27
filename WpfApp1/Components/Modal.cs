@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
 
-namespace WpfApp1.Components
+namespace ERad5TestGUI.Components
 {
     public class Modal : ContentControl
     {

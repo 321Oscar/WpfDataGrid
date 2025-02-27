@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WpfApp1.Converters;
+using ERad5TestGUI.Converters;
 
-namespace WpfApp1.UDS
+namespace ERad5TestGUI.UDS
 {
     public class Result0x34
     {

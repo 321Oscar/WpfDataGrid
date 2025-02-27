@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WpfApp1.Devices;
-using WpfApp1.Services;
+using ERad5TestGUI.Devices;
+using ERad5TestGUI.Services;
 
-namespace WpfApp1.UDS
+namespace ERad5TestGUI.UDS
 {
     public class ReadDTCInfo<T> : UDSServerBase where T : class
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace WpfApp1.UDS
+namespace ERad5TestGUI.UDS
 {
     /// <summary>
     /// UDS 服务中通用的属性&事件

@@ -1,6 +1,6 @@
-﻿using WpfApp1.Stores;
+﻿using ERad5TestGUI.Stores;
 
-namespace WpfApp1.Services
+namespace ERad5TestGUI.Services
 {
     public class CloseModalNavigationService : INavigationService
     {

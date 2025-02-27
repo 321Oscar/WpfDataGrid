@@ -1,13 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using WpfApp1.Stores;
-using WpfApp1.ViewModels;
+using ERad5TestGUI.Stores;
+using ERad5TestGUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Services
+namespace ERad5TestGUI.Services
 {
     public class LayoutNavigationService<TViewModel> : INavigationService
         where TViewModel : ObservableRecipient

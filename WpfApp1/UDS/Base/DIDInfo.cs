@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace WpfApp1.UDS
+namespace ERad5TestGUI.UDS
 {
     [Serializable]
     public class DIDInfo

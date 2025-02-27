@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace WpfApp1.Commands
+namespace ERad5TestGUI.Commands
 {
     public abstract class CommandBase : ICommand
     {

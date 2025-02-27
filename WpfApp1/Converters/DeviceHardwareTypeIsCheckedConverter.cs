@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace WpfApp1.Converters
+namespace ERad5TestGUI.Converters
 {
     public class DeviceHardwareTypeIsCheckedConverter : IValueConverter
     {

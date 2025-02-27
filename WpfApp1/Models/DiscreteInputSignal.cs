@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
-using WpfApp1.Stores;
+using ERad5TestGUI.Stores;
 
-namespace WpfApp1.Models
+namespace ERad5TestGUI.Models
 {
     public class DiscreteInputSignal : DiscreteSignal
     {

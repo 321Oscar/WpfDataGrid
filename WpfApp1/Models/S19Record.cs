@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Models
+namespace ERad5TestGUI.Models
 {
     public class S19Record
     {

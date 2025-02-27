@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using WpfApp1.Devices;
-using WpfApp1.Helpers;
-using WpfApp1.Services;
+using ERad5TestGUI.Devices;
+using ERad5TestGUI.Helpers;
+using ERad5TestGUI.Services;
 
-namespace WpfApp1.UDS
+namespace ERad5TestGUI.UDS
 {
 
     public abstract class UDSServerBase : UDSServerAbstract

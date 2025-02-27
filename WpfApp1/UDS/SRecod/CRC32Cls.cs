@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace WpfApp1.UDS.SRecord
+namespace ERad5TestGUI.UDS.SRecord
 {
     public class CRC32Cls
     {

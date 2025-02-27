@@ -1,4 +1,4 @@
-﻿namespace WpfApp1.Models
+﻿namespace ERad5TestGUI.Models
 {
     public interface ISyncValue
     {

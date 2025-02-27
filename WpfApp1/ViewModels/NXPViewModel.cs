@@ -3,11 +3,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using WpfApp1.Models;
-using WpfApp1.Services;
-using WpfApp1.Stores;
+using ERad5TestGUI.Models;
+using ERad5TestGUI.Services;
+using ERad5TestGUI.Stores;
 
-namespace WpfApp1.ViewModels
+namespace ERad5TestGUI.ViewModels
 {
     /// <summary>
     /// has discrete input signals and discrete output signals and NXPSignal

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.UDS.SRecord
+namespace ERad5TestGUI.UDS.SRecord
 {
     public class HexFile
     {

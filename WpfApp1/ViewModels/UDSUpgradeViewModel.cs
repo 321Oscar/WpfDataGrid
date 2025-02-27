@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using WpfApp1.Helpers;
-using WpfApp1.Services;
-using WpfApp1.Stores;
-using WpfApp1.UDS;
+using ERad5TestGUI.Helpers;
+using ERad5TestGUI.Services;
+using ERad5TestGUI.Stores;
+using ERad5TestGUI.UDS;
 
-namespace WpfApp1.ViewModels
+namespace ERad5TestGUI.ViewModels
 {
     public class UDSUpgradeViewModel : ViewModelBase
     {
@@ -180,7 +180,7 @@ namespace WpfApp1.ViewModels
             //server.IsCanFD = SendCanFD;
             server.IDExtended = CurrentUpgradeType.IDExtended;
             server.FillData = 0xaa;
-            if (server is WpfApp1.Interfaces.ISeedNKey ss)
+            if (server is ERad5TestGUI.Interfaces.ISeedNKey ss)
             {
                 ss.SeedKeyPath = _udsConfig.SeedNKeyPath;
             }

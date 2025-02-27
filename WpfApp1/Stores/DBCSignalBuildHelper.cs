@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using WpfApp1.Devices;
-using WpfApp1.Models;
+using ERad5TestGUI.Devices;
+using ERad5TestGUI.Models;
 
-namespace WpfApp1.Stores
+namespace ERad5TestGUI.Stores
 {
     public class DBCSignalBuildHelper
     {

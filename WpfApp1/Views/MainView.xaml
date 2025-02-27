@@ -1,10 +1,10 @@
-﻿<Window x:Class="WpfApp1.Views.MainView"
+﻿<Window x:Class="ERad5TestGUI.Views.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1.Views" 
-        xmlns:ctrls="clr-namespace:WpfApp1.Components"
+        xmlns:local="clr-namespace:ERad5TestGUI.Views" 
+        xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
         mc:Ignorable="d"
         Title="MainView"
         WindowState="Maximized"
@@ -17,138 +17,31 @@
             <RowDefinition Height="auto"/> 
         </Grid.RowDefinitions>
         <!-- Global Ctrls and States -->
-        <Grid Grid.Row="0">
-            <WrapPanel Grid.Row="0">
-                <!--  Device  -->
-                <GroupBox Header="CanDevice" Margin="5,5,0,5">
-                    <Grid Margin="0,-5" Width="300">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Button 
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            Content="Config"
-                            Command="{Binding DeivceConfigCommand}" 
-                            HorizontalAlignment="Left"
-                            Width="80"/>
-                        <Button
-                            Margin="0,2,0,0"
-                            Grid.Row="1"
-                            Command="{Binding StopCommand}"
-                            HorizontalAlignment="Left"
-                            Width="80"
-                            Content="{Binding Started,Converter={StaticResource DeviceStartConverter}}"/>
-                        <ctrls:TextBoxWithLabel 
-                            Margin="2,2,0,0"
-                            Title="Comms Count:" 
-                            Content="{Binding FramesCount}" 
-                            Grid.Row="1" Grid.Column="1" Orientation="Vertical" />
-                        <!--<ctrls:LabelWithContent
-                            Grid.Column="1"
-                            Title="Connect:"
-                            Content="{Binding CurrentDevice.RecieveStatus}">
-                        </ctrls:LabelWithContent>-->
-                        <ctrls:ControlWithTitle  
-                            Margin="2,2,0,0"
-                            Grid.Column="1" 
-                            Title="Connect Status:" 
-                            Orientation="Vertical">
-                            <ctrls:ControlWithTitle.Content>
-                                <TextBlock Text="{Binding CurrentDevice.RecieveStatus}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="HorizontalAlignment" Value="Left"/>
-                                            <Setter Property="VerticalAlignment" Value="Center"/>
-                                            <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding CurrentDevice.RecieveStatus}" Value="Connected">
-                                                    <Setter Property="Foreground" Value="Green" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding CurrentDevice.RecieveStatus}" Value="NoFramesFor1Second">
-                                                    <Setter Property="Foreground" Value="Red" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </ctrls:ControlWithTitle.Content>
-                        </ctrls:ControlWithTitle>
-                    </Grid>
-                </GroupBox>
-                <GroupBox Header="Version" Margin="5">
-                    <StackPanel Grid.IsSharedSizeScope="True">
-                        <ctrls:TextBoxWithLabel 
-                            Style="{StaticResource TextBlockWithLabelGridStyle}"
-                            Title="EM SW Version:" 
-                            Content="1.0.0.0"                        
-                            Grid.Row="3"/>
-                        <ctrls:TextBoxWithLabel 
-                            Title="PC SW Version:"  Style="{StaticResource TextBlockWithLabelGridStyle}"
-                            Content="1.0.0.0"                        
-                            Grid.Row="3"/>
-                        <ctrls:TextBoxWithLabel  Style="{StaticResource TextBlockWithLabelGridStyle}"
-                            Title="Hardware ID:" 
-                            Content="1.0.0.0"                        
-                            Grid.Row="3"/>
+        <local:MainControlView DataContext="{Binding}"/>
 
-                    </StackPanel>
-                </GroupBox>
-                <GroupBox Header="CAN INH State" Margin="0,5,5,5">
-                    <StackPanel>
-                        <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_DevCAN" IsEnabled="False"/>
-                        <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_CANFD_5" IsEnabled="False"/>
-                        <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_CANFD_11" IsEnabled="False"/>
-
-                    </StackPanel>
-                </GroupBox>
-                <GroupBox Header="Controls" Margin="0,5">
-                    <WrapPanel MaxWidth="500">
-                        <WrapPanel.Resources>
-                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                <Setter Property="Margin" Value="2"/>
-                            </Style>
-                        </WrapPanel.Resources>
-                        <Button Content="Disable TLF Reset" IsEnabled="False"/>
-                        <Button Content="Can Trcv Normal Mode"/>
-                        <Button Content="Disable CAN INH"/>
-                        <Button Content="Send Can Wake Up"/>
-                        <Button Content="Reset Min/Max"/>
-                        <Button Content="Sleep TLF"/>
-                    </WrapPanel>
-                </GroupBox>
-            </WrapPanel>
-        </Grid>
-        
         <!-- Tabs -->
         <Grid Grid.Row="1">
             <TabControl>
                 <TabItem Header="Analog">
-                    <local:AnalogView DataContext="{Binding AnalogViewModel}" Margin="-5"/>
+                    <ContentControl Content="{Binding AnalogViewModel}"/>
                 </TabItem>
                 <TabItem Header="Discrete">
-                    <local:DiscreteView DataContext="{Binding DiscreteViewModel}" Margin="-4"/>
+                    <ContentControl Content="{Binding DiscreteViewModel}" Margin="-4"/>
                 </TabItem>
                 <TabItem Header="PulseIn">
-                    <local:PulseInView DataContext="{Binding PulseInViewModel}"/>
+                    <ContentControl Content="{Binding PulseInViewModel}"/>
                 </TabItem>
                 <TabItem Header="PulseOut">
-                    <local:PulseOutView DataContext="{Binding PulseOutViewModel}"/>
+                    <ContentControl Content="{Binding PulseOutViewModel}"/>
                 </TabItem>
                 <TabItem Header="NXP">
-                    <local:NXPView DataContext="{Binding NXPViewModel}"/>
+                    <ContentControl Content="{Binding NXPViewModel}"/>
                 </TabItem>
                 <TabItem Header="GDIC">
-                    <local:GDIC3160View DataContext="{Binding GDICViewModel}"/>
+                    <ContentControl Content="{Binding GDICViewModel}"/>
                 </TabItem>
                 <TabItem Header="Memory-Doing">
-                    <local:MemoryView DataContext="{Binding MemoryViewModel}"/>
+                    <ContentControl Content="{Binding MemoryViewModel}"/>
                 </TabItem>
                 <TabItem Header="Resolver-UnFinish">
                     <local:ResolverView />

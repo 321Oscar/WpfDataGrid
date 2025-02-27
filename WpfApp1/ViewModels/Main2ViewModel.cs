@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.Services;
-using WpfApp1.Stores;
+using ERad5TestGUI.Services;
+using ERad5TestGUI.Stores;
 
-namespace WpfApp1.ViewModels
+namespace ERad5TestGUI.ViewModels
 {
     /// <summary>
     /// No Mvvm

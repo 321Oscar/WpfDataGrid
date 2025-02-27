@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Services
+namespace ERad5TestGUI.Services
 {
     public class LogService : ILogService
     {

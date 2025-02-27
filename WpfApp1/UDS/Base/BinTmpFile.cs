@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using WpfApp1.Helpers;
-using WpfApp1.UDS.SRecord;
+using ERad5TestGUI.Helpers;
+using ERad5TestGUI.UDS.SRecord;
 
-namespace WpfApp1.UDS
+namespace ERad5TestGUI.UDS
 {
     public enum OTAVer
     {

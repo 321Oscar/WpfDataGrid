@@ -1,7 +1,7 @@
-﻿using WpfApp1.Devices;
-using WpfApp1.Services;
+﻿using ERad5TestGUI.Devices;
+using ERad5TestGUI.Services;
 
-namespace WpfApp1.UDS
+namespace ERad5TestGUI.UDS
 {
     /// <summary>
     /// 诊断服务：0x10

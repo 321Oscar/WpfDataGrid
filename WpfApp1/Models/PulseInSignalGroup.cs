@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace WpfApp1.Models
+namespace ERad5TestGUI.Models
 {
     public class PulseInSignalGroup : SignalGroupBase
     {

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ERad5TestGUI.Views
 {
     /// <summary>
-    /// DevicesView.xaml 的交互逻辑
+    /// MainControlView.xaml 的交互逻辑
     /// </summary>
-    public partial class DevicesView : UserControl
+    public partial class MainControlView : UserControl
     {
-        public DevicesView()
+        public MainControlView()
         {
             InitializeComponent();
         }

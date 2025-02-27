@@ -18,7 +18,7 @@ using Microsoft.Win32.SafeHandles;
 using AdonisUI.Controls;
 using AdonisUI;
 
-namespace WpfApp1
+namespace ERad5TestGUI
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑

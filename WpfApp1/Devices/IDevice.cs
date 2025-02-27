@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Devices
+namespace ERad5TestGUI.Devices
 {
     public interface IDevice
     {

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Serialization;
-using WpfApp1.Devices;
-using WpfApp1.Helpers;
-using WpfApp1.Models;
-using WpfApp1.Services;
+using ERad5TestGUI.Devices;
+using ERad5TestGUI.Helpers;
+using ERad5TestGUI.Models;
+using ERad5TestGUI.Services;
 
-namespace WpfApp1.Stores
+namespace ERad5TestGUI.Stores
 {
     public class SignalStore
     {
@@ -714,6 +714,7 @@ namespace WpfApp1.Stores
         }
         public void SaveViewSignalLocator(string viewName, IEnumerable<SignalBase> signals, bool clear = true)
         {
+            viewName = SignalBase.ReplaceViewModel(viewName);
             //var viewLocator = SignalLocatorInfo.GetViewSignalInfo(viewName);
             if (clear)
                 SignalLocation.Signals.RemoveAll(x => x.ViewNames.Contains(viewName));

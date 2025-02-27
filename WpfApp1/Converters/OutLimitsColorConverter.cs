@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace WpfApp1.Converters
+namespace ERad5TestGUI.Converters
 {
     public class OutLimitsColorConverter : IValueConverter
     {

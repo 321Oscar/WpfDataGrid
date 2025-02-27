@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
 
-namespace WpfApp1.Models
+namespace ERad5TestGUI.Models
 {
     public class SavingLogicInOutGroup : SignalGroupBase
     {

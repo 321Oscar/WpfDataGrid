@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1.Views
+namespace ERad5TestGUI.Views
 {
     /// <summary>
     /// LogView.xaml 的交互逻辑

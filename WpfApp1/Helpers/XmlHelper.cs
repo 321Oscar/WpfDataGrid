@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 
-namespace WpfApp1.Helpers
+namespace ERad5TestGUI.Helpers
 {
     public class XmlHelper
     {

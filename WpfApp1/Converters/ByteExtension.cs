@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace WpfApp1.Converters
+namespace ERad5TestGUI.Converters
 {
     public static class ByteExtension
     {

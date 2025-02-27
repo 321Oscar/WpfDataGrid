@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using WpfApp1.Services;
-using WpfApp1.Stores;
+using ERad5TestGUI.Services;
+using ERad5TestGUI.Stores;
 
-namespace WpfApp1.Devices
+namespace ERad5TestGUI.Devices
 {
     public class VirtualDevice :CommunityToolkit.Mvvm.ComponentModel.ObservableObject, IDevice
     {

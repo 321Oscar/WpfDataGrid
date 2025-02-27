@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WpfApp1.Devices;
-using WpfApp1.Services;
+using ERad5TestGUI.Devices;
+using ERad5TestGUI.Services;
 
-namespace WpfApp1.UDS
+namespace ERad5TestGUI.UDS
 {
     public abstract class MultiBase<T> : UDSServerAbstract, IMulti<T> where T : UDSServerAbstract
     {
@@ -167,7 +167,7 @@ namespace WpfApp1.UDS
             Servers.Add(t);
             percentStep = 1.0m / Servers.Count;
 
-            if(this is WpfApp1.Interfaces.ISeedNKey mk && t is WpfApp1.Interfaces.ISeedNKey tk)
+            if(this is ERad5TestGUI.Interfaces.ISeedNKey mk && t is ERad5TestGUI.Interfaces.ISeedNKey tk)
             {
                 tk.SeedKeyPath = mk.SeedKeyPath;
             }

@@ -1,9 +1,9 @@
-﻿using WpfApp1.Devices;
-using WpfApp1.Services;
+﻿using ERad5TestGUI.Devices;
+using ERad5TestGUI.Services;
 using System;
 using System.Collections.Generic;
 
-namespace WpfApp1.UDS
+namespace ERad5TestGUI.UDS
 {
     public interface IUDSEvent
     {
