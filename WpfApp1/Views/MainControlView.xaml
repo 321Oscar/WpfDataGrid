@@ -97,11 +97,23 @@
             </StackPanel>
         </GroupBox>
         <GroupBox Header="CAN INH State" Margin="0,5,5,5">
-            <StackPanel>
-                <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_DevCAN" IsEnabled="False"/>
-                <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_CANFD_5" IsEnabled="False"/>
-                <CheckBox Style="{StaticResource NormalCheckBox}" HorizontalAlignment="Left" Content="TCAN_1145_CANFD_11" IsEnabled="False"/>
-
+            <StackPanel Margin="-7">
+                <CheckBox 
+                    Margin="1"
+                    Content="TCAN_1145_DevCAN" 
+                    IsEnabled="False"/>
+                <CheckBox 
+                    Content="TCAN_1145_CANFD_5"
+                    Margin="1"
+                    IsChecked="{Binding FD5_INH_DISABLE.Pin_High}"/>
+                <CheckBox 
+                    Content="TCAN_1145_CANFD_16" 
+                    Margin="1"
+                    IsChecked="{Binding FD16_INH_DISABLE.Pin_High}"/>
+                <Button 
+                    Content="Disable CAN INH"
+                    Margin="1"
+                    Command="{Binding DisableINHCANCommand}"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Controls" Margin="0,5">
@@ -113,7 +125,7 @@
                 </WrapPanel.Resources>
                 <Button Content="Disable TLF Reset" IsEnabled="False"/>
                 <Button Content="Can Trcv Normal Mode"/>
-                <Button Content="Disable CAN INH"/>
+               
                 <Button Content="Send Can Wake Up"/>
                 <Button Content="Reset Min/Max"/>
                 <Button Content="Sleep TLF"/>

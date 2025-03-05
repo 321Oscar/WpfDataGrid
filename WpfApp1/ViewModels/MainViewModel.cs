@@ -10,6 +10,7 @@ using System.Windows.Input;
 using ERad5TestGUI.Devices;
 using ERad5TestGUI.Services;
 using ERad5TestGUI.Stores;
+using ERad5TestGUI.Models;
 
 namespace ERad5TestGUI.ViewModels
 {
@@ -24,7 +25,9 @@ namespace ERad5TestGUI.ViewModels
         private readonly ModalNavigationStore _modalNavigationStore;
         protected readonly DeviceStore _deviceStore;
         protected readonly LogService _logService;
+        private readonly SignalStore _signalStore;
         private string log;
+        private RelayCommand _disableINHCANCommand;
        
         public ObservableObject CurrentViewModel => _navigationStore.CurrentViewModel;
         public ObservableObject CurrentModalViewModel => _modalNavigationStore.CurrentViewModel;
@@ -47,8 +50,12 @@ namespace ERad5TestGUI.ViewModels
         public bool Started => HasDevice && _deviceStore.CurrentDevice.Started;
         public string Log { get => log; set => SetProperty(ref log , value); }
         public int FramesCount { get => _deviceStore.FramesCount; }
+        public SignalStore SignalStore { get => _signalStore; }
+        public DiscreteOutputSignal FD5_INH_DISABLE => SignalStore.GetSignals<DiscreteOutputSignal>().FirstOrDefault(x => x.Name == "FD5_INH_DISABLE");
+        public DiscreteOutputSignal FD16_INH_DISABLE => SignalStore.GetSignals<DiscreteOutputSignal>().FirstOrDefault(x => x.Name == "FD16_INH_DISABLE");
         public MainViewModel(IServiceProvider serviceProvider, NavigationStore navigationStore, ModalNavigationStore modalNavigationStore,
-            DeviceStore deviceStore, LogService logService):this(deviceStore, logService)
+            DeviceStore deviceStore, LogService logService, SignalStore signalStore) 
+            : this(deviceStore, logService, signalStore)
         {
            
             this._serviceProvider = serviceProvider;
@@ -60,11 +67,9 @@ namespace ERad5TestGUI.ViewModels
                 _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
                 _modalNavigationStore.CurrentViewModelChanged += OnCurrentModalViewModelChanged;
             }
-
-           
         }
 
-        public MainViewModel(DeviceStore deviceStore, LogService logService)
+        public MainViewModel(DeviceStore deviceStore, LogService logService, SignalStore signalStore)
         {
             this._logService = logService;
             this._logService.LogAdded += LogService_LogAdded;
@@ -72,7 +77,7 @@ namespace ERad5TestGUI.ViewModels
 
             this._deviceStore.CurrentDeviceChanged += OnCurrentDeviceChanged;
             this._deviceStore.FrameCountChanged += OnFrameCountChanged;
-
+            _signalStore = signalStore;
             //OpenCommand = new RelayCommand(Open, () => HasDevice);
             //CloseCommand = new RelayCommand(Close, () => HasDevice);
             //StartCommand = new RelayCommand(Start, () => HasDevice);
@@ -118,6 +123,7 @@ namespace ERad5TestGUI.ViewModels
         public ICommand StartCommand { get; }
         public ICommand StopCommand { get; }
         public ICommand DeivceConfigCommand { get; }
+        public ICommand DisableINHCANCommand { get => _disableINHCANCommand ?? (_disableINHCANCommand = new RelayCommand(DisableINHCAN)); }
 
         private void Stop() 
         {
@@ -139,13 +145,39 @@ namespace ERad5TestGUI.ViewModels
                 _serviceProvider.GetRequiredService<DeviceViewModel>);
             modalNavigationService.Navigate();
         }
+
+        private void DisableINHCAN()
+        {
+            //FD5_INH_DISABLE.UpdateRealValue();
+            //FD16_INH_DISABLE.UpdateRealValue();
+
+            if (this.HasDevice)
+            {
+                CurrentDevice.SendMultip(SignalStore.BuildFrames(new DiscreteOutputSignal[] {
+                    FD16_INH_DISABLE,
+                    FD5_INH_DISABLE
+                }));
+            }
+            else
+            {
+                Log = "No Device Connected!";
+            }
+        }
     }
 
     public partial class MainViewModel
     {
         /// <summary>
-        /// <see cref="Models.NXPInputSignal"/> 转换无需 * 5 /4096
+        /// Soft Version
         /// </summary>
-        public string Version { get; } = "0.0.0.1";
+        /// <remarks>
+        /// <para>V0.0.0.2 : <see cref="Models.AnalogSignal"/> 第二次转换无需 * 5 /4096;
+        /// 增加NXP界面信号；
+        /// 增加Disable CAN INH功能；
+        /// 增加Discrete界面中的控制;
+        /// 发送CAN报文，根据ID发送该ID下的所有信号</para>
+        /// <para>V0.0.0.1 : <see cref="Models.NXPInputSignal"/> 转换无需 * 5 /4096；增加LIN 界面</para>
+        /// </remarks>
+        public string Version { get; } = "0.0.0.2";
     }
 }

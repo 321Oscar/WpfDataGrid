@@ -14,12 +14,14 @@ namespace ERad5TestGUI.ViewModels
 {
     public class DiscreteViewModel : SendFrameViewModelBase
     {
-        private bool outputSignalSync;
-        private ObservableCollection<DiscreteOutputSignal> _outputSignals = new ObservableCollection<DiscreteOutputSignal>();
-        private ObservableCollection<DiscreteInputSignal> _inputSignals = new ObservableCollection<DiscreteInputSignal>();
+        private readonly ObservableCollection<DiscreteOutputSignal> _outputSignals = new ObservableCollection<DiscreteOutputSignal>();
+        private readonly ObservableCollection<DiscreteInputSignal> _inputSignals = new ObservableCollection<DiscreteInputSignal>();
+        private bool _outputSignalSync;
         //private readonly DBCSignalBuildHelper dBCSignalBuildHelper;
-        private ICommand updateCommand;
-        private RelayCommand locatorOutputsCommand;
+        private RelayCommand _updateCommand;
+        private RelayCommand _locatorOutputsCommand;
+        private RelayCommand _sendBadAnwserCommand;
+        private RelayCommand _disableSBCWWDTRIGCommand;
 
         public DiscreteViewModel(SignalStore signalStore,
             DeviceStore deviceStore, 
@@ -28,10 +30,7 @@ namespace ERad5TestGUI.ViewModels
             IServiceProvider serviceProvider)
             : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
         {
-            //_signalStore = signalStore;
-            //this.logService = logService;
-            
-            
+
         }
 
         public DiscreteViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService)
@@ -39,9 +38,31 @@ namespace ERad5TestGUI.ViewModels
         {
 
         }
-        public ICommand LocatorOutputsCommand => locatorOutputsCommand ?? (locatorOutputsCommand = new RelayCommand(LocatorOutputSignals));
+        public ICommand UpdateCommand { get => _updateCommand ?? (_updateCommand = new RelayCommand(Update, () => OutputSignalSync)); }
+        public ICommand LocatorOutputsCommand => _locatorOutputsCommand ?? (_locatorOutputsCommand = new RelayCommand(LocatorOutputSignals));
+        public ICommand SendBadAnwserCommand => _sendBadAnwserCommand ?? (_sendBadAnwserCommand = new RelayCommand(SendBadAnswer));
+        public ICommand DisableWWDTRIGCommand => _disableSBCWWDTRIGCommand ?? (_disableSBCWWDTRIGCommand = new RelayCommand(DisableSBCWD));
         public IEnumerable<DiscreteInputSignal> InputSignals => _inputSignals;
         public IEnumerable<DiscreteOutputSignal> OutputSignals => _outputSignals;
+        public DiscreteOutputSignal DIS_SBC_WWD_TRIG => SignalStore.GetSignals<DiscreteOutputSignal>().FirstOrDefault(x => x.Name == "DIS_SBC_WWD_TRIG");
+        public DiscreteOutputSignal SEND_BAD_ANSWER => SignalStore.GetSignals<DiscreteOutputSignal>().FirstOrDefault(x => x.Name == "SEND_BAD_ANSWER");
+
+        public bool OutputSignalSync
+        {
+            get => _outputSignalSync;
+            set
+            {
+                SetProperty(ref _outputSignalSync, value);
+                _updateCommand.NotifyCanExecuteChanged();
+                foreach (var item in OutputSignals)
+                {
+                    if (item is DiscreteOutputSignal output)
+                        output.Sync = value;
+                }
+            }
+        }
+
+        //[RelayCommand(CanExecute = "OutputSignalSync")]
 
         public override void Init()
         {
@@ -50,13 +71,10 @@ namespace ERad5TestGUI.ViewModels
             {
                 _inputSignals.Add(signal);
             }
-            foreach (var signal in SignalStore.GetSignals<DiscreteOutputSignal>(nameof(DiscreteViewModel)))
+            foreach (var signal in SignalStore.GetSignals<DiscreteOutputSignal>(nameof(DiscreteViewModel)).Where(x => x.State != null))
             {
                 _outputSignals.Add(signal);
             }
-            //_outputSignals = SignalStore.GetObservableCollection<DiscreteOutputSignal>(nameof(DiscreteViewModel));
-            //BuildFramesHelper = new DBCSignalBuildHelper(OutputSignals, SignalStore.DbcFile.Messages);
-            updateCommand = new RelayCommand(Update, () => OutputSignalSync);
 
             foreach (var item in OutputSignals)
             {
@@ -94,50 +112,6 @@ namespace ERad5TestGUI.ViewModels
             //}
         }
 
-        public bool OutputSignalSync 
-        {
-            get => outputSignalSync;
-            set 
-            { 
-                SetProperty(ref outputSignalSync, value);
-                (UpdateCommand as IRelayCommand).NotifyCanExecuteChanged();
-                foreach (var item in OutputSignals)
-                {
-                    if (item is DiscreteOutputSignal output)
-                        output.Sync = value;
-                }
-            }
-        }
-
-        public ICommand UpdateCommand { get => updateCommand; }
-        //[RelayCommand(CanExecute = "OutputSignalSync")]
-        private void Update()
-        {
-            //update RealValue
-            foreach (var item in OutputSignals)
-            {
-                if (item is DiscreteOutputSignal output)
-                    output.UpdateRealValue();
-            }
-            Send();
-        }
-
-        private void Item_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(SignalBase.OriginValue) && !OutputSignalSync)
-            {
-                if (sender is DiscreteOutputSignal outputSignal)
-                {
-                    if (outputSignal.OriginValue == outputSignal.State.OriginValue)
-                    {
-                        return;
-                    }
-                }
-
-                Send();
-            }
-        }
-
         public override void Send()
         {
             Send(SignalStore.BuildFrames(SignalStore.GetSignals<DiscreteOutputSignal>(nameof(DiscreteViewModel))));
@@ -160,6 +134,53 @@ namespace ERad5TestGUI.ViewModels
                 dialogView.ShowDialog();
             }
         }
+
+
+        private void Update()
+        {
+            //update RealValue
+            foreach (var item in OutputSignals)
+            {
+                if (item is DiscreteOutputSignal output)
+                    output.UpdateRealValue();
+            }
+            Send();
+        }
+
+        private void DisableSBCWD()
+        {
+            DIS_SBC_WWD_TRIG.OriginValue = 1;
+            Send();
+            DIS_SBC_WWD_TRIG.OriginValue = 0;
+        }
+
+        private void SendBadAnswer()
+        {
+            SEND_BAD_ANSWER.OriginValue = 1;
+            Send();
+            SEND_BAD_ANSWER.OriginValue = 0;
+        }
+
+        private void Item_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(SignalBase.OriginValue) && !OutputSignalSync)
+            {
+                if (sender is DiscreteOutputSignal outputSignal)
+                {
+                    if (outputSignal.OriginValue == outputSignal.State.OriginValue)
+                    {
+                        return;
+                    }
+                }
+
+                Send();
+            }
+        }
+
+      
+
+        #region Signal Locator
+
         private DiscreteInputSignalLocatorViewModel CreateLocatorInputViewModel(System.Windows.Window window)
           => new DiscreteInputSignalLocatorViewModel(_inputSignals,
                                                       SignalStore,
@@ -226,5 +247,6 @@ namespace ERad5TestGUI.ViewModels
             }
             return null;
         }
+        #endregion
     }
 }

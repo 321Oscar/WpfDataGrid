@@ -28,6 +28,7 @@ namespace ERad5TestGUI.Stores
             //LoadAnalogSignals(0x605, nameof(ViewModels.ResolverViewModel));
             //LoadPPAWL(0x01, nameof(ViewModels.PPAWLViewModel));
             //LoadDiscretes(nameof(ViewModels.DiscreteViewModel));
+            LoadDiscreteFixedSignals(nameof(ViewModels.DiscreteViewModel));
             //LoadSavingLogicSignals();
             LoadGDICStatusSignals();
             //LoadPulseInSignals(0x10, (ViewModels.PulseInViewModel.VIEWNAME));
@@ -252,8 +253,8 @@ namespace ERad5TestGUI.Stores
             List<IFrame> cAN_Msg_BytesList = new List<IFrame>();
 
             var ids = signals.Select(x => x.MessageID).Distinct();
-
-            foreach (var signal in signals)
+            var allidsignals = _signals.Where(x => ids.Contains(x.MessageID));
+            foreach (var signal in allidsignals)
             {
                 ModifyBytesRef(signal);
             }
@@ -432,6 +433,15 @@ namespace ERad5TestGUI.Stores
                 SaveViewSignalLocator(viewName, analogSignal);
                 AddSignal(analogSignal);
             });
+        }
+
+        private void LoadDiscreteFixedSignals(string viewName)
+        {
+            viewName = SignalBase.ReplaceViewModel(viewName);
+            AddSignal(new DiscreteOutputSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "SEND_BAD_ANSWER"), viewName));
+            AddSignal(new DiscreteOutputSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "DIS_SBC_WWD_TRIG"), viewName));
+            AddSignal(new DiscreteOutputSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "FD5_INH_DISABLE"), viewName));
+            AddSignal(new DiscreteOutputSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "FD16_INH_DISABLE"), viewName));
         }
 
         private void LoadPPAWL(uint msgid,string viewName)

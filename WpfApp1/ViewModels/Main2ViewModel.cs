@@ -13,12 +13,8 @@ namespace ERad5TestGUI.ViewModels
     /// </summary>
     public class Main2ViewModel : MainViewModel
     {
-        private readonly SignalStore signalStore;
-
-        public Main2ViewModel(DeviceStore deviceStore, LogService logService, SignalStore signalStore) : base(deviceStore, logService)
+        public Main2ViewModel(DeviceStore deviceStore, LogService logService, SignalStore signalStore) : base(deviceStore, logService, signalStore)
         {
-            this.signalStore = signalStore;
-
             InitViewModel();
         }
 
@@ -47,21 +43,21 @@ namespace ERad5TestGUI.ViewModels
 
         private void InitViewModel()
         {
-            AnalogViewModel = new AnalogViewModel(signalStore, _deviceStore, _logService);
+            AnalogViewModel = new AnalogViewModel(SignalStore, _deviceStore, _logService);
             AnalogViewModel.Init();
-            DiscreteViewModel = new DiscreteViewModel(signalStore, _deviceStore, _logService);
+            DiscreteViewModel = new DiscreteViewModel(SignalStore, _deviceStore, _logService);
             DiscreteViewModel.Init();
-            PulseInViewModel = new PulseInViewModel(signalStore, _deviceStore, _logService);
+            PulseInViewModel = new PulseInViewModel(SignalStore, _deviceStore, _logService);
             PulseInViewModel.Init();
-            PulseOutViewModel = new PulseOutViewModel(signalStore, _deviceStore, _logService);
+            PulseOutViewModel = new PulseOutViewModel(SignalStore, _deviceStore, _logService);
             PulseOutViewModel.Init();
-            NXPViewModel = new NXPViewModel(signalStore, _deviceStore, _logService);
+            NXPViewModel = new NXPViewModel(SignalStore, _deviceStore, _logService);
             NXPViewModel.Init();
-            GDICViewModel = new GDICViewModel(signalStore, _deviceStore, _logService);
+            GDICViewModel = new GDICViewModel(SignalStore, _deviceStore, _logService);
             GDICViewModel.Init();
-            ResolverViewModel = new ResolverViewModel(signalStore, _deviceStore, _logService);
+            ResolverViewModel = new ResolverViewModel(SignalStore, _deviceStore, _logService);
             ResolverViewModel.Init();
-            LinViewModel = new LinViewModel(signalStore, _deviceStore, _logService);
+            LinViewModel = new LinViewModel(SignalStore, _deviceStore, _logService);
             LinViewModel.Init(); 
             MemoryViewModel = new MemoryViewModel(_deviceStore, _logService);
             MemoryViewModel.Init();

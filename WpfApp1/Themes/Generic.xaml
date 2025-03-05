@@ -21,6 +21,7 @@
     <cvts:DeviceStartConverter x:Key="DeviceStartConverter"/>
     <cvts:InvertBooleanConverter x:Key="InvertBooleanConverter"/>
     <cvts:DoubleHexConverter x:Key="DoubleHexConverter"/>
+    <cvts:DoubleToByteHexConverter x:Key="DoubleToByteHexConverter"/>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
     <DataTemplate DataType="{x:Type viewModels:DeviceViewModel}">

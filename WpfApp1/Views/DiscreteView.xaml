@@ -75,11 +75,20 @@
             <StackPanel Orientation="Horizontal">
                 <Button
                     Padding="5"
-                    Content="Disable"
-                     />
+                    Content="Disable SBC_WD_TRIG"
+                    Command="{Binding DisableWWDTRIGCommand}"
+                     >
+                    <Button.ToolTip>
+                        <ContentControl Content="{Binding DIS_SBC_WWD_TRIG}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                    </Button.ToolTip>
+                </Button>
                 <Button Content="Reset TLF Faults"  />
                 <ComboBox MinWidth="80" />
-                <Button Content="Send Bad"  />
+                <Button Content="Send Bad Anwser"  Command="{Binding SendBadAnwserCommand}">
+                    <Button.ToolTip>
+                        <ContentControl Content="{Binding SEND_BAD_ANSWER}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                    </Button.ToolTip>
+                </Button>
                 <CheckBox
                     Content="Sync"
                     IsChecked="{Binding OutputSignalSync}"

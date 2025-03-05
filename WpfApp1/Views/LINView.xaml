@@ -33,7 +33,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type mdls:LinConfigSignal}">
                                 <StackPanel>
-                                    <TextBox Text="{Binding OriginValue,Converter={StaticResource DoubleHexConverter}}" 
+                                    <TextBox Text="{Binding OriginValue,Converter={StaticResource DoubleToByteHexConverter}}" 
                                              IsReadOnly="{Binding InOrOut,Converter={StaticResource InvertBooleanConverter}}" 
                                              Width="40" 
                                              Margin="2,0">
