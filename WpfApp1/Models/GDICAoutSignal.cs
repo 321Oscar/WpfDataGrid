@@ -42,7 +42,13 @@ namespace ERad5TestGUI.Models
 
         public string GDDevice { get => string.Join(SignalNameSplit, Name.Split(DBCSignalNameSplit).Take(2)); }
 
-        public void CalStandard(int count)
+        public override void OnOriginValueChaned(double originValue, bool changed)
+        {
+            base.OnOriginValueChaned(originValue, changed);
+            TmpValues.Enqueue(Value1);
+        }
+
+        public virtual void CalStandard(int count)
         {
             StandardDev = CalStandardDev.Cal(count, TmpValues);
         }
@@ -103,6 +109,13 @@ namespace ERad5TestGUI.Models
         public double TransForm2Offset => throw new System.NotImplementedException();
 
         public string Value2 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
+        public override void CalStandard(int count)
+        {
+            base.CalStandard(count);
+            Duty.CalStandard(count);
+            Freq.CalStandard(count);
+        }
 
         public override void OnOriginValueChaned(double originValue, bool changed)
         {

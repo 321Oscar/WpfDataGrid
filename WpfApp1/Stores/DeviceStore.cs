@@ -98,11 +98,13 @@ namespace ERad5TestGUI.Stores
             {
                 if (item != null)
                 {
-                    logService.Log($"{item}", item.GetType());
+                    logService.Log($"{item.GetValue()}", item.GetType());
                 }
-
             }
+            OnMsgReceived?.Invoke(can_msg);
         }
+
+        public event OnMsgReceived OnMsgReceived;
 
         private void OnCurrentDeviceChange(IDevice device)
         {

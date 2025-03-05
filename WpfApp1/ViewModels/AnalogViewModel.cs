@@ -66,6 +66,7 @@ namespace ERad5TestGUI.ViewModels
             }
             else
             {
+                //Log("123");
                 Views.DialogView dialogView = new Views.DialogView();
                 var locatorViewModel = CreateSignalLocatorViewModel(dialogView);
                 dialogView.DialogViewModel = locatorViewModel;
@@ -102,7 +103,7 @@ namespace ERad5TestGUI.ViewModels
             get => currentAnalogSignal;
             set
             {
-                if (SetProperty(ref currentAnalogSignal, value))
+                if (SetProperty(ref currentAnalogSignal, value) && currentAnalogSignal != null)
                 {
                     MaxThreshold = currentAnalogSignal.MaxThreshold;
                     MinThreshold = currentAnalogSignal.MinThreshold;
@@ -118,10 +119,7 @@ namespace ERad5TestGUI.ViewModels
 
         public IEnumerable<AnalogSignal> AnalogSignals
         {
-            get
-            {
-                return _signals;
-            }
+            get => _signals;
         }
 
         public ICommand UpdateSignalThresholdCommand { get => _updateSignalThresholdCommand ?? (_updateSignalThresholdCommand = new RelayCommand(UpdateSignalThreshold)); }
@@ -192,6 +190,12 @@ namespace ERad5TestGUI.ViewModels
                 {
                     CurrentAnalogSignal.MinThreshold = min;
                     CurrentAnalogSignal.MaxThreshold = max;
+
+#if DEBUG
+                    var ss = SignalStore.Signals.FirstOrDefault(x => x.Name == CurrentAnalogSignal.Name);
+                    var xx = SignalStore.SignalLocation.Signals.FirstOrDefault(x => x.Name == CurrentAnalogSignal.Name);
+                    LogService.Debug($"{(ss as AnalogSignal).MaxThreshold};{(xx as AnalogSignal).MaxThreshold}");
+#endif
                 }
                 else
                 {

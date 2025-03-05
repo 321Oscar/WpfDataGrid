@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cmds="clr-namespace:ERad5TestGUI.Commands"
     xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
     xmlns:cvts="clr-namespace:ERad5TestGUI.Converters"
     xmlns:viewModels="clr-namespace:ERad5TestGUI.ViewModels"
@@ -18,6 +19,8 @@
     <cvts:BooleanInvertVisibilityConverter x:Key="BooleanInvertVisibilityConverter"/>
     <cvts:EnumerableNullReplaceConverter x:Key="EnumerableNullReplaceConverter"/>
     <cvts:DeviceStartConverter x:Key="DeviceStartConverter"/>
+    <cvts:InvertBooleanConverter x:Key="InvertBooleanConverter"/>
+    <cvts:DoubleHexConverter x:Key="DoubleHexConverter"/>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
     <DataTemplate DataType="{x:Type viewModels:DeviceViewModel}">
@@ -85,14 +88,37 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type viewModels:NXPInputSignalLocatorViewModel}">
         <views:SignalLocatorView />
+    </DataTemplate> 
+    <DataTemplate DataType="{x:Type viewModels:LinViewModel}">
+        <views:LINView />
     </DataTemplate>
    
     <DataTemplate DataType="{x:Type models:SignalBase}">
         <TextBlock Text="{Binding DisplayName}"/>
     </DataTemplate>
 
+    <DataTemplate x:Key="SignalToolTip">
+        <Border>
+            <StackPanel>
+                <ctrls:LabelWithContent Title="Name:" Content="{Binding DisplayName}"/>
+                <ctrls:LabelWithContent Title="MsgID:" Content="{Binding MessageID,StringFormat='0x{0:X}'}"/>
+                <ctrls:LabelWithContent Title="StartBit:" Content="{Binding StartBit}"/>
+                <ctrls:LabelWithContent Title="Uint:" Content="{Binding Unit}"/>
+                <ctrls:LabelWithContent Title="OriginalValue:" Content="{Binding OriginValue}"/>
+            </StackPanel>
+        </Border>
+    </DataTemplate>
+
+    <ContextMenu x:Key="CommonGridContextMenu">
+        <!--<MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>-->
+        <MenuItem Header="Copy" Command="{x:Static cmds:ApplicationCommands.CopyNameCommand}" CommandParameter="{Binding}"/>
+        <!--<MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>-->
+        <Separator/>
+        <!--<MenuItem Header="Custom Action" Command="{Binding CustomCommand}"/>-->
+    </ContextMenu>
+
     <DataTemplate x:Key="CommonSignalNoBorder">
-        <Grid >
+        <Grid ContextMenu="{StaticResource CommonGridContextMenu}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*" MinWidth="150"/>
@@ -117,14 +143,7 @@
                 <TextBlock Text="{Binding MinThreshold}" FontSize="10"/>
             </StackPanel>
             <Grid.ToolTip>
-                <Border>
-                    <StackPanel>
-                        <ctrls:LabelWithContent Title="Name:" Content="{Binding DisplayName}"/>
-                        <ctrls:LabelWithContent Title="MsgID:" Content="{Binding MessageID,StringFormat='0x{0:X}'}"/>
-                        <ctrls:LabelWithContent Title="StartBit:" Content="{Binding StartBit}"/>
-                        <ctrls:LabelWithContent Title="Uint:" Content="{Binding Unit}"/>
-                    </StackPanel>
-                </Border>
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SignalToolTip}"/>
             </Grid.ToolTip>
         </Grid>
         
@@ -199,20 +218,23 @@
                          Grid.Column="1"/>
                     </Grid>
                 <!--</Border>-->
-                <!--<Border Style="{StaticResource CellBorder}" Grid.Column="1" >-->
+                <Border Style="{StaticResource CellBorder}" Grid.Column="1" BorderThickness="2,0">
                     <TextBlock 
                         Grid.Column="1"
-                    Text="{Binding OriginValue}" 
-                    Style="{StaticResource ValueTextBlockStyle}"/>
-                <!--</Border>
-                <Border Style="{StaticResource CellBorder}" Grid.Column="2" >-->
+                        Text="{Binding OriginValue}" 
+                        Style="{StaticResource ValueTextBlockStyle}"/>
+                </Border>
+                <Border Style="{StaticResource CellBorder}" Grid.Column="2" >
                     <TextBlock 
-                         Grid.Column="2"
-                    Text="{Binding Transitions}" 
-                    Style="{StaticResource ValueTextBlockStyle}" 
-                    ToolTip="Transitions"/>
-                <!--</Border>-->
+                        Grid.Column="2"
+                        Text="{Binding Transitions}" 
+                        Style="{StaticResource ValueTextBlockStyle}" 
+                        ToolTip="Transitions"/>
+                </Border>
             </Grid>
+            <Border.ToolTip>
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SignalToolTip}"/>
+            </Border.ToolTip>
         </Border>
     </DataTemplate>
     <DataTemplate DataType="{x:Type models:DiscreteOutputSignal}">
@@ -238,56 +260,29 @@
                          Grid.Column="1"/>
                 </Grid>
                 <StackPanel
-                    Margin="5,0,0,0"
+                    Margin="5,0"
                     Grid.Column="1" 
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Center" 
                     Orientation="Horizontal">
-                    <StackPanel.Resources>
-                        <!--<Style x:Key="CustomToggleSwitchStyle" TargetType="{x:Type adonisUi:ToggleSwitch}"
-                            BasedOn="{StaticResource {ComponentResourceKey TypeInAssembly={x:Type adonisUi:Styles}, ResourceId=ToggleSwitch}}">
-                            
-                        </Style>-->
-                    </StackPanel.Resources>
-                    <!--<CheckBox 
-                        IsChecked="{Binding Pin_High, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        Content="Pin__High"/>
-                    <CheckBox 
-                        Margin="5,0,0,0"
-                        IsChecked="{Binding Pin_Low, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        Content="Pin__Low"/>-->
                     <ToggleButton IsChecked="{Binding Pin_High, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                   Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}">
-                        <!--<ToggleButton.Style>
-                            <Style BasedOn="{StaticResource {x:Static adonisUi:Styles.ToggleSwitch}}" TargetType="ToggleButton">
-                                <Style.Triggers>
-                                    <Trigger Property="IsChecked"  Value="True">
-                                        <Setter Property="Content" Value="High"/>
-                                    </Trigger>
-                                    <Trigger Property="IsChecked"  Value="False">
-                                        <Setter Property="Content" Value="Low"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ToggleButton.Style>-->
+
                     </ToggleButton>
                     <TextBlock Text="Low" Visibility="{Binding Pin_Low,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,0,5,0">
-                        <!--<TextBlock.InputBindings>
-                            <MouseBinding MouseAction="LeftClick" Command="{}"
-                        </TextBlock.InputBindings>-->
                     </TextBlock>
                     <TextBlock Text="High" Visibility="{Binding Pin_High,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </StackPanel>
-
-                <TextBlock 
+                <Border Grid.Column="2" Style="{StaticResource CellBorder}" BorderThickness="2,0">
+                    <TextBlock 
                     Text="{Binding State.OriginValue}" 
                     Style="{StaticResource ValueTextBlockStyle}"
                     Grid.Column="2"/>
+                </Border>
+                
             </Grid>
             <Border.ToolTip>
-                <StackPanel>
-                    <TextBlock Text="{Binding StartBit}" />
-                </StackPanel>
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SignalToolTip}"/>
             </Border.ToolTip>
         </Border>
         
@@ -304,6 +299,9 @@
                 <TextBlock Text="{Binding OriginValue}" Grid.Column="1" Style="{StaticResource ValueTextBlockStyle}"/>
                 <!--//<TextBlock Text="{Binding me}"-->
             </Grid>
+            <Border.ToolTip>
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SignalToolTip}"/>
+            </Border.ToolTip>
         </Border>
     </DataTemplate>
     <DataTemplate DataType="{x:Type models:NXPInputSignal}">
@@ -315,10 +313,15 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBlock Style="{StaticResource SignalNameFontStyle}" Text="{Binding DisplayName}"/>
-                <TextBlock Grid.Column="1"
+                <Border Style="{StaticResource CellBorder}" Grid.Column="1" BorderThickness="2,0">
+                    <TextBlock Grid.Column="1"
                            Text="{Binding Value2}" 
                            Style="{StaticResource ValueTextBlockStyle}"/>
+                </Border>
             </Grid>
+            <Border.ToolTip>
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SignalToolTip}"/>
+            </Border.ToolTip>
         </Border>
     </DataTemplate>
     <DataTemplate DataType="{x:Type models:PulseInSignal}">
@@ -357,7 +360,9 @@
                     <ColumnDefinition Width="auto" SharedSizeGroup="Value2" />
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}"/>
+                <Border Style="{StaticResource CellBorder}">
+                    <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}"/>
+                </Border>
                 <ContentControl 
                     Content="{Binding Signal_DC}" 
                     Grid.Column="1" 

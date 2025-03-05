@@ -344,15 +344,35 @@
                                 </GroupBox>
                                 <GroupBox Header="Threshold" Margin="1">
                                     <StackPanel Grid.IsSharedSizeScope="True">
-                                        <ctrls:ControlWithTitle Title="Min:" Style="{StaticResource ControlWithTitleGridStyle}">
+                                        <ctrls:ControlWithTitle Title="Signal:" Style="{StaticResource ControlWithTitleGridStyle}">
                                             <ctrls:ControlWithTitle.Content>
-                                                <Slider Style="{StaticResource NumberUpDownStyle}" Width="100" Padding="2" Value="{Binding MinThreshold}"></Slider>
+                                                <ComboBox SelectedIndex="{Binding ThresholdType}">
+                                                    <ComboBoxItem>Temperature</ComboBoxItem>
+                                                    <ComboBoxItem>Duty</ComboBoxItem>
+                                                    <ComboBoxItem>Freq</ComboBoxItem>
+                                                </ComboBox>
+                                            </ctrls:ControlWithTitle.Content>
+                                        </ctrls:ControlWithTitle><ctrls:ControlWithTitle Title="Min:" Style="{StaticResource ControlWithTitleGridStyle}">
+                                            <ctrls:ControlWithTitle.Content>
+                                                <Slider 
+                                                    Style="{StaticResource NumberUpDownStyle}" 
+                                                    Width="100"
+                                                    Padding="2"
+                                                    Minimum="-100000"
+                                                    Value="{Binding MinThreshold}"></Slider>
                                             </ctrls:ControlWithTitle.Content>
                                         </ctrls:ControlWithTitle>
-                                        <ctrls:ControlWithTitle Title="Max:" Style="{StaticResource ControlWithTitleGridStyle}"
-                                                                Margin="0,2">
+                                        <ctrls:ControlWithTitle 
+                                            Title="Max:" 
+                                            Style="{StaticResource ControlWithTitleGridStyle}"
+                                            Margin="0,2">
                                             <ctrls:ControlWithTitle.Content>
-                                                <Slider Style="{StaticResource NumberUpDownStyle}" Width="100" Padding="2" Value="{Binding MaxThreshold}" Maximum="99999"></Slider>
+                                                <Slider 
+                                                    Style="{StaticResource NumberUpDownStyle}"
+                                                    Width="100" 
+                                                    Padding="2" 
+                                                    Value="{Binding MaxThreshold}" 
+                                                    Maximum="99999"></Slider>
                                             </ctrls:ControlWithTitle.Content>
                                         </ctrls:ControlWithTitle>
                                         <Button Content="Update" Margin="0,2" Command="{Binding UpdateThresholdCommand}"/>
@@ -365,10 +385,10 @@
                                             Orientation="Vertical"
                                             Width="120">
                                             <ctrls:ControlWithTitle.Content>
-                                                <Slider Style="{StaticResource NumberUpDownStyle}" Padding="2"></Slider>
+                                                <Slider Style="{StaticResource NumberUpDownStyle}" Padding="2" Value="{Binding StandardCount}" Minimum="1" Maximum="1000"></Slider>
                                             </ctrls:ControlWithTitle.Content>
                                         </ctrls:ControlWithTitle>
-                                        <Button Content="Calculate" Margin="0,4"/>
+                                        <Button Content="Calculate" Margin="0,4" Command="{Binding CalculateSTDCommand}"/>
                                     </StackPanel>
                                 </GroupBox>
 

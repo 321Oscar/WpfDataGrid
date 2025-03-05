@@ -99,6 +99,7 @@
     <Compile Include="Models\GDICAoutSignal.cs" />
     <Compile Include="Models\GDICStatusGroup.cs" />
     <Compile Include="Models\ISyncValue.cs" />
+    <Compile Include="Models\LinConfigSignal.cs" />
     <Compile Include="Models\NXPSignal.cs" />
     <Compile Include="Models\PulseInSignalGroup.cs" />
     <Compile Include="Models\S19Record.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="ViewModels\DiscreteViewModel.cs" />
     <Compile Include="ViewModels\GDICViewModel.cs" />
     <Compile Include="ViewModels\LayoutViewModel.cs" />
+    <Compile Include="ViewModels\LinViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\Main2ViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -377,9 +379,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\Config.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Config\Config.xml" />
     <None Include="Config\SignalLocator.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

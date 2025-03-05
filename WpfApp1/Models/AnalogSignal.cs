@@ -63,6 +63,7 @@ namespace ERad5TestGUI.Models
             else
             {
                 //get table from tableName
+                oldVal = TransForm(oldVal);
                 return Stores.ValueTable.ConvertByTable(TableName, oldVal);
             }
 
@@ -106,11 +107,16 @@ namespace ERad5TestGUI.Models
             base.OnOriginValueChaned(originValue, changed);
             if (changed)
             {
-                var realValue = TransForm(originValue);
-                Value2 = TransForm2(realValue).ToString(Format);
+                //var realValue = TransForm(originValue);
+                Value2 = TransForm2(originValue).ToString(Format);
             }
 
             TmpValues.Enqueue(Value1);
+        }
+
+        public override string GetValue()
+        {
+            return base.GetValue() + $",Max:{MaxValue},Min:{MinValue}";
         }
 
         public void CalStandard(int count)

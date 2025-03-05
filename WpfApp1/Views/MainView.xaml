@@ -5,11 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ERad5TestGUI.Views" 
         xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
+        xmlns:cmds="clr-namespace:ERad5TestGUI.Commands"
         mc:Ignorable="d"
         Title="MainView"
         WindowState="Maximized"
         Width="1100"
         Height="800">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static cmds:ApplicationCommands.CopyNameCommand}" Executed="CommandBinding_Executed"></CommandBinding>
+    </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/> 
@@ -40,15 +44,19 @@
                 <TabItem Header="GDIC">
                     <ContentControl Content="{Binding GDICViewModel}"/>
                 </TabItem>
+                <TabItem Header="LIN">
+                    <ContentControl Content="{Binding LinViewModel}"/>
+                </TabItem>
                 <TabItem Header="Memory-Doing">
                     <ContentControl Content="{Binding MemoryViewModel}"/>
                 </TabItem>
                 <TabItem Header="Resolver-UnFinish">
-                    <local:ResolverView />
+                    <ContentControl Content="{Binding ResolverViewModel}"/>
                 </TabItem>
                 <TabItem Header="SPI-Undo">
                     <local:SPIView/>
                 </TabItem>
+               
             </TabControl>
         </Grid>
 

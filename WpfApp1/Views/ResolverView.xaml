@@ -46,7 +46,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <GroupBox Header="ATO">
+            <GroupBox Header="ATO" Margin="2">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -121,7 +121,10 @@
                         d:Text="22614" />
                 </Grid>
             </GroupBox>
-            <GroupBox Grid.Column="1" Header="Faults">
+            <GroupBox 
+                Grid.Column="1" 
+                Header="Faults" 
+                Margin="2">
                 <WrapPanel>
                     <Border Background="#f6937c">
                         <CheckBox Margin="5" Content="Loss of Signal" />

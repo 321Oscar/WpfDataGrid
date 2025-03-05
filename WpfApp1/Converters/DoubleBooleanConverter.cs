@@ -59,6 +59,28 @@ namespace ERad5TestGUI.Converters
         }
     }
 
+    public class DoubleHexConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (double.TryParse(value.ToString(), out double dVal))
+            {
+                int iVal = (int)dVal;
+                return iVal.ToString("X");
+            }
+            return value.ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (int.TryParse(value.ToString(), NumberStyles.HexNumber, null, out int iVal))
+            {
+                return (double)iVal;
+            }
+            return 0d;
+        }
+    }
+
     public class BooleanInvertVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

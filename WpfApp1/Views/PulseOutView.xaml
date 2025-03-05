@@ -21,8 +21,16 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Style="{StaticResource TitleLabel}">Pulse Out</TextBlock>
-        <Button Width="120" Content="Locator Signals" Command="{Binding LocatorSignalsCommand}"/>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Style="{StaticResource TitleLabel}">Pulse Out</TextBlock>
+            <Button 
+                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"
+                Width="120" 
+                Height="25"
+                Content="Locator Signals" 
+                Command="{Binding LocatorSignalsCommand}"/>
+        </StackPanel>
+
         <GroupBox Header="PWM Output (Hz,DutyCyle)" Grid.Row="1">
             <Grid Grid.IsSharedSizeScope="True" Margin="-8,-4">
                 <Grid.RowDefinitions>
@@ -37,9 +45,9 @@
                             <ColumnDefinition SharedSizeGroup="value1"/>
                             <ColumnDefinition SharedSizeGroup="value2"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="SignalName" Grid.Column="0" Style="{StaticResource SignalNameFontStyle}"/>
-                        <TextBlock Text="Freq" Grid.Column="1"/>
-                        <TextBlock Text="Duty" Grid.Column="2"/>
+                        <TextBlock Text="SignalName" Grid.Column="0" Style="{StaticResource SignalNameFontStyle}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Freq" Grid.Column="1" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Duty" Grid.Column="2" HorizontalAlignment="Center"/>
                     </Grid>
                 </Border>
                 <ScrollViewer Grid.Row="1">
@@ -54,7 +62,9 @@
                                             <ColumnDefinition SharedSizeGroup="value2" Width="auto" MinWidth="100"/>
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}"/>
+                                        <Border Style="{StaticResource CellBorder}">
+                                            <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}"/>
+                                        </Border>
                                         <TextBox Text="{Binding Freq.TempValue}" Grid.Column="1" Margin="2,0"/>
                                         <TextBox Text="{Binding DutyCycle.TempValue}" Grid.Column="2"/>
                                         <!--<ctls:TextBoxWithLabel 
@@ -94,21 +104,17 @@
             MaxWidth="1000"
             HorizontalAlignment="Left"
             Header="Inverter PWM Output">
-            <Grid>
-                
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
+            <StackPanel Background="White">
+                <ctls:TextBoxWithLabel 
+                    Title="Frequency in Hz" 
+                    Content="{Binding UVW_PWM_Freq.TempValue,Mode=TwoWay}"
+                    Orientation="Vertical" 
+                    Style="{StaticResource TextBoxWithLabelStackStyle}"/>
+                <!--<StackPanel  Grid.Row="0" Orientation="Horizontal">
                    
-                </Grid.RowDefinitions>
-                <StackPanel  Grid.Row="0" Orientation="Horizontal">
-                    <ctls:TextBoxWithLabel Title="Frequency in Hz" Content="8000" Orientation="Vertical" Style="{StaticResource TextBoxWithLabelStackStyle}"/>
                     <ctls:TextBoxWithLabel Title="PWM Mode" Content="8000" Orientation="Vertical" Style="{StaticResource TextBoxWithLabelStackStyle}"/>
                     <ctls:TextBoxWithLabel Title="CurSmplMode" Content="8000" Orientation="Vertical" Style="{StaticResource TextBoxWithLabelStackStyle}"/>
-                </StackPanel>
+                </StackPanel>-->
 
                 <ctls:TextBoxWithLabel  
                     Grid.Row="1" 
@@ -130,9 +136,13 @@
                     Style="{StaticResource TextBoxWithLabelStackStyle}"/>
                 <Button
                     Grid.Row="4"
-                   
-                    Content="Update" Command="{Binding UpdateCommand}"/>
-            </Grid>
+                    Margin="0,2"
+                    Content="Update" 
+                    Command="{Binding UpdateCommand}"/>
+                <TextBlock>
+                    Notes: Click the [Update] Button to Change the freq and duty
+                </TextBlock>
+            </StackPanel>
         </GroupBox>
     </Grid>
 </UserControl>

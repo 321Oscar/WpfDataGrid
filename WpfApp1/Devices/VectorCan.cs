@@ -389,7 +389,7 @@ namespace ERad5TestGUI.Devices
             // Result values of WaitForSingleObject 
             XLDefine.WaitResults waitResult = new XLDefine.WaitResults();
 
-            int receiveFlag = 0;
+            //int receiveFlag = 0;
             // Note: this thread will be destroyed by MAIN
             while (true)
             {
@@ -442,7 +442,7 @@ namespace ERad5TestGUI.Devices
                 }
                 else
                 {
-                    RecieveStatus = DeviceRecieveFrameStatus.NoFramesFor1Second;
+                    RecieveStatus = DeviceRecieveFrameStatus.DisConnect;
                 }
                 // No event occurred
             }

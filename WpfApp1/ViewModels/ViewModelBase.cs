@@ -24,7 +24,7 @@ namespace ERad5TestGUI.ViewModels
         public SignalStore SignalStore { get; }
         public DeviceStore DeviceStore { get; }
         public LogService LogService { get; }
-
+        private readonly log4net.ILog logger;
         public bool IsLoading
         {
             get => _isLoading;
@@ -35,6 +35,13 @@ namespace ERad5TestGUI.ViewModels
             }
         }
         public ICommand LocatorSignalsCommand { get => _locatorSignalsCommand ?? (_locatorSignalsCommand = new RelayCommand(LocatorSignals)); }
+
+#if DEBUG
+        public bool DebugMode { get => true; }
+#else
+        public bool DebugMode { get => false; }
+#endif
+        public string ViewName { get => SignalBase.ReplaceViewModel(this.GetType().Name); }
         /// <summary>
         /// MVVM Mode with DI
         /// </summary>
@@ -64,6 +71,7 @@ namespace ERad5TestGUI.ViewModels
             SignalStore = signalStore;
             DeviceStore = deviceStore;
             LogService = logService;
+            logger = LogService.GetLogger(this.GetType().Name);
         }
         /// <summary>
         /// In No DI, must call it 
@@ -71,6 +79,12 @@ namespace ERad5TestGUI.ViewModels
         public virtual void Init()
         {
             
+        }
+
+        public void Log(string msg)
+        {
+            logger.Info(msg);
+            LogService.Log(msg);
         }
 
         protected override void OnActivated()

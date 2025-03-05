@@ -164,7 +164,7 @@ namespace ERad5TestGUI.ViewModels
                 group.Freq.UpdateRealValue();
                 group.DutyCycle.UpdateRealValue();
             }
-
+            UVW_PWM_Freq.UpdateRealValue();
             PWM_U_Duty.UpdateRealValue();
             PWM_V_Duty.UpdateRealValue();
             PWM_W_Duty.UpdateRealValue();
@@ -183,6 +183,7 @@ namespace ERad5TestGUI.ViewModels
         public PulseOutSingleSignal PWM_U_Duty => SignalStore.GetSignals<PulseOutSingleSignal>().FirstOrDefault(x => x.Name == "PWM_U_Duty");
         public PulseOutSingleSignal PWM_V_Duty => SignalStore.GetSignals<PulseOutSingleSignal>().FirstOrDefault(x => x.Name == "PWM_V_Duty");
         public PulseOutSingleSignal PWM_W_Duty => SignalStore.GetSignals<PulseOutSingleSignal>().FirstOrDefault(x => x.Name == "PWM_W_Duty");
+        public PulseOutSingleSignal UVW_PWM_Freq => SignalStore.GetSignals<PulseOutSingleSignal>().FirstOrDefault(x => x.Name == "UVW_PWM_Freq");
         #endregion
     }
 }

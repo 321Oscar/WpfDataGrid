@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ERad5TestGUI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,14 @@ namespace ERad5TestGUI.Views
             logService = new Services.LogService();
             signalStore = new Stores.SignalStore(logService);
             deviceStore = new Stores.DeviceStore(signalStore, logService);
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if(e.Parameter is SignalBase signal)
+            {
+                Clipboard.SetText($"{signal}");
+            }
         }
     }
 }

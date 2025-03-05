@@ -69,6 +69,11 @@ namespace ERad5TestGUI.ViewModels
 
     public class ResolverViewModel : ViewModelBase
     {
+        public ResolverViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) : base(signalStore, deviceStore, logService)
+        {
+            
+        }
+
         public ResolverViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
         {
         }
@@ -86,13 +91,6 @@ namespace ERad5TestGUI.ViewModels
     public class SPIViewModel : ViewModelBase
     {
         public SPIViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
-        {
-        }
-    }
-
-    public class LinViewModel : ViewModelBase
-    {
-        public LinViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
         {
         }
     }

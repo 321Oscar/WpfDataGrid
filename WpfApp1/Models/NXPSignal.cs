@@ -17,7 +17,7 @@ namespace ERad5TestGUI.Models
 
     public class NXPInputSignal : TransFormSignalBase, ITransform2
     {
-        private string value2;
+        private string value2 = "NAN";
 
         public NXPInputSignal()
         {
@@ -65,7 +65,7 @@ namespace ERad5TestGUI.Models
             if (TransForm2Factor == 1)
                 return oldVal;
 
-            return oldVal * 5 / 4096;
+            return oldVal;// * 5 / 4096;
         }
 
         public override void OnOriginValueChaned(double originValue, bool changed)

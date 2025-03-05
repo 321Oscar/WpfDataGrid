@@ -39,6 +39,22 @@ VAL_TABLE_ AOUT_SELECT_Value 4 "VEE" 3 "VCC" 2 "AMUXIN" 1 "DESAT" 0 "NONE" ;
 VAL_TABLE_ Write_Register_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STATUS1" 0 "NONE" ;
 
 
+BO_ 1282 MCU_RX_0x502_DEVCANFD: 32 GUI
+ SG_ LIN_Receive_Checksum_Type : 92|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LIN_Receive_Length : 88|4@1+ (1,0) [0|8] "" Vector__XXX
+ SG_ LIN_Receive_ID : 80|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ LIN_Send_Data7 : 72|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ LIN_Send_Data6 : 64|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ LIN_Send_Data5 : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ LIN_Send_Data4 : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ LIN_Send_Data3 : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ LIN_Send_Data2 : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ LIN_Send_Data1 : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ LIN_Send_Data0 : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ LIN_Send_Checksum_Type : 12|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LIN_Send_Length : 8|4@1+ (1,0) [0|8] "" Vector__XXX
+ SG_ LIN_Send_ID : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
 BO_ 1281 MCU_RX_0x501_DEVCANFD: 32 GUI
  SG_ BOT_W_AMUX_SEL : 200|8@1+ (1,0) [0|255] "" Vector__XXX
  SG_ BOT_V_AMUX_SEL : 192|8@1+ (1,0) [0|255] "" Vector__XXX
@@ -714,16 +730,16 @@ BO_ 1554 MCU_TX_0x612_DEVCANFD: 64 MCU
  SG_ eLOCKER_EN_State : 43|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ HVIL_RTN_SW_State : 42|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ PWM_EN_State : 41|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ LOW_RST_PPAWL_MTR_OC_FLT_State : 40|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ LOW_RST_PPAWL_MTR_OC_FLT_State : 40|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ PPAWL_MTR_EN_State : 39|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ PPAWL_MTR_CTRL2_State : 38|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ PPAWL_MTR_CTRL2_State : 38|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ GS_ENL_U_State : 37|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ GS_ENL_V_State : 36|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ GS_ENL_W_State : 35|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ GS_ENH_U_State : 34|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ GS_ENH_U_State : 34|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ GS_ENH_V_State : 33|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ GS_ENH_W_State : 32|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ eLOCKER_LS_VSENSE : 25|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ eLOCKER_LS_VSENSE : 25|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ LOW_FSENB_FB : 24|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ FSSTATE_BOT_FB : 23|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ FSSTATE_TOP_FB : 22|1@1+ (1,0) [0|1] "" Vector__XXX
@@ -751,6 +767,10 @@ BO_ 1554 MCU_TX_0x612_DEVCANFD: 64 MCU
  SG_ LOW_OC_U_FLT : 0|1@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 1280 MCU_RX_0x500_DEVCANFD: 32 GUI
+ SG_ FD16_INH_DISABLE : 173|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ FD5_INH_DISABLE : 172|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DIS_SBC_WWD_TRIG : 171|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ SEND_BAD_ANSWER : 170|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ UVWPWM_Duty_Freq_Update : 169|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ PWM_Duty_Freq_Update : 168|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ PWM_W_Duty : 152|16@1+ (0.01,0) [0|100] "Hz" Vector__XXX
@@ -791,12 +811,22 @@ BO_ 1280 MCU_RX_0x500_DEVCANFD: 32 GUI
  SG_ INST_TRIGGER : 0|1@1+ (1,0) [0|1] ""  MCU
 
 BO_ 1553 MCU_TX_0x611_DEVCANFD: 64 MCU
+ SG_ LIN_Receive_Data7 : 160|8@1+ (1,0) [0|255] "%"  GUI
+ SG_ LIN_Receive_Data6 : 152|8@1+ (1,0) [0|255] "%"  GUI
+ SG_ LIN_Receive_Data5 : 144|8@1+ (1,0) [0|255] "%"  GUI
+ SG_ LIN_Receive_Data4 : 136|8@1+ (1,0) [0|255] "%"  GUI
+ SG_ LIN_Receive_Data3 : 128|8@1+ (1,0) [0|255] "%"  GUI
+ SG_ LIN_Receive_Data2 : 120|8@1+ (1,0) [0|255] "%"  GUI
+ SG_ LIN_Receive_Data1 : 112|8@1+ (1,0) [0|255] "%"  GUI
+ SG_ LIN_Receive_Data0 : 104|8@1+ (1,0) [0|255] "%"  GUI
+ SG_ SPEED_FW_Duty : 88|16@1+ (0.01,0) [0|65535] "%"  GUI
+ SG_ CRT_V_SPEED_Duty : 72|16@1+ (0.01,0) [0|65535] "%"  GUI
  SG_ LOW_NXP_ACT_DISCH_State : 67|1@1+ (1,0) [0|1] ""  GUI
  SG_ LOW_F_RESET_NXP_State : 66|1@1+ (1,0) [0|0] ""  GUI
  SG_ SPD_HW_3PS_I_O_State : 65|1@1+ (1,0) [0|1] ""  GUI
  SG_ INST_TRIGGER_State : 64|1@1+ (1,0) [0|1] ""  GUI
- SG_ SPEED_FW : 48|16@1+ (1,0) [0|65535] ""  GUI
- SG_ CRT_V_SPEED : 32|16@1+ (1,0) [0|65535] "Hz"  GUI
+ SG_ SPEED_FW_Freq : 48|16@1+ (1,0) [0|65535] "Hz"  GUI
+ SG_ CRT_V_SPEED_Freq : 32|16@1+ (1,0) [0|65535] "Hz"  GUI
  SG_ HVDC_SENSE1_NXP_AI : 18|12@1+ (1,0) [0|4095] ""  GUI
  SG_ VI_5V_SAFING_AI : 6|12@1+ (1,0) [0|4095] ""  GUI
  SG_ LOW_SAFESTATE2_NXP : 5|1@1+ (1,0) [0|1] ""  GUI
@@ -856,6 +886,20 @@ BO_ 1563 MCU_TX_0x61B_DEVCANFD: 64 MCU
 
 
 
+CM_ SG_ 1282 LIN_Receive_Checksum_Type "Page:LIN";
+CM_ SG_ 1282 LIN_Receive_Length "Page:LIN";
+CM_ SG_ 1282 LIN_Receive_ID "Page:LIN";
+CM_ SG_ 1282 LIN_Send_Data7 "Page:LIN";
+CM_ SG_ 1282 LIN_Send_Data6 "Page:LIN";
+CM_ SG_ 1282 LIN_Send_Data5 "Page:LIN";
+CM_ SG_ 1282 LIN_Send_Data4 "Page:LIN";
+CM_ SG_ 1282 LIN_Send_Data3 "Page:LIN";
+CM_ SG_ 1282 LIN_Send_Data2 "Page:LIN";
+CM_ SG_ 1282 LIN_Send_Data1 "Page:LIN";
+CM_ SG_ 1282 LIN_Send_Data0 "Page:LIN";
+CM_ SG_ 1282 LIN_Send_Checksum_Type "Page:LIN";
+CM_ SG_ 1282 LIN_Send_Length "Page:LIN";
+CM_ SG_ 1282 LIN_Send_ID "Page:LIN";
 CM_ SG_ 1281 BOT_W_AMUX_SEL "Page:GDIC3162_ADC";
 CM_ SG_ 1281 BOT_V_AMUX_SEL "Page:GDIC3162_ADC";
 CM_ SG_ 1281 BOT_U_AMUX_SEL "Page:GDIC3162_ADC";
@@ -1549,6 +1593,10 @@ CM_ SG_ 1554 LOW_HVDC_OV_FLT_FB "Pin_Number:D7 Page:Discretes";
 CM_ SG_ 1554 LOW_OC_W_FLT "Pin_Number:L17 Page:Discretes";
 CM_ SG_ 1554 LOW_OC_V_FLT "Pin_Number:L16 Page:Discretes";
 CM_ SG_ 1554 LOW_OC_U_FLT "Pin_Number:M17 Page:Discretes";
+CM_ SG_ 1280 FD16_INH_DISABLE "Page:Discretes";
+CM_ SG_ 1280 FD5_INH_DISABLE "Page:Discretes";
+CM_ SG_ 1280 DIS_SBC_WWD_TRIG "Page:Discretes";
+CM_ SG_ 1280 SEND_BAD_ANSWER "Page:Discretes";
 CM_ SG_ 1280 UVWPWM_Duty_Freq_Update "Page:Pulse_OUT";
 CM_ SG_ 1280 PWM_Duty_Freq_Update "Page:Pulse_OUT";
 CM_ SG_ 1280 PWM_W_Duty "Page:Pulse_OUT";
@@ -1587,12 +1635,22 @@ CM_ SG_ 1280 LOW_NXP_ACT_DISCH "Pin_Number:PTA3 Page:NXP";
 CM_ SG_ 1280 LOW_F_RESET_NXP "Pin_Number:PTA7 Page:NXP";
 CM_ SG_ 1280 SPD_HW_3PS_I_O "Pin_Number:PTD5 Page:NXP";
 CM_ SG_ 1280 INST_TRIGGER "Pin_Number:PTC3 Page:NXP";
+CM_ SG_ 1553 LIN_Receive_Data7 "Page:LIN";
+CM_ SG_ 1553 LIN_Receive_Data6 "Page:LIN";
+CM_ SG_ 1553 LIN_Receive_Data5 "Page:LIN";
+CM_ SG_ 1553 LIN_Receive_Data4 "Page:LIN";
+CM_ SG_ 1553 LIN_Receive_Data3 "Page:LIN";
+CM_ SG_ 1553 LIN_Receive_Data2 "Page:LIN";
+CM_ SG_ 1553 LIN_Receive_Data1 "Page:LIN";
+CM_ SG_ 1553 LIN_Receive_Data0 "Page:LIN";
+CM_ SG_ 1553 SPEED_FW_Duty "Pin_Number:PTC2 Page:NXP";
+CM_ SG_ 1553 CRT_V_SPEED_Duty "Pin_Number:PTE8 Page:NXP";
 CM_ SG_ 1553 LOW_NXP_ACT_DISCH_State "Pin_Number:PTA3 Page:NXP";
 CM_ SG_ 1553 LOW_F_RESET_NXP_State "Pin_Number:PTA7 Page:NXP";
 CM_ SG_ 1553 SPD_HW_3PS_I_O_State "Pin_Number:PTD5 Page:NXP";
 CM_ SG_ 1553 INST_TRIGGER_State "Pin_Number:PTC3 Page:NXP";
-CM_ SG_ 1553 SPEED_FW "Pin_Number:PTC2 Page:NXP";
-CM_ SG_ 1553 CRT_V_SPEED "Pin_Number:PTE8 Page:NXP";
+CM_ SG_ 1553 SPEED_FW_Freq "Pin_Number:PTC2 Page:NXP";
+CM_ SG_ 1553 CRT_V_SPEED_Freq "Pin_Number:PTE8 Page:NXP";
 CM_ SG_ 1553 HVDC_SENSE1_NXP_AI "Pin_Number:PTA0 Conversion_mode:0 Factor:0.18780517578125 Page:NXP";
 CM_ SG_ 1553 VI_5V_SAFING_AI "Pin_Number:PTC1 Conversion_mode:0 Factor:0.00244140625 Page:NXP";
 CM_ SG_ 1553 LOW_SAFESTATE2_NXP "Pin_Number:PTA2 Page:NXP";
@@ -1669,6 +1727,7 @@ BA_DEF_DEF_  "CANoeStartDelay" 0;
 BA_DEF_DEF_  "VFrameFormat" "StandardCAN";
 BA_ "BusType" "CAN FD";
 BA_ "DBName" "Erad5_GUI_DEVCAN";
+BA_ "VFrameFormat" BO_ 1282 14;
 BA_ "VFrameFormat" BO_ 1281 14;
 BA_ "VFrameFormat" BO_ 1562 14;
 BA_ "VFrameFormat" BO_ 1561 14;

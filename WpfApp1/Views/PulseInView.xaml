@@ -6,7 +6,9 @@
     xmlns:local="clr-namespace:ERad5TestGUI.Views"
     xmlns:models="clr-namespace:ERad5TestGUI.Models"
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
     Background="White"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -20,100 +22,159 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Grid.Row="0" Style="{StaticResource TitleLabel}" Text="Pulse In"/>
-            <Button Content="Reset Min/Max" Height="25" Margin="5,0,0,0" Command="{Binding ResetCommand}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <WrapPanel Orientation="Horizontal">
+            <TextBlock Grid.Row="0" Style="{StaticResource TitleLabel}" d:Text="Pulse In" Text="{Binding ViewName}"/>
+            <Button Content="Reset Min/Max" Height="25" Margin="5,0" Command="{Binding ResetCommand}"/>
             <ToggleButton x:Name="tog" Content="Grid Or Card" Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}" />
-        </StackPanel>
-        <GroupBox Header="Inputs"  Grid.Row="1">
-
-            <Grid Grid.IsSharedSizeScope="True" Margin="-4">
-                <Grid.Resources>
-                    <DataTemplate x:Key="CardViewTemplate">
-                        <Grid>
-                            <ScrollViewer 
+        </WrapPanel>
+        <GroupBox 
+            Header="Inputs" 
+            Grid.Row="1" 
+            Grid.IsSharedSizeScope="True">
+            <GroupBox.Resources>
+                <DataTemplate x:Key="CardViewTemplate">
+                    <Grid>
+                        <ScrollViewer 
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                             ScrollViewer.VerticalScrollBarVisibility="Visible">
-                                <ItemsControl ItemsSource="{Binding Source={StaticResource DataGridData}}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate DataType="{x:Type models:PulseInSignalGroup}">
-                                            <Border Style="{StaticResource CardBorder}">
-                                                <Grid Width="250" HorizontalAlignment="Center">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition />
-                                                        <RowDefinition />
-                                                        <RowDefinition />
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}" HorizontalAlignment="Center"/>
-                                                    <ContentControl 
+                            <ItemsControl ItemsSource="{Binding Source={StaticResource DataGridData}}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type models:PulseInSignalGroup}">
+                                        <Border Style="{StaticResource CardBorder}">
+                                            <Grid Width="250" HorizontalAlignment="Center">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}" HorizontalAlignment="Center"/>
+                                                <ContentControl 
                                                     Content="{Binding Signal_DC}" 
                                                     Grid.Row="1" 
                                                     ContentTemplate="{StaticResource CommonSignalNoBorder}"/>
-                                                    <ContentControl 
+                                                <ContentControl 
                                                     Content="{Binding Signal_Freq}" 
                                                     Grid.Row="2" 
                                                     ContentTemplate="{StaticResource CommonSignalNoBorder}"/>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </ScrollViewer>
-                        </Grid>
-                    </DataTemplate>
-                    <DataTemplate x:Key="GridViewTemplate">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Border Style="{StaticResource CardBorder}" Margin="2,2,2,0" Padding="4">
-                                <Grid >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition SharedSizeGroup="SignalName"/>
-                                        <ColumnDefinition SharedSizeGroup="Value1"/>
-                                        <ColumnDefinition SharedSizeGroup="Value2"/>
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Border Style="{StaticResource CellBorder}">
-                                        <TextBlock Text="SignalName" Style="{StaticResource SignalNameFontStyle}"/>
-                                    </Border>
-                                    <TextBlock Text="Duty Value" Grid.Column="1" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="Freq Value(HZ)" Grid.Column="2" HorizontalAlignment="Center"/>
-                                </Grid>
-                            </Border>
-                            <ScrollViewer 
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </DataTemplate>
+                <DataTemplate x:Key="GridViewTemplate">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Border 
+                            CornerRadius="1"
+                            Style="{StaticResource CardBorder}" 
+                            Margin="2,2,2,0" 
+                            Padding="4">
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="SignalName"/>
+                                    <ColumnDefinition SharedSizeGroup="Value1"/>
+                                    <ColumnDefinition SharedSizeGroup="Value2"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Border Style="{StaticResource CellBorder}">
+                                    <TextBlock Text="SignalName" Style="{StaticResource SignalNameFontStyle}"/>
+                                </Border>
+                                <TextBlock Text="Duty Value" Grid.Column="1" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Freq Value(HZ)" Grid.Column="2" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ScrollViewer 
                                 Grid.Row="1" 
                                 ScrollViewer.VerticalScrollBarVisibility="Visible" 
                                 ScrollViewer.HorizontalScrollBarVisibility="Visible">
-                                <ItemsControl ItemsSource="{Binding Source={StaticResource DataGridData}}"/>
-                            </ScrollViewer>
-                        </Grid>
-                    </DataTemplate>
-                </Grid.Resources>
-
-                <ContentControl Margin="-5">
-                    <ContentControl.Style>
-                        <Style TargetType="ContentControl">
-                            <Setter Property="ContentTemplate" Value="{StaticResource GridViewTemplate}"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=tog,Path=IsChecked,UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                    <Setter Property="ContentTemplate" Value="{StaticResource CardViewTemplate}"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding ElementName=tog,Path=IsChecked,UpdateSourceTrigger=PropertyChanged}" Value="False">
-                                    <Setter Property="ContentTemplate" Value="{StaticResource GridViewTemplate}"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ContentControl.Style>
-                </ContentControl>
-
-            </Grid>
+                            <ItemsControl ItemsSource="{Binding Source={StaticResource DataGridData}}"/>
+                        </ScrollViewer>
+                    </Grid>
+                </DataTemplate>
+            </GroupBox.Resources>
+            <ContentControl Margin="-8">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="ContentTemplate" Value="{StaticResource GridViewTemplate}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=tog,Path=IsChecked,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource CardViewTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=tog,Path=IsChecked,UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                <Setter Property="ContentTemplate" Value="{StaticResource GridViewTemplate}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
         </GroupBox>
+        <!--<StackPanel Grid.Row="2" Grid.Column="1" >-->
+            <GroupBox 
+                Grid.Row="2"
+                Grid.Column="1" 
+                Header="Threshold"
+                Height="160"
+                VerticalAlignment="Top"
+                Margin="2,0,0,0"
+                Grid.IsSharedSizeScope="True">
+                <StackPanel>
+                    <ctrls:ControlWithTitle 
+                        Title="Signal:" 
+                        Style="{StaticResource ControlWithTitleGridStyle}" 
+                        Margin="0,2">
+                        <ctrls:ControlWithTitle.Content>
+                            <ComboBox Height="25" Width="200" SelectedIndex="{Binding SignalType}">
+                                <ComboBoxItem>Duty</ComboBoxItem>
+                                <ComboBoxItem>Freq</ComboBoxItem>
+                            </ComboBox>
+                        </ctrls:ControlWithTitle.Content>
+                    </ctrls:ControlWithTitle>
+                    <ctrls:ControlWithTitle Title="Min:" Style="{StaticResource ControlWithTitleGridStyle}">
+                        <ctrls:ControlWithTitle.Content>
+                            <Slider 
+                                Minimum="0"
+                                Maximum="1000"
+                                Padding="5"
+                                Style="{StaticResource NumberUpDownStyle}"
+                                Value="{Binding MinThreshold,UpdateSourceTrigger=PropertyChanged}"/>
+                        </ctrls:ControlWithTitle.Content>
+                    </ctrls:ControlWithTitle>
+                    <ctrls:ControlWithTitle 
+                        Title="Max:" 
+                        Style="{StaticResource ControlWithTitleGridStyle}" 
+                        Margin="0,2">
+                        <ctrls:ControlWithTitle.Content>
+                            <Slider 
+                                Minimum="0"
+                                Maximum="1000"
+                                Padding="5"
+                                Style="{StaticResource NumberUpDownStyle}"
+                                Value="{Binding MaxThreshold,UpdateSourceTrigger=PropertyChanged}"/>
+                        </ctrls:ControlWithTitle.Content>
+                    </ctrls:ControlWithTitle>
+                   
+                    <Button 
+                        Content="Update" 
+                        Command="{Binding UpdateLimitCommand}"
+                        Height="25" 
+                        Margin="0,2"/>
+                </StackPanel>
+            </GroupBox>
+        <!--</StackPanel>-->
     </Grid>
 </UserControl>

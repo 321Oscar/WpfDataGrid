@@ -31,7 +31,7 @@ namespace ERad5TestGUI.Devices
     {
         NotStart,
         Connected,
-        NoFramesFor1Second
+        DisConnect
     }
 
     public enum DeviceHardWareType

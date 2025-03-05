@@ -27,9 +27,15 @@
            Grid.ColumnSpan="2"
             Orientation="Horizontal">
             <TextBlock Style="{StaticResource TitleLabel}" Text="Discrete" />
-            <Button Content="Locator Inputs" Command="{Binding LocatorSignalsCommand}"/>
-            <Button Content="Locator Outputs" Command="{Binding LocatorOutputsCommand}"/>
-            <Button Content="Reset Motor Faults"  />
+            <Button 
+                Content="Locator Inputs" 
+                Command="{Binding LocatorSignalsCommand}"  
+                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Button 
+                Content="Locator Outputs" 
+                Command="{Binding LocatorOutputsCommand}"  
+                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Button Content="Reset Motor Faults" Height="25" Margin="5"/>
         </WrapPanel>
         <GroupBox Grid.Row="1" Header="Inputs" Margin="2" Grid.RowSpan="2">
             <Grid Margin="-4">

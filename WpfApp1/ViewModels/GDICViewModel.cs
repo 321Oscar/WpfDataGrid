@@ -70,8 +70,8 @@ namespace ERad5TestGUI.ViewModels
         }
 
         public ICommand WriteStatusCommand { get => _writeStatusCommand ?? (_writeStatusCommand = new RelayCommand<GDICStatusGroup>(WriteStatus)); }
-        public ICommand AddStatusCommand { get => _addStatusCommand ?? (_addStatusCommand = new AsyncRelayCommand(AddStatus)); }
-        public ICommand ClearStatusCommand { get => _clearStatusCommand ?? (_clearStatusCommand = new RelayCommand(ClearStatus)); }
+        public ICommand AddStatusCommand { get => _addStatusCommand ?? (_addStatusCommand = new AsyncRelayCommand(AddStatus, () => _gDICStatusRegisterGroups.Count == 0)); }
+        public ICommand ClearStatusCommand { get => _clearStatusCommand ?? (_clearStatusCommand = new RelayCommand(ClearStatus, () => _gDICStatusRegisterGroups.Count > 0)); }
         private void GetGDICStatusGroups()
         {
            
@@ -131,12 +131,20 @@ namespace ERad5TestGUI.ViewModels
             }).ContinueWith((x) =>
             {
                 IsLoading = false;
+                Dispatch(RaiseCommandCanExecute);
             });
         }
        
         private void ClearStatus()
         {
             _gDICStatusRegisterGroups.Clear();
+            RaiseCommandCanExecute();
+        }
+
+        private void RaiseCommandCanExecute()
+        {
+            _addStatusCommand.NotifyCanExecuteChanged();
+            _clearStatusCommand.NotifyCanExecuteChanged();
         }
 
         private void WriteStatus(GDICStatusGroup obj)
@@ -153,6 +161,7 @@ namespace ERad5TestGUI.ViewModels
         private ObservableCollection<GDICAoutSignal> deviceSelections = new ObservableCollection<GDICAoutSignal>();
         private GDICAoutTemperatureSignal currentDevice;
         private RelayCommand _updateThresholdCommand;
+        private RelayCommand _calculateSTDCommand;
         public IEnumerable<GDICAoutTemperatureSignal> TemperatueSignals => temperatueSignals;
         public IEnumerable<GDICAoutTemperatureSignal> TemperatueAoutSignals => temperatueAoutSignals;
 
@@ -244,28 +253,48 @@ namespace ERad5TestGUI.ViewModels
         }
         public double MaxThreshold { get; set; }
         public double MinThreshold { get; set; }
-
+        public int ThresholdType { get; set; }
         public ICommand UpdateThresholdCommand { get => _updateThresholdCommand ?? (_updateThresholdCommand = new RelayCommand(UpdateThreshold)); }
         private void UpdateThreshold()
         {
+            UpdateThresholds(TemperatueSignals);
+
+            UpdateThresholds(TemperatueAoutSignals);
+        }
+
+        private void UpdateThresholds(IEnumerable<GDICAoutTemperatureSignal> temperatureSignals)
+        {
+            foreach (var signal in temperatureSignals)
+            {
+                if (ThresholdType == 0)
+                {
+                    signal.MaxThreshold = MaxThreshold;
+                    signal.MinThreshold = MinThreshold;
+                }
+                else if (ThresholdType == 1)
+                {
+                    signal.Duty.MaxThreshold = MaxThreshold;
+                    signal.Duty.MinThreshold = MinThreshold;
+                }
+                else if (ThresholdType == 2)
+                {
+                    signal.Freq.MaxThreshold = MaxThreshold;
+                    signal.Freq.MinThreshold = MinThreshold;
+                }
+            }
+        }
+
+        public int StandardCount { get; set; } = 1; 
+        public ICommand CalculateSTDCommand => _calculateSTDCommand ?? (_calculateSTDCommand = new RelayCommand(CalculateSTD));
+        private void CalculateSTD()
+        {
             foreach (var signal in TemperatueSignals)
             {
-                signal.MaxThreshold = MaxThreshold;
-                signal.MinThreshold = MinThreshold;
-                signal.Duty.MaxThreshold = MaxThreshold;
-                signal.Duty.MinThreshold = MinThreshold;
-                signal.Freq.MaxThreshold = MaxThreshold;
-                signal.Freq.MinThreshold = MinThreshold;
+                signal.CalStandard(StandardCount);
             }
-
             foreach (var signal in TemperatueAoutSignals)
             {
-                signal.MaxThreshold = MaxThreshold;
-                signal.MinThreshold = MinThreshold;
-                signal.Duty.MaxThreshold = MaxThreshold;
-                signal.Duty.MinThreshold = MinThreshold;
-                signal.Freq.MaxThreshold = MaxThreshold;
-                signal.Freq.MinThreshold = MinThreshold;
+                signal.CalStandard(StandardCount);
             }
         }
 

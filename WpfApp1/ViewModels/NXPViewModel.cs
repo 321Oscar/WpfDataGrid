@@ -41,6 +41,7 @@ namespace ERad5TestGUI.ViewModels
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
             }
         }
 

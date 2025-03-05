@@ -17,7 +17,7 @@ namespace ERad5TestGUI.ViewModels
 
     public delegate TViewModel CreateViewModel<TParameter, TViewModel>(TParameter parameter) where TViewModel : ObservableObject;
 
-    public class MainViewModel : ObservableObject
+    public partial class MainViewModel : ObservableObject
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly NavigationStore _navigationStore;
@@ -25,7 +25,7 @@ namespace ERad5TestGUI.ViewModels
         protected readonly DeviceStore _deviceStore;
         protected readonly LogService _logService;
         private string log;
-
+       
         public ObservableObject CurrentViewModel => _navigationStore.CurrentViewModel;
         public ObservableObject CurrentModalViewModel => _modalNavigationStore.CurrentViewModel;
         public bool IsOpen => _modalNavigationStore.IsOpen;
@@ -139,5 +139,13 @@ namespace ERad5TestGUI.ViewModels
                 _serviceProvider.GetRequiredService<DeviceViewModel>);
             modalNavigationService.Navigate();
         }
+    }
+
+    public partial class MainViewModel
+    {
+        /// <summary>
+        /// <see cref="Models.NXPInputSignal"/> 转换无需 * 5 /4096
+        /// </summary>
+        public string Version { get; } = "0.0.0.1";
     }
 }

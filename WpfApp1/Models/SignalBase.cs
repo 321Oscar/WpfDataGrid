@@ -18,6 +18,7 @@ namespace ERad5TestGUI.Models
     [XmlInclude(typeof(GDICStatusDataSignal))]
     [XmlInclude(typeof(GDICAoutSignal))]
     [XmlInclude(typeof(GDICRegisterSignal))]
+    [XmlInclude(typeof(LinConfigSignal))]
     public class SignalBase : ObservableObject, IDBCSignal
     {
         public const string ViewNameSplit = ";";
@@ -95,7 +96,7 @@ namespace ERad5TestGUI.Models
         public double Factor { get; set; }
 
         public double Offset { get; set; }
-        public string Format { get; set; } = "f2";
+       
         public string Unit { get; set; }
         /// <summary>
         /// In : false
@@ -130,6 +131,12 @@ namespace ERad5TestGUI.Models
             }
             return signalName;
         }
+
+        public virtual string GetValue()
+        {
+            return $"{DisplayName}:{OriginValue}";
+        }
+
         public static string ReplaceViewModel(string viewName)
         {
             return viewName.Replace("ViewModel", "");
@@ -169,7 +176,7 @@ namespace ERad5TestGUI.Models
         {
 
         }
-
+        public string Format { get; set; } = "f2";
         [XmlIgnore]
         public string Value1
         {
@@ -208,22 +215,22 @@ namespace ERad5TestGUI.Models
     public class LimitsSignalBase : TransFormSignalBase, ILimits
     {
         //private string value1;
-        private double maxValue;
-        private double minValue = -1;
-        private double maxThreshold;
-        private double minThreshold;
+        private double maxValue = double.NaN;
+        private double minValue = double.NaN;
+        private double maxThreshold = 5;
+        private double minThreshold = 0;
         private bool outLimits = true;
 
         public LimitsSignalBase()
         {
-            MaxThreshold = 5;
-            MinThreshold = 0;
+            //MaxThreshold = 5;
+            //MinThreshold = 0;
         }
 
         public LimitsSignalBase(Stores.Signal signal, string viewName) : base(signal, viewName)
         {
-            MaxThreshold = 5;
-            MinThreshold = 0;
+            //MaxThreshold = 5;
+            //MinThreshold = 0;
         }
 
         //private SolidColorBrush valueColor;
@@ -262,8 +269,11 @@ namespace ERad5TestGUI.Models
             if (changed)
             {
                 var realValue = TransForm(originValue);
-                MaxValue = Math.Max(MaxValue, realValue);
-                if (MinValue < 0)
+                if (double.IsNaN(MaxValue))
+                    MaxValue = realValue;
+                else
+                    MaxValue = Math.Max(MaxValue, realValue);
+                if (double.IsNaN(MinValue))
                     MinValue = realValue;
                 else
                     MinValue = Math.Min(MinValue, realValue);
@@ -422,13 +432,7 @@ namespace ERad5TestGUI.Models
             base.Enqueue(item);
         }
     }
-
-    public interface IDbcSignalConvert<TOutSignal>
-        where TOutSignal : class
-    {
-        TOutSignal Convert();
-    }
-
+    [Obsolete("SignalCollection")]
     [Serializable]
     public class ViewSignalsInfo
     {
@@ -441,6 +445,7 @@ namespace ERad5TestGUI.Models
             return ViewName;
         }
     }
+    [Obsolete("SignalCollection")]
     [Serializable]
     public class ViewsSignals
     {
@@ -618,5 +623,7 @@ namespace ERad5TestGUI.Models
             });
         }
     }
+
+   
 
 }

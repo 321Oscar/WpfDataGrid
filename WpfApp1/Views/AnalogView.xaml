@@ -9,14 +9,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
     xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI" 
-    xmlns:system="clr-namespace:System;assembly=mscorlib"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Background="White"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="DataGridData" Source="{Binding AnalogSignals}">
-        </CollectionViewSource>
+        <CollectionViewSource x:Key="DataGridData" Source="{Binding AnalogSignals}"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -30,8 +28,11 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock
                 Style="{StaticResource TitleLabel}"
-                Text="Analog" Margin="10,2,2,2"/>
+                Text="{Binding ViewName}" 
+                d:Text="Analog"
+                Margin="10,2,2,2"/>
             <Button 
+                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"
                 Grid.Row="0"
                 Height="25"
                 Width="120"
@@ -48,7 +49,7 @@
                 </TextBox.InputBindings>
             </TextBox>
             <Button 
-                Margin="2,0,0,0"
+                Margin="2,-1,0,0"
                 Height="25" 
                 Width="30" 
                 Command="{Binding SearchSignalByNameCommand}">
@@ -80,13 +81,13 @@
                 Margin="2,0,0,0"
                 x:Name="tog" 
                 Grid.Row="2" 
-                IsChecked="True"
+                IsChecked="False"
                 Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"/>
+            <!--<TextBlock Text="{Binding AnalogSignals.Count}"/>-->
         </StackPanel>
-       
 
         <GroupBox Header="Inputs" Grid.Row="1" >
-            <Grid Grid.IsSharedSizeScope="True" Margin="-7,-6,-9,-2">
+            <Grid Grid.IsSharedSizeScope="True" Margin="-7">
                 <Grid.Resources>
                     <Style TargetType="TextBlock">
                         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -121,7 +122,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:AnalogSignal}">
-                                    <Border Style="{StaticResource CardBorder}">
+                                    <Border Style="{StaticResource CardBorder}" ContextMenu="{StaticResource CommonGridContextMenu}">
                                         <Grid Width="250">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="auto" />
@@ -191,14 +192,7 @@
                                                 ToolTip="StandardDev"/>
                                         </Grid>
                                         <Border.ToolTip>
-                                            <Border>
-                                                <StackPanel>
-                                                    <ctrls:LabelWithContent Title="Name:" Content="{Binding DisplayName}"/>
-                                                    <ctrls:LabelWithContent Title="MsgID:" Content="{Binding MessageID,StringFormat={}{0:X}}"/>
-                                                    <ctrls:LabelWithContent Title="StartBit:" Content="{Binding StartBit}"/>
-                                                    <ctrls:LabelWithContent Title="Unit:" Content="{Binding Unit}"/>
-                                                </StackPanel>
-                                            </Border>
+                                            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SignalToolTip}"/>
                                         </Border.ToolTip>
                                     </Border>
                                 </DataTemplate>
@@ -252,6 +246,7 @@
                             IsReadOnly="True"
                             ItemsSource="{Binding Source={StaticResource DataGridData}}"
                             RowHeaderWidth="0"
+                            SelectedItem="{Binding DataContext.CurrentAnalogSignal,RelativeSource={RelativeSource AncestorType=UserControl,Mode=FindAncestor}}"
                             RowHeight="25">
                             <DataGrid.Columns>
                                 <DataGridTextColumn
@@ -259,7 +254,11 @@
                                     Header="Signal__Name" />
                                 <DataGridTextColumn Binding="{Binding PinNumber}" Header="Pin__Number" />
                                 <DataGridTextColumn Binding="{Binding ADChannel}" Header="A/D Channel" />
-                                <DataGridTextColumn Binding="{Binding Value2}" Header="AI Scaled(Volt/Ampere)" />
+                                <DataGridTextColumn Binding="{Binding Value2}" Width="100">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock TextWrapping="WrapWithOverflow">AI Scaled(Volt/Ampere)</TextBlock>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
                                 <DataGridTextColumn Binding="{Binding OriginValue}" Header="originValue" />
                                 <DataGridTemplateColumn Header="AI Raw(volt)">
                                     <DataGridTemplateColumn.CellTemplate>
@@ -270,9 +269,16 @@
                                 </DataGridTemplateColumn>
                                 <DataGridTextColumn
                                     Width="100"
-                                    Binding="{Binding MaxThreshold}"
-                                    Header="Max Threshold Diag(Volt)" />
-                                <DataGridTextColumn Binding="{Binding MinThreshold}" Header="Min Threshold Diag(Volt)" />
+                                    Binding="{Binding MaxThreshold}">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock TextWrapping="WrapWithOverflow">Max Threshold Diag(Volt)</TextBlock>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding MinThreshold}"  Width="100">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock TextWrapping="WrapWithOverflow">Min Threshold Diag(Volt)</TextBlock>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
                                 <DataGridTextColumn Binding="{Binding MaxValue}" Header="AI Max" />
                                 <DataGridTextColumn Binding="{Binding MinValue}" Header="AI Min" />
                                 <DataGridTextColumn Binding="{Binding StandardDev}" Header="Standard Dev" />
@@ -309,10 +315,10 @@
                         <ctrls:ControlWithTitle Title="Signal:" Style="{StaticResource ControlWithTitleGridStyle}" Margin="0,2">
                             <ctrls:ControlWithTitle.Content>
                                 <ComboBox
-                                Width="200"
-                                DisplayMemberPath="Name"
-                                ItemsSource="{Binding AnalogSignals}"
-                                SelectedItem="{Binding CurrentAnalogSignal,Mode=TwoWay}" />
+                                    Width="200"
+                                    DisplayMemberPath="Name"
+                                    ItemsSource="{Binding AnalogSignals}"
+                                    SelectedItem="{Binding CurrentAnalogSignal,Mode=TwoWay}" />
                             </ctrls:ControlWithTitle.Content>
                         </ctrls:ControlWithTitle>
                         <ctrls:TextBoxWithLabel 
@@ -325,16 +331,28 @@
                             Content="{Binding MaxThreshold,Mode=TwoWay}"
                             Style="{StaticResource TextBoxWithLabelGridStyle}"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,2">
-                        <CheckBox Content="Update for all" IsChecked="{Binding UpdateAll}" />
-                        <Button Command="{Binding UpdateSignalThresholdCommand}" Content="Update" Margin="2,2"/>
-                        <Button Command="{Binding ResetSignalThresholdCommand}" Content="Reset" Margin="0,2"/>
-                        <CheckBox HorizontalAlignment="Left" Content="Latch Faluers" Visibility="Collapsed"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,2" HorizontalAlignment="Center">
+                        <CheckBox Content="Update/Reset for All" IsChecked="{Binding UpdateAll}" />
+                        <Button 
+                            Command="{Binding UpdateSignalThresholdCommand}"
+                            Content="Update" 
+                            Margin="4,2"/>
+                        <Button 
+                            Command="{Binding ResetSignalThresholdCommand}" 
+                            Content="Reset" 
+                            Margin="0,2"/>
+                        <CheckBox 
+                            HorizontalAlignment="Left" 
+                            Content="Latch Faluers" 
+                            Visibility="Collapsed"/>
                     </StackPanel>
+                    <TextBlock 
+                        Width="230" 
+                        TextWrapping="WrapWithOverflow">Note:after close the software,limits will auto save to the [Config/Locator.xml] File.</TextBlock>
                 </StackPanel>
             </GroupBox>
             <GroupBox Grid.Column="1" Header="Calucate Standard Dev" Margin="2">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <ctrls:ControlWithTitle Title="Enter # samples (Max:1000):" Orientation="Vertical">
                         <ctrls:ControlWithTitle.Content>
                             <StackPanel Margin="0,2,0,0">
@@ -342,7 +360,7 @@
                                     Margin="0,0,0,2"
                                     Minimum="0"
                                     Maximum="1000"
-                                    Padding="4"
+                                    Padding="5"
                                     Style="{StaticResource NumberUpDownStyle}"
                                     Value="{Binding StandardCount,UpdateSourceTrigger=PropertyChanged}"/>
                                 <TextBox Text="{Binding StandardCount,UpdateSourceTrigger=PropertyChanged}"

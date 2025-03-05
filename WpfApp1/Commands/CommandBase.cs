@@ -27,4 +27,17 @@ namespace ERad5TestGUI.Commands
 
     public delegate ICommand CreateCommand<TViewModel>(TViewModel viewModel) where TViewModel : ObservableObject;
 
+    public static class ApplicationCommands
+    {
+        // 定义一个新的 RoutedUICommand
+        public static readonly RoutedUICommand CopyNameCommand = new RoutedUICommand(
+            "Copy Name", // 命令文本
+            "CopyNameCommand",  // 命令名称
+            typeof(ApplicationCommands), // 类型
+            new InputGestureCollection() // 可选：输入手势集合
+            {
+            new KeyGesture(Key.C, ModifierKeys.Control) // Ctrl+C
+            });
+    }
+
 }

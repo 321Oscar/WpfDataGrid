@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ERad5TestGUI.Views"
+    xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -21,10 +22,23 @@
         <TextBlock Style="{StaticResource TitleLabel}" Text="SPI"/>
         <GroupBox Header="SPI Baudrate Settings" Grid.Row="1" Grid.Column="0">
             <StackPanel>
-                <ComboBox />
-                <ComboBox />
+                <ctrls:ControlWithTitle Title="Select SPI Channel" Orientation="Vertical">
+                    <ctrls:ControlWithTitle.Content>
+                        <ComboBox />
+                    </ctrls:ControlWithTitle.Content>
+                </ctrls:ControlWithTitle>
+                <ctrls:ControlWithTitle Title="Select SPI Baudrate" Orientation="Vertical">
+                    <ctrls:ControlWithTitle.Content>
+                        <ComboBox />
+                    </ctrls:ControlWithTitle.Content>
+                </ctrls:ControlWithTitle>
+                
                 <!--<TextBlock Text="MHz" />-->
-                <Button Content="Reset" />
+                <Button Content="Reset" Margin="0,2,0,2"/>
+                <TextBlock TextWrapping="WrapWithOverflow" MaxWidth="200">
+                    Notes: after reseting the main micro,all channels will be configured with the default buadrates except for the user selected
+                    channel that will be configured with the selected baudrate
+                </TextBlock>
             </StackPanel>
         </GroupBox>
         <Grid Grid.Column="1" Grid.Row="1">

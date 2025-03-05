@@ -7,13 +7,13 @@
     xmlns:local="clr-namespace:ERad5TestGUI.Views"
     xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
     mc:Ignorable="d" 
-    d:DesignHeight="450" d:DesignWidth="1200">
+    d:DesignHeight="120" 
+    d:DesignWidth="1200">
     <WrapPanel>
         <!--  Device  -->
         <GroupBox Header="CanDevice" Margin="5,5,0,5">
             <Grid Margin="0,-5" Width="300">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
@@ -64,7 +64,7 @@
                                         <DataTrigger Binding="{Binding CurrentDevice.RecieveStatus}" Value="Connected">
                                             <Setter Property="Foreground" Value="Green" />
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding CurrentDevice.RecieveStatus}" Value="NoFramesFor1Second">
+                                        <DataTrigger Binding="{Binding CurrentDevice.RecieveStatus}" Value="DisConnect">
                                             <Setter Property="Foreground" Value="Red" />
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -78,18 +78,21 @@
         <GroupBox Header="Version" Margin="5">
             <StackPanel Grid.IsSharedSizeScope="True">
                 <ctrls:TextBoxWithLabel 
-                            Style="{StaticResource TextBlockWithLabelGridStyle}"
-                            Title="EM SW Version:" 
-                            Content="1.0.0.0"                        
-                            Grid.Row="3"/>
+                    Style="{StaticResource TextBlockWithLabelGridStyle}"
+                    Title="EM SW Version:" 
+                    Content="x.x.x.x"                        
+                    Grid.Row="3"/>
                 <ctrls:TextBoxWithLabel 
-                            Title="PC SW Version:"  Style="{StaticResource TextBlockWithLabelGridStyle}"
-                            Content="1.0.0.0"                        
-                            Grid.Row="3"/>
-                <ctrls:TextBoxWithLabel  Style="{StaticResource TextBlockWithLabelGridStyle}"
-                            Title="Hardware ID:" 
-                            Content="1.0.0.0"                        
-                            Grid.Row="3"/>
+                    Title="PC SW Version:"  
+                    Style="{StaticResource TextBlockWithLabelGridStyle}"
+                    Content="{Binding Version}"  
+                    d:Content="1.0.0.0"
+                    Grid.Row="3"/>
+                <ctrls:TextBoxWithLabel 
+                    Style="{StaticResource TextBlockWithLabelGridStyle}"
+                    Title="Hardware ID:" 
+                    Content="x.x.x.x"                        
+                    Grid.Row="3"/>
 
             </StackPanel>
         </GroupBox>

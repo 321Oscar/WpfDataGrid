@@ -29,6 +29,8 @@ namespace ERad5TestGUI.ViewModels
         public NXPViewModel NXPViewModel { get; private set; }
         public GDICViewModel GDICViewModel { get; private set; }
         public MemoryViewModel MemoryViewModel { get; private set; }
+        public ResolverViewModel ResolverViewModel { get; private set; }
+        public LinViewModel LinViewModel { get; private set; }
 
         protected override void DeivceConfig()
         {
@@ -56,7 +58,11 @@ namespace ERad5TestGUI.ViewModels
             NXPViewModel = new NXPViewModel(signalStore, _deviceStore, _logService);
             NXPViewModel.Init();
             GDICViewModel = new GDICViewModel(signalStore, _deviceStore, _logService);
-            GDICViewModel.Init(); 
+            GDICViewModel.Init();
+            ResolverViewModel = new ResolverViewModel(signalStore, _deviceStore, _logService);
+            ResolverViewModel.Init();
+            LinViewModel = new LinViewModel(signalStore, _deviceStore, _logService);
+            LinViewModel.Init(); 
             MemoryViewModel = new MemoryViewModel(_deviceStore, _logService);
             MemoryViewModel.Init();
         }

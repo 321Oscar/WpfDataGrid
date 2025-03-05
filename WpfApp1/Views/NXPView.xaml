@@ -15,10 +15,27 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
         <TextBlock Text="NXP" Style="{StaticResource TitleLabel}" Grid.Row="0"/>
-        <Button Content="LocatorNxpInput" Width="120" Margin="353,5,327,5" Height="25" Command="{Binding LocatorSignalsCommand}"/>
-        <Button Content="LocatorDisOutput" Width="120"  Height="25" Margin="228,5,452,5" Command="{Binding LocatorOutputsCommand}"/>
-        <Button Content="LocatorNXP" Width="120"  Height="25" Margin="103,5,577,5" Command="{Binding LocatorNxpCommand}"/>
+        <Button 
+            Content="Locator DicreteIn" 
+            Width="120" 
+            Height="25" 
+            Command="{Binding LocatorNxpCommand}"  
+            Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <Button 
+            Content="Locator DisOutput" 
+            Width="125" 
+            Height="25"
+            Command="{Binding LocatorOutputsCommand}"  
+            Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <Button 
+            Content="Locator NxpInput" 
+            Width="120" 
+            Height="25" 
+            Command="{Binding LocatorSignalsCommand}" 
+            Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </StackPanel>
         <GroupBox Header="Discrete Inputs" Grid.Row="1">
             <Grid Margin="-4">
                 <ScrollViewer >

@@ -34,6 +34,7 @@ namespace ERad5TestGUI.Stores
             //LoadPulseInSignals(0x20, nameof(ViewModels.PPAWLViewModel));
             //LoadPulseOutSignals(nameof(ViewModels.PPAWLViewModel));
             LoadPulseOutFixedSignals();
+            LoadLinSignals();
         }
 
        
@@ -42,7 +43,13 @@ namespace ERad5TestGUI.Stores
         {
             try
             {
-                SignalLocation.Signals.Distinct();
+                //SignalLocation.Signals.Distinct().ToList().ForEach(signal =>
+                //{
+                //    if(this.Signals.FirstOrDefault(x=>x.Equals(signal)) != null)
+                //    {
+
+                //    }
+                //});
                 XmlHelper.SerializeToXml(SignalLocation, SignalLocatorFilePath);
             }
             catch (Exception ex)
@@ -75,7 +82,9 @@ namespace ERad5TestGUI.Stores
             if (Signals.FirstOrDefault(x => x.MessageID == signal.MessageID && x.Name == signal.Name) == null)
             {
                 _signals.Add(signal);
+#if DEBUG
                 logService.Debug($"add Signal {signal.Name}");
+#endif
                 if (this.Messages.FirstOrDefault(x => x.MessageID == signal.MessageID) == null)
                 {
                     //create new CanMessag
@@ -116,7 +125,7 @@ namespace ERad5TestGUI.Stores
                            {
                                if (string.IsNullOrEmpty(viewName))
                                    return true;
-                               return x.ViewName.IndexOf(viewName) > -1;
+                               return x.ViewName.IndexOf(viewName, StringComparison.OrdinalIgnoreCase) > -1;
                            });
         }
 
@@ -140,7 +149,7 @@ namespace ERad5TestGUI.Stores
             {
                 if (string.IsNullOrEmpty(viewName))
                     signals.Add(item);
-                else if (item.ViewName.IndexOf(viewName) > -1)
+                else if (item.ViewName.IndexOf(viewName, StringComparison.OrdinalIgnoreCase) > -1)
                     signals.Add(item);
             }
 
@@ -641,7 +650,30 @@ namespace ERad5TestGUI.Stores
             var pwm_V_Duty = new PulseOutSingleSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "PWM_V_Duty"), viewName);
             AddSignal(pwm_V_Duty); 
             var pwm_W_Duty = new PulseOutSingleSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "PWM_W_Duty"), viewName);
-            AddSignal(pwm_W_Duty);
+            AddSignal(pwm_W_Duty); 
+            var uvm_PWM_Freq = new PulseOutSingleSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "UVW_PWM_Freq"), viewName);
+            AddSignal(uvm_PWM_Freq);
+        }
+
+        private void LoadLinSignals()
+        {
+            string viewName = "LIN";
+            var lINViewSignals = GetSignalsByPageName(viewName);
+
+            foreach (var item in lINViewSignals)
+            {
+                var linConfigSignal = new LinConfigSignal(item, viewName);
+                //Receive Data is IN
+                if(linConfigSignal.Name.IndexOf("Receive_Data") < 0)
+                {
+                    linConfigSignal.InOrOut = true;
+                }
+                //else
+                //{
+                //    linConfigSignal.InOrOut = true;
+                //}
+                AddSignal(linConfigSignal);
+            }
         }
 
         private void GenerateVirtualSignals<TSignal>(ref uint id, string viewName,ref int startbit, int count = 10, int signalLength = 1)
