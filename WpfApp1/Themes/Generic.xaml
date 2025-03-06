@@ -104,6 +104,7 @@
                 <ctrls:LabelWithContent Title="Name:" Content="{Binding DisplayName}"/>
                 <ctrls:LabelWithContent Title="MsgID:" Content="{Binding MessageID,StringFormat='0x{0:X}'}"/>
                 <ctrls:LabelWithContent Title="StartBit:" Content="{Binding StartBit}"/>
+                <ctrls:LabelWithContent Title="Length:" Content="{Binding Length}"/>
                 <ctrls:LabelWithContent Title="Uint:" Content="{Binding Unit}"/>
                 <ctrls:LabelWithContent Title="OriginalValue:" Content="{Binding OriginValue}"/>
             </StackPanel>

@@ -49,16 +49,22 @@
                 </DataTemplate>
             </Grid.Resources>
             <GroupBox Header="LIN Send Config" >
-                <StackPanel Orientation="Horizontal">
+                <WrapPanel Orientation="Horizontal">
                     <ctrls:ControlWithTitle Title="ID(0x):">
                         <ctrls:ControlWithTitle.Content>
                             <TextBox Width="60" Text="{Binding SendID.OriginValue,Converter={StaticResource DoubleHexConverter}}"/>
                         </ctrls:ControlWithTitle.Content>
+                        <ctrls:ControlWithTitle.ToolTip>
+                            <ContentControl Content="{Binding SendID}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                        </ctrls:ControlWithTitle.ToolTip>
                     </ctrls:ControlWithTitle>
                     <ctrls:ControlWithTitle Title="Length" Margin="10,0,0,0">
                         <ctrls:ControlWithTitle.Content>
                             <TextBox Width="60" Text="{Binding SendLength.OriginValue}"/>
                         </ctrls:ControlWithTitle.Content>
+                        <ctrls:ControlWithTitle.ToolTip>
+                            <ContentControl Content="{Binding SendLength}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                        </ctrls:ControlWithTitle.ToolTip>
                     </ctrls:ControlWithTitle>
                     <ctrls:ControlWithTitle Title="Checksum Type" Margin="10,0,0,0">
                         <ctrls:ControlWithTitle.Content>
@@ -73,19 +79,25 @@
                             <ContentControl Content="{Binding SendLinData}" Grid.Row="1"/>
                         </ctrls:ControlWithTitle.Content>
                     </ctrls:ControlWithTitle>
-                </StackPanel>
+                </WrapPanel>
             </GroupBox>
             <GroupBox Header="LIN Receive Config" Grid.Row="1">
-                <StackPanel Orientation="Horizontal">
+                <WrapPanel Orientation="Horizontal">
                     <ctrls:ControlWithTitle Title="ID(0x):">
                         <ctrls:ControlWithTitle.Content>
                             <TextBox Width="60" Text="{Binding ReceiveID.OriginValue,Converter={StaticResource DoubleHexConverter}}"/>
                         </ctrls:ControlWithTitle.Content>
+                        <ctrls:ControlWithTitle.ToolTip>
+                            <ContentControl Content="{Binding ReceiveID}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                        </ctrls:ControlWithTitle.ToolTip>
                     </ctrls:ControlWithTitle>
                     <ctrls:ControlWithTitle Title="Length" Margin="10,0,0,0">
                         <ctrls:ControlWithTitle.Content>
                             <TextBox Width="60" Text="{Binding ReceiveLength.OriginValue}"/>
                         </ctrls:ControlWithTitle.Content>
+                        <ctrls:ControlWithTitle.ToolTip>
+                            <ContentControl Content="{Binding ReceiveLength}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                        </ctrls:ControlWithTitle.ToolTip>
                     </ctrls:ControlWithTitle>
                     <ctrls:ControlWithTitle Title="Checksum Type" Margin="10,0,0,0">
                         <ctrls:ControlWithTitle.Content>
@@ -103,7 +115,7 @@
                     <Button 
                             Command="{Binding UpdateCommand}"
                             Content="Update" Width="80"/>
-                </StackPanel>
+                </WrapPanel>
             </GroupBox>
             <!--<GroupBox Header="Receice Data" Grid.Row="2">
                 <Grid>

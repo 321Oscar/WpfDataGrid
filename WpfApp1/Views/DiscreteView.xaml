@@ -24,26 +24,43 @@
         
         <WrapPanel
             Grid.Row="0"
-           Grid.ColumnSpan="2"
+            Grid.ColumnSpan="2"
             Orientation="Horizontal">
             <TextBlock Style="{StaticResource TitleLabel}" Text="Discrete" />
             <Button 
                 Content="Locator Inputs" 
                 Command="{Binding LocatorSignalsCommand}"  
-                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"
+                Height="25"/>
             <Button 
                 Content="Locator Outputs" 
                 Command="{Binding LocatorOutputsCommand}"  
-                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            <Button Content="Reset Motor Faults" Height="25" Margin="5"/>
+                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"
+                Height="25"/>
+            <Button 
+                Content="Reset Motor Faults" 
+                Height="25" 
+                Margin="5"/>
         </WrapPanel>
-        <GroupBox Grid.Row="1" Header="Inputs" Margin="2" Grid.RowSpan="2">
-            <Grid Margin="-4">
+        <GroupBox 
+            Grid.Row="1"
+            Header="Inputs" 
+            Margin="2" 
+            Grid.RowSpan="2">
+            <Grid Margin="-7">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition  Height="auto"/>
                 </Grid.RowDefinitions>
-                <ScrollViewer>
+                <StackPanel Orientation="Horizontal" Margin="60,-30,0,0">
+                    <Button 
+                        Content="Clear Transitions" 
+                        Width="120"
+                        Height="25"
+                        Command="{Binding ClearTransitionsCommand}"
+                        />
+                </StackPanel>
+                <ScrollViewer Grid.Row="1">
                     <ItemsControl ItemsSource="{Binding InputSignals}" Grid.Row="0" Grid.IsSharedSizeScope="True">
                     </ItemsControl>
                 </ScrollViewer>

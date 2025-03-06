@@ -135,7 +135,7 @@ namespace ERad5TestGUI.Models
         public override string RelaceSignalName(string s)
         {
             var name = base.RelaceSignalName(Name);
-            return name.Replace(GroupName, "").Replace("_", "").Replace("Write", "");
+            return name.Replace(GroupName, "").Replace("Write", "").TrimStart(new char[] { '_'});
         }
     }
 

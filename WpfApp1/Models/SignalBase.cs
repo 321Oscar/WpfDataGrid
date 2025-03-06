@@ -219,7 +219,7 @@ namespace ERad5TestGUI.Models
         private double minValue = double.NaN;
         private double maxThreshold = 5;
         private double minThreshold = 0;
-        private bool outLimits = true;
+        private bool outLimits = false;
 
         public LimitsSignalBase()
         {
@@ -287,7 +287,12 @@ namespace ERad5TestGUI.Models
         private void ChangeOutLimits()
         {
             if (double.TryParse(this.Value1, out double realVal))
-                OutLimits = realVal > MaxThreshold || realVal < MinThreshold;
+            {
+                if (double.IsNaN(realVal))
+                    OutLimits = false;
+                else
+                    OutLimits = realVal > MaxThreshold || realVal < MinThreshold;
+            }
         }
     }
 

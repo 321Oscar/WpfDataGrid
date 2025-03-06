@@ -20,10 +20,10 @@ namespace ERad5TestGUI.ViewModels
     public class MemoryViewModel : ViewModelBase
     {
         private ICommand _loadSrecFileCommand;
-        private ObservableCollection<UDS.SRecord.SrecData> _s19Records = new ObservableCollection<UDS.SRecord.SrecData>();
+        private readonly ObservableCollection<UDS.SRecord.SrecDataOnly> _s19Records = new ObservableCollection<UDS.SRecord.SrecDataOnly>();
         public MemoryViewModel(DeviceStore deviceStore, LogService logService) : base(null, deviceStore, logService)
         {
-            S19Records = new ReadOnlyObservableCollection<UDS.SRecord.SrecData>(_s19Records);
+            S19Records = new ReadOnlyObservableCollection<UDS.SRecord.SrecDataOnly>(_s19Records);
         }
         public MemoryViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) 
             : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
@@ -31,7 +31,7 @@ namespace ERad5TestGUI.ViewModels
         }
 
         public ICommand LoadSrecFileCommand => _loadSrecFileCommand ?? (_loadSrecFileCommand = new AsyncRelayCommand(LoadSrecFile));
-        public ReadOnlyObservableCollection<UDS.SRecord.SrecData> S19Records { get; set; }
+        public ReadOnlyObservableCollection<UDS.SRecord.SrecDataOnly> S19Records { get; set; }
         private Task LoadSrecFile()
         {
             var ofd = new CommonOpenFileDialog();
@@ -45,7 +45,7 @@ namespace ERad5TestGUI.ViewModels
                     //S19RecordFile s19File = new S19RecordFile();
                     //S19RecordFile.ParseS19File(ofd.FileName, S19Records);
                     IsLoading = true;
-                    UDS.SRecord.SrecFile f = new UDS.SRecord.SrecFile(ofd.FileName);
+                    UDS.SRecord.SrecFileOnlyData f = new UDS.SRecord.SrecFileOnlyData(ofd.FileName);
                     Dispatch(() =>
                     {
                         _s19Records.Clear();

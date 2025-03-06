@@ -661,7 +661,10 @@ namespace ERad5TestGUI.Stores
             AddSignal(pwm_V_Duty); 
             var pwm_W_Duty = new PulseOutSingleSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "PWM_W_Duty"), viewName);
             AddSignal(pwm_W_Duty); 
-            var uvm_PWM_Freq = new PulseOutSingleSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "UVW_PWM_Freq"), viewName);
+            var uvm_PWM_Freq = new PulseOutSingleSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "UVW_PWM_Freq"), viewName)
+            {
+                OriginValue = 10000
+            };
             AddSignal(uvm_PWM_Freq);
         }
 

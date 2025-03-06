@@ -37,7 +37,7 @@
                                         <TextBox />
                                     </ctrls:ControlWithTitle.Content>
                                 </ctrls:ControlWithTitle>
-                                <Button Content="Read" Width="80" Margin="0,2,0,0"/>
+                                <Button Content="Read" Margin="0,2,0,0"/>
                             </StackPanel>
                         </GroupBox>
                         <GroupBox Header="Write">
@@ -54,7 +54,7 @@
                                         <TextBox />
                                     </ctrls:ControlWithTitle.Content>
                                 </ctrls:ControlWithTitle>
-                                <Button Content="Write" Width="80" Margin="0,2,0,0"/>
+                                <Button Content="Write" Margin="0,2,0,0"/>
                             </StackPanel>
                         </GroupBox>
                         <GroupBox Header="Test">
@@ -109,8 +109,14 @@
                             <ListView ItemsSource="{Binding S19Records}" Grid.Column="1" Grid.Row="1" VirtualizingPanel.IsVirtualizing="True">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="Address" DisplayMemberBinding="{Binding AddrStr}"/>
-                                        <GridViewColumn Header="Data" DisplayMemberBinding="{Binding Data}"/>
+                                        <GridViewColumn 
+                                            Width="100"
+                                            Header="Address" 
+                                            DisplayMemberBinding="{Binding Address,StringFormat={}{0:X8}}"/>
+                                        <GridViewColumn 
+                                            Header="Data" 
+                                            Width="100"
+                                            DisplayMemberBinding="{Binding DataStr}"/>
                                     </GridView>
                                 </ListView.View>
                             </ListView>

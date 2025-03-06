@@ -238,6 +238,8 @@
                     <DataTemplate x:Key="DataGridTemplate">
                         <DataGrid
                             Margin="5"
+                            Width="1200"
+                            HorizontalAlignment="Left"
                             AutoGenerateColumns="False"
                             CanUserAddRows="False"
                             ColumnHeaderHeight="30"

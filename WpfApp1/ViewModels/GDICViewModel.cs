@@ -56,7 +56,7 @@ namespace ERad5TestGUI.ViewModels
         }
       
         //--Status-------------------------------------------------------------
-        private ObservableCollection<GDICStatusRegisterGroup> _gDICStatusRegisterGroups = new ObservableCollection<GDICStatusRegisterGroup>();
+        private readonly ObservableCollection<GDICStatusRegisterGroup> _gDICStatusRegisterGroups = new ObservableCollection<GDICStatusRegisterGroup>();
         private GDICStatusGroup _currentGDICStatusGroup;
         private RelayCommand<GDICStatusGroup> _writeStatusCommand;
         private AsyncRelayCommand _addStatusCommand;
@@ -156,14 +156,14 @@ namespace ERad5TestGUI.ViewModels
         //--------------------------------------------------------------------
 
         //--Aout--------------------------------------------------------------
-        private ObservableCollection<GDICAoutTemperatureSignal> temperatueSignals = new ObservableCollection<GDICAoutTemperatureSignal>();
-        private ObservableCollection<GDICAoutTemperatureSignal> temperatueAoutSignals = new ObservableCollection<GDICAoutTemperatureSignal>();
-        private ObservableCollection<GDICAoutSignal> deviceSelections = new ObservableCollection<GDICAoutSignal>();
-        private GDICAoutTemperatureSignal currentDevice;
+        private readonly ObservableCollection<GDICAoutTemperatureSignal> _temperatueSignals = new ObservableCollection<GDICAoutTemperatureSignal>();
+        private readonly ObservableCollection<GDICAoutTemperatureSignal> _temperatueAoutSignals = new ObservableCollection<GDICAoutTemperatureSignal>();
+        private readonly ObservableCollection<GDICAoutSignal> _deviceSelections = new ObservableCollection<GDICAoutSignal>();
+        private GDICAoutTemperatureSignal _currentDevice;
         private RelayCommand _updateThresholdCommand;
         private RelayCommand _calculateSTDCommand;
-        public IEnumerable<GDICAoutTemperatureSignal> TemperatueSignals => temperatueSignals;
-        public IEnumerable<GDICAoutTemperatureSignal> TemperatueAoutSignals => temperatueAoutSignals;
+        public IEnumerable<GDICAoutTemperatureSignal> TemperatueSignals => _temperatueSignals;
+        public IEnumerable<GDICAoutTemperatureSignal> TemperatueAoutSignals => _temperatueAoutSignals;
 
         private void GetTemperatueSignals()
         {
@@ -182,22 +182,22 @@ namespace ERad5TestGUI.ViewModels
 
                     return temperature;
                 });
-            deviceSelections.AddRange(gdicSignals.Where(x => x.Name.IndexOf("Select", StringComparison.OrdinalIgnoreCase) > -1));
-            temperatueSignals.AddRange(allTemp.Where(x => !x.CanChangeSelection));
-            temperatueAoutSignals.AddRange(allTemp.Where(x => x.CanChangeSelection));
+            _deviceSelections.AddRange(gdicSignals.Where(x => x.Name.IndexOf("Select", StringComparison.OrdinalIgnoreCase) > -1));
+            _temperatueSignals.AddRange(allTemp.Where(x => !x.CanChangeSelection));
+            _temperatueAoutSignals.AddRange(allTemp.Where(x => x.CanChangeSelection));
         }
 
-        public IEnumerable<GDICAoutSignal> DeviceSelections { get => deviceSelections; }
+        public IEnumerable<GDICAoutSignal> DeviceSelections { get => _deviceSelections; }
         public GDICAoutTemperatureSignal CurrentDevice
         {
-            get => currentDevice;
+            get => _currentDevice;
             set
             {
-                currentDevice = value;
+                _currentDevice = value;
                 DeviceSelections.ToList().ForEach(
                     x =>
                     {
-                        if(x.Name.IndexOf(currentDevice.ToString(),StringComparison.OrdinalIgnoreCase) > -1)
+                        if(x.Name.IndexOf(_currentDevice.ToString(),StringComparison.OrdinalIgnoreCase) > -1)
                         {
                             x.OriginValue = AmuxSelections.IndexOf(CurrentAmux);
                         }
@@ -216,20 +216,20 @@ namespace ERad5TestGUI.ViewModels
             "VCC",
             "VEE",
         };
-        private string currentAmux;
+        private string _currentAmux;
 
         public string CurrentAmux
         {
-            get => currentAmux; 
+            get => _currentAmux; 
             set
             {
-                currentAmux = value;
+                _currentAmux = value;
 
                 if (CurrentDevice != null)
                 {
                     //foreach (var signal in temperatueAoutSignals)
                     //{
-                    CurrentDevice.Selection = currentAmux;
+                    CurrentDevice.Selection = _currentAmux;
                     //CurrentDevice.Duty.Selection = currentDevice.DisplayName;
                     //CurrentDevice.Freq.Selection = currentDevice.DisplayName;
                     //}
@@ -300,9 +300,9 @@ namespace ERad5TestGUI.ViewModels
 
         //--------------------------------------------------------------------
         //---Register---------------------------------------------------------
-        private ObservableCollection<GDICRegisterDeviceGroup> registers = new ObservableCollection<GDICRegisterDeviceGroup>();
+        private readonly ObservableCollection<GDICRegisterDeviceGroup> _registers = new ObservableCollection<GDICRegisterDeviceGroup>();
        
-        public IEnumerable<GDICRegisterDeviceGroup> Registers => registers;
+        public IEnumerable<GDICRegisterDeviceGroup> Registers => _registers;
 
         private void LoadRegister()
         {
@@ -320,7 +320,7 @@ namespace ERad5TestGUI.ViewModels
                     return reGroup;
                 });
 
-            registers.AddRange( regesiterGroup.GroupBy(x => string.Join("-", x.GroupName.Split("-").Take(2))).Select(
+            _registers.AddRange( regesiterGroup.GroupBy(x => string.Join("-", x.GroupName.Split("-").Take(2))).Select(
                 g =>
                 {
                     GDICRegisterDeviceGroup d = new GDICRegisterDeviceGroup(g.Key);
@@ -331,11 +331,11 @@ namespace ERad5TestGUI.ViewModels
 
         //--------------------------------------------------------------------
         //--ADC---------------------------------------------------------------
-        private ObservableCollection<GDICADCSignal> adcSignals = new ObservableCollection<GDICADCSignal>();
-        private string currentValueSelection;
+        private readonly ObservableCollection<GDICADCSignal> _adcSignals = new ObservableCollection<GDICADCSignal>();
+        private string _currentValueSelection;
       
 
-        public IEnumerable<GDICADCSignal> AdcSignals => adcSignals;
+        public IEnumerable<GDICADCSignal> AdcSignals => _adcSignals;
         public GDICADCSignal CurrentAdcSignal { get; set; }
         public List<string> AdcValueSelections { get; } = new List<string>()
         {
@@ -347,12 +347,15 @@ namespace ERad5TestGUI.ViewModels
             "Die",
         };
 
-        public string CurrentValueSelection { get=> currentValueSelection; set
+        public string CurrentValueSelection 
+        { 
+            get=> _currentValueSelection; 
+            set
             {
-                currentValueSelection = value;
+                _currentValueSelection = value;
                 if (CurrentAdcSignal != null)
                 {
-                    CurrentAdcSignal.WriteSignal.OriginValue = AdcValueSelections.IndexOf(currentValueSelection) + 1;
+                    CurrentAdcSignal.WriteSignal.OriginValue = AdcValueSelections.IndexOf(_currentValueSelection) + 1;
 
                     Send(SignalStore.BuildFrames(new SignalBase[] { CurrentAdcSignal.WriteSignal }));
                 }
@@ -365,7 +368,7 @@ namespace ERad5TestGUI.ViewModels
             //var inputs = gdicSignals.Where(x => !x.InOrOut);
             //var writes = gdicSignals.Where(x => x.InOrOut);
 
-            adcSignals.AddRange( gdicSignals
+            _adcSignals.AddRange( gdicSignals
                 .GroupBy(s=>s.DeviceName)
                 .Select(g =>
                 {

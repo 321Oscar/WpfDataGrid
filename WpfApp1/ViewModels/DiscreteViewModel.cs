@@ -22,6 +22,7 @@ namespace ERad5TestGUI.ViewModels
         private RelayCommand _locatorOutputsCommand;
         private RelayCommand _sendBadAnwserCommand;
         private RelayCommand _disableSBCWWDTRIGCommand;
+        private RelayCommand _clearTransitionsCommand;
 
         public DiscreteViewModel(SignalStore signalStore,
             DeviceStore deviceStore, 
@@ -42,6 +43,10 @@ namespace ERad5TestGUI.ViewModels
         public ICommand LocatorOutputsCommand => _locatorOutputsCommand ?? (_locatorOutputsCommand = new RelayCommand(LocatorOutputSignals));
         public ICommand SendBadAnwserCommand => _sendBadAnwserCommand ?? (_sendBadAnwserCommand = new RelayCommand(SendBadAnswer));
         public ICommand DisableWWDTRIGCommand => _disableSBCWWDTRIGCommand ?? (_disableSBCWWDTRIGCommand = new RelayCommand(DisableSBCWD));
+        public ICommand ClearTransitionsCommand => _clearTransitionsCommand ?? (_clearTransitionsCommand = new RelayCommand(ClearTransitions));
+
+     
+
         public IEnumerable<DiscreteInputSignal> InputSignals => _inputSignals;
         public IEnumerable<DiscreteOutputSignal> OutputSignals => _outputSignals;
         public DiscreteOutputSignal DIS_SBC_WWD_TRIG => SignalStore.GetSignals<DiscreteOutputSignal>().FirstOrDefault(x => x.Name == "DIS_SBC_WWD_TRIG");
@@ -135,6 +140,14 @@ namespace ERad5TestGUI.ViewModels
             }
         }
 
+        private void ClearTransitions()
+        {
+            //throw new NotImplementedException();
+            foreach (var item in InputSignals)
+            {
+                item.ClearTransitions();
+            }
+        }
 
         private void Update()
         {

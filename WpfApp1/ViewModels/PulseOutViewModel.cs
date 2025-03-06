@@ -14,8 +14,8 @@ namespace ERad5TestGUI.ViewModels
     {
         public const string VIEWNAME = "Pulse_OUT";
 
-        private readonly ObservableCollection<PulseGroupSignalOutGroup> groups = new ObservableCollection<PulseGroupSignalOutGroup>();
-        private RelayCommand updateCommand;
+        private readonly ObservableCollection<PulseGroupSignalOutGroup> _groups = new ObservableCollection<PulseGroupSignalOutGroup>();
+        private RelayCommand _updateCommand;
 
         public PulseOutViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService)
             : base(signalStore, deviceStore, logService)
@@ -33,8 +33,8 @@ namespace ERad5TestGUI.ViewModels
             Dispose();
         }
       
-        public ICommand UpdateCommand { get => updateCommand ?? (updateCommand = new RelayCommand(Update)); }
-        public IEnumerable<PulseGroupSignalOutGroup> Groups => groups;
+        public ICommand UpdateCommand { get => _updateCommand ?? (_updateCommand = new RelayCommand(Update)); }
+        public IEnumerable<PulseGroupSignalOutGroup> Groups => _groups;
         [Obsolete]
         public IEnumerable<PulseOutSingleSignal> PulseOutSignals => SignalStore.GetSignals<PulseOutSingleSignal>();
 
@@ -59,21 +59,28 @@ namespace ERad5TestGUI.ViewModels
             }
 
         }
-
+        public override void Send()
+        {
+            //base.Send();
+            if (DeviceStore.HasDevice)
+                DeviceStore.CurrentDevice.SendMultip(SignalStore.BuildFrames(SignalStore.GetSignals<PulseOutSingleSignal>(VIEWNAME)));
+        }
         public override void Dispose()
         {
             //SignalStore.SaveViewSignalLocator(VIEWNAME, PulseOutSignals);
             SignalStore.SaveViewSignalLocator(VIEWNAME, SignalStore.GetSignals<PulseOutGroupSignal>());
         }
 
+        #region Locator Signals
+
         private PulseOutSignalLocatorViewModel CreateLocatorViewModel(System.Windows.Window window)
-          => new PulseOutSignalLocatorViewModel(groups,
+          => new PulseOutSignalLocatorViewModel(_groups,
                                            SignalStore,
                                            CreatePulseOutGroupSignal, window);
 
         private PulseOutSignalLocatorViewModel CreateLocatorViewModel() 
             => new PulseOutSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore),
-                                                  groups,
+                                                  _groups,
                                                   SignalStore,
                                                   CreatePulseOutGroupSignal,
                                                   AddGroup);
@@ -125,6 +132,7 @@ namespace ERad5TestGUI.ViewModels
                 groups.Add(group);
             }
         }
+        #endregion
 
         private void GetGroups(IEnumerable<PulseOutGroupSignal> pulseOutGroupsignals)
         {
@@ -152,7 +160,7 @@ namespace ERad5TestGUI.ViewModels
             .ToList()
             .ForEach(x =>
             {
-                groups.Add(x);
+                _groups.Add(x);
             });
             //gDICStatusGroups.Sort
         }
@@ -171,13 +179,7 @@ namespace ERad5TestGUI.ViewModels
 
             Send();
         }
-
-        public override void Send()
-        {
-            //base.Send();
-            if (DeviceStore.HasDevice)
-                DeviceStore.CurrentDevice.SendMultip(SignalStore.BuildFrames(SignalStore.GetSignals<PulseOutSingleSignal>(VIEWNAME)));
-        }
+       
 
         #region Fixed Signals
         public PulseOutSingleSignal PWM_U_Duty => SignalStore.GetSignals<PulseOutSingleSignal>().FirstOrDefault(x => x.Name == "PWM_U_Duty");

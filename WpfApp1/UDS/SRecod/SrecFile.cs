@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -876,5 +877,81 @@ namespace ERad5TestGUI.UDS.SRecord
             }
         }
 
+    }
+
+    public class SrecFileOnlyData
+    {
+        private readonly ObservableCollection<SrecDataOnly> _content = new ObservableCollection<SrecDataOnly>();
+
+        public ObservableCollection<SrecDataOnly> Content { get => _content; }
+
+        public SrecFileOnlyData(string filePath)
+        {
+            ParseWithPath(filePath);
+        }
+
+        private void ParseWithPath(string filePath)
+        {
+            var srecFile = new SrecFile(filePath);
+
+            foreach (var item in srecFile.AddrData)
+            {
+                var startPostion = item.Key;
+                int takeLength = 4;
+
+                int dataOnlyCount = item.Value.Count / takeLength;
+                int remainder = item.Value.Count % takeLength;
+                dataOnlyCount = remainder == 0 ? dataOnlyCount : dataOnlyCount + 1;
+
+                for (int i = 0; i < dataOnlyCount; i++)
+                {
+                    if ((i + 1) * takeLength > item.Value.Count)
+                    {
+                        if (remainder != 0)
+                        {
+                            takeLength = remainder;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    SrecDataOnly dataonly = new SrecDataOnly
+                    {
+                        Address = (uint)(startPostion + i * takeLength),
+                        Data = new byte[takeLength]
+                    };
+                    for (int j = 0; j < takeLength; j++)
+                    {
+                        dataonly.Data[j] = item.Value[i * takeLength + j];
+                    }
+                    _content.Add(dataonly);
+
+                }
+            }
+        }
+
+        public void AddData(uint address, byte[] data)
+        {
+
+        }
+    }
+
+    public class SrecDataOnly
+    {
+        public uint Address { get; set; }
+
+        public byte[] Data { get; set; }
+
+        public string DataStr
+        {
+            get
+            {
+                if (Data == null || Data.Length == 0)
+                    return "";
+                return string.Join("", Data.Select(d => d.ToString("X2")));
+            }
+        }
     }
 }

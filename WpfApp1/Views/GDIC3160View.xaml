@@ -112,19 +112,23 @@
                         <Button Content="Clear" Command="{Binding ClearStatusCommand}"/>
                     </StackPanel>
                     <ScrollViewer 
-                        VerticalScrollBarVisibility="Auto" 
-                        HorizontalScrollBarVisibility="Auto"  
+                       
                         Background="White"
                         Grid.Row="1" 
-                        Grid.IsSharedSizeScope="True">
+                        Grid.IsSharedSizeScope="True"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible">
                         <ScrollViewer.Resources>
                             <DataTemplate DataType="{x:Type models:GDICStatusDataSignal}">
                                 <Border Style="{StaticResource CellBorder}" Margin="0,1" Background="White">
                                     <StackPanel Margin="0">
-                                        <TextBlock Text="{Binding DisplayName}" ToolTip="{Binding StartBit}" Padding="2"/>
+                                        <TextBlock Text="{Binding DisplayName}" Padding="2"/>
                                         <Rectangle Height="2" Margin="0,2" Fill="#f6f6f6"/>
                                         <TextBlock Text="{Binding OriginValue}" Margin="0,2,0,0" Padding="2"/>
                                     </StackPanel>
+                                    <Border.ToolTip>
+                                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                                    </Border.ToolTip>
                                 </Border>
                             </DataTemplate>
 
@@ -139,8 +143,7 @@
                                         Margin="0,0,5,0" 
                                         Grid.Row="0" 
                                         HorizontalAlignment="Right" 
-                                        VerticalAlignment="Center"
-                                        />
+                                        VerticalAlignment="Center" />
 
                                     <!--Data0~Data9-->
                                     <ItemsControl 
@@ -157,7 +160,7 @@
                                 </Grid>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type models:GDICStatusRegisterGroup}">
-                                <GroupBox Header="{Binding GroupName}">
+                                <GroupBox Header="{Binding GroupName}" Width="900" Margin="2">
                                     <Grid Margin="-5">
                                         <Grid.RowDefinitions>
                                             <RowDefinition MaxHeight="300" Height="auto"/>
@@ -166,7 +169,7 @@
                                         <ItemsControl ItemsSource="{Binding GDICStatusGroups}"  Grid.Row="1"/>
 
                                         <!-- Write Controls -->
-                                        <Border Grid.Row="0" Style="{StaticResource CardBorder}">
+                                        <Border Grid.Row="0" Style="{StaticResource CardBorder}" CornerRadius="2">
                                             <Grid  Margin="0,5,0,5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition SharedSizeGroup="SignalName"/>
@@ -189,17 +192,20 @@
                                                                 Style="{StaticResource CustomCheckBoxStyle}" 
                                                                 Content="{Binding DisplayName}" 
                                                                 IsChecked="{Binding OriginValue,Converter={StaticResource DoubleBooleanConverter}}">
+                                                                <CheckBox.ToolTip>
+                                                                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                                                                </CheckBox.ToolTip>
                                                             </CheckBox>
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
                                                 </ItemsControl>
                                                 <StackPanel>
                                                     <ComboBox 
-                                                        Width="100"
+                                                        Width="140"
                                                         ItemsSource="{Binding GDICStatusGroups, Converter={StaticResource EnumerableNullReplaceConverter}, ConverterParameter='(Empty)'}" 
                                                         SelectedIndex="{Binding WriteStatus.WriteIndex.OriginValue}">
                                                         <ComboBox.ItemTemplate>
-                                                            <DataTemplate>
+                                                            <DataTemplate >
                                                                 <TextBlock Text="{Binding}"/>
                                                             </DataTemplate>
                                                         </ComboBox.ItemTemplate>
@@ -216,9 +222,16 @@
                             </DataTemplate>
 
                         </ScrollViewer.Resources>
-                        <ItemsControl ItemsSource="{Binding GDICStatusGroups}"
-                                       VirtualizingStackPanel.IsVirtualizing="True" 
-                                                      VirtualizingStackPanel.VirtualizationMode="Recycling"/>
+                        <ItemsControl 
+                            ItemsSource="{Binding GDICStatusGroups}"
+                            VirtualizingStackPanel.IsVirtualizing="True" 
+                            VirtualizingStackPanel.VirtualizationMode="Recycling">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
                     </ScrollViewer>
                 </Grid>
             </TabItem>
