@@ -30,25 +30,23 @@ namespace ERad5TestGUI.ViewModels
         private TSignal currentTSignal;
         private RelayCommand delCommand;
         private string title = "Locator Signal To View";
-
         /// <summary>
-        /// Without Mvvm Dialog
+        /// 
         /// </summary>
         /// <param name="signals"></param>
         /// <param name="signalStore"></param>
         /// <param name="createSignal"></param>
-        /// <param name="window"></param>
         /// <param name="addSignal"></param>
-        public SignalLocatorViewModel(ObservableCollection<TSignal> signals, Stores.SignalStore signalStore,
-            Func<Stores.Signal, TSignal> createSignal, Window window, Action<ObservableCollection<TSignal>, TSignal> addSignal = null)
+        private SignalLocatorViewModel(string viewName, ObservableCollection<TSignal> signals, 
+                                       Stores.SignalStore signalStore,
+                                       Func<Stores.Signal, TSignal> createSignal,
+                                       Action<ObservableCollection<TSignal>, TSignal> addSignal = null)
         {
-            Title = typeof(TSignal).Name;
-            Window = window;
             _createSignal = createSignal;
             _addSignal = addSignal;
             Signals = signals;
             SignalStore = signalStore;
-            var dbcSignals = SignalStore.DBCSignals;
+            var dbcSignals = SignalStore.DBCSignals.Where(x => x.Page == null || x.Page.IndexOf(viewName) > -1);
             dbcSignals.OrderBy(x => x.Page);
             DbcSignals = dbcSignals;
             foreach (var item in Signals)
@@ -59,6 +57,23 @@ namespace ERad5TestGUI.ViewModels
             OkCommand = new RelayCommand(Ok);
         }
         /// <summary>
+        /// Without Mvvm Dialog
+        /// </summary>
+        /// <param name="signals"></param>
+        /// <param name="signalStore"></param>
+        /// <param name="createSignal"></param>
+        /// <param name="window"></param>
+        /// <param name="addSignal"></param>
+        public SignalLocatorViewModel(string viewName, ObservableCollection<TSignal> signals, Stores.SignalStore signalStore,
+            Func<Stores.Signal, TSignal> createSignal, Window window,
+            Action<ObservableCollection<TSignal>, TSignal> addSignal = null) :
+            this(viewName, signals, signalStore, createSignal, addSignal)
+        {
+            Title = typeof(TSignal).Name;
+            Window = window;
+           
+        }
+        /// <summary>
         /// MVVM Dialog
         /// </summary>
         /// <param name="navigationService"></param>
@@ -66,24 +81,12 @@ namespace ERad5TestGUI.ViewModels
         /// <param name="signalStore"></param>
         /// <param name="createSignal"></param>
         /// <param name="addSignal"></param>
-        public SignalLocatorViewModel(INavigationService navigationService, ObservableCollection<TSignal> signals, Stores.SignalStore signalStore,
-            Func<Stores.Signal, TSignal> createSignal, Action<ObservableCollection<TSignal>, TSignal> addSignal = null)
+        public SignalLocatorViewModel(string viewName, INavigationService navigationService, ObservableCollection<TSignal> signals, Stores.SignalStore signalStore,
+            Func<Stores.Signal, TSignal> createSignal, Action<ObservableCollection<TSignal>, TSignal> addSignal = null):
+             this(viewName, signals, signalStore, createSignal, addSignal)
 
         {
             this._navigationService = navigationService;
-            _createSignal = createSignal;
-            _addSignal = addSignal;
-            Signals = signals;
-            SignalStore = signalStore;
-            var dbcSignals = SignalStore.DBCSignals;
-            dbcSignals.OrderBy(x => x.Page);
-            DbcSignals = dbcSignals;
-            foreach (var item in Signals)
-            {
-                _tmpsignals.Add(item);
-            }
-            CancelCommand = new RelayCommand(Cancel);
-            OkCommand = new RelayCommand(Ok);
         }
         public string Title { get => title; set => SetProperty(ref title , value); }
         public Stores.SignalStore SignalStore { get; }
@@ -207,96 +210,93 @@ namespace ERad5TestGUI.ViewModels
     /// </summary>
     public class AnalogSignalLocatorViewModel : SignalLocatorViewModel<AnalogSignal>
     {
-        public AnalogSignalLocatorViewModel(ObservableCollection<AnalogSignal> signals, SignalStore signalStore, Func<Signal, AnalogSignal> createSignal
+        public AnalogSignalLocatorViewModel(string viewName, ObservableCollection<AnalogSignal> signals, SignalStore signalStore, Func<Signal, AnalogSignal> createSignal
            , Window window)
-           : base(signals, signalStore, createSignal, window)
+           : base(viewName, signals, signalStore, createSignal, window)
         {
 
         }
-        public AnalogSignalLocatorViewModel(INavigationService navigationService, 
+        public AnalogSignalLocatorViewModel(string viewName, INavigationService navigationService, 
             ObservableCollection<AnalogSignal> signals, 
             SignalStore signalStore, 
             Func<Signal, AnalogSignal> createSignal) 
-            : base(navigationService, signals, signalStore, createSignal)
+            : base(viewName, navigationService, signals, signalStore, createSignal)
+        {
+        }
+    }
+    public class ResolverSignalLocatorViewModel : SignalLocatorViewModel<ResolverSignal>
+    {
+        public ResolverSignalLocatorViewModel(string viewName, ObservableCollection<ResolverSignal> signals, SignalStore signalStore, Func<Signal, ResolverSignal> createSignal
+           , Window window)
+           : base(viewName, signals, signalStore, createSignal, window)
+        {
+
+        }
+        public ResolverSignalLocatorViewModel(string viewName, INavigationService navigationService, 
+            ObservableCollection<ResolverSignal> signals, 
+            SignalStore signalStore, 
+            Func<Signal, ResolverSignal> createSignal) 
+            : base(viewName, navigationService, signals, signalStore, createSignal)
         {
         }
     }
 
     public class DiscreteInputSignalLocatorViewModel : SignalLocatorViewModel<DiscreteInputSignal>
     {
-        public DiscreteInputSignalLocatorViewModel(ObservableCollection<DiscreteInputSignal> signals, SignalStore signalStore, Func<Signal, DiscreteInputSignal> createSignal
+        public DiscreteInputSignalLocatorViewModel(string viewName, ObservableCollection<DiscreteInputSignal> signals, SignalStore signalStore, Func<Signal, DiscreteInputSignal> createSignal
             , Window window)
-            : base(signals, signalStore, createSignal, window)
+            : base(viewName, signals, signalStore, createSignal, window)
         {
 
         }
 
-        public DiscreteInputSignalLocatorViewModel(
-            INavigationService navigationService, 
-            ObservableCollection<DiscreteInputSignal> signals, 
-            SignalStore signalStore, 
-            Func<Signal, DiscreteInputSignal> createSignal) 
-            : base(navigationService, signals, signalStore, createSignal)
+        public DiscreteInputSignalLocatorViewModel(string viewName, INavigationService navigationService, ObservableCollection<DiscreteInputSignal> signals, SignalStore signalStore, Func<Signal, DiscreteInputSignal> createSignal) : base(viewName, navigationService, signals, signalStore, createSignal)
         {
         }
     }
 
     public class DiscreteOutputSignalLocatorViewModel : SignalLocatorViewModel<DiscreteOutputSignal>
     {
-        public DiscreteOutputSignalLocatorViewModel(ObservableCollection<DiscreteOutputSignal> signals, SignalStore signalStore, Func<Signal, DiscreteOutputSignal> createSignal
-            , Window window)
-            : base(signals, signalStore, createSignal, window)
+        public DiscreteOutputSignalLocatorViewModel(string viewName, ObservableCollection<DiscreteOutputSignal> signals, SignalStore signalStore, Func<Signal, DiscreteOutputSignal> createSignal, Window window) : base(viewName, signals, signalStore, createSignal, window)
         {
 
         }
 
-        public DiscreteOutputSignalLocatorViewModel(
-            INavigationService navigationService,
-            ObservableCollection<DiscreteOutputSignal> signals,
-            SignalStore signalStore,
-            Func<Signal, DiscreteOutputSignal> createSignal)
-            : base(navigationService, signals, signalStore, createSignal)
+        public DiscreteOutputSignalLocatorViewModel(string viewName, INavigationService navigationService, ObservableCollection<DiscreteOutputSignal> signals, SignalStore signalStore, Func<Signal, DiscreteOutputSignal> createSignal) : base(viewName, navigationService, signals, signalStore, createSignal)
         {
         }
     }
-
+    public class PulseInSignalLocatorViewModel : SignalLocatorViewModel<PulseInSignalGroup>
+    {
+        public PulseInSignalLocatorViewModel(string viewName, ObservableCollection<PulseInSignalGroup> signals, SignalStore signalStore, Func<Signal, PulseInSignalGroup> createSignal, Window window, Action<ObservableCollection<PulseInSignalGroup>, PulseInSignalGroup> addSignal = null) : base(viewName, signals, signalStore, createSignal, window, addSignal)
+        {
+        }
+    }
     public class PulseOutSignalLocatorViewModel : SignalLocatorViewModel<PulseGroupSignalOutGroup>
     {
-        public PulseOutSignalLocatorViewModel(ObservableCollection<PulseGroupSignalOutGroup> signals, SignalStore signalStore, Func<Signal, PulseGroupSignalOutGroup> createSignal
-            , Window window)
-            : base(signals, signalStore, createSignal, window)
+        public PulseOutSignalLocatorViewModel(string viewName, ObservableCollection<PulseGroupSignalOutGroup> signals, SignalStore signalStore, Func<Signal, PulseGroupSignalOutGroup> createSignal, Window window) : base(viewName, signals, signalStore, createSignal, window)
         {
 
         }
-        public PulseOutSignalLocatorViewModel(INavigationService navigationService, 
+        public PulseOutSignalLocatorViewModel(string viewName, INavigationService navigationService, 
             ObservableCollection<PulseGroupSignalOutGroup> signals, 
             SignalStore signalStore, 
             Func<Signal, PulseGroupSignalOutGroup> createSignal,
             Action<ObservableCollection<PulseGroupSignalOutGroup>, PulseGroupSignalOutGroup> addSignal) 
-            : base(navigationService, signals, signalStore, createSignal, addSignal)
+            : base(viewName, navigationService, signals, signalStore, createSignal, addSignal)
         {
         }
     }
 
     public class NXPSignalLocatorViewModel : SignalLocatorViewModel<NXPSignal>
     {
-        public NXPSignalLocatorViewModel(ObservableCollection<NXPSignal> signals, 
-            SignalStore signalStore, 
-            Func<Signal, NXPSignal> createSignal, 
-            Window window, 
-            Action<ObservableCollection<NXPSignal>, NXPSignal> addSignal = null) 
-            : base(signals, signalStore, createSignal, window, addSignal)
+        public NXPSignalLocatorViewModel(string viewName, ObservableCollection<NXPSignal> signals, SignalStore signalStore, Func<Signal, NXPSignal> createSignal, Window window, Action<ObservableCollection<NXPSignal>, NXPSignal> addSignal = null) : base(viewName, signals, signalStore, createSignal, window, addSignal)
         {
         }
     }
     public class NXPInputSignalLocatorViewModel : SignalLocatorViewModel<NXPInputSignal>
     {
-        public NXPInputSignalLocatorViewModel(ObservableCollection<NXPInputSignal> signals, 
-            SignalStore signalStore, 
-            Func<Signal, NXPInputSignal> createSignal, 
-            Window window, 
-            Action<ObservableCollection<NXPInputSignal>, NXPInputSignal> addSignal = null) 
-            : base(signals, signalStore, createSignal, window, addSignal)
+        public NXPInputSignalLocatorViewModel(string viewName, ObservableCollection<NXPInputSignal> signals, SignalStore signalStore, Func<Signal, NXPInputSignal> createSignal, Window window, Action<ObservableCollection<NXPInputSignal>, NXPInputSignal> addSignal = null) : base(viewName, signals, signalStore, createSignal, window, addSignal)
         {
         }
     }

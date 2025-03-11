@@ -27,6 +27,8 @@ namespace ERad5TestGUI.ViewModels
         public MemoryViewModel MemoryViewModel { get; private set; }
         public ResolverViewModel ResolverViewModel { get; private set; }
         public LinViewModel LinViewModel { get; private set; }
+        public DisConnectViewModel DisConnectViewModel { get; private set; }
+        public SPIViewModel SPIViewModel { get; private set; }
 
         protected override void DeivceConfig()
         {
@@ -44,23 +46,26 @@ namespace ERad5TestGUI.ViewModels
         private void InitViewModel()
         {
             AnalogViewModel = new AnalogViewModel(SignalStore, _deviceStore, _logService);
-            AnalogViewModel.Init();
+            //AnalogViewModel.Init();
             DiscreteViewModel = new DiscreteViewModel(SignalStore, _deviceStore, _logService);
-            DiscreteViewModel.Init();
+           // DiscreteViewModel.Init();
             PulseInViewModel = new PulseInViewModel(SignalStore, _deviceStore, _logService);
-            PulseInViewModel.Init();
+            //PulseInViewModel.Init();
             PulseOutViewModel = new PulseOutViewModel(SignalStore, _deviceStore, _logService);
-            PulseOutViewModel.Init();
+            //PulseOutViewModel.Init();
             NXPViewModel = new NXPViewModel(SignalStore, _deviceStore, _logService);
-            NXPViewModel.Init();
+           // NXPViewModel.Init();
             GDICViewModel = new GDICViewModel(SignalStore, _deviceStore, _logService);
-            GDICViewModel.Init();
+           // GDICViewModel.Init();
             ResolverViewModel = new ResolverViewModel(SignalStore, _deviceStore, _logService);
-            ResolverViewModel.Init();
+           // ResolverViewModel.Init();
             LinViewModel = new LinViewModel(SignalStore, _deviceStore, _logService);
-            LinViewModel.Init(); 
+            //LinViewModel.Init();
+            DisConnectViewModel = new DisConnectViewModel(SignalStore, _deviceStore, _logService);
+            SPIViewModel = new SPIViewModel(SignalStore, _deviceStore, _logService);
+            //DisConnectViewModel.Init(); 
             MemoryViewModel = new MemoryViewModel(_deviceStore, _logService);
-            MemoryViewModel.Init();
+           // MemoryViewModel.Init();
         }
     }
 }

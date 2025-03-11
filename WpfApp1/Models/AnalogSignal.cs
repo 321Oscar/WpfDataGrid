@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ERad5TestGUI.Stores;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
 
 namespace ERad5TestGUI.Models
 {
-    public class AnalogSignal : AverageSignalBase, ICalStandardDev, ITransform2
+    public class AnalogSignal : LimitsSignalBase, ICalStandardDev, ITransform2, IGroupSignal
     {
         private string value2 = "NaN";
         private double standardDev = double.NaN;
@@ -18,26 +19,28 @@ namespace ERad5TestGUI.Models
 
         public AnalogSignal(Stores.Signal signal, string viewName) : base(signal, viewName)
         {
-            PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
-            ADChannel = signal.Comment.GetCommentByKey("A/D_Channel");
-            Transform2Type = (int)signal.Comment.GetCommenDoubleByKey("Conversion_mode", 0);
-            if (Transform2Type == 0)
-            {
-                TransForm2Factor = signal.Comment.GetCommenDoubleByKey("Factor", 1);
-                TransForm2Offset = signal.Comment.GetCommenDoubleByKey("Offset", 0);
-            }
-            else
-            {
-                TableName = signal.Comment.GetCommentByKey("Table");
-            }
+            TmpValues = new LengthQueue<string>(1000);
+            //PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
+            //ADChannel = signal.Comment.GetCommentByKey("A/D_Channel");
+            //Transform2Type = (int)signal.Comment.GetCommenDoubleByKey("Conversion_mode", 0);
+            //if (Transform2Type == 0)
+            //{
+            //    TransForm2Factor = signal.Comment.GetCommenDoubleByKey("Factor", 1);
+            //    TransForm2Offset = signal.Comment.GetCommenDoubleByKey("Offset", 0);
+            //}
+            //else
+            //{
+            //    TableName = signal.Comment.GetCommentByKey("Table");
+            //}
+            //GroupName = signal.Comment.GetCommentByKey("GroupName");
         }
-
+        public string GroupName { get; set; }
         public string PinNumber { get; set; }
         public string ADChannel { get; set; }
         [XmlIgnore]
         public string Value2
         {
-            get => value2;
+            get => NeedTransform ? value2 : "/";
             set
             {
                 SetProperty(ref value2, value);
@@ -93,6 +96,24 @@ namespace ERad5TestGUI.Models
         [XmlIgnore]
         public LengthQueue<string> TmpValues { get; }
 
+        public override void UpdateFormDBC(Signal signal)
+        {
+            base.UpdateFormDBC(signal);
+            PinNumber = signal.Comment.GetCommentByKey("Pin_Number");
+            ADChannel = signal.Comment.GetCommentByKey("A/D_Channel");
+            Transform2Type = (int)signal.Comment.GetCommenDoubleByKey("Conversion_mode", 0);
+            if (Transform2Type == 0)
+            {
+                TransForm2Factor = signal.Comment.GetCommenDoubleByKey("Factor", 1);
+                TransForm2Offset = signal.Comment.GetCommenDoubleByKey("Offset", 0);
+            }
+            else
+            {
+                TableName = signal.Comment.GetCommentByKey("Table");
+            }
+            GroupName = signal.Comment.GetCommentByKey("GroupName");
+        }
+
         public override double TransForm(double oldVal)
         {
             return oldVal * 5 / 4096;
@@ -110,20 +131,41 @@ namespace ERad5TestGUI.Models
                 //var realValue = TransForm(originValue);
                 Value2 = TransForm2(originValue).ToString(Format);
             }
-
-            TmpValues.Enqueue(Value1);
+            if (NeedTransform)
+                TmpValues.Enqueue(Value1);
         }
 
         public override string GetValue()
         {
-            return base.GetValue() + $",Max:{MaxValue},Min:{MinValue}";
+            return $"{Name} {Value2},Max:{MaxValue},Min:{MinValue},{Value1}";
         }
 
         public void CalStandard(int count)
         {
-            StandardDev = CalStandardDev.Cal(count, TmpValues);
+            if (NeedTransform)
+                StandardDev = CalStandardDev.Cal(count, TmpValues);
         }
     }
+
+    public class ResolverSignal : AverageSignalBase
+    {
+        public ResolverSignal()
+        {
+
+        }
+
+        public ResolverSignal(Stores.Signal signal, string viewName) : base(signal, viewName)
+        {
+
+        }
+
+        public override void OnOriginValueChaned(double originValue, bool changed)
+        {
+            base.OnOriginValueChaned(originValue, changed);
+        }
+    }
+
+   
 
     public class CalStandardDev
     {

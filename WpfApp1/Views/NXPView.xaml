@@ -37,11 +37,9 @@
             Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </StackPanel>
         <GroupBox Header="Discrete Inputs" Grid.Row="1">
-            <Grid Margin="-4">
+            <Grid Margin="-8">
                 <ScrollViewer >
-                    <ItemsControl ItemsSource="{Binding NxpSignals}" >
-                        
-                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding NxpSignals}" />
                 </ScrollViewer>
             
             <!--<DataGrid IsReadOnly="True" ItemsSource="{Binding DisInputSignals}" AutoGenerateColumns="False">
@@ -53,15 +51,8 @@
             </Grid>
         </GroupBox>
         <GroupBox Header="Discrete Outputs" Grid.Row="2">
-            <Grid Margin="-4">
-                <Grid.RowDefinitions >
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <ScrollViewer Grid.Row="1">
-                    <ItemsControl ItemsSource="{Binding DisOutputSignals}"/>
-                </ScrollViewer>
+            <Grid Margin="-8">
+                <ContentControl Content="{Binding DisOutputSignals}" ContentTemplate="{StaticResource DisOutSignals}"/>
                 <!--<DataGrid ItemsSource="{Binding DisOutputSginals}" AutoGenerateColumns="False" CanUserAddRows="False" Visibility="Collapsed">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" IsReadOnly="True" Binding="{Binding DisplayName}"/>
@@ -88,13 +79,10 @@
             </Grid>
         </GroupBox>
         <GroupBox Header="Inputs" Grid.Row="3">
-            <Grid Margin="-4">
+            <Grid Margin="-8">
                 <ScrollViewer>
-                    <ItemsControl ItemsSource="{Binding NxpInputSignals}">
-                        
-                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding NxpInputSignals}"/>
                 </ScrollViewer>
-                
             </Grid>
         </GroupBox>
     </Grid>

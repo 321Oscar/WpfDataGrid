@@ -35,7 +35,13 @@ namespace ERad5TestGUI.Models
         {
 
         }
+
         public PulseInSignal(string groupName)
+        {
+            GroupName = groupName;
+        }
+
+        public PulseInSignal(Stores.Signal signal, string viewName, string groupName) : base(signal, viewName)
         {
             GroupName = groupName;
         }

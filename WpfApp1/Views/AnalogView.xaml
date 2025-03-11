@@ -14,7 +14,11 @@
     Background="White"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="DataGridData" Source="{Binding AnalogSignals}"/>
+        <CollectionViewSource x:Key="DataGridData" Source="{Binding AnalogSignals}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="GroupName"/>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -25,7 +29,7 @@
             <ColumnDefinition />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
             <TextBlock
                 Style="{StaticResource TitleLabel}"
                 Text="{Binding ViewName}" 
@@ -78,10 +82,19 @@
             <ToggleButton 
                 Content="Grid OR Card" 
                 Height="25" 
-                Margin="2,0,0,0"
+                Margin="2,0"
                 x:Name="tog" 
                 Grid.Row="2" 
+                Checked="tog_Checked"
+                Unchecked="tog_Checked"
                 IsChecked="False"
+                Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"/>
+            <ToggleButton 
+                Content="Group" 
+                x:Name="groupTag" 
+                Checked="groupTag_Checked"
+                Unchecked="groupTag_Checked"
+                IsChecked="True"
                 Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"/>
             <!--<TextBlock Text="{Binding AnalogSignals.Count}"/>-->
         </StackPanel>
@@ -115,6 +128,31 @@
                                     </Style.Triggers>
                                 </Style>
                             </ListBox.ItemContainerStyle>
+                            <ListBox.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.ContainerStyle>
+                                        <Style TargetType="{x:Type GroupItem}">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="auto"/>
+                                                                <RowDefinition/>
+                                                            </Grid.RowDefinitions>
+                                                            <Rectangle Fill="#c0c0c0"/>
+                                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left"/>
+
+                                                            <ItemsPresenter Grid.Row="1"/>
+
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </GroupStyle.ContainerStyle>
+                                </GroupStyle>
+                            </ListBox.GroupStyle>
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel/>
@@ -241,7 +279,7 @@
                             Width="1200"
                             HorizontalAlignment="Left"
                             AutoGenerateColumns="False"
-                            CanUserAddRows="False"
+                            CanUserAddRows="False" CanUserDeleteRows="False"
                             ColumnHeaderHeight="30"
                             EnableColumnVirtualization="True"
                             EnableRowVirtualization="True"
@@ -250,6 +288,38 @@
                             RowHeaderWidth="0"
                             SelectedItem="{Binding DataContext.CurrentAnalogSignal,RelativeSource={RelativeSource AncestorType=UserControl,Mode=FindAncestor}}"
                             RowHeight="25">
+                            <DataGrid.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.ContainerStyle>
+                                        <Style TargetType="{x:Type GroupItem}">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="auto"/>
+                                                                <RowDefinition/>
+                                                            </Grid.RowDefinitions>
+                                                            <Rectangle Fill="#c0c0c0"/>
+                                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left"/>
+
+                                                            <ItemsPresenter Grid.Row="1"/>
+
+                                                        </Grid>
+
+
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </GroupStyle.ContainerStyle>
+                                    <!--<GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock FontWeight="Bold" Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>-->
+                                </GroupStyle>
+                            </DataGrid.GroupStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn
                                     Binding="{Binding DisplayName}"
@@ -269,6 +339,11 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
+                                <DataGridTextColumn Binding="{Binding MinThreshold}"  Width="100">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock TextWrapping="WrapWithOverflow">Min Threshold Diag(Volt)</TextBlock>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
                                 <DataGridTextColumn
                                     Width="100"
                                     Binding="{Binding MaxThreshold}">
@@ -276,19 +351,36 @@
                                         <TextBlock TextWrapping="WrapWithOverflow">Max Threshold Diag(Volt)</TextBlock>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Binding="{Binding MinThreshold}"  Width="100">
-                                    <DataGridTextColumn.Header>
-                                        <TextBlock TextWrapping="WrapWithOverflow">Min Threshold Diag(Volt)</TextBlock>
-                                    </DataGridTextColumn.Header>
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Binding="{Binding MaxValue}" Header="AI Max" />
                                 <DataGridTextColumn Binding="{Binding MinValue}" Header="AI Min" />
+                                <DataGridTextColumn Binding="{Binding MaxValue}" Header="AI Max" />
                                 <DataGridTextColumn Binding="{Binding StandardDev}" Header="Standard Dev" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </DataTemplate>
                 </Grid.Resources>
+                <Grid Panel.ZIndex="99">
+                    <Grid.Style>
+                        <Style TargetType="FrameworkElement">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
 
+                    <Border Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+                                    Opacity="0.5"/>
+
+                    <ContentControl 
+                        ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingCircle}}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Width="{adonisUi:Space 5}"
+                        Height="{adonisUi:Space 5}"
+                        Focusable="False"/>
+                </Grid>
                 <ContentControl>
                     <ContentControl.Style>
                         <Style TargetType="ContentControl">
@@ -348,9 +440,23 @@
                             Content="Latch Faluers" 
                             Visibility="Collapsed"/>
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button 
+                            Width="100"
+                            Content="Save" 
+                            Command="{Binding SaveSignalThresholdCommand}"/>
+                        <Button 
+                            Margin="2,0"
+                            Width="100"
+                            Content="Load" 
+                            Command="{Binding LoadSignalThresholdCommand}"/>
+                    </StackPanel>
+                    <TextBlock Width="230" TextWrapping="WrapWithOverflow">
+                        Note1:Limit Save/Load Only Support xml file,the Template File is Config/Limits.xml
+                    </TextBlock>
                     <TextBlock 
                         Width="230" 
-                        TextWrapping="WrapWithOverflow">Note:after close the software,limits will auto save to the [Config/Locator.xml] File.</TextBlock>
+                        TextWrapping="WrapWithOverflow">Note2:after close the software,limits will auto save to the [Config/Locator.xml] File.</TextBlock>
                 </StackPanel>
             </GroupBox>
             <GroupBox Grid.Column="1" Header="Calucate Standard Dev" Margin="2">

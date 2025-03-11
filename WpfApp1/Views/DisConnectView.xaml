@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="ERad5TestGUI.Views.DisConnectView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ERad5TestGUI.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding ViewName}" d:Text="DisConnect"/>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <GroupBox Header="Inputs">
+                <!--<ScrollViewer >
+                    <ItemsControl ItemsSource="{Binding InputSignals}" />
+                </ScrollViewer>-->
+                <DataGrid 
+                    ItemsSource="{Binding InputSignals}" 
+                    AutoGenerateColumns="False" 
+                    CanUserAddRows="False" 
+                    CanUserDeleteRows="False"
+                    IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Value" Binding="{Binding OriginValue}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <GroupBox Header="Outputs" Grid.Row="1">
+                <Grid>
+                    <Button 
+                        Margin="60,-36,0,0" 
+                        Content="Update" 
+                        Width="80" 
+                        Height="25" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Top"
+                        Command="{Binding UpdateCommand}"/>
+                    <!--<ScrollViewer >
+                        <ItemsControl ItemsSource="{Binding OutputSignals}" />
+                    </ScrollViewer>-->
+                    <DataGrid 
+                        ItemsSource="{Binding OutputSignals}" 
+                        AutoGenerateColumns="False" 
+                        CanUserAddRows="False" 
+                        CanUserDeleteRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Value" Binding="{Binding OriginValue}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</UserControl>

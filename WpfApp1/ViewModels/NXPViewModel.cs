@@ -105,7 +105,7 @@ namespace ERad5TestGUI.ViewModels
         private NXPInputSignalLocatorViewModel CreateLocatorInputViewModel() =>
             null;
         private NXPInputSignalLocatorViewModel CreateLocatorInputViewModel(System.Windows.Window window)
-            => new NXPInputSignalLocatorViewModel(_nxpInputSignals,
+            => new NXPInputSignalLocatorViewModel(ViewName, _nxpInputSignals,
                                                        SignalStore,
                                                        CreateDisInSignal,
                                                        window);
@@ -141,12 +141,12 @@ namespace ERad5TestGUI.ViewModels
         }
 
         private DiscreteOutputSignalLocatorViewModel CreateDisOutLocatorViewModel(System.Windows.Window window)
-            =>  new DiscreteOutputSignalLocatorViewModel(_disOutputSignals,
+            =>  new DiscreteOutputSignalLocatorViewModel(ViewName, _disOutputSignals,
                                                         SignalStore,
                                                         CreateDisOutSignal, window);
 
         private DiscreteOutputSignalLocatorViewModel CreateDisOutLocatorViewModel()
-            => new DiscreteOutputSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore),
+            => new DiscreteOutputSignalLocatorViewModel(ViewName, new CloseModalNavigationService(ModalNavigationStore),
                                                         _disOutputSignals,
                                                         SignalStore,
                                                         CreateDisOutSignal);
@@ -191,7 +191,7 @@ namespace ERad5TestGUI.ViewModels
         }
 
         private NXPSignalLocatorViewModel CreateNXPInLocatorViewModel(System.Windows.Window window)
-           => new NXPSignalLocatorViewModel(_nxpSignals,
+           => new NXPSignalLocatorViewModel(ViewName, _nxpSignals,
                                             SignalStore,
                                             CreateNXPInSignal, window);
 

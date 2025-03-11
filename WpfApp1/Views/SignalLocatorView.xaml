@@ -16,9 +16,24 @@
                     <StackPanel Margin="5,2,0,0" Orientation="Horizontal">
                         <ctrls:LabelWithContent Title="TransformType:" Content="{Binding Transform2Type}"/>
                         <TextBlock Text="{Binding TableName}" Margin="5,0,0,0"/>
+                        <TextBox Text="{Binding ViewName}"/>
+                        <CheckBox IsChecked="{Binding NeedTransform}" Content="Transform"/>
                     </StackPanel>
                 </ctrls:ControlWithTitle.Content>
             </ctrls:ControlWithTitle>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type models:DiscreteInputSignal}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Name}"/>
+                <TextBox Text="{Binding ViewName}"/>
+                <CheckBox IsChecked="{Binding NeedTransitions}" Content="NeedTransitions"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type models:DiscreteOutputSignal}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Name}"/>
+                <TextBox Text="{Binding ViewName}"/>
+            </StackPanel>
         </DataTemplate>
         <DataTemplate DataType="{x:Type models:PulseGroupSignalOutGroup}">
             <Grid >

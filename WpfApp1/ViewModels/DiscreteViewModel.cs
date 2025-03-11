@@ -72,14 +72,10 @@ namespace ERad5TestGUI.ViewModels
         public override void Init()
         {
             base.Init();
-            foreach (var signal in SignalStore.GetSignals<DiscreteInputSignal>(nameof(DiscreteViewModel)))
-            {
-                _inputSignals.Add(signal);
-            }
-            foreach (var signal in SignalStore.GetSignals<DiscreteOutputSignal>(nameof(DiscreteViewModel)).Where(x => x.State != null))
-            {
-                _outputSignals.Add(signal);
-            }
+
+            _inputSignals.AddRange(SignalStore.GetSignals<DiscreteInputSignal>(nameof(DiscreteViewModel)));
+
+            _outputSignals.AddRange(SignalStore.GetSignals<DiscreteOutputSignal>(nameof(DiscreteViewModel)).Where(x => x.State != null));
 
             foreach (var item in OutputSignals)
             {
@@ -195,12 +191,12 @@ namespace ERad5TestGUI.ViewModels
         #region Signal Locator
 
         private DiscreteInputSignalLocatorViewModel CreateLocatorInputViewModel(System.Windows.Window window)
-          => new DiscreteInputSignalLocatorViewModel(_inputSignals,
+          => new DiscreteInputSignalLocatorViewModel(ViewName, _inputSignals,
                                                       SignalStore,
                                                       CreateDisInSignal, window);
 
         private DiscreteInputSignalLocatorViewModel CreateLocatorInputViewModel() 
-            => new DiscreteInputSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore),
+            => new DiscreteInputSignalLocatorViewModel(ViewName, new CloseModalNavigationService(ModalNavigationStore),
                                                        _inputSignals,
                                                        SignalStore,
                                                        CreateDisInSignal);
@@ -233,12 +229,12 @@ namespace ERad5TestGUI.ViewModels
         }
 
         private DiscreteOutputSignalLocatorViewModel CreateDisOutLoactorViewModel(System.Windows.Window window)
-         => new DiscreteOutputSignalLocatorViewModel(_outputSignals,
+         => new DiscreteOutputSignalLocatorViewModel(ViewName, _outputSignals,
                                                      SignalStore,
                                                      CreateDisOutSignal, window);
 
         private DiscreteOutputSignalLocatorViewModel CreateDisOutLoactorViewModel() 
-            => new DiscreteOutputSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore), 
+            => new DiscreteOutputSignalLocatorViewModel(ViewName, new CloseModalNavigationService(ModalNavigationStore), 
                                                         _outputSignals, 
                                                         SignalStore,
                                                         CreateDisOutSignal);

@@ -19,6 +19,8 @@ namespace ERad5TestGUI.Models
     [XmlInclude(typeof(GDICAoutSignal))]
     [XmlInclude(typeof(GDICRegisterSignal))]
     [XmlInclude(typeof(LinConfigSignal))]
+    [XmlInclude(typeof(ResolverSignal))]
+    [XmlInclude(typeof(SPISignal))]
     public class SignalBase : ObservableObject, IDBCSignal
     {
         public const string ViewNameSplit = ";";
@@ -42,14 +44,9 @@ namespace ERad5TestGUI.Models
         public SignalBase(Stores.Signal signal, string viewName)
         {
             Name = signal.SignalName;
-            StartBit = (int)signal.startBit;
-            Factor = signal.factor;
-            Offset = signal.offset;
-            ByteOrder = (int)signal.byteOrder;
-            Length = (int)signal.signalSize;
+            UpdateFormDBC(signal);
             MessageID = signal.MessageID;
             ViewName += viewName;
-            Unit = signal.Unit;
         }
 
         //private string name;
@@ -103,6 +100,22 @@ namespace ERad5TestGUI.Models
         ///<para>Out: True</para>
         /// </summary>
         public bool InOrOut { get;set; }
+        /// <summary>
+        /// Not Update MessageID and Name
+        /// </summary>
+        /// <param name="signal"></param>
+        public virtual void UpdateFormDBC(Signal signal)
+        {
+            StartBit = (int)signal.startBit;
+            Factor = signal.factor;
+            Offset = signal.offset;
+            ByteOrder = (int)signal.byteOrder;
+            Length = (int)signal.signalSize;
+            //MessageID = signal.MessageID;
+            //ViewName += viewName;
+            Unit = signal.Unit;
+        }
+
         /// <summary>
         /// 传进一个新的原始值引发
         /// </summary>
@@ -180,12 +193,15 @@ namespace ERad5TestGUI.Models
         [XmlIgnore]
         public string Value1
         {
-            get => value1;
+            get => NeedTransform ? value1 : "/";
             set
             {
                 SetProperty(ref value1, value);
             }
         }
+
+        public bool NeedTransform { get; set; } = true;
+
         public virtual double TransForm(double oldVal)
         {
             return oldVal;
@@ -195,16 +211,7 @@ namespace ERad5TestGUI.Models
         {
             if (changed)
             {
-                //var realValue = TransForm(originValue);
-                //MaxValue = Math.Max(MaxValue, realValue);
-                //if (MinValue < 0)
-                //    MinValue = realValue;
-                //else
-                //    MinValue = Math.Min(MinValue, realValue);
-                //cal value1
                 Value1 = TransForm(originValue).ToString(Format);
-
-                //OutLimits = realValue > MaxThreshold || realValue < MinThreshold;
             }
         }
     }
@@ -270,17 +277,16 @@ namespace ERad5TestGUI.Models
             {
                 var realValue = TransForm(originValue);
                 if (double.IsNaN(MaxValue))
-                    MaxValue = realValue;
+                    MaxValue = NeedTransform ? realValue : originValue;
                 else
                     MaxValue = Math.Max(MaxValue, realValue);
                 if (double.IsNaN(MinValue))
-                    MinValue = realValue;
+                    MinValue = NeedTransform ? realValue : originValue;
                 else
                     MinValue = Math.Min(MinValue, realValue);
                 //cal value1
                 //Value1 = TransForm(originValue).ToString(Format);
                 ChangeOutLimits();
-                //OutLimits = realValue > MaxThreshold || realValue < MinThreshold;
             }
         }
 
@@ -296,7 +302,7 @@ namespace ERad5TestGUI.Models
         }
     }
 
-    public class AverageSignalBase: LimitsSignalBase, IAverage
+    public class AverageSignalBase : LimitsSignalBase, IAverage
     {
         private int valueCount;
         private double totalValue;
@@ -629,6 +635,14 @@ namespace ERad5TestGUI.Models
         }
     }
 
-   
+    public class LimitInfo
+    {
+        [XmlAttribute]
+        public string Name { get; set; }
+        [XmlAttribute]
+        public double Max { get; set; }
+        [XmlAttribute]
+        public double Min { get; set; }
+    }
 
 }

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ERad5TestGUI.Views"
+    xmlns:mdls="clr-namespace:ERad5TestGUI.Models"
     xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
@@ -15,39 +16,47 @@
             <RowDefinition Height="auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <TextBlock Style="{StaticResource TitleLabel}" Text="SPI"/>
-        <GroupBox Header="SPI Baudrate Settings" Grid.Row="1" Grid.Column="0">
-            <StackPanel>
-                <ctrls:ControlWithTitle Title="Select SPI Channel" Orientation="Vertical">
-                    <ctrls:ControlWithTitle.Content>
-                        <ComboBox />
-                    </ctrls:ControlWithTitle.Content>
-                </ctrls:ControlWithTitle>
-                <ctrls:ControlWithTitle Title="Select SPI Baudrate" Orientation="Vertical">
-                    <ctrls:ControlWithTitle.Content>
-                        <ComboBox />
-                    </ctrls:ControlWithTitle.Content>
-                </ctrls:ControlWithTitle>
-                
-                <!--<TextBlock Text="MHz" />-->
-                <Button Content="Reset" Margin="0,2,0,2"/>
-                <TextBlock TextWrapping="WrapWithOverflow" MaxWidth="200">
-                    Notes: after reseting the main micro,all channels will be configured with the default buadrates except for the user selected
-                    channel that will be configured with the selected baudrate
-                </TextBlock>
-            </StackPanel>
-        </GroupBox>
-        <Grid Grid.Column="1" Grid.Row="1">
-            <DataGrid>
+        <StackPanel Orientation="Horizontal">
+             <TextBlock Style="{StaticResource TitleLabel}" Text="SPI"/>
+            <!--<Button Content="loc"/>-->
+        </StackPanel>
+       
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <DataGrid AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      ItemsSource="{Binding SPISignals}" RowHeight="25">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ChannelName" />
-                    <DataGridTextColumn Header="Current SPI Baudrate" />
+                    <DataGridTextColumn Header="Channel Name" IsReadOnly="True" Binding="{Binding GroupName}"/>
+                    <DataGridTextColumn Header="Current SPI Baudrate(MHz)" IsReadOnly="True" Binding="{Binding CurrentValue.Value1}"/>
+                    <DataGridComboBoxColumn Header="Select SPI Baudrate(MHz)" 
+                                            ItemsSource="{x:Static mdls:SPIValueTable.Value2Baudrate}"
+                                            DisplayMemberPath="Value"
+                                            SelectedValuePath="Key"
+                                            SelectedValueBinding="{Binding SelectValue.OriginValue}"/>
+                    <DataGridTextColumn Header="Note" IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
+            <Button Content="Reset" Grid.Row="1" Width="80" Command="{Binding ResetCommand}">
+                
+            </Button>
+            <ctrls:ControlWithTitle Grid.Row="2" Title="Notes:" Orientation="Vertical">
+                <ctrls:ControlWithTitle.Content>
+                    <StackPanel>
+                        <TextBlock
+                            Margin="2"
+                            TextWrapping="WrapWithOverflow">1.After clicking the button，all channels will be configured with the selected baudrate value and the TC377 will reset. If the control board is powered off and then powered on again, all channels will be configured with the default baudrate value(2MHz)</TextBlock>
+                        <TextBlock 
+                            Margin="2"
+                            TextWrapping="WrapWithOverflow">2.Please pay attention to whether the baud rate is within the normal working range of the chip.If it is outside the normal operating range, the chip may not work properly.</TextBlock>
+                    </StackPanel>
+                </ctrls:ControlWithTitle.Content>
+            </ctrls:ControlWithTitle>
         </Grid>
     </Grid>
 </UserControl>

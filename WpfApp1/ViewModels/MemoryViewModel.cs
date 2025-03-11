@@ -3,15 +3,12 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using ERad5TestGUI.Models;
 using ERad5TestGUI.Services;
 using ERad5TestGUI.Stores;
 
@@ -64,34 +61,6 @@ namespace ERad5TestGUI.ViewModels
             {
                 return Task.CompletedTask;
             }
-        }
-    }
-
-    public class ResolverViewModel : ViewModelBase
-    {
-        public ResolverViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) : base(signalStore, deviceStore, logService)
-        {
-            
-        }
-
-        public ResolverViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
-        {
-        }
-
-        public IEnumerable<AnalogSignal> AnalogSignals
-        {
-            get
-            {
-                var signals = SignalStore.GetSignals<AnalogSignal>(nameof(ResolverViewModel));
-                return signals;
-            }
-        }
-    }
-
-    public class SPIViewModel : ViewModelBase
-    {
-        public SPIViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
-        {
         }
     }
 

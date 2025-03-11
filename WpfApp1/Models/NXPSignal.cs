@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using ERad5TestGUI.Stores;
+using System.Xml.Serialization;
 
 namespace ERad5TestGUI.Models
 {
@@ -26,16 +27,7 @@ namespace ERad5TestGUI.Models
 
         public NXPInputSignal(Stores.Signal signal, string viewName) : base(signal, viewName)
         {
-            Transform2Type = (int)signal.Comment.GetCommenDoubleByKey("Conversion_mode", 0);
-            if (Transform2Type == 0)
-            {
-                TransForm2Factor = signal.Comment.GetCommenDoubleByKey("Factor", 1);
-                TransForm2Offset = signal.Comment.GetCommenDoubleByKey("Offset", 0);
-            }
-            else
-            {
-                TableName = signal.Comment.GetCommentByKey("Table");
-            }
+           
         }
         [XmlIgnore]
         public string Value2 { get => value2; set => SetProperty(ref value2, value); }
@@ -57,6 +49,21 @@ namespace ERad5TestGUI.Models
             {
                 //get table from tableName
                 return Stores.ValueTable.ConvertByTable(TableName, oldVal);
+            }
+        }
+
+        public override void UpdateFormDBC(Signal signal)
+        {
+            base.UpdateFormDBC(signal);
+            Transform2Type = (int)signal.Comment.GetCommenDoubleByKey("Conversion_mode", 0);
+            if (Transform2Type == 0)
+            {
+                TransForm2Factor = signal.Comment.GetCommenDoubleByKey("Factor", 1);
+                TransForm2Offset = signal.Comment.GetCommenDoubleByKey("Offset", 0);
+            }
+            else
+            {
+                TableName = signal.Comment.GetCommentByKey("Table");
             }
         }
 

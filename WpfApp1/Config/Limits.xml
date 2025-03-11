@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfLimitInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <LimitInfo Name="U_CURRENT_SENSE_AI" Max="5" Min="0" />
+  <LimitInfo Name="V_CURRENT_SENSE_AI" Max="5" Min="0" />
+  <LimitInfo Name="W_CURRENT_SENSE_AI" Max="5" Min="0" />
+  <LimitInfo Name="HVDC_SENSE_MAIN_MICRO_AI" Max="5" Min="0" />
+  <LimitInfo Name="RED_U_CURRENT_SENSE_AI" Max="5" Min="0" />
+  <LimitInfo Name="RED_V_CURRENT_SENSE_AI" Max="5" Min="0" />
+  <LimitInfo Name="RED_W_CURRENT_SENSE_AI" Max="5" Min="0" />
+  <LimitInfo Name="HVDC_CURRENT_SENSE_AI" Max="5" Min="0" />
+  <LimitInfo Name="VI_5V_AI" Max="5" Min="0" />
+  <LimitInfo Name="VI_2V5_AI" Max="5" Min="0" />
+  <LimitInfo Name="CB_PCB_TEMP_AI" Max="5" Min="0" />
+  <LimitInfo Name="EMC_TEMP_AI" Max="5" Min="0" />
+  <LimitInfo Name="AD_Temp_Coolant" Max="5" Min="0" />
+  <LimitInfo Name="VI_3V3_FLASH_AI" Max="5" Min="0" />
+  <LimitInfo Name="VI_1V3_AI" Max="5" Min="0" />
+  <LimitInfo Name="VI_16V6_AI" Max="5" Min="0" />
+  <LimitInfo Name="VI_5V_GDIC_BOT_AI" Max="5" Min="0" />
+  <LimitInfo Name="VI_18V_FLYBACK_EPS_AI" Max="5" Min="0" />
+  <LimitInfo Name="MTR_TEMP_AI" Max="5" Min="0" />
+  <LimitInfo Name="VBATT1_AI" Max="5" Min="0" />
+  <LimitInfo Name="VI_5V_GDIC_TOP_AI" Max="5" Min="0" />
+  <LimitInfo Name="VBATT2_AI" Max="5" Min="0" />
+  <LimitInfo Name="VI_5V_CURRENT_SENSE_AI" Max="5" Min="0" />
+  <LimitInfo Name="VI_5V_OUT_AI" Max="5" Min="0" />
+  <LimitInfo Name="VI_15V_SAFETY_TOP_AI" Max="5" Min="0" />
+  <LimitInfo Name="VI_15V_SAFETY_BOT_AI" Max="5" Min="0" />
+  <LimitInfo Name="HV_ISOLATION_POS_AI" Max="5" Min="0" />
+  <LimitInfo Name="HV_ISOLATION_NEG_AI" Max="5" Min="0" />
+  <LimitInfo Name="VI_5VA_AI" Max="5" Min="0" />
+  <LimitInfo Name="GDB_TEMP_AI" Max="5" Min="0" />
+  <LimitInfo Name="DC_BB_TEMP_AI" Max="5" Min="0" />
+  <LimitInfo Name="AC_BB_TEMP_AI" Max="5" Min="0" />
+  <LimitInfo Name="VI_5V_COMM_AI" Max="5" Min="0" />
+  <LimitInfo Name="ACT_DIS_FET_HEALTH_AI" Max="5" Min="0" />
+</ArrayOfLimitInfo>

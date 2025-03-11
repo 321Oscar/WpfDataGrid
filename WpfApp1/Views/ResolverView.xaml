@@ -15,113 +15,88 @@
             <RowDefinition />
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Style="{StaticResource TitleLabel}" Margin="10,5,0,0" VerticalAlignment="Top">Resolver</TextBlock>
-        <GroupBox Header="Inputs" Margin="0,35,0,0" Grid.RowSpan="2">
-            <DataGrid 
-                IsReadOnly="True"
-                AutoGenerateColumns="False" 
-                ItemsSource="{Binding AnalogSignals}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Name}"
-                    Header="Signal__Name" />
-                    <DataGridTextColumn Binding="{Binding PinNumber}" Header="Pin__Number" />
-                    <DataGridTextColumn Binding="{Binding ADChannel}" Header="A/D Channel" />
-                    <DataGridTextColumn Binding="{Binding OriginValue}" Header="originValue" />
-                    <DataGridTemplateColumn Header="AI Raw(volt)">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Background="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Value1}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Binding="{Binding MaxValue}" Header="AI Max" />
-                    <DataGridTextColumn Binding="{Binding MinValue}" Header="AI Min" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </GroupBox>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <TextBlock  
+                Style="{StaticResource TitleLabel}" 
+                Margin="10,5,0,0" 
+                VerticalAlignment="Top">Resolver</TextBlock>
+            <Button Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}" Height="25" Content="loc PulseIn" Command="{Binding LocatorSignalsCommand}"/>
+            <Button Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}" Height="25" Content="loc Aver" Command="{Binding LocatorAverageSignalsCommand}"/>
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox 
+                Header="Analog Inputs"
+                Grid.RowSpan="2"
+                Margin="2">
+                <DataGrid 
+                    HorizontalAlignment="Left"
+                    IsReadOnly="True"
+                    Width="320"
+                    Margin="-8"
+                    AutoGenerateColumns="False" 
+                    ItemsSource="{Binding AnalogSignals}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Binding="{Binding Name}"
+                            Header="Signal__Name" />
+                        <DataGridTextColumn Binding="{Binding OriginValue}" Header="ADC Counter" />
+                        <DataGridTextColumn Binding="{Binding Value1}" Header="ADC Volt" />
+                        <!--<DataGridTemplateColumn Header="AI Raw(volt)">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Background="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Value1}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>-->
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <GroupBox Header="Discrete Inputs"
+                      Grid.Row="0"
+                      Grid.Column="1" Margin="0,2,2,2">
+                <ItemsControl ItemsSource="{Binding DiscreteInputs}"/>
+            </GroupBox>
+            <GroupBox Header="Pulse In"
+                      Grid.Row="1"
+                      Grid.Column="1" Margin="0,0,2,2">
+                <ItemsControl ItemsSource="{Binding PulseInGroups}"/>
+            </GroupBox>
+        </Grid>
+       
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <GroupBox Header="ATO" Margin="2">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.Resources>
-                        <Style TargetType="TextBox" BasedOn="{StaticResource numTextBox}">
+                <DataGrid ItemsSource="{Binding ResolverSignals}" Margin="-8"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          IsReadOnly="True"
+                          AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Binding="{Binding Name}"
+                            Header="Signal__Name" />
+                        <DataGridTextColumn Binding="{Binding OriginValue}" Header="Current Value" />
+                        <DataGridTextColumn Binding="{Binding MinValue}" Header="Min" />
+                        <DataGridTextColumn Binding="{Binding MaxValue}" Header="Max" />
+                        <DataGridTextColumn Binding="{Binding Average}" Header="Average" />
 
-                        </Style>
-                        <Style TargetType="TextBlock" BasedOn="{StaticResource labelText}">
-                            <Setter Property="HorizontalAlignment" Value="Center"/>
-                        </Style>
-                    </Grid.Resources>
-                    <TextBlock Style="{StaticResource labelText}" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1">(Deg)</TextBlock>
-                    <TextBlock Grid.Row="2" Grid.Column="1">(Deg)</TextBlock>
-                    <TextBlock Grid.Row="0" Grid.Column="2">(Max)</TextBlock>
-                    <TextBlock Grid.Row="2" Grid.Column="2">(Max)</TextBlock>
-                    <TextBlock Grid.Row="0" Grid.Column="3">(Min)</TextBlock>
-                    <TextBlock Grid.Row="2" Grid.Column="3">(Min)</TextBlock>
-                    <TextBlock Grid.Row="0" Grid.Column="4">(Average)</TextBlock>
-                    <TextBlock Grid.Row="2" Grid.Column="4">(Average)</TextBlock>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Position" Style="{StaticResource labelText}"/>
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Velocty" Style="{StaticResource labelText}" />
-                    <TextBox
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        IsReadOnly="True"
-                        d:Text="255.55" />
-                    <TextBox
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        IsReadOnly="True"
-                        d:Text="359" />
-                    <TextBox
-                        Grid.Row="1"
-                        Grid.Column="3"
-                        IsReadOnly="True"
-                        d:Text="0" />
-                    <TextBox
-                        Grid.Row="1"
-                        Grid.Column="4"
-                        IsReadOnly="True"
-                        d:Text="199" />
-                    <TextBox
-                        Grid.Row="4"
-                        Grid.Column="1"
-                        IsReadOnly="True"
-                        d:Text="22641" />
-                    <TextBox
-                        Grid.Row="4"
-                        Grid.Column="2"
-                        IsReadOnly="True"
-                        d:Text="25455" />
-                    <TextBox
-                        Grid.Row="4"
-                        Grid.Column="3"
-                        IsReadOnly="True"
-                        d:Text="5381" />
-                    <TextBox
-                        Grid.Row="4"
-                        Grid.Column="4"
-                        IsReadOnly="True"
-                        d:Text="22614" />
-                </Grid>
+                    </DataGrid.Columns>
+                </DataGrid>
+               
             </GroupBox>
-            <GroupBox 
+            <GroupBox
+                Visibility="Collapsed"
                 Grid.Column="1" 
                 Header="Faults" 
                 Margin="2">

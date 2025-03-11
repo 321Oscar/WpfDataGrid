@@ -31,10 +31,13 @@ namespace ERad5TestGUI.Models
             base.OnOriginValueChaned(originValue, changed);
             if (changed)
             {
-                Transitions += 1;
+                if (NeedTransitions)
+                    Transitions += 1;
                 OnPinChanged?.Invoke(originValue);
             }
         }
+
+        public bool NeedTransitions { get; set; } = true;
         //public override void on()
         //{
         //    base.OnRealValueChanged();

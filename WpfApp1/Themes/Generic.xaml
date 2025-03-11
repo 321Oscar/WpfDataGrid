@@ -75,6 +75,9 @@
     <DataTemplate DataType="{x:Type viewModels:AnalogSignalLocatorViewModel}">
         <views:SignalLocatorView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:ResolverSignalLocatorViewModel}">
+        <views:SignalLocatorView />
+    </DataTemplate>
     <DataTemplate DataType="{x:Type viewModels:DiscreteInputSignalLocatorViewModel}">
         <views:SignalLocatorView />
     </DataTemplate>
@@ -82,6 +85,9 @@
         <views:SignalLocatorView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type viewModels:PulseOutSignalLocatorViewModel}">
+        <views:SignalLocatorView />
+    </DataTemplate> 
+    <DataTemplate DataType="{x:Type viewModels:PulseInSignalLocatorViewModel}">
         <views:SignalLocatorView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type viewModels:NXPSignalLocatorViewModel}">
@@ -93,10 +99,17 @@
     <DataTemplate DataType="{x:Type viewModels:LinViewModel}">
         <views:LINView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:DisConnectViewModel}">
+        <views:DisConnectView />
+    </DataTemplate>
    
     <DataTemplate DataType="{x:Type models:SignalBase}">
         <TextBlock Text="{Binding DisplayName}"/>
     </DataTemplate>
+
+    <!--<DataTemplate x:Key="BaseSignalIn">
+        
+    </DataTemplate>-->
 
     <DataTemplate x:Key="SignalToolTip">
         <Border>
@@ -203,22 +216,22 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" SharedSizeGroup="SignalName"/>
-                    <ColumnDefinition Width="auto" MinWidth="100"/>
-                    <ColumnDefinition Width="auto" MinWidth="100"/>
+                    <ColumnDefinition Width="auto" MinWidth="100" SharedSizeGroup="value1"/>
+                    <ColumnDefinition Width="auto" MinWidth="100" SharedSizeGroup="value2"/>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <!--<Border Style="{StaticResource CellBorder}" Grid.Column="0" >-->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Style="{StaticResource SignalNameFontStyle}" Text="{Binding DisplayName}"/>
-                        <TextBlock 
+                <Grid Margin="10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource SignalNameFontStyle}" Text="{Binding DisplayName}"/>
+                    <TextBlock 
                          Style="{StaticResource DescriptionTextBlockStyle}"
                          Text="{Binding PinNumber}"
                          Grid.Column="1"/>
-                    </Grid>
+                </Grid>
                 <!--</Border>-->
                 <Border Style="{StaticResource CellBorder}" Grid.Column="1" BorderThickness="2,0">
                     <TextBlock 
@@ -226,7 +239,7 @@
                         Text="{Binding OriginValue}" 
                         Style="{StaticResource ValueTextBlockStyle}"/>
                 </Border>
-                <Border Style="{StaticResource CellBorder}" Grid.Column="2" >
+                <Border Style="{StaticResource CellBorder}" Grid.Column="2" Visibility="{Binding NeedTransitions,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock 
                         Grid.Column="2"
                         Text="{Binding Transitions}" 
@@ -239,16 +252,55 @@
             </Border.ToolTip>
         </Border>
     </DataTemplate>
+
+    <DataTemplate x:Key="DisOutSignals">
+        <Grid Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions >
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Style="{StaticResource CardBorder}" Margin="5,2,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="SignalName"/>
+                        <ColumnDefinition SharedSizeGroup="value1"/>
+                        <ColumnDefinition SharedSizeGroup="value2"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Border Style="{StaticResource CellBorder}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="SignalName" Style="{StaticResource SignalNameFontStyle}" />
+                            <TextBlock 
+                                Style="{StaticResource DescriptionTextBlockStyle}"
+                                Text=" PinNumber"
+                                Grid.Column="1"/>
+                        </Grid>
+                        
+                    </Border>
+                    <TextBlock Text="Pin Low/High" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="State" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </Border >
+            <ScrollViewer Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding}"/>
+            </ScrollViewer>
+        </Grid>
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type models:DiscreteOutputSignal}">
         <Border Style="{StaticResource CardBorder}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" SharedSizeGroup="SignalName"/>
-                    <ColumnDefinition Width="auto" SharedSizeGroup="Value" MinWidth="40"/>
-                    <ColumnDefinition Width="auto" MinWidth="40"/>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="value1" MinWidth="100"/>
+                    <ColumnDefinition Width="auto" MinWidth="60" SharedSizeGroup="value2"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Grid>
+                <Grid Margin="10,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition />
@@ -269,17 +321,23 @@
                     Orientation="Horizontal">
                     <ToggleButton IsChecked="{Binding Pin_High, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                   Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}">
-
                     </ToggleButton>
-                    <TextBlock Text="Low" Visibility="{Binding Pin_Low,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,0,5,0">
-                    </TextBlock>
-                    <TextBlock Text="High" Visibility="{Binding Pin_High,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-                <Border Grid.Column="2" Style="{StaticResource CellBorder}" BorderThickness="2,0">
                     <TextBlock 
-                    Text="{Binding State.OriginValue}" 
-                    Style="{StaticResource ValueTextBlockStyle}"
-                    Grid.Column="2"/>
+                        Text="Low" 
+                        Visibility="{Binding Pin_Low,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                        Margin="0,0,5,0"/>
+                    <TextBlock 
+                        Text="High" 
+                        Visibility="{Binding Pin_High,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </StackPanel>
+                <Border 
+                    Grid.Column="2" 
+                    Style="{StaticResource CellBorder}" 
+                    BorderThickness="2,0">
+                    <TextBlock 
+                        Text="{Binding State.OriginValue}" 
+                        Style="{StaticResource ValueTextBlockStyle}"
+                        Grid.Column="2"/>
                 </Border>
                 
             </Grid>

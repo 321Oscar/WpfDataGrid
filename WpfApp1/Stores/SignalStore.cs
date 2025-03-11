@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using ERad5TestGUI.Devices;
@@ -12,11 +13,16 @@ namespace ERad5TestGUI.Stores
 {
     public class SignalStore
     {
+        /// <summary>
+        /// Use AddSignal Function
+        /// </summary>
         private readonly List<SignalBase> _signals;
         private readonly List<Signal> _dbcSignals = new List<Signal>();
         private readonly LogService logService;
         //public const double AnalogConst = 5 / 4096;
+        [Obsolete]
         public DbcFile DbcFile { get; private set; }
+        public List<DbcFile> DbcFiles { get; } = new List<DbcFile>();
         public SignalStore(Services.LogService logService)
         {
             this.logService = logService;
@@ -31,26 +37,22 @@ namespace ERad5TestGUI.Stores
             LoadDiscreteFixedSignals(nameof(ViewModels.DiscreteViewModel));
             //LoadSavingLogicSignals();
             LoadGDICStatusSignals();
-            //LoadPulseInSignals(0x10, (ViewModels.PulseInViewModel.VIEWNAME));
+            //LoadPulseInSignals(ViewModels.PulseInViewModel.VIEWNAME);
             //LoadPulseInSignals(0x20, nameof(ViewModels.PPAWLViewModel));
             //LoadPulseOutSignals(nameof(ViewModels.PPAWLViewModel));
             LoadPulseOutFixedSignals();
             LoadLinSignals();
+
+            LoadDiConnectSignals();
+            LoadSPISignals();
         }
 
-       
+   
 
         ~SignalStore()
         {
             try
             {
-                //SignalLocation.Signals.Distinct().ToList().ForEach(signal =>
-                //{
-                //    if(this.Signals.FirstOrDefault(x=>x.Equals(signal)) != null)
-                //    {
-
-                //    }
-                //});
                 XmlHelper.SerializeToXml(SignalLocation, SignalLocatorFilePath);
             }
             catch (Exception ex)
@@ -69,15 +71,9 @@ namespace ERad5TestGUI.Stores
         public void AddSignal(SignalBase signal)
         {
             var updateSignal = DBCSignals.FirstOrDefault(x => x.SignalName == signal.Name);
-            if (updateSignal != null && updateSignal.MessageID != signal.MessageID)
+            if (updateSignal != null)
             {
-                logService.Debug($"Signal MsgID Update {signal.MessageID:X}->{updateSignal.MessageID:X}");
-                signal.MessageID = updateSignal.MessageID;
-            }
-
-            if (updateSignal != null && !string.IsNullOrEmpty(updateSignal.Unit))
-            {
-                signal.Unit = updateSignal.Unit;
+                signal.UpdateFormDBC(updateSignal);
             }
 
             if (Signals.FirstOrDefault(x => x.MessageID == signal.MessageID && x.Name == signal.Name) == null)
@@ -92,6 +88,9 @@ namespace ERad5TestGUI.Stores
                     CANMessage message = new CANMessage(signal.MessageID, 64, 0);
                     Messages.Add(message);
                 }
+                if (SignalLocation.Signals.FirstOrDefault(x => x.MessageID == signal.MessageID && x.Name == signal.Name) == null &&
+                    !(signal is DiscreteInputSignal))
+                    SignalLocation.Signals.Add(signal);
             }
         }
 
@@ -339,37 +338,94 @@ namespace ERad5TestGUI.Stores
         {
             List<Signal> signals = new List<Signal>();
 
-            DbcFile.Messages.ForEach(x =>
-            {
-                //List<AnalogSignal> analogSignals = new List<AnalogSignal>();
-                foreach (var signal in x.signals)
+            DbcFiles.ForEach(
+                file =>
                 {
-                    if (signal.Comment.KeyValues.TryGetValue("Page", out string pageName) && pageName.IndexOf(viewName, StringComparison.OrdinalIgnoreCase) > -1)
-                    {
-                        signal.MessageID = x.MessageID;
-                        signal.MessageName = x.messageName;
-                        signals.Add(signal);
-                    }
-                }
+                    file.Messages.ForEach(x =>
+                     {
+                         //List<AnalogSignal> analogSignals = new List<AnalogSignal>();
+                         foreach (var signal in x.signals)
+                         {
+                             if (!string.IsNullOrEmpty(signal.Page) && signal.Page.IndexOf(viewName, StringComparison.OrdinalIgnoreCase) > -1)
+                             {
+                                 signal.MessageID = x.MessageID;
+                                 signal.MessageName = x.messageName;
+                                 signals.Add(signal);
+                             }
+                         }
+                     });
+                });
+
+            return signals;
+        }
+
+        private Dictionary<int, string> GetKeyValuePairs(uint msgID, string signalName)
+        {
+            var enumValue = DbcFiles.Select(x =>
+            {
+                if (x.ValEnums.FirstOrDefault(e => e.messageID == msgID && e.signalName == signalName) != null)
+                    return x.ValEnums.FirstOrDefault(e => e.messageID == msgID && e.signalName == signalName);
+                return null;
             });
+
+            return enumValue.FirstOrDefault().values;
+        }
+
+        private List<Signal> GetSignalsByID(uint msgId)
+        {
+            List<Signal> signals = new List<Signal>();
+
+            DbcFiles.ForEach(
+                file =>
+                {
+                    file.Messages.ForEach(x =>
+                    {
+                        //List<AnalogSignal> analogSignals = new List<AnalogSignal>();
+                        foreach (var signal in x.signals)
+                        {
+                            if (signal.MessageID == msgId)
+                            {
+                                //signal.MessageID = x.MessageID;
+                                //signal.MessageName = x.messageName;
+                                signals.Add(signal);
+                            }
+                        }
+                    });
+                });
 
             return signals;
         }
 
         private void LoadDBC()
         {
-            DbcFile = new DbcFile(@".\Config\Erad5_GUI_DEVCAN.dbc");
-
-            DbcFile.Messages.ForEach(x =>
+           var files = Directory.GetFiles(@".\Config","*.dbc");
+            foreach (var item in files)
             {
-                //List<AnalogSignal> analogSignals = new List<AnalogSignal>();
-                foreach (var signal in x.signals)
+                var dbcf = new DbcFile(item);
+                dbcf.Messages.ForEach(x =>
                 {
-                    signal.MessageID = x.MessageID;
-                    signal.MessageName = x.messageName;
-                    _dbcSignals.Add(signal);
-                }
-            });
+                    foreach (var signal in x.signals)
+                    {
+                        signal.MessageID = x.MessageID;
+                        signal.MessageName = x.messageName;
+                        _dbcSignals.Add(signal);
+                    }
+                });
+                DbcFiles.Add(dbcf);
+            }
+
+            //DbcFile = new DbcFile(@".\Config\Erad5_GUI_DEVCAN.dbc");
+
+            //DbcFile.Messages.ForEach(x =>
+            //{
+            //    //List<AnalogSignal> analogSignals = new List<AnalogSignal>();
+            //    foreach (var signal in x.signals)
+            //    {
+            //        signal.MessageID = x.MessageID;
+            //        signal.MessageName = x.messageName;
+            //        _dbcSignals.Add(signal);
+            //    }
+            //});
         }
 
         private void LoadAnalogSignals(string viewName = nameof(ViewModels.AnalogViewModel))
@@ -576,9 +632,8 @@ namespace ERad5TestGUI.Stores
             }
         }
 
-        private void LoadPulseInSignals(uint msgID, string viewName)
+        private void LoadPulseInSignals(string viewName)
         {
-            
             viewName = SignalBase.ReplaceViewModel(viewName);
             var pulseInViewSignals = GetSignalsByPageName(viewName);
 
@@ -589,17 +644,17 @@ namespace ERad5TestGUI.Stores
                     string[] groupName = signal.SignalName.Split(new string[] { "_Duty", "_Freq" }, StringSplitOptions.RemoveEmptyEntries);
                     if (groupName.Length == 1)
                     {
-                        PulseInSignal pulseInSignal = new PulseInSignal(groupName[0])
-                        {
-                            Name = signal.SignalName,
-                            StartBit = (int)signal.startBit,
-                            Factor = signal.factor,
-                            Offset = signal.offset,
-                            ByteOrder = (int)signal.byteOrder,
-                            Length = (int)signal.signalSize,
-                            MessageID = signal.MessageID,
-                            ViewName = viewName
-                        };
+                        PulseInSignal pulseInSignal = new PulseInSignal(signal, signal.Page.Replace(',', ';'), groupName[0]);
+                        //{
+                        //    Name = signal.SignalName,
+                        //    StartBit = (int)signal.startBit,
+                        //    Factor = signal.factor,
+                        //    Offset = signal.offset,
+                        //    ByteOrder = (int)signal.byteOrder,
+                        //    Length = (int)signal.signalSize,
+                        //    MessageID = signal.MessageID,
+                        //    ViewName = signal.Page.Replace(',',';')
+                        //};
                         SaveViewSignalLocator(viewName, pulseInSignal);
                     }
                 }
@@ -715,6 +770,75 @@ namespace ERad5TestGUI.Stores
             }
         }
 
+        private void LoadDiConnectSignals()
+        {
+            //throw new NotImplementedException();
+            var id0x25 = GetSignalsByID(0x25);
+            foreach (var item in id0x25)
+            {
+                AddSignal(new SignalBase(item, "DisConnect"));
+            }
+            var id0x75 = GetSignalsByID(0x75);
+            foreach (var item in id0x75)
+            {
+                AddSignal(new SignalBase(item, "DisConnect"));
+            }
+            var id0x15 = GetSignalsByID(0x15);
+            foreach (var item in id0x15)
+            {
+                AddSignal(new SignalBase(item, "DisConnect")
+                {
+                    InOrOut = true
+                });
+            }
+            var id0x16 = GetSignalsByID(0x16);
+            foreach (var item in id0x16)
+            {
+                AddSignal(new SignalBase(item, "DisConnect")
+                {
+                    InOrOut = true
+                });
+            }
+        }
+
+        private void LoadSPISignals()
+        {
+            string viewName = "SPI";
+            var spiViewSignals = GetSignalsByPageName(viewName);
+
+            foreach (var item in spiViewSignals)
+            {
+                if (item.SignalName.IndexOf("Select") > -1)
+                {
+                    SPISignal spisignal = new SPISignal(item);
+                    spisignal.InOrOut = true;
+                    AddSignal(spisignal);
+                    var keys = GetKeyValuePairs(item.MessageID, item.SignalName);
+                    if(keys != null)
+                    {
+                        foreach (var kv in keys)
+                        {
+                            if (!SPIValueTable.Value2Baudrate.ContainsKey(kv.Key))
+                                SPIValueTable.Value2Baudrate.Add(kv.Key, kv.Value);
+                        }
+                    }
+                }
+                else if (item.SignalName.IndexOf("Current") > -1)
+                {
+                    SPISignal spisignal = new SPISignal(item);
+                    //spisignal.InOrOut = true;
+                    AddSignal(spisignal);
+                }
+                else
+                {
+                    DiscreteOutputSignal spisignal = new DiscreteOutputSignal(item, "SPI");
+                    spisignal.InOrOut = true;
+                    //spisignal.FixedOut = true;
+                    AddSignal(spisignal);
+                }
+            }
+        }
+
         #region Signal Locator
         [Obsolete]
         public ViewsSignals SignalLocatorInfo { get; private set; }
@@ -723,24 +847,20 @@ namespace ERad5TestGUI.Stores
         //private const string SignalLocatorFilePath2 = @"Config/SignalLocator2.xml";
         private void LoadSignalLocator()
         {
-            //ViewsSignals x = new ViewsSignals();
-            //XmlHelper.SerializeToXml(x, SignalLocatorFilePath);
             SignalLocation = XmlHelper.DeserializeFromXml<SignalCollection>(SignalLocatorFilePath);
             if(SignalLocation == null)
             {
                 SignalLocation = new SignalCollection();
             }
-            //foreach (var view in SignalLocation.ViewSignalsInfos)
-            //{
+
             foreach (var signal in SignalLocation.Signals)
             {
                 AddSignal(signal);
-                if (signal is DiscreteOutputSignal disout)
+                if (signal is DiscreteOutputSignal disout && disout.State != null)
                 {
                     AddSignal(disout.State);
                 }
             }
-            //}
         }
 
         public void SaveViewSignalLocator(string viewName, SignalBase signal)

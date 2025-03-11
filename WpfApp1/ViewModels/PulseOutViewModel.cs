@@ -74,12 +74,12 @@ namespace ERad5TestGUI.ViewModels
         #region Locator Signals
 
         private PulseOutSignalLocatorViewModel CreateLocatorViewModel(System.Windows.Window window)
-          => new PulseOutSignalLocatorViewModel(_groups,
+          => new PulseOutSignalLocatorViewModel(ViewName, _groups,
                                            SignalStore,
                                            CreatePulseOutGroupSignal, window);
 
         private PulseOutSignalLocatorViewModel CreateLocatorViewModel() 
-            => new PulseOutSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore),
+            => new PulseOutSignalLocatorViewModel(ViewName, new CloseModalNavigationService(ModalNavigationStore),
                                                   _groups,
                                                   SignalStore,
                                                   CreatePulseOutGroupSignal,

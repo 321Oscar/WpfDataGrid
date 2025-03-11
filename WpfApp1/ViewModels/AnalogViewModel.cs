@@ -12,6 +12,10 @@ using ERad5TestGUI.Devices;
 using ERad5TestGUI.Models;
 using ERad5TestGUI.Services;
 using ERad5TestGUI.Stores;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using ERad5TestGUI.Helpers;
+using System.Windows.Data;
+using System.ComponentModel;
 
 namespace ERad5TestGUI.ViewModels
 {
@@ -19,6 +23,8 @@ namespace ERad5TestGUI.ViewModels
     {
         private RelayCommand _updateSignalThresholdCommand;
         private RelayCommand _resetSignalThresholdCommand;
+        private RelayCommand _saveSignalThresholdCommand;
+        private RelayCommand _loadSignalThresholdCommand;
         private RelayCommand _calStandardDevCommand;
         private AnalogSignal currentAnalogSignal;
         private double maxThreshold;
@@ -119,13 +125,20 @@ namespace ERad5TestGUI.ViewModels
 
         public IEnumerable<AnalogSignal> AnalogSignals
         {
-            get => _signals;
+            get
+            {
+                return _signals;
+
+                //var viewSource = CollectionViewSource.GetDefaultView(_signals);
+                //viewSource.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
+                //return viewSource;
+            }
         }
 
         public ICommand UpdateSignalThresholdCommand { get => _updateSignalThresholdCommand ?? (_updateSignalThresholdCommand = new RelayCommand(UpdateSignalThreshold)); }
         public ICommand ResetSignalThresholdCommand { get => _resetSignalThresholdCommand ?? (_resetSignalThresholdCommand = new RelayCommand(ResetSignalThreshold)); }
-        public ICommand LoadSignalThresholdCommand { get; }
-        public ICommand SaveSignalThresholdCommand { get; }
+        public ICommand LoadSignalThresholdCommand { get => _loadSignalThresholdCommand ?? (_loadSignalThresholdCommand = new RelayCommand(LoadLimit)); }
+        public ICommand SaveSignalThresholdCommand { get => _saveSignalThresholdCommand ?? (_saveSignalThresholdCommand = new RelayCommand(SaveLimits)); }
         public ICommand CalculateSignalStdDevCommand { get => _calStandardDevCommand ?? (_calStandardDevCommand = new RelayCommand(CalStandardDev, () => StandardCount > 0)); }
         public ICommand SearchSignalByNameCommand { get => _searchSignalByNameCommand ?? (_searchSignalByNameCommand = new RelayCommand(SearchSignalByName, () => !string.IsNullOrEmpty(SearchSignalName))); }
         private AnalogSignal[] searchedSignals;
@@ -135,7 +148,7 @@ namespace ERad5TestGUI.ViewModels
         {
             if (updateSearchedSignals)
             {
-                searchedSignals = AnalogSignals.Where(x => x.Name.IndexOf(SearchSignalName, StringComparison.OrdinalIgnoreCase) > -1).ToArray();
+                searchedSignals = _signals.Where(x => x.Name.IndexOf(SearchSignalName, StringComparison.OrdinalIgnoreCase) > -1).ToArray();
                 updateSearchedSignals = false;
                 searchSignalIndexIn = -1;
             }
@@ -204,6 +217,68 @@ namespace ERad5TestGUI.ViewModels
             }
 
         }
+
+        private void LoadLimit()
+        {
+            var ofd = new CommonOpenFileDialog();
+            ofd.DefaultDirectory = @".\Config\";
+            ofd.Filters.Add(new CommonFileDialogFilter("Limit xml file", "*.xml"));
+            if(ofd.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                try
+                {
+                    var limits = XmlHelper.DeserializeFromXml<List<LimitInfo>>(ofd.FileName);
+                    foreach (var signal in _signals)
+                    {
+                        var limitSignal = limits.FirstOrDefault(x => x.Name == signal.Name);
+                        if(limitSignal != null)
+                        {
+                            signal.MaxThreshold = limitSignal.Max;
+                            signal.MinThreshold = limitSignal.Min;
+                        }
+                    }
+                    LogService.Log($"Load Limit File:{ofd.FileName}");
+                }
+                catch (Exception ex)
+                {
+                    AdonisUI.Controls.MessageBox.Show($"Load Limit File Fail:{ex.Message}"
+                    , "Error", AdonisUI.Controls.MessageBoxButton.OK, AdonisUI.Controls.MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void SaveLimits()
+        {
+            var sfd = new CommonSaveFileDialog();
+            sfd.Filters.Add(new CommonFileDialogFilter("Limit xml file", "*.xml"));
+            sfd.DefaultFileName = "Limits.xml";
+            if (sfd.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                List<LimitInfo> limitInfos = new List<LimitInfo>();
+                foreach (var signal in _signals)
+                {
+                    LimitInfo i = new LimitInfo()
+                    {
+                        Name = signal.Name,
+                        Max = signal.MaxThreshold,
+                        Min = signal.MinThreshold
+                    };
+                    limitInfos.Add(i);
+                }
+
+                try
+                {
+                    XmlHelper.SerializeToXml(limitInfos, sfd.FileName);
+                    LogService.Log($"Save Limit File to:{sfd.FileName}");
+                }
+                catch (Exception ex)
+                {
+                    AdonisUI.Controls.MessageBox.Show($"Save Limit File Fail:{ex.Message}"
+                                        , "Error", AdonisUI.Controls.MessageBoxButton.OK, AdonisUI.Controls.MessageBoxImage.Error); ;
+                }
+            }
+        }
+
         public int StandardCount
         {
             get => standardCount;
@@ -220,21 +295,21 @@ namespace ERad5TestGUI.ViewModels
         private void CalStandardDev()
         {
             //throw new NotImplementedException();
-            foreach (var signal in AnalogSignals)
+            foreach (var signal in _signals)
             {
                 signal.CalStandard(StandardCount);
             }
         }
 
         private AnalogSignalLocatorViewModel CreateSignalLocatorViewModel(System.Windows.Window window)
-            => new AnalogSignalLocatorViewModel(_signals,
+            => new AnalogSignalLocatorViewModel(ViewName,_signals,
                                                 SignalStore,
                                                 CreateAnalogByDBCSignal, 
                                                 window);
 
         private AnalogSignalLocatorViewModel CreateSignalLocatorViewModel()
         {
-            return new AnalogSignalLocatorViewModel(new CloseModalNavigationService(ModalNavigationStore), _signals, SignalStore, CreateAnalogByDBCSignal);
+            return new AnalogSignalLocatorViewModel(ViewName, new CloseModalNavigationService(ModalNavigationStore), _signals, SignalStore, CreateAnalogByDBCSignal);
         }
 
         private AnalogSignal CreateAnalogByDBCSignal(Signal signal)

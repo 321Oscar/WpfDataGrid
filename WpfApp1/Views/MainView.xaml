@@ -7,7 +7,7 @@
         xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
         xmlns:cmds="clr-namespace:ERad5TestGUI.Commands"
         mc:Ignorable="d"
-        Title="MainView"
+        Title="ERad5 Test GUI"
         WindowState="Maximized"
         Width="1100"
         Height="800">
@@ -46,15 +46,18 @@
                 </TabItem>
                 <TabItem Header="LIN">
                     <ContentControl Content="{Binding LinViewModel}"/>
+                </TabItem> 
+                <TabItem Header="DisConnect">
+                    <ContentControl Content="{Binding DisConnectViewModel}"/>
                 </TabItem>
-                <TabItem Header="Memory-Doing">
-                    <ContentControl Content="{Binding MemoryViewModel}"/>
-                </TabItem>
-                <TabItem Header="Resolver-UnFinish">
+                <TabItem Header="Resolver-Doing">
                     <ContentControl Content="{Binding ResolverViewModel}"/>
                 </TabItem>
-                <TabItem Header="SPI-Undo">
-                    <local:SPIView/>
+                <TabItem Header="SPI-Doing">
+                    <ContentControl Content="{Binding SPIViewModel}"/>
+                </TabItem>
+                <TabItem Header="Memory-UnFinish">
+                    <ContentControl Content="{Binding MemoryViewModel}"/>
                 </TabItem>
                
             </TabControl>

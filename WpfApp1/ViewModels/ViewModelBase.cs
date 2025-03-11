@@ -58,7 +58,7 @@ namespace ERad5TestGUI.ViewModels
 
             //DeviceStore.BeforeCurrentDeviceChange += DeviceStore_CurrentDeviceChange;
             //DeviceStore.CurrentDeviceChanged += DeviceStore_CurrentDeviceChanged;
-
+            
         }
         /// <summary>
         /// No DI
@@ -72,6 +72,7 @@ namespace ERad5TestGUI.ViewModels
             DeviceStore = deviceStore;
             LogService = logService;
             logger = LogService.GetLogger(this.GetType().Name);
+            Init();
         }
         /// <summary>
         /// In No DI, must call it 

@@ -104,6 +104,7 @@
     <Compile Include="Models\PulseInSignalGroup.cs" />
     <Compile Include="Models\S19Record.cs" />
     <Compile Include="Models\SavingLogicInOutGroup.cs" />
+    <Compile Include="Models\SPIInSignal.cs" />
     <Compile Include="Services\CloseModalNavigationService.cs" />
     <Compile Include="Services\CompositeNavigationService.cs" />
     <Compile Include="Services\ILogService.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="UDS\SRecod\SrecHelper.cs" />
     <Compile Include="ViewModels\AnalogViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\DisConnectViewModel.cs" />
     <Compile Include="ViewModels\DiscreteViewModel.cs" />
     <Compile Include="ViewModels\GDICViewModel.cs" />
     <Compile Include="ViewModels\LayoutViewModel.cs" />
@@ -163,8 +165,10 @@
     <Compile Include="ViewModels\PPAWLViewModel.cs" />
     <Compile Include="ViewModels\PulseInViewModel.cs" />
     <Compile Include="ViewModels\PulseOutViewModel.cs" />
+    <Compile Include="ViewModels\ResolverViewModel.cs" />
     <Compile Include="ViewModels\SavinLogicViewModel.cs" />
     <Compile Include="ViewModels\SignalLocatorViewModel.cs" />
+    <Compile Include="ViewModels\SPIViewModel.cs" />
     <Compile Include="ViewModels\UDSUpgradeViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\AnalogView.xaml.cs">
@@ -175,6 +179,9 @@
     </Compile>
     <Compile Include="Views\DialogView.xaml.cs">
       <DependentUpon>DialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DisConnectView.xaml.cs">
+      <DependentUpon>DisConnectView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DiscreteView.xaml.cs">
       <DependentUpon>DiscreteView.xaml</DependentUpon>
@@ -276,6 +283,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\DisConnectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DiscreteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -367,6 +378,9 @@
     <None Include="Config\Erad5_GUI_DEVCAN.dbc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Config\GEN_VI_FADM_Project_LeapMotor.dbc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Config\Log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -384,6 +398,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Config\ValueTables.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\Limits.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="vxlapi.dll">

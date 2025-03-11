@@ -1,0 +1,165 @@
+VERSION "HNNBNNNYNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN/4/%%%/4/'%**4NNN///"
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: VCU AWD Tester
+
+
+BO_ 22 VtSig_IPB: 8 Tester
+ SG_ FrntMotActTq : 54|15@0+ (0.1,-1638.3) [-1638.3|1638.3] "Nm"  AWD
+
+BO_ 117 DDCM_PR_AWD_2: 8 AWD
+ SG_ DDCMFaultIDExt_BW : 47|16@0+ (1,0) [0|65535] "" Vector__XXX
+ SG_ DDCMFaultIDExt : 31|16@0+ (1,0) [0|65535] "" Vector__XXX
+ SG_ DDCMConnectState : 15|8@0+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 37 DDCM_PR_AWD_1: 8 AWD
+ SG_ DDCMWedgePlatePos : 63|8@0+ (0.1,0) [0|255] "Degrees" Vector__XXX
+ SG_ DDCMSolenoidSupplyCurrent : 15|16@0+ (0.1,-50.8) [-50.8|50.8] "A" Vector__XXX
+ SG_ DDCMOperationalState : 7|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ DDCMSupplyVoltage : 31|8@0+ (0.1,0) [0|25.5] "Volts" Vector__XXX
+ SG_ DDCMWedgePlateAgl : 39|16@0+ (0.2,-600) [-600|2000] "Degrees" Vector__XXX
+
+BO_ 21 TCCM_PR_AWD_1: 8 Tester
+ SG_ DDCMDiffOmega : 35|12@0+ (2,-4093) [-4093|4095] "RPM"  AWD
+ SG_ DDCMStateRequest : 23|8@0+ (1,0) [0|255] ""  AWD
+ SG_ DDCMConnectRequest : 7|8@0+ (1,0) [0|255] ""  AWD
+
+
+
+BA_DEF_ BU_  "NmAsrCanMsgCycleOffset" INT 0 65535;
+BA_DEF_ BU_  "NmAsrCanMsgReducedTime" INT 0 65535;
+BA_DEF_ BU_  "NmAsrNode" ENUM  "No","Yes";
+BA_DEF_ BU_  "NmAsrNodeIdentifier" INT 0 255;
+BA_DEF_  "NmAsrBaseAddress" HEX 0 536870911;
+BA_DEF_  "NmAsrCanMsgCycleTime" INT 0 65535;
+BA_DEF_  "NmAsrMessageCount" INT 0 256;
+BA_DEF_  "NmAsrRepeatMessageTime" INT 0 65535;
+BA_DEF_  "NmAsrTimeoutTime" INT 0 65535;
+BA_DEF_  "NmAsrWaitBusSleepTime" INT 0 65535;
+BA_DEF_  "NmType" STRING ;
+BA_DEF_ BO_  "NmAsrMessage" ENUM  "No","Yes";
+BA_DEF_ BO_  "CANFD_BRS" ENUM  "0","1";
+BA_DEF_  "BusType" STRING ;
+BA_DEF_ SG_  "GenSigStartValue" INT 0 0;
+BA_DEF_ SG_  "GenSigSendType" ENUM  "Cyclic","OnWrite","NotUsed","OnChange","NotUsed","NotUsed","NotUsed","NoSigSendType","vector_leerstring";
+BA_DEF_ SG_  "GenSigInactiveValue" INT 0 2147483647;
+BA_DEF_ BO_  "GenSigCycleTimeActive" INT 0 0;
+BA_DEF_ SG_  "GenSigCycleTime" INT 0 0;
+BA_DEF_ BU_  "ILUsed" ENUM  "no","yes";
+BA_DEF_ BO_  "GenMsgStartDelayTime" INT 0 65535;
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","NotUsed","NotUsed","NotUsed","NotUsed","NotUsed","NotUsed","NotUsed","NoMsgSendType";
+BA_DEF_ BO_  "GenMsgNrOfRepetition" INT 0 255;
+BA_DEF_ BO_  "GenMsgILSupport" ENUM  "No","Yes";
+BA_DEF_ BO_  "GenMsgDelayTime" INT 0 65535;
+BA_DEF_ BO_  "GenMsgCycleTimeFast" INT 0 65535;
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 65535;
+BA_DEF_ BO_  "DiagUUDTResponse" ENUM  "No","Yes";
+BA_DEF_ BO_  "DiagState" ENUM  "No","Yes";
+BA_DEF_ BO_  "DiagResponse" ENUM  "No","Yes";
+BA_DEF_ BO_  "DiagRequest" ENUM  "No","Yes";
+BA_DEF_ BO_  "DiagFdOnly" ENUM  "No","Yes";
+BA_DEF_ BO_  "DiagConnection" INT 0 65535;
+BA_DEF_  "DBName" STRING ;
+BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","StandardCAN_FD","ExtendedCAN_FD";
+BA_DEF_REL_ BU_SG_REL_  "GenSigTimeoutTime" INT 0 65535;
+BA_DEF_DEF_  "NmAsrCanMsgCycleOffset" 0;
+BA_DEF_DEF_  "NmAsrCanMsgReducedTime" 50;
+BA_DEF_DEF_  "NmAsrNode" "No";
+BA_DEF_DEF_  "NmAsrNodeIdentifier" 7;
+BA_DEF_DEF_  "NmAsrBaseAddress" 1280;
+BA_DEF_DEF_  "NmAsrCanMsgCycleTime" 500;
+BA_DEF_DEF_  "NmAsrMessageCount" 128;
+BA_DEF_DEF_  "NmAsrRepeatMessageTime" 1600;
+BA_DEF_DEF_  "NmAsrTimeoutTime" 2000;
+BA_DEF_DEF_  "NmAsrWaitBusSleepTime" 2000;
+BA_DEF_DEF_  "NmType" "NmAsr";
+BA_DEF_DEF_  "NmAsrMessage" "No";
+BA_DEF_DEF_  "CANFD_BRS" "1";
+BA_DEF_DEF_  "BusType" "CAN FD";
+BA_DEF_DEF_  "GenSigStartValue" 0;
+BA_DEF_DEF_  "GenSigSendType" "NoSigSendType";
+BA_DEF_DEF_  "GenSigInactiveValue" 0;
+BA_DEF_DEF_  "GenSigCycleTimeActive" 0;
+BA_DEF_DEF_  "GenSigCycleTime" 0;
+BA_DEF_DEF_  "ILUsed" "yes";
+BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
+BA_DEF_DEF_  "GenMsgSendType" "Cyclic";
+BA_DEF_DEF_  "GenMsgNrOfRepetition" 0;
+BA_DEF_DEF_  "GenMsgILSupport" "Yes";
+BA_DEF_DEF_  "GenMsgDelayTime" 0;
+BA_DEF_DEF_  "GenMsgCycleTimeFast" 0;
+BA_DEF_DEF_  "GenMsgCycleTime" 10;
+BA_DEF_DEF_  "DiagUUDTResponse" "No";
+BA_DEF_DEF_  "DiagState" "No";
+BA_DEF_DEF_  "DiagResponse" "No";
+BA_DEF_DEF_  "DiagRequest" "No";
+BA_DEF_DEF_  "DiagFdOnly" "No";
+BA_DEF_DEF_  "DiagConnection" 0;
+BA_DEF_DEF_  "DBName" "";
+BA_DEF_DEF_  "VFrameFormat" "StandardCAN";
+BA_DEF_DEF_REL_ "GenSigTimeoutTime" 0;
+BA_ "DBName" "GENVI_5180_FADM";
+BA_ "NmAsrNode" BU_ VCU 1;
+BA_ "NmAsrNode" BU_ AWD 1;
+BA_ "NmAsrNode" BU_ Tester 1;
+BA_ "ILUsed" BU_ Tester 0;
+BA_ "VFrameFormat" BO_ 22 14;
+BA_ "VFrameFormat" BO_ 117 14;
+BA_ "VFrameFormat" BO_ 37 14;
+BA_ "VFrameFormat" BO_ 21 14;
+BA_ "GenSigStartValue" SG_ 22 FrntMotActTq 16383;
+BA_ "GenSigSendType" SG_ 117 DDCMFaultIDExt_BW 0;
+BA_ "GenSigSendType" SG_ 117 DDCMFaultIDExt 0;
+BA_ "GenSigSendType" SG_ 117 DDCMConnectState 0;
+BA_ "GenSigStartValue" SG_ 37 DDCMSolenoidSupplyCurrent 508;
+BA_ "GenSigSendType" SG_ 37 DDCMOperationalState 0;
+BA_ "GenSigStartValue" SG_ 37 DDCMOperationalState 8;
+BA_ "GenSigSendType" SG_ 37 DDCMSupplyVoltage 0;
+BA_ "GenSigStartValue" SG_ 37 DDCMWedgePlateAgl 3000;
+BA_ "GenSigSendType" SG_ 21 DDCMDiffOmega 0;
+BA_ "GenSigStartValue" SG_ 21 DDCMDiffOmega 4093.5;
+BA_ "GenSigStartValue" SG_ 21 DDCMStateRequest 3;
+BA_ "GenSigSendType" SG_ 21 DDCMStateRequest 0;
+BA_ "GenSigSendType" SG_ 21 DDCMConnectRequest 0;
+VAL_ 117 DDCMFaultIDExt_BW 0 "No Fault" ;
+VAL_ 117 DDCMFaultIDExt 12 "DDCM_ErrorGearstatue&LRWSpd" 11 "DDCM_ErrorSpeedDiffOmega" 10 "DDCM_ErrorSolenoidPoweroff" 9 "DDCM_ErrorOverVoltageError" 8 "DDCM_ErrorUnderVoltage" 7 "DDCM_ErrorPositionSensor" 6 "DDCM_ErrorSolenoidKeepCurrent" 5 "DDCM_ErrorSolenoidpoweron" 4 "DDCM_ErrorFailedConnect" 3 "DDCM_ErrorFailedDisconnect" 2 "DDCM_ErrorUnitentionalDisconnect" 1 "DDCM_ErrorUnintentionalConnect" 0 "No Fault" ;
+VAL_ 117 DDCMConnectState 10 "Connected,Partially Engaged" 9 "Connecting,PartiallyEngaged." 8 "Unknown" 7 "Braking" 6 "Move To Brake" 5 "Disconnecting From Brake" 4 "Disconnecting" 3 "Connecting" 2 "Disconnected" 1 "Connected" 0 "Startup" ;
+VAL_ 37 DDCMSolenoidSupplyCurrent 255 "Unknown" ;
+VAL_ 37 DDCMOperationalState 9 "IOST Running" 8 "Standby" 7 "Shutdown Ready" 6 "Shutdown Running" 3 "Run" 2 "Init Ready" 1 "Init Running" 0 "Init Wait" ;
+VAL_ 37 DDCMSupplyVoltage 255 "Unknown" ;
+VAL_ 21 DDCMDiffOmega 4095 "Fault" 4094 "Startup" ;
+VAL_ 21 DDCMStateRequest 5 "DDCM IOST" 4 "DDCMStandby" 3 "DDCM Init Wait" 2 "DDCM Init" 1 "DDCM Run" 0 "DDCM Shutdown" ;
+VAL_ 21 DDCMConnectRequest 4 "Disconnect" 3 "Energy Efficient Connect" 2 "NVH Free Fast Connect" 1 "Fast Connect" 0 "No Request" ;
+

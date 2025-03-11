@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ERad5TestGUI.Services;
+using ERad5TestGUI.Stores;
 
 namespace ERad5TestGUI.ViewModels
 {
@@ -11,7 +12,7 @@ namespace ERad5TestGUI.ViewModels
     {
         private readonly Services.LogService logService;
 
-        public LogViewModel(LogService logService)
+        public LogViewModel(LogService logService, DeviceStore deviceStore)
         {
             this.logService = logService;
         }

@@ -60,10 +60,43 @@
                         Command="{Binding ClearTransitionsCommand}"
                         />
                 </StackPanel>
-                <ScrollViewer Grid.Row="1">
-                    <ItemsControl ItemsSource="{Binding InputSignals}" Grid.Row="0" Grid.IsSharedSizeScope="True">
-                    </ItemsControl>
-                </ScrollViewer>
+                <Grid Grid.Row="1"  Grid.IsSharedSizeScope="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Style="{StaticResource CardBorder}" Margin="5,2,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition SharedSizeGroup="SignalName"/>
+                                <ColumnDefinition SharedSizeGroup="value1"/>
+                                <ColumnDefinition SharedSizeGroup="value2"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Border Style="{StaticResource CellBorder}">
+                                <Border Style="{StaticResource CellBorder}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="SignalName" Style="{StaticResource SignalNameFontStyle}" />
+                                        <TextBlock 
+                                            Style="{StaticResource DescriptionTextBlockStyle}"
+                                            Text=" PinNumber"
+                                            Grid.Column="1"/>
+                                    </Grid>
+
+                                </Border>
+                            </Border>
+                            <TextBlock Text="State" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Text="Transition" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border >
+                    <ScrollViewer Grid.Row="1">
+                        <ItemsControl ItemsSource="{Binding InputSignals}"/>
+                    </ScrollViewer>
+                </Grid>
 
                 <!--<DataGrid
                     Grid.Row="1"
@@ -122,16 +155,8 @@
             Grid.Column="1"
             Header="Outputs" Margin="0,2,2,0">
             <Grid Margin="-10">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <ScrollViewer>
-                    <ItemsControl ItemsSource="{Binding OutputSignals}" Grid.Row="0" Grid.IsSharedSizeScope="True">
-                       
-                    </ItemsControl>
-                </ScrollViewer>
-                <!--<DataGrid
+                <ContentControl Content="{Binding OutputSignals}" ContentTemplate="{StaticResource DisOutSignals}"/>
+            <!--<DataGrid
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"
                     CanUserDeleteRows="False"
@@ -167,8 +192,6 @@
                             IsReadOnly="True" />
                     </DataGrid.Columns>
                 </DataGrid>-->
-
-
             </Grid>
         </GroupBox>
 

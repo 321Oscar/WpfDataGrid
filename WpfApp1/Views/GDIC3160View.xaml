@@ -51,7 +51,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Text="GDIC3160" Style="{StaticResource TitleLabel}"/>
+        <TextBlock Text="GDIC3162" Style="{StaticResource TitleLabel}"/>
 
         <Grid Grid.Row="1" Panel.ZIndex="99">
             <Grid.Style>
@@ -440,8 +440,8 @@
                                 <Grid>
                                     <TextBlock Text="{Binding GroupName}"/>
                                     <TextBlock Text="{Binding Address}"/>
-                                    <TextBlock Text="{Binding Data.OriginValue}"/>
-                                    <TextBlock Text="{Binding CRC.OriginValue}"/>
+                                    <TextBlock Text="{Binding Data.OriginValue,Converter={StaticResource DoubleHexConverter}}"/>
+                                    <TextBlock Text="{Binding CRC.OriginValue,Converter={StaticResource DoubleHexConverter}}"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -457,8 +457,8 @@
                                         <GridView>
                                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding GroupName}"/>
                                             <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}"/>
-                                            <GridViewColumn Header="Data" DisplayMemberBinding="{Binding Data.OriginValue}"/>
-                                            <GridViewColumn Header="Crc" DisplayMemberBinding="{Binding CRC.OriginValue}"/>
+                                            <GridViewColumn Header="Data" DisplayMemberBinding="{Binding Data.OriginValue,Converter={StaticResource DoubleHexConverter}}"/>
+                                            <GridViewColumn Header="CRC" DisplayMemberBinding="{Binding CRC.OriginValue,Converter={StaticResource DoubleHexConverter}}"/>
                                         </GridView>
                                     </ListView.View>
                                 </ListView>

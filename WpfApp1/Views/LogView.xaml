@@ -23,6 +23,6 @@
             <Button Content="Stop" />
             <Button Content="Clear" />
         </StackPanel>
-        <RichTextBox Grid.Column="1" />
+        <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="1" VerticalScrollBarVisibility="Visible"/>
     </Grid>
 </UserControl>
