@@ -15,8 +15,8 @@ namespace ERad5TestGUI.ViewModels
     public class NXPViewModel : SendFrameViewModelBase
     {
         private readonly ObservableCollection<DiscreteOutputSignal> _disOutputSignals = new ObservableCollection<DiscreteOutputSignal>();
+        private readonly ObservableCollection<DiscreteInputSignal> _nxpSignals = new ObservableCollection<DiscreteInputSignal>();
         private readonly ObservableCollection<NXPInputSignal> _nxpInputSignals = new ObservableCollection<NXPInputSignal>();
-        private readonly ObservableCollection<NXPSignal> _nxpSignals = new ObservableCollection<NXPSignal>();
         private RelayCommand locatorOutputsCommand;
         private RelayCommand locatorNxpCommand;
 
@@ -33,39 +33,32 @@ namespace ERad5TestGUI.ViewModels
 
         ~NXPViewModel()
         {
-            try
-            {
-                SignalStore.SaveViewSignalLocator(nameof(NXPViewModel), _nxpInputSignals);
-                SignalStore.SaveViewSignalLocator(nameof(NXPViewModel), _disOutputSignals, clear: false);
-                SignalStore.SaveViewSignalLocator(nameof(NXPViewModel), _nxpSignals, clear: false);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            //try
+            //{
+            //    SignalStore.SaveViewSignalLocator(nameof(NXPViewModel), _nxpInputSignals);
+            //    SignalStore.SaveViewSignalLocator(nameof(NXPViewModel), _disOutputSignals, clear: false);
+            //    SignalStore.SaveViewSignalLocator(nameof(NXPViewModel), _nxpSignals, clear: false);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
         }
 
         public ObservableCollection<NXPInputSignal> NxpInputSignals => _nxpInputSignals;
         public ObservableCollection<DiscreteOutputSignal> DisOutputSignals => _disOutputSignals;
-        public ObservableCollection<NXPSignal> NxpSignals => _nxpSignals;
+        public ObservableCollection<DiscreteInputSignal> NxpSignals => _nxpSignals;
         public ICommand LocatorOutputsCommand => locatorOutputsCommand ?? (locatorOutputsCommand = new RelayCommand(LocatorOutputSignals));
         public ICommand LocatorNxpCommand => locatorNxpCommand ?? (locatorNxpCommand = new RelayCommand(LocatorNXPSignals));
 
         public override void Init()
         {
             base.Init();
-            foreach (var signal in SignalStore.GetSignals<NXPInputSignal>(nameof(NXPViewModel)))
-            {
-                _nxpInputSignals.Add(signal);
-            }
-            foreach (var signal in SignalStore.GetSignals<DiscreteOutputSignal>(nameof(NXPViewModel)))
-            {
-                _disOutputSignals.Add(signal);
-            }
-            foreach (var signal in SignalStore.GetSignals<NXPSignal>(nameof(NXPViewModel)))
-            {
-                _nxpSignals.Add(signal);
-            }
+
+            _nxpInputSignals.AddRange(SignalStore.GetSignals<NXPInputSignal>(nameof(NXPViewModel)));
+            _disOutputSignals.AddRange(SignalStore.GetSignals<DiscreteOutputSignal>(nameof(NXPViewModel)));
+            _nxpSignals.AddRange(SignalStore.GetSignals<DiscreteInputSignal>(nameof(NXPViewModel)));
+
             //_outputSignals = SignalStore.GetObservableCollection<DiscreteOutputSignal>(nameof(DiscreteViewModel));
             //BuildFramesHelper = new DBCSignalBuildHelper(OutputSignals, SignalStore.DbcFile.Messages);
             //updateCommand = new RelayCommand(Update, () => OutputSignalSync);
@@ -172,6 +165,8 @@ namespace ERad5TestGUI.ViewModels
 
         private void LocatorNXPSignals()
         {
+            return;//Use Discrete Input Signal
+
             if (ModalNavigationStore != null)
             {
                 //var modalNavigationService = new ModalNavigationService<DiscreteOutputSignalLocatorViewModel>(this.ModalNavigationStore, CreateDisOutLoactorViewModel);
@@ -191,7 +186,7 @@ namespace ERad5TestGUI.ViewModels
         }
 
         private NXPSignalLocatorViewModel CreateNXPInLocatorViewModel(System.Windows.Window window)
-           => new NXPSignalLocatorViewModel(ViewName, _nxpSignals,
+           => new NXPSignalLocatorViewModel(ViewName, null,
                                             SignalStore,
                                             CreateNXPInSignal, window);
 

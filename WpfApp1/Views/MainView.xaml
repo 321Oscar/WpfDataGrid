@@ -50,12 +50,18 @@
                 <TabItem Header="DisConnect">
                     <ContentControl Content="{Binding DisConnectViewModel}"/>
                 </TabItem>
-                <TabItem Header="Resolver-Doing">
+                <TabItem Header="Resolver">
                     <ContentControl Content="{Binding ResolverViewModel}"/>
                 </TabItem>
-                <TabItem Header="SPI-Doing">
+                <TabItem Header="SPI">
                     <ContentControl Content="{Binding SPIViewModel}"/>
                 </TabItem>
+                <TabItem Header="PPAWL-UnFinish">
+                    <ContentControl Content="{Binding PPAWLViewModel}"/>
+                </TabItem> 
+                <TabItem Header="E-Locker-UnFinish">
+                    <ContentControl Content="{Binding ELockerViewModel}"/>
+                </TabItem> 
                 <TabItem Header="Memory-UnFinish">
                     <ContentControl Content="{Binding MemoryViewModel}"/>
                 </TabItem>

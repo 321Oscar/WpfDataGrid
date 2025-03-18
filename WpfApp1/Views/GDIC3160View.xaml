@@ -213,7 +213,13 @@
                                                     <Button 
                                                         Content="Write"
                                                         Command="{Binding DataContext.WriteStatusCommand, RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"
-                                                        CommandParameter="{Binding WriteStatus}"/>
+                                                        CommandParameter="{Binding WriteStatus}">
+
+                                                        <Button.ToolTip>
+                                                            <ContentControl Content="{Binding WriteStatus.WriteFlag}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                                                        </Button.ToolTip>
+
+                                                    </Button>
                                                 </StackPanel>
                                             </Grid>
                                         </Border>

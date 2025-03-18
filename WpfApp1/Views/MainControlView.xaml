@@ -5,7 +5,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:ERad5TestGUI.Views"
+    xmlns:mdls="clr-namespace:ERad5TestGUI.Models"
     xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
+    xmlns:s="clr-namespace:System;assembly=mscorlib"
     mc:Ignorable="d" 
     d:DesignHeight="120" 
     d:DesignWidth="1200">
@@ -97,26 +99,93 @@
             </StackPanel>
         </GroupBox>
         <GroupBox Header="CAN INH State" Margin="0,5,5,5">
-            <StackPanel Margin="-7">
-                <CheckBox 
-                    Margin="1"
-                    Content="TCAN_1145_DevCAN" 
-                    IsEnabled="False"/>
-                <CheckBox 
-                    Content="TCAN_1145_CANFD_5"
-                    Margin="1"
-                    IsChecked="{Binding FD5_INH_DISABLE.Pin_High}"/>
-                <CheckBox 
-                    Content="TCAN_1145_CANFD_16" 
-                    Margin="1"
-                    IsChecked="{Binding FD16_INH_DISABLE.Pin_High}"/>
-                <Button 
-                    Content="Disable CAN INH"
-                    Margin="1"
-                    Command="{Binding DisableINHCANCommand}"/>
-            </StackPanel>
+            <Grid Margin="-7">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <ItemsControl ItemsSource="{Binding SignalStore.MessagesStates}" Grid.IsSharedSizeScope="True">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type mdls:MessageReceiveState}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions >
+                                        <ColumnDefinition SharedSizeGroup="state" Width="auto"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse Name="state" Width="10" Height="10">
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse">
+                                                <Setter Property="Fill" Value="Red"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding State}" Value="True">
+                                                        <Setter  Property="Fill" Value="Green"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding State}" Value="False">
+                                                        <Setter  Property="Fill" Value="Red"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+                                    <TextBlock Text="{Binding Name}" Grid.Column="1" Margin="5,0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <StackPanel Grid.Column="1" Margin="5,0">
+                        <CheckBox 
+                        Margin="1"
+                        IsEnabled="False"/>
+                        <CheckBox 
+                        Margin="1"
+                        IsChecked="{Binding FD5_INH_DISABLE.Pin_High}"/>
+                        <CheckBox 
+                        Margin="1"
+                        IsChecked="{Binding FD16_INH_DISABLE.Pin_High}" />
+                    </StackPanel>
+                    <Button 
+                        Content="Disable CAN INH"
+                        Grid.ColumnSpan="2" 
+                        Grid.Row="1"
+                        Margin="1"
+                        Command="{Binding DisableINHCANCommand}"/>
+                </Grid>
+                <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+                    <Button 
+                        Content="Send CANFD5 WAKE UP"
+                        Margin="1"
+                        Command="{Binding SendWakeUpCommand}">
+                        <Button.CommandParameter>
+                            <s:UInt32>0x4fd</s:UInt32>
+                        </Button.CommandParameter>
+                        <Button.ToolTip>
+                            <TextBlock>Send 0x4FD(Can2.0 )</TextBlock>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button 
+                        Content="Send CANFD16 WAKE UP"
+                        Margin="1"
+                        Command="{Binding SendWakeUpCommand}">
+                        <Button.CommandParameter>
+                            <s:UInt32>0x4fE</s:UInt32>
+                        </Button.CommandParameter>
+                        <Button.ToolTip>
+                            <TextBlock>Send 0x4FE(Can2.0 )</TextBlock>
+                        </Button.ToolTip>
+                    </Button>
+                </StackPanel>
+            </Grid>
         </GroupBox>
-        <GroupBox Header="Controls" Margin="0,5">
+        <GroupBox Header="Controls" Margin="0,5" Visibility="Collapsed">
             <WrapPanel MaxWidth="500">
                 <WrapPanel.Resources>
                     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">

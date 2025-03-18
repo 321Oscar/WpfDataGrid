@@ -239,7 +239,7 @@ namespace ERad5TestGUI.UDS
                 }
                 else
                 {
-                    var sendres = Device.Send(_sendFrame);
+                    var sendres = Device.SendFD(_sendFrame);
 
                     if (!sendres)
                     {

@@ -10,15 +10,25 @@
              Background="White"
              >
     <UserControl.Resources>
+        <DataTemplate DataType="{x:Type models:SignalBase}" x:Key="CommonLoca">
+            <StackPanel>
+                <TextBlock Text="{Binding DisplayName}"/>
+                <DataGrid ItemsSource="{Binding Views}"/>
+            </StackPanel>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type models:AnalogSignal}">
             <ctrls:ControlWithTitle Title="{Binding DisplayName}" Orientation="Vertical">
                 <ctrls:ControlWithTitle.Content>
-                    <StackPanel Margin="5,2,0,0" Orientation="Horizontal">
-                        <ctrls:LabelWithContent Title="TransformType:" Content="{Binding Transform2Type}"/>
-                        <TextBlock Text="{Binding TableName}" Margin="5,0,0,0"/>
-                        <TextBox Text="{Binding ViewName}"/>
-                        <CheckBox IsChecked="{Binding NeedTransform}" Content="Transform"/>
-                    </StackPanel>
+                    <Expander Header="Details">
+
+                        <StackPanel Margin="5,2,0,0">
+                            <ctrls:LabelWithContent Title="TransformType:" Content="{Binding Transform2Type}"/>
+                            <TextBlock Text="{Binding TableName}" Margin="5,0,0,0"/>
+                            <CheckBox IsChecked="{Binding NeedTransform}" Content="Transform"/>
+                            <DataGrid ItemsSource="{Binding Views}">
+                            </DataGrid>
+                        </StackPanel>
+                    </Expander>
                 </ctrls:ControlWithTitle.Content>
             </ctrls:ControlWithTitle>
         </DataTemplate>
@@ -35,24 +45,22 @@
                 <TextBox Text="{Binding ViewName}"/>
             </StackPanel>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type models:PulseGroupSignalOutGroup}">
-            <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding GroupName}" Margin="0,0,5,0"/>
-                <ctrls:ControlWithTitle Title="Duty:" Content="{Binding DutyCycle}" Grid.Column="1" Grid.Row="0"/>
-                <ctrls:ControlWithTitle Title="Freq:" Content="{Binding Freq}" Grid.Column="1" Grid.Row="1"/>
-            </Grid>
+        <DataTemplate DataType="{x:Type models:PulseInSignalGroup}">
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding Signal_DC.Name}"/>
+                <TextBox Text="{Binding Signal_DC.ViewName}" />
+                <TextBlock Text="{Binding Signal_Freq.Name}"/>
+                <TextBox Text="{Binding Signal_Freq.ViewName}" />
+            </StackPanel>
 
         </DataTemplate>
         <DataTemplate DataType="{x:Type models:NXPSignal}">
-            <TextBlock Text="{Binding DisplayName}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding DisplayName}"/>
+                <TextBox Text="{Binding ViewName}" />
+            </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
     <Grid Margin="5">
@@ -69,7 +77,18 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <GroupBox Header="Signal From Dbc">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Filter By View" IsChecked="{Binding FilterView}"/>
+                        <TextBox Width="80" Margin="5,0"
+                                 Text="{Binding FilterStr, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
                 <ListView 
+                    Grid.Row="1"
                     x:Name="dbcSignalView"
                     ItemsSource="{Binding DbcSignals}" 
                     SelectionMode="Multiple">
@@ -83,6 +102,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
+                </Grid>
             </GroupBox>
            
             <!--<ScrollViewer>
@@ -98,7 +118,10 @@
             </StackPanel>
             <GroupBox Header="View's Signals" Grid.Column="2">
                 <Grid>
-                    <ListBox ItemsSource="{Binding TempSignals}" SelectedValue="{Binding CurrentTSignal}">
+                    <ListBox 
+                        ItemsSource="{Binding TempSignals}" 
+                        SelectedValue="{Binding CurrentTSignal}"
+                        Grid.IsSharedSizeScope="True">
                         <ListBox.Resources>
                             <DataTemplate DataType="{x:Type models:SignalBase}">
                                 <TextBlock Text="{Binding Name}"/>
@@ -110,26 +133,27 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto" SharedSizeGroup="name"/>
+                                        <ColumnDefinition />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{Binding GroupName}" Margin="0,0,5,0"/>
-                                    <ctrls:ControlWithTitle Title="Duty:" Content="{Binding DutyCycle}" Grid.Column="1" Grid.Row="0"/>
-                                    <ctrls:ControlWithTitle Title="Freq:" Content="{Binding Freq}" Grid.Column="1" Grid.Row="1"/>
+                                    <ContentControl Content="{Binding DutyCycle}" ContentTemplate="{StaticResource CommonLoca}" Grid.Column="1"/>
+                                    <ContentControl Content="{Binding Freq}" ContentTemplate="{StaticResource CommonLoca}" Grid.Column="2"/>
+                                  
                                 </Grid>
                             </DataTemplate>
                         </ListBox.Resources>
                         <!--<ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding MessageID}" Header="ID" Width="40"/>
-                                --><!--<GridViewColumn DisplayMemberBinding="{Binding MessageName}" Header="Name" />--><!--
+                                -->
+                        <!--<GridViewColumn DisplayMemberBinding="{Binding MessageName}" Header="Name" />-->
+                        <!--
                                 <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"/>
                             </GridView>
                         </ListView.View>-->
                     </ListBox>
-                    <ItemsControl ItemsSource="{Binding TempSignals}" Visibility="Collapsed">
-
-                    </ItemsControl>
                 </Grid>
             </GroupBox>
            

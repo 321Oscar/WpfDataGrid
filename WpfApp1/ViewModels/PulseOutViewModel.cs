@@ -20,7 +20,7 @@ namespace ERad5TestGUI.ViewModels
         public PulseOutViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService)
             : base(signalStore, deviceStore, logService)
         {
-
+            _ViewName = VIEWNAME;
         }
 
         public PulseOutViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider) 
@@ -63,12 +63,12 @@ namespace ERad5TestGUI.ViewModels
         {
             //base.Send();
             if (DeviceStore.HasDevice)
-                DeviceStore.CurrentDevice.SendMultip(SignalStore.BuildFrames(SignalStore.GetSignals<PulseOutSingleSignal>(VIEWNAME)));
+                DeviceStore.CurrentDevice.SendFDMultip(SignalStore.BuildFrames(SignalStore.GetSignals<PulseOutSingleSignal>(VIEWNAME)));
         }
         public override void Dispose()
         {
             //SignalStore.SaveViewSignalLocator(VIEWNAME, PulseOutSignals);
-            SignalStore.SaveViewSignalLocator(VIEWNAME, SignalStore.GetSignals<PulseOutGroupSignal>());
+            //SignalStore.SaveViewSignalLocator(VIEWNAME, SignalStore.GetSignals<PulseOutGroupSignal>());
         }
 
         #region Locator Signals
@@ -152,6 +152,7 @@ namespace ERad5TestGUI.ViewModels
                     });
                     group.DutyCycle = signals[0];
                     group.Freq = signals[1];
+                    group.UpdateViewEnable(VIEWNAME);
                     return group;
                 }
                 return null;
@@ -186,6 +187,8 @@ namespace ERad5TestGUI.ViewModels
         public PulseOutSingleSignal PWM_V_Duty => SignalStore.GetSignals<PulseOutSingleSignal>().FirstOrDefault(x => x.Name == "PWM_V_Duty");
         public PulseOutSingleSignal PWM_W_Duty => SignalStore.GetSignals<PulseOutSingleSignal>().FirstOrDefault(x => x.Name == "PWM_W_Duty");
         public PulseOutSingleSignal UVW_PWM_Freq => SignalStore.GetSignals<PulseOutSingleSignal>().FirstOrDefault(x => x.Name == "UVW_PWM_Freq");
+        public PulseOutSingleSignal UVW_PWM_Polarity => SignalStore.GetSignalByName<PulseOutSingleSignal>("UVW_PWM_Polarity", true);
+        public PulseOutSingleSignal UVW_PWM_Dead_Time => SignalStore.GetSignalByName<PulseOutSingleSignal>("UVW_PWM_Dead_Time", true);
         #endregion
     }
 }

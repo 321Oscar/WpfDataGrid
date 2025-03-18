@@ -302,7 +302,22 @@ namespace ERad5TestGUI.Devices
 
         }
 
-        public bool Transmit(uint msgID, byte[] data, int dlc, ref string fail)
+        public bool Transmit(uint msgID, byte[] data, ref string fail, int dlc = 8)
+        {
+            XLClass.xl_event_collection xlEventCollection = new XLClass.xl_event_collection(1);
+            xlEventCollection.xlEvent[0].tagData.can_Msg.id = msgID;
+            xlEventCollection.xlEvent[0].tagData.can_Msg.dlc = 8;
+            for (int i = 0; i < data.Length; i++)
+            {
+                xlEventCollection.xlEvent[0].tagData.can_Msg.data[i] = data[i];
+            }
+            xlEventCollection.xlEvent[0].tag = XLDefine.XL_EventTags.XL_TRANSMIT_MSG;
+            var txStatus = VectorDriver.XL_CanTransmit(portHandle, txMask, xlEventCollection);
+            fail = txStatus.ToString();
+            return txStatus == XLDefine.XL_Status.XL_SUCCESS;
+        }
+
+        public bool TransmitFD(uint msgID, byte[] data, int dlc, ref string fail)
         {
             //CANFDTransmitTest();
 
@@ -490,10 +505,10 @@ namespace ERad5TestGUI.Devices
             Started = false;
         }
 
-        public bool Send(IFrame frame)
+        public bool SendFD(IFrame frame)
         {
             string fail = "";
-            if (!Transmit(frame.MessageID, frame.Data, frame.DLC, ref fail))
+            if (!TransmitFD(frame.MessageID, frame.Data, frame.DLC, ref fail))
             {
                 logService.Debug($"Send Fail:{fail}");
                 return false;
@@ -501,7 +516,18 @@ namespace ERad5TestGUI.Devices
             return true;
         }
 
-        public bool SendMultip(IEnumerable<IFrame> multiples)
+        public bool Send(IFrame frame)
+        {
+            string fail = "";
+            if (!Transmit(frame.MessageID, frame.Data, ref fail, frame.DLC))
+            {
+                logService.Debug($"Send Fail:{fail}");
+                return false;
+            }
+            return true;
+        }
+
+        public bool SendFDMultip(IEnumerable<IFrame> multiples)
         {
             string fail = "";
             if (!Transmit(multiples, ref fail))

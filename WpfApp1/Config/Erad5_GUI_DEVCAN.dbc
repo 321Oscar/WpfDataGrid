@@ -70,6 +70,12 @@ BO_ 1282 MCU_RX_0x502_DEVCANFD: 32 GUI
  SG_ LIN_Send_ID : 0|8@1+ (1,0) [0|255] ""  MCU
 
 BO_ 1281 MCU_RX_0x501_DEVCANFD: 32 GUI
+ SG_ BOT_W_Status_Write_Flag : 213|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_V_Status_Write_Flag : 212|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BOT_U_Status_Write_Flag : 211|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_W_Status_Write_Flag : 210|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_V_Status_Write_Flag : 209|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TOP_U_Status_Write_Flag : 208|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ BOT_W_AMUX_SEL : 200|8@1+ (1,0) [0|255] ""  MCU
  SG_ BOT_V_AMUX_SEL : 192|8@1+ (1,0) [0|255] ""  MCU
  SG_ BOT_U_AMUX_SEL : 184|8@1+ (1,0) [0|255] ""  MCU
@@ -781,6 +787,9 @@ BO_ 1554 MCU_TX_0x612_DEVCANFD: 64 MCU
  SG_ LOW_OC_U_FLT : 0|1@1+ (1,0) [0|1] ""  GUI
 
 BO_ 1280 MCU_RX_0x500_DEVCANFD: 32 GUI
+ SG_ TLF35584_ERR_Disable : 175|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ CAN_INH_Update : 174|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ UVW_PWM_Dead_Time : 4|4@1+ (1,0) [0|15] "us" Vector__XXX
  SG_ TLF35584_Tran_State : 12|4@1+ (1,0) [0|15] ""  MCU
  SG_ TLF35584_State_Update : 11|1@1+ (1,0) [0|1] ""  MCU
  SG_ PPAWL_Frame_Time : 237|16@1+ (1,0) [0|65535] "ms"  MCU
@@ -808,7 +817,7 @@ BO_ 1280 MCU_RX_0x500_DEVCANFD: 32 GUI
  SG_ PPAWL_MTR_CTRL1_Freq : 56|16@1+ (1,0) [0|65535] "Hz"  MCU
  SG_ PPAWL_MTR_CTRL1_Duty : 40|16@1+ (0.01,0) [0|100] "%"  MCU
  SG_ PinOut_Update : 10|1@1+ (1,0) [0|1] ""  MCU
- SG_ PinOut_Sync : 9|1@1+ (1,0) [0|1] ""  MCU
+ SG_ UVW_PWM_Polarity : 9|1@1+ (1,0) [0|1] ""  MCU
  SG_ Reset_Motor_Faults : 8|1@1+ (1,0) [0|1] ""  MCU
  SG_ LOW_ACT_DISCHARGE : 36|1@1+ (1,0) [0|1] ""  MCU
  SG_ KP_ALIVE_MP : 35|1@1+ (1,0) [0|1] ""  MCU
@@ -910,10 +919,10 @@ BO_ 1552 MCU_TX_0x610_DEVCANFD: 64 MCU
  SG_ EXC_LO_DIAG_FREQ_Freq : 128|16@1+ (1,0) [0|65535] "Hz"  GUI
  SG_ MotClb_Spd_rpm_Flt : 176|16@1+ (1,-17000) [-17000|30000] "RPM"  GUI
  SG_ Rotor_Position : 192|13@1+ (0.1,0) [0|360] "бу"  GUI
- SG_ RED_DSADC_RES_COS : 96|16@1- (1,0) [-32768|32767] ""  GUI
- SG_ RED_DSADC_RES_SIN : 80|16@1- (1,0) [-32768|32767] ""  GUI
- SG_ DSADC_RES_COS : 64|16@1- (1,0) [-32768|32767] ""  GUI
- SG_ DSADC_RES_SIN : 48|16@1- (1,0) [-32768|32767] ""  GUI
+ SG_ RED_DSADC_RES_COS : 96|16@1+ (1,-32768) [-32768|32767] ""  GUI
+ SG_ RED_DSADC_RES_SIN : 80|16@1+ (1,-32768) [-32768|32767] ""  GUI
+ SG_ DSADC_RES_COS : 64|16@1+ (1,-32768) [-32768|32767] ""  GUI
+ SG_ DSADC_RES_SIN : 48|16@1+ (1,-32768) [-32768|32767] ""  GUI
  SG_ EXC_LO_DIAG_AI : 36|12@1+ (1,0) [0|4095] ""  GUI
  SG_ EXC_HI_DIAG_AI : 24|12@1+ (1,0) [0|4095] ""  GUI
  SG_ COS_LO_DIAG_AI : 12|12@1+ (1,0) [0|4095] ""  GUI
@@ -962,6 +971,7 @@ BO_ 1563 MCU_TX_0x61B_DEVCANFD: 64 MCU
  SG_ U_CURRENT_SENSE_AI : 0|12@1+ (1,0) [0|4095] ""  GUI
 
 
+
 CM_ SG_ 1282 SPI_Baudrate_Update "Page:SPI";
 CM_ SG_ 1282 PPAWL_SPI_Select_Baudrate "Page:SPI";
 CM_ SG_ 1282 CANFD_5_SPI_Select_Baudrate "Page:SPI";
@@ -988,6 +998,12 @@ CM_ SG_ 1282 LIN_Send_Data0 "Page:LIN";
 CM_ SG_ 1282 LIN_Send_Checksum_Type "Page:LIN";
 CM_ SG_ 1282 LIN_Send_Length "Page:LIN";
 CM_ SG_ 1282 LIN_Send_ID "Page:LIN";
+CM_ SG_ 1281 BOT_W_Status_Write_Flag "Page:GDIC3162_Status";
+CM_ SG_ 1281 BOT_V_Status_Write_Flag "Page:GDIC3162_Status";
+CM_ SG_ 1281 BOT_U_Status_Write_Flag "Page:GDIC3162_Status";
+CM_ SG_ 1281 TOP_W_Status_Write_Flag "Page:GDIC3162_Status";
+CM_ SG_ 1281 TOP_V_Status_Write_Flag "Page:GDIC3162_Status";
+CM_ SG_ 1281 TOP_U_Status_Write_Flag "Page:GDIC3162_Status";
 CM_ SG_ 1281 BOT_W_AMUX_SEL "Page:GDIC3162_ADC";
 CM_ SG_ 1281 BOT_V_AMUX_SEL "Page:GDIC3162_ADC";
 CM_ SG_ 1281 BOT_U_AMUX_SEL "Page:GDIC3162_ADC";
@@ -1681,6 +1697,9 @@ CM_ SG_ 1554 LOW_HVDC_OV_FLT_FB "Pin_Number:D7 Page:Discretes";
 CM_ SG_ 1554 LOW_OC_W_FLT "Pin_Number:L17 Page:Discretes";
 CM_ SG_ 1554 LOW_OC_V_FLT "Pin_Number:L16 Page:Discretes";
 CM_ SG_ 1554 LOW_OC_U_FLT "Pin_Number:M17 Page:Discretes";
+CM_ SG_ 1280 TLF35584_ERR_Disable "Page:Discretes";
+CM_ SG_ 1280 CAN_INH_Update "Page:Discretes";
+CM_ SG_ 1280 UVW_PWM_Dead_Time "Page:Pulse_OUT";
 CM_ SG_ 1280 TLF35584_Tran_State "Page:Discretes";
 CM_ SG_ 1280 TLF35584_State_Update "Page:Discretes";
 CM_ SG_ 1280 PPAWL_Frame_Time "Page:PPAWL";
@@ -1708,7 +1727,7 @@ CM_ SG_ 1280 HVIL_PWM_SEND_Duty "Page:Pulse_OUT";
 CM_ SG_ 1280 PPAWL_MTR_CTRL1_Freq "Page:Pulse_OUT,PPAWL";
 CM_ SG_ 1280 PPAWL_MTR_CTRL1_Duty "Page:Pulse_OUT,PPAWL";
 CM_ SG_ 1280 PinOut_Update "Page:Discretes";
-CM_ SG_ 1280 PinOut_Sync "Page:Discretes";
+CM_ SG_ 1280 UVW_PWM_Polarity "Page:Pulse_OUT";
 CM_ SG_ 1280 Reset_Motor_Faults "Page:Discretes";
 CM_ SG_ 1280 LOW_ACT_DISCHARGE "Pin_Number:Y19 Page:Discretes";
 CM_ SG_ 1280 KP_ALIVE_MP "Pin_Number:K20 Page:Discretes";
@@ -1892,6 +1911,17 @@ BA_ "VFrameFormat" BO_ 1280 14;
 BA_ "VFrameFormat" BO_ 1553 14;
 BA_ "VFrameFormat" BO_ 1552 14;
 BA_ "VFrameFormat" BO_ 1563 14;
+VAL_ 1282 PPAWL_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
+VAL_ 1282 CANFD_5_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
+VAL_ 1282 CANFD_16_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
+VAL_ 1282 FLASH_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
+VAL_ 1282 SBC_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
+VAL_ 1282 BOT_W_GDIC_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
+VAL_ 1282 BOT_V_GDIC_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
+VAL_ 1282 BOT_U_GDIC_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
+VAL_ 1282 TOP_W_GDIC_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
+VAL_ 1282 TOP_V_GDIC_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
+VAL_ 1282 TOP_U_GDIC_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
 VAL_ 1281 BOT_W_AMUX_SEL 5 "Die temperature" 4 "Power device temperature" 3 "VEE" 2 "VCC" 1 "AMUXIN" 0 "DESAT" ;
 VAL_ 1281 BOT_V_AMUX_SEL 5 "Die temperature" 4 "Power device temperature" 3 "VEE" 2 "VCC" 1 "AMUXIN" 0 "DESAT" ;
 VAL_ 1281 BOT_U_AMUX_SEL 5 "Die temperature" 4 "Power device temperature" 3 "VEE" 2 "VCC" 1 "AMUXIN" 0 "DESAT" ;
@@ -1911,18 +1941,6 @@ VAL_ 1281 TOP_W_Register_Write_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STA
 VAL_ 1281 TOP_V_Register_Write_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STATUS1" 0 "NONE" ;
 VAL_ 1281 TOP_U_Register_Write_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STATUS1" 0 "NONE" ;
 VAL_ 1280 TLF35584_Tran_State 7 "RESERVED" 6 "RESERVED" 5 "WAKE" 4 "STANDBY" 3 "SLEEP" 2 "NORMAL" 1 "INIT" 0 "NONE" ;
-
-VAL_ 1282 PPAWL_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
-VAL_ 1282 CANFD_5_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
-VAL_ 1282 CANFD_16_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
-VAL_ 1282 FLASH_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
-VAL_ 1282 SBC_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
-VAL_ 1282 BOT_W_GDIC_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
-VAL_ 1282 BOT_V_GDIC_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
-VAL_ 1282 BOT_U_GDIC_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
-VAL_ 1282 TOP_W_GDIC_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
-VAL_ 1282 TOP_V_GDIC_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
-VAL_ 1282 TOP_U_GDIC_SPI_Select_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
 VAL_ 1552 PPAWL_SPI_Current_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
 VAL_ 1552 CANFD_5_SPI_Current_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
 VAL_ 1552 CANFD_16_SPI_Current_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
@@ -1935,3 +1953,4 @@ VAL_ 1552 TOP_W_GDIC_SPI_Current_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6
 VAL_ 1552 TOP_V_GDIC_SPI_Current_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
 VAL_ 1552 TOP_U_GDIC_SPI_Current_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
 VAL_ 1552 TLF35584_Current_State 7 "RESERVED" 6 "RESERVED" 5 "WAKE" 4 "STANDBY" 3 "SLEEP" 2 "NORMAL" 1 "INIT" 0 "NONE" ;
+

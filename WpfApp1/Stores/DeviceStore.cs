@@ -101,6 +101,7 @@ namespace ERad5TestGUI.Stores
                     logService.Log($"{item.GetValue()}", item.GetType());
                 }
             }
+            _signalStore.MessagesStates.ForEach(x => x.UpdateReceiveTime(can_msg.Select(msg => msg.MessageID)));
             OnMsgReceived?.Invoke(can_msg);
         }
 

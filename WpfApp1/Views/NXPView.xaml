@@ -37,46 +37,17 @@
             Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </StackPanel>
         <GroupBox Header="Discrete Inputs" Grid.Row="1">
-            <Grid Margin="-8">
-                <ScrollViewer >
-                    <ItemsControl ItemsSource="{Binding NxpSignals}" />
-                </ScrollViewer>
-            
-            <!--<DataGrid IsReadOnly="True" ItemsSource="{Binding DisInputSignals}" AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding DisplayName}"/>
-                    <DataGridTextColumn Binding="{Binding OriginValue}" Header="Value" />
-                </DataGrid.Columns>
-            </DataGrid>-->
-            </Grid>
+            <ContentControl 
+                Content="{Binding NxpSignals}" 
+                ContentTemplate="{StaticResource DisInSignals}" 
+                Margin="-8"
+                            />
         </GroupBox>
         <GroupBox Header="Discrete Outputs" Grid.Row="2">
-            <Grid Margin="-8">
-                <ContentControl Content="{Binding DisOutputSignals}" ContentTemplate="{StaticResource DisOutSignals}"/>
-                <!--<DataGrid ItemsSource="{Binding DisOutputSginals}" AutoGenerateColumns="False" CanUserAddRows="False" Visibility="Collapsed">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" IsReadOnly="True" Binding="{Binding DisplayName}"/>
-                    <DataGridTemplateColumn Header="Pin_High">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox HorizontalAlignment="Center" IsChecked="{Binding Pin_High, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Pin_Low">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox HorizontalAlignment="Center" IsChecked="{Binding Pin_Low, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn
-                            Binding="{Binding State.OriginValue}"
-                            Header="State"
-                            IsReadOnly="True" />
-                </DataGrid.Columns>
-            </DataGrid>-->
-            </Grid>
+            <ContentControl 
+                    Margin="-8"
+                    Content="{Binding DisOutputSignals}" 
+                    ContentTemplate="{StaticResource DisOutSignals}"/>
         </GroupBox>
         <GroupBox Header="Inputs" Grid.Row="3">
             <Grid Margin="-8">

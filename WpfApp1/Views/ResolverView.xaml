@@ -49,25 +49,27 @@
                             Header="Signal__Name" />
                         <DataGridTextColumn Binding="{Binding OriginValue}" Header="ADC Counter" />
                         <DataGridTextColumn Binding="{Binding Value1}" Header="ADC Volt" />
-                        <!--<DataGridTemplateColumn Header="AI Raw(volt)">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Background="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}" Text="{Binding Value1}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>-->
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
             <GroupBox Header="Discrete Inputs"
                       Grid.Row="0"
                       Grid.Column="1" Margin="0,2,2,2">
-                <ItemsControl ItemsSource="{Binding DiscreteInputs}"/>
+                <ContentControl 
+                    Content="{Binding DiscreteInputs}" 
+                    ContentTemplate="{StaticResource DisInSignals}" 
+                    Margin="-7"/>
+                <!--<ItemsControl ItemsSource="{Binding DiscreteInputs}"/>-->
             </GroupBox>
             <GroupBox Header="Pulse In"
                       Grid.Row="1"
-                      Grid.Column="1" Margin="0,0,2,2">
-                <ItemsControl ItemsSource="{Binding PulseInGroups}"/>
+                      Grid.Column="1" 
+                      Margin="0,0,2,2">
+                <ContentControl 
+                    Content="{Binding PulseInGroups}"
+                    ContentTemplate="{StaticResource PulseInGroupList}"  
+                    Margin="-7"/>
+                <!--<ItemsControl ItemsSource="{Binding PulseInGroups}"/>-->
             </GroupBox>
         </Grid>
        

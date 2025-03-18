@@ -123,9 +123,9 @@ namespace ERad5TestGUI.ViewModels
         private PulseInSignalLocatorViewModel CreateLocatorViewModel(System.Windows.Window window)
           => new PulseInSignalLocatorViewModel(ViewName, _pulseInGroups,
                                            SignalStore,
-                                           CreatePulseOutGroupSignal, window, AddGroup);
+                                           CreatePulseInGroupSignal, window, AddGroup);
 
-        private PulseInSignalGroup CreatePulseOutGroupSignal(Signal signal)
+        private PulseInSignalGroup CreatePulseInGroupSignal(Signal signal)
         {
             if (signal.SignalName.IndexOf("_Duty") > -1 || signal.SignalName.IndexOf("_Freq") > -1)
             {

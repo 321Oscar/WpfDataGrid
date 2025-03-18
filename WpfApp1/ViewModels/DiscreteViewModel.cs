@@ -23,6 +23,7 @@ namespace ERad5TestGUI.ViewModels
         private RelayCommand _sendBadAnwserCommand;
         private RelayCommand _disableSBCWWDTRIGCommand;
         private RelayCommand _clearTransitionsCommand;
+        private RelayCommand<DiscreteOutputSignal> _updateStateCommand;
 
         public DiscreteViewModel(SignalStore signalStore,
             DeviceStore deviceStore, 
@@ -41,17 +42,17 @@ namespace ERad5TestGUI.ViewModels
         }
         public ICommand UpdateCommand { get => _updateCommand ?? (_updateCommand = new RelayCommand(Update, () => OutputSignalSync)); }
         public ICommand LocatorOutputsCommand => _locatorOutputsCommand ?? (_locatorOutputsCommand = new RelayCommand(LocatorOutputSignals));
-        public ICommand SendBadAnwserCommand => _sendBadAnwserCommand ?? (_sendBadAnwserCommand = new RelayCommand(SendBadAnswer));
-        public ICommand DisableWWDTRIGCommand => _disableSBCWWDTRIGCommand ?? (_disableSBCWWDTRIGCommand = new RelayCommand(DisableSBCWD));
         public ICommand ClearTransitionsCommand => _clearTransitionsCommand ?? (_clearTransitionsCommand = new RelayCommand(ClearTransitions));
-
-     
+        public ICommand UpdateStateCommand => _updateStateCommand ?? (_updateStateCommand = new RelayCommand<DiscreteOutputSignal>(UpdateSignalState));
 
         public IEnumerable<DiscreteInputSignal> InputSignals => _inputSignals;
         public IEnumerable<DiscreteOutputSignal> OutputSignals => _outputSignals;
         public DiscreteOutputSignal DIS_SBC_WWD_TRIG => SignalStore.GetSignals<DiscreteOutputSignal>().FirstOrDefault(x => x.Name == "DIS_SBC_WWD_TRIG");
         public DiscreteOutputSignal SEND_BAD_ANSWER => SignalStore.GetSignals<DiscreteOutputSignal>().FirstOrDefault(x => x.Name == "SEND_BAD_ANSWER");
-
+       // public DiscreteOutputSignal SEND_BAD_ANSWER => SignalStore.GetSignals<DiscreteOutputSignal>().FirstOrDefault(x => x.Name == "SEND_BAD_ANSWER");
+       public SPISignalGroup TLFCurrentState { get; set; }
+       public DiscreteOutputSignal UpdateTLFState { get; set; }
+       public DiscreteOutputSignal DisableErrTigger { get; set; }
         public bool OutputSignalSync
         {
             get => _outputSignalSync;
@@ -81,13 +82,28 @@ namespace ERad5TestGUI.ViewModels
             {
                 item.PropertyChanged += Item_PropertyChanged;
             }
+
+            var currentState = SignalStore.GetSignalByName<SPISignal>("TLF35584_Current_State");
+            var selectState = SignalStore.GetSignalByName<SPISignal>("TLF35584_Tran_State", true);
+            var keys = SignalStore.GetKeyValuePairs(currentState.MessageID, currentState.Name);
+            TLFCurrentState = new SPISignalGroup("tlf35584Current");
+            TLFCurrentState.CurrentValue = currentState;
+            TLFCurrentState.SelectValue = selectState;
+            TLFCurrentState.UpdateEnum(keys);
+
+            UpdateTLFState = SignalStore.GetSignalByName<DiscreteOutputSignal>("TLF35584_State_Update", true);
+            DisableErrTigger = SignalStore.GetSignalByName<DiscreteOutputSignal>("TLF35584_ERR_Disable", true);
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            SignalStore.SaveViewSignalLocator(nameof(DiscreteViewModel), _inputSignals);
-            SignalStore.SaveViewSignalLocator(nameof(DiscreteViewModel), _outputSignals, clear: false);
+            foreach (var item in OutputSignals)
+            {
+                item.PropertyChanged -= Item_PropertyChanged;
+            }
+            //SignalStore.SaveViewSignalLocator(nameof(DiscreteViewModel), _inputSignals);
+            //SignalStore.SaveViewSignalLocator(nameof(DiscreteViewModel), _outputSignals, clear: false);
         }
 
         protected override void OnActivated()
@@ -156,18 +172,11 @@ namespace ERad5TestGUI.ViewModels
             Send();
         }
 
-        private void DisableSBCWD()
+        private void UpdateSignalState(DiscreteOutputSignal sendSignal)
         {
-            DIS_SBC_WWD_TRIG.OriginValue = 1;
+            sendSignal.OriginValue = 1;
             Send();
-            DIS_SBC_WWD_TRIG.OriginValue = 0;
-        }
-
-        private void SendBadAnswer()
-        {
-            SEND_BAD_ANSWER.OriginValue = 1;
-            Send();
-            SEND_BAD_ANSWER.OriginValue = 0;
+            sendSignal.OriginValue = 0;
         }
 
         private void Item_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

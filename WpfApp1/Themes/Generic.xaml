@@ -72,6 +72,17 @@
     <DataTemplate DataType="{x:Type viewModels:LayoutViewModel}">
         <ctrls:Layout />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:LinViewModel}">
+        <views:LINView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:DisConnectViewModel}">
+        <views:DisConnectView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:ELockerViewModel}">
+        <views:ELockerView />
+    </DataTemplate>
+    
+    
     <DataTemplate DataType="{x:Type viewModels:AnalogSignalLocatorViewModel}">
         <views:SignalLocatorView />
     </DataTemplate>
@@ -95,13 +106,13 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type viewModels:NXPInputSignalLocatorViewModel}">
         <views:SignalLocatorView />
+    </DataTemplate>  
+    <DataTemplate DataType="{x:Type viewModels:GDICStatusDataSignalLocatorViewModel}">
+        <views:SignalLocatorView />
     </DataTemplate> 
-    <DataTemplate DataType="{x:Type viewModels:LinViewModel}">
-        <views:LINView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type viewModels:DisConnectViewModel}">
-        <views:DisConnectView />
-    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:GDICRegisterSignalLocatorViewModel}">
+        <views:SignalLocatorView />
+    </DataTemplate> 
    
     <DataTemplate DataType="{x:Type models:SignalBase}">
         <TextBlock Text="{Binding DisplayName}"/>
@@ -290,6 +301,145 @@
             </ScrollViewer>
         </Grid>
     </DataTemplate>
+    <DataTemplate x:Key="DisInSignals">
+        <Grid  Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Style="{StaticResource CardBorder}" Margin="5,2,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="SignalName"/>
+                        <ColumnDefinition SharedSizeGroup="value1"/>
+                        <ColumnDefinition SharedSizeGroup="value2"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Border Style="{StaticResource CellBorder}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="SignalName" Style="{StaticResource SignalNameFontStyle}" />
+                            <TextBlock 
+                                            Style="{StaticResource DescriptionTextBlockStyle}"
+                                            Text=" PinNumber"
+                                            Grid.Column="1"/>
+                        </Grid>
+                    </Border>
+                    <TextBlock Text="State" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="Transition" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </Border >
+            <ScrollViewer Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding}"/>
+            </ScrollViewer>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="PulseInGroupList">
+        <Grid Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Border 
+                CornerRadius="1"
+                Style="{StaticResource CardBorder}" 
+                Margin="2,2,2,0" 
+                Padding="4">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="SignalName"/>
+                        <ColumnDefinition SharedSizeGroup="Value1"/>
+                        <ColumnDefinition SharedSizeGroup="Value2"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Border Style="{StaticResource CellBorder}">
+                        <TextBlock Text="SignalName" Style="{StaticResource SignalNameFontStyle}"/>
+                    </Border>
+                    <TextBlock Text="Duty Value" Grid.Column="1" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Freq Value(HZ)" Grid.Column="2" HorizontalAlignment="Center"/>
+                </Grid>
+            </Border>
+            <ScrollViewer 
+                Grid.Row="1" 
+                ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                <ItemsControl ItemsSource="{Binding }"/>
+            </ScrollViewer>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="PulseOutGroupList">
+        <Grid Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Style="{StaticResource CardBorder}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="SignalName"/>
+                        <ColumnDefinition SharedSizeGroup="value1"/>
+                        <ColumnDefinition SharedSizeGroup="value2"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="SignalName" Grid.Column="0" Style="{StaticResource SignalNameFontStyle}" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Freq(Hz)" Grid.Column="1" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Duty(%)" Grid.Column="2" HorizontalAlignment="Center"/>
+                </Grid>
+            </Border>
+            <ScrollViewer Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding}" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:PulseGroupSignalOutGroup}">
+                            <Border>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition SharedSizeGroup="SignalName" Width="auto"></ColumnDefinition>
+                                        <ColumnDefinition SharedSizeGroup="value1" Width="auto" MinWidth="100"/>
+                                        <ColumnDefinition SharedSizeGroup="value2" Width="auto" MinWidth="100"/>
+                                        <ColumnDefinition SharedSizeGroup="note" Width="auto" MinWidth="100"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Style="{StaticResource CellBorder}">
+                                        <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}"/>
+                                    </Border>
+                                    <TextBox 
+                                            Text="{Binding Freq.TempValue}" 
+                                            x:Name="freq"
+                                            Grid.Column="1" 
+                                            Margin="2,0" IsEnabled="{Binding CurrentViewEnable}" />
+                                    <TextBox 
+                                            Name="duty"
+                                            Text="{Binding DutyCycle.TempValue}" 
+                                            Grid.Column="2"
+                                            IsEnabled="{Binding CurrentViewEnable}"/>
+                                    <TextBlock 
+                                            Text="{Binding Note}" 
+                                            Grid.Column="3" 
+                                            HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                                </Grid>
+                                <Border.Style>
+                                    <Style TargetType="Border" BasedOn="{StaticResource CardBorder}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentViewEnable}" Value="False">
+                                                <Setter Property="Background" Value="LightGray"/>
+                                                <!--<Setter TargetName="freq" Property="IsEnabled" Value="False"/>-->
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CurrentViewEnable}" Value="True">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </DataTemplate>
     
     <DataTemplate DataType="{x:Type models:DiscreteOutputSignal}">
         <Border Style="{StaticResource CardBorder}">
@@ -374,9 +524,13 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Style="{StaticResource SignalNameFontStyle}" Text="{Binding DisplayName}"/>
                 <Border Style="{StaticResource CellBorder}" Grid.Column="1" BorderThickness="2,0">
-                    <TextBlock Grid.Column="1"
-                           Text="{Binding Value2}" 
-                           Style="{StaticResource ValueTextBlockStyle}"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock 
+                            Margin="0,0,5,0"
+                            Style="{StaticResource ValueTextBlockStyle}"
+                            Text="{Binding Value2}" />
+                        <TextBlock Text="{Binding Unit}" VerticalAlignment="Center" Foreground="Gray"/>
+                    </StackPanel>
                 </Border>
             </Grid>
             <Border.ToolTip>
@@ -440,7 +594,198 @@
             </Grid>
         </Border>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type models:PulseGroupSignalOutGroup}">
+        <Border Style="{StaticResource CardBorder}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="SignalName" Width="auto"></ColumnDefinition>
+                    <ColumnDefinition SharedSizeGroup="value1" Width="auto" MinWidth="100"/>
+                    <ColumnDefinition SharedSizeGroup="value2" Width="auto" MinWidth="100"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource CellBorder}">
+                    <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}"/>
+                </Border>
+                <TextBox Text="{Binding Freq.TempValue}" Grid.Column="1" Margin="2,0"/>
+                <TextBox Text="{Binding DutyCycle.TempValue}" Grid.Column="2"/>
+            </Grid>
+        </Border>
+    </DataTemplate>
 
- 
+    <DataTemplate DataType="{x:Type models:DiscreteInputSignalGroup}">
+        <GroupBox Header="{Binding GroupName}" Margin="2">
+            <ContentControl Content="{Binding Signals}" ContentTemplate="{StaticResource DisInSignals}" Margin="-7"/>
+        </GroupBox>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:DiscreteOutputSignalGroup}">
+        <GroupBox Header="{Binding GroupName}" Margin="2">
+            <ContentControl Content="{Binding Signals}" ContentTemplate="{StaticResource DisOutSignals}"  Margin="-7"/>
+        </GroupBox>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:PulseInGroupGroup}">
+        <GroupBox Header="{Binding GroupName}" Margin="2">
+            <ContentControl Content="{Binding Groups}" ContentTemplate="{StaticResource PulseInGroupList}"  Margin="-7"/>
+        </GroupBox>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:PulseOutGroupGroup}">
+        <GroupBox Header="{Binding GroupName}" Margin="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <ContentControl Content="{Binding Groups}" ContentTemplate="{StaticResource PulseOutGroupList}"/>
+                <StackPanel 
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Grid.Column="1" 
+                    Orientation="Horizontal">
+                    <TextBox Width="80" Height="25"/>
+                    <Button Content="Update" Height="25"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:GDICRegistersGroup}">
+        <GroupBox Header="{Binding GroupName}" Margin="2">
+            <Grid>
+                <DataGrid 
+                    ItemsSource="{Binding Signals}" 
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    CanUserDeleteRows="False"
+                    IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding DisplayName}"/>
+                        <!--<DataGridTextColumn Header="Address" Binding="{Binding Address}"/>
+                        <DataGridTextColumn Header="Value" Binding="{Binding Value1}"/>-->
+                        <DataGridTemplateColumn Header="Address">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border>
+                                        <TextBlock Text="{Binding Address}"/>
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Fixed}" Value="True">
+                                                        <Setter Property="Background" Value="Gray"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn> 
+                        <DataGridTemplateColumn Header="Address">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border>
+                                        <TextBlock Text="{Binding Value1}"/>
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Fixed}" Value="True">
+                                                        <Setter Property="Background" Value="Gray"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                    </Border>
+                                    
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                    <!--<DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Fixed}" Value="True">
+                                    <Setter Property="Background" Value="Gray"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>-->
+                </DataGrid>
+            </Grid>
+        </GroupBox>
+    </DataTemplate>
+
+
+    <DataTemplate DataType="{x:Type models:GDICStatuGroupGroup}">
+        <GroupBox Header="{Binding GroupName}" Margin="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <ItemsControl 
+                                        ItemsSource="{Binding Groups}" 
+                                        Grid.Row="1" 
+                                        Grid.ColumnSpan="3">
+                    <ItemsControl.Resources>
+                        <DataTemplate DataType="{x:Type models:GDICStatusDataSignal}">
+                            <Border Style="{StaticResource CellBorder}" Margin="0,1" Background="White">
+                                <StackPanel Margin="0">
+                                    <TextBlock Text="{Binding DisplayName}" Padding="2"/>
+                                    <Rectangle Height="2" Margin="0,2" Fill="#f6f6f6"/>
+                                    <TextBlock Text="{Binding OriginValue}" Margin="0,2,0,0" Padding="2"/>
+                                </StackPanel>
+                                <Border.ToolTip>
+                                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                                </Border.ToolTip>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.Resources>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:GDICStatusGroup}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="SignalName" Width="auto"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock 
+                                        Text="{Binding}" 
+                                        Margin="0,0,5,0" 
+                                        Grid.Row="0" 
+                                        HorizontalAlignment="Right" 
+                                        VerticalAlignment="Center" />
+
+                                <!--Data0~Data9-->
+                                <ItemsControl 
+                                        ItemsSource="{Binding GDICStatusSignals}" 
+                                        Grid.Column="1"
+                                        VirtualizingStackPanel.IsVirtualizing="True" 
+                                        VirtualizingStackPanel.VirtualizationMode="Recycling">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Rows="1"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </GroupBox>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:AnalogSignalGroup}">
+        <GroupBox Header="{Binding GroupName}">
+            <DataGrid ItemsSource="{Binding Signals}" 
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding DisplayName}" />
+                    <DataGridTextColumn Header="ADC Counter" Binding="{Binding OriginValue}" />
+                    <DataGridTextColumn Header="AI RAW" Binding="{Binding Value1}" />
+                    <DataGridTextColumn Header="AI Scaled" Binding="{Binding Value2}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+    </DataTemplate>
 
 </ResourceDictionary>

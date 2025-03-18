@@ -19,12 +19,17 @@ namespace ERad5TestGUI.ViewModels
     {
         private bool _isLoading;
         private RelayCommand _locatorSignalsCommand;
+        private readonly log4net.ILog logger;
+        /// <summary>
+        /// 特定的ViewName/PageName
+        /// </summary>
+        protected string _ViewName;
+
         public ModalNavigationStore ModalNavigationStore { get; }
         public  IServiceProvider ServiceProvider { get; }
         public SignalStore SignalStore { get; }
         public DeviceStore DeviceStore { get; }
         public LogService LogService { get; }
-        private readonly log4net.ILog logger;
         public bool IsLoading
         {
             get => _isLoading;
@@ -41,7 +46,7 @@ namespace ERad5TestGUI.ViewModels
 #else
         public bool DebugMode { get => false; }
 #endif
-        public string ViewName { get => SignalBase.ReplaceViewModel(this.GetType().Name); }
+        public string ViewName { get => _ViewName ?? SignalBase.ReplaceViewModel(this.GetType().Name); }
         /// <summary>
         /// MVVM Mode with DI
         /// </summary>
@@ -173,7 +178,7 @@ namespace ERad5TestGUI.ViewModels
         {
             if (DeviceStore.HasDevice)
             {
-                DeviceStore.CurrentDevice.SendMultip(frames);
+                DeviceStore.CurrentDevice.SendFDMultip(frames);
             }
             else
             {

@@ -136,6 +136,13 @@ namespace ERad5TestGUI.Models
         }
     }
 
+    public class GDICRegistersGroup : SignalGroup<GDICRegisterSignal>
+    {
+        public GDICRegistersGroup(string groupName) : base(groupName)
+        {
+        }
+    }
+
     public class GDICRegisterSignal : TransFormSignalBase, IGroupSignal
     {
         /// <summary>
@@ -144,15 +151,33 @@ namespace ERad5TestGUI.Models
         public string GroupName { get => string.Join(SignalNameSplit, Name.Split(DBCSignalNameSplit).Take(3)); }
         public string DeviceName { get => string.Join(SignalNameSplit, Name.Split(DBCSignalNameSplit).Take(2)); }
         public string Address { get; set; }
-
+        public bool Fixed { get; set; }
+        public string FixedValue { get; set; }
         public GDICRegisterSignal()
         {
 
         }
 
-        public GDICRegisterSignal(Signal signal,string viewName) : base(signal,viewName)
+        public GDICRegisterSignal(Signal signal, string viewName) : base(signal, viewName)
         {
+           
+        }
+
+        public override void UpdateFormDBC(Signal signal)
+        {
+            base.UpdateFormDBC(signal);
             Address = signal.Comment.GetCommentByKey("Address");
+        }
+
+        public override void OnOriginValueChaned(double originValue, bool changed)
+        {
+            //base.OnOriginValueChaned(originValue, changed);
+            if (Fixed)
+                Value1 = FixedValue;
+            else
+            {
+                Value1 = ((int)originValue).ToString("X");
+            }
         }
     }
 

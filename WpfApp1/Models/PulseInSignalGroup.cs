@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace ERad5TestGUI.Models
@@ -26,6 +27,19 @@ namespace ERad5TestGUI.Models
         {
             Groups = new System.Collections.Generic.List<PulseInSignalGroup>();
         }
+    }
+
+    public class PulseOutGroupGroup : SignalGroupBase
+    {
+        public PulseOutGroupGroup(string groupName) : base(groupName)
+        {
+            Groups = new List<PulseGroupSignalOutGroup>();
+        }
+
+        public System.Collections.Generic.List<PulseGroupSignalOutGroup> Groups { get; }
+
+        public PulseOutGroupSignal TimeFrame { get; set; }
+        //public PulseOutGroupSignal Update { get; set; }
     }
 
     public class PulseInSignal : LimitsSignalBase, IGroupSignal
@@ -114,12 +128,24 @@ namespace ERad5TestGUI.Models
     {
         private PulseOutGroupSignal freq;
         private PulseOutGroupSignal dutyCycle;
+        private bool currentViewEnable = true;
 
         public PulseGroupSignalOutGroup(string groupName) : base(groupName)
         {
         }
-
+        public bool CurrentViewEnable { get => currentViewEnable; set => SetProperty(ref currentViewEnable , value); }
         public PulseOutGroupSignal Freq { get => freq; set => SetProperty(ref freq, value); }
         public PulseOutGroupSignal DutyCycle { get => dutyCycle; set => SetProperty(ref dutyCycle, value); }
+        public void UpdateViewEnable(string showViewName)
+        {
+            CurrentViewEnable = freq.Views.FirstOrDefault(x => x.ViewName == showViewName) != null && 
+                freq.Views.FirstOrDefault(x => x.ViewName == showViewName).IsEnabled;
+            if (!CurrentViewEnable)
+            {
+                Note = $"Please Control this in [{freq.Views.FirstOrDefault(x => x.IsEnabled).ViewName}] page";
+            }
+        }
+
+        public string Note { get; set; }
     }
 }

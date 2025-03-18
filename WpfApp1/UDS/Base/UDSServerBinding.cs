@@ -81,14 +81,14 @@ namespace ERad5TestGUI.UDS
         {
             if (Device == null)
                 return false;
-            return Device.Send(frame);
+            return Device.SendFD(frame);
         }
 
         public virtual bool SendMultip(System.Collections.Generic.IEnumerable<IFrame> frames)
         {
             if (Device == null)
                 return false;
-            return Device.SendMultip(frames);
+            return Device.SendFDMultip(frames);
         }
 
         public virtual Task<ServerResult> RunAsync(object param = null)

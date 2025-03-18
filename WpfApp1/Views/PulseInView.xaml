@@ -28,6 +28,12 @@
         </Grid.ColumnDefinitions>
         <WrapPanel Orientation="Horizontal">
             <TextBlock Grid.Row="0" Style="{StaticResource TitleLabel}" d:Text="Pulse In" Text="{Binding ViewName}"/>
+            <Button 
+                Content="Loc" 
+                Height="25" 
+                Margin="5,0"
+                Command="{Binding LocatorSignalsCommand}"
+                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Button Content="Reset Min/Max" Height="25" Margin="5,0" Command="{Binding ResetCommand}"/>
             <ToggleButton x:Name="tog" Content="Grid Or Card" Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}" />
         </WrapPanel>

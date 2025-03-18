@@ -1,13 +1,12 @@
-﻿using System;
+﻿using ERad5TestGUI.Devices;
+using ERad5TestGUI.Helpers;
+using ERad5TestGUI.Models;
+using ERad5TestGUI.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
-using ERad5TestGUI.Devices;
-using ERad5TestGUI.Helpers;
-using ERad5TestGUI.Models;
-using ERad5TestGUI.Services;
 
 namespace ERad5TestGUI.Stores
 {
@@ -19,6 +18,7 @@ namespace ERad5TestGUI.Stores
         private readonly List<SignalBase> _signals;
         private readonly List<Signal> _dbcSignals = new List<Signal>();
         private readonly LogService logService;
+
         //public const double AnalogConst = 5 / 4096;
         [Obsolete]
         public DbcFile DbcFile { get; private set; }
@@ -27,6 +27,7 @@ namespace ERad5TestGUI.Stores
         {
             this.logService = logService;
             _signals = new List<SignalBase>();
+            LoadMsgStates();
             ValueTable.LoadTables();
             LoadDBC();
             LoadSignalLocator();
@@ -47,12 +48,11 @@ namespace ERad5TestGUI.Stores
             LoadSPISignals();
         }
 
-   
-
         ~SignalStore()
         {
             try
             {
+                SignalLocation.Signals = SignalLocation.Signals.Distinct().ToList();
                 XmlHelper.SerializeToXml(SignalLocation, SignalLocatorFilePath);
             }
             catch (Exception ex)
@@ -67,6 +67,22 @@ namespace ERad5TestGUI.Stores
         public IEnumerable<SignalBase> Signals => _signals;
 
         public List<CANMessage> Messages { get; } = new List<CANMessage>();
+        public List<MessageReceiveState> MessagesStates { get; } = new List<MessageReceiveState>();
+
+        private void LoadMsgStates()
+        {
+            MessagesStates.Add(new MessageReceiveState("TCAN1145_DEVCAN", 0x610, 0x620)
+            {
+                IsEnable = false,
+            });
+            MessagesStates.Add(new MessageReceiveState("TCAN1145_CANFD5", new List<uint>() { 0x4FF}));
+            MessagesStates.Add(new MessageReceiveState("TCAN1145_CANFD16", 
+                new List<uint>() 
+                { 
+                    0xCA,0x5D0,0x5D3,0x605,0x6F8,0xDB,0x5D4,0x5d7,
+                    0x606,0x6F9,0x5c4,0x5c6,0x5c8,0x5c9,0x5ca,0x5cb
+                }));
+        }
 
         public void AddSignal(SignalBase signal)
         {
@@ -107,7 +123,8 @@ namespace ERad5TestGUI.Stores
         public IEnumerable<TSignal> GetSignals<TSignal>(string viewName = "") where TSignal : SignalBase
         {
             viewName = SignalBase.ReplaceViewModel(viewName);
-            _signals.Sort((x, y) => {
+            _signals.Sort((x, y) =>
+            {
                 if (y.MessageID > x.MessageID)
                 {
                     return -1;
@@ -128,12 +145,46 @@ namespace ERad5TestGUI.Stores
                                return x.ViewName.IndexOf(viewName, StringComparison.OrdinalIgnoreCase) > -1;
                            });
         }
+        public TSignal GetSignalByName<TSignal>(string signalName, bool inOrOut = false) where TSignal : SignalBase, new()
+        {
+            var s = _signals.OfType<TSignal>().FirstOrDefault(x => x.Name == signalName);
+
+            if (s != null)
+                return s;
+
+            Signal dbcSignal = null;
+            DbcFiles.ForEach(
+            file =>
+            {
+                file.Messages.ForEach(x =>
+                {
+                    if (dbcSignal == null)
+                        dbcSignal = x.signals.FirstOrDefault(ss => ss.SignalName == signalName);
+                });
+            });
+            if (dbcSignal != null)
+            {
+                var t = new TSignal()
+                {
+                    Name = signalName,
+                    MessageID = dbcSignal.MessageID,
+                    InOrOut = inOrOut
+                };
+                t.UpdateFormDBC(dbcSignal);
+                AddSignal(t);
+                return t;
+            }
+
+
+            return default;
+        }
 
         public ObservableCollection<TSignal> GetObservableCollection<TSignal>(string viewName = "") where TSignal : SignalBase
         {
             viewName = SignalBase.ReplaceViewModel(viewName);
             ObservableCollection<TSignal> signals = new ObservableCollection<TSignal>();
-            _signals.Sort((x, y) => {
+            _signals.Sort((x, y) =>
+            {
                 if (y.MessageID > x.MessageID)
                 {
                     return -1;
@@ -359,7 +410,7 @@ namespace ERad5TestGUI.Stores
             return signals;
         }
 
-        private Dictionary<int, string> GetKeyValuePairs(uint msgID, string signalName)
+        public Dictionary<int, string> GetKeyValuePairs(uint msgID, string signalName)
         {
             var enumValue = DbcFiles.Select(x =>
             {
@@ -398,7 +449,7 @@ namespace ERad5TestGUI.Stores
 
         private void LoadDBC()
         {
-           var files = Directory.GetFiles(@".\Config","*.dbc");
+            var files = Directory.GetFiles(@".\Config", "*.dbc");
             foreach (var item in files)
             {
                 var dbcf = new DbcFile(item);
@@ -483,7 +534,7 @@ namespace ERad5TestGUI.Stores
 
             inputs.ToList().ForEach(signal =>
             {
-                DiscreteInputSignal analogSignal = new DiscreteInputSignal(signal,viewName);
+                DiscreteInputSignal analogSignal = new DiscreteInputSignal(signal, viewName);
                 if (string.IsNullOrEmpty(analogSignal.PinNumber))
                     return;
                 SaveViewSignalLocator(viewName, analogSignal);
@@ -500,11 +551,11 @@ namespace ERad5TestGUI.Stores
             AddSignal(new DiscreteOutputSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "FD16_INH_DISABLE"), viewName));
         }
 
-        private void LoadPPAWL(uint msgid,string viewName)
+        private void LoadPPAWL(uint msgid, string viewName)
         {
             int startbit = 0;
             viewName = SignalBase.ReplaceViewModel(viewName);
-            GenerateVirtualSignals<AnalogSignal>(ref msgid, viewName,ref startbit, signalLength: 12);
+            GenerateVirtualSignals<AnalogSignal>(ref msgid, viewName, ref startbit, signalLength: 12);
             GenerateVirtualSignals<DiscreteInputSignal>(ref msgid, viewName, ref startbit, signalLength: 1);
             GenerateVirtualSignals<DiscreteOutputSignal>(ref msgid, viewName, ref startbit, signalLength: 1);
         }
@@ -593,7 +644,7 @@ namespace ERad5TestGUI.Stores
             foreach (var signal in gdicResSignals)
             {
                 var res = new GDICRegisterSignal(signal, ViewModels.GDICViewModel.GDICRegisterViewName);
-               
+
                 SaveViewSignalLocator(ViewModels.GDICViewModel.GDICRegisterViewName, res);
             }
 
@@ -639,7 +690,7 @@ namespace ERad5TestGUI.Stores
 
             pulseInViewSignals.ForEach(signal =>
             {
-                if(signal.SignalName.IndexOf("_Duty") > -1 || signal.SignalName.IndexOf("_Freq") > -1)
+                if (signal.SignalName.IndexOf("_Duty") > -1 || signal.SignalName.IndexOf("_Freq") > -1)
                 {
                     string[] groupName = signal.SignalName.Split(new string[] { "_Duty", "_Freq" }, StringSplitOptions.RemoveEmptyEntries);
                     if (groupName.Length == 1)
@@ -665,12 +716,12 @@ namespace ERad5TestGUI.Stores
 
         private void GeneratePulseInSignals(string viewName, int signalLength, ref uint msgID, ref int startbit)
         {
-            
+
             for (int i = 0; i < 10; i++)
             {
                 startbit = signalLength * 2 * i;
-                if(startbit + signalLength * 2 > 64 * 8 -1)
-                { 
+                if (startbit + signalLength * 2 > 64 * 8 - 1)
+                {
                     startbit = 0;
                     msgID += 1;
                 }
@@ -713,9 +764,9 @@ namespace ERad5TestGUI.Stores
             var pwm_U_Duty = new PulseOutSingleSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "PWM_U_Duty"), viewName);
             AddSignal(pwm_U_Duty);
             var pwm_V_Duty = new PulseOutSingleSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "PWM_V_Duty"), viewName);
-            AddSignal(pwm_V_Duty); 
+            AddSignal(pwm_V_Duty);
             var pwm_W_Duty = new PulseOutSingleSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "PWM_W_Duty"), viewName);
-            AddSignal(pwm_W_Duty); 
+            AddSignal(pwm_W_Duty);
             var uvm_PWM_Freq = new PulseOutSingleSignal(DBCSignals.FirstOrDefault(x => x.SignalName == "UVW_PWM_Freq"), viewName)
             {
                 OriginValue = 10000
@@ -732,7 +783,7 @@ namespace ERad5TestGUI.Stores
             {
                 var linConfigSignal = new LinConfigSignal(item, viewName);
                 //Receive Data is IN
-                if(linConfigSignal.Name.IndexOf("Receive_Data") < 0)
+                if (linConfigSignal.Name.IndexOf("Receive_Data") < 0)
                 {
                     linConfigSignal.InOrOut = true;
                 }
@@ -744,14 +795,14 @@ namespace ERad5TestGUI.Stores
             }
         }
 
-        private void GenerateVirtualSignals<TSignal>(ref uint id, string viewName,ref int startbit, int count = 10, int signalLength = 1)
+        private void GenerateVirtualSignals<TSignal>(ref uint id, string viewName, ref int startbit, int count = 10, int signalLength = 1)
           where TSignal : SignalBase, new()
         {
-            
+
             for (int i = 0; i < count; i++)
             {
                 startbit += signalLength * i;
-                if(startbit + signalLength > 64 * 8 - 1)
+                if (startbit + signalLength > 64 * 8 - 1)
                 {
                     startbit = 0;
                     id += 1;
@@ -814,7 +865,7 @@ namespace ERad5TestGUI.Stores
                     spisignal.InOrOut = true;
                     AddSignal(spisignal);
                     var keys = GetKeyValuePairs(item.MessageID, item.SignalName);
-                    if(keys != null)
+                    if (keys != null)
                     {
                         foreach (var kv in keys)
                         {
@@ -848,7 +899,7 @@ namespace ERad5TestGUI.Stores
         private void LoadSignalLocator()
         {
             SignalLocation = XmlHelper.DeserializeFromXml<SignalCollection>(SignalLocatorFilePath);
-            if(SignalLocation == null)
+            if (SignalLocation == null)
             {
                 SignalLocation = new SignalCollection();
             }
@@ -897,7 +948,7 @@ namespace ERad5TestGUI.Stores
         {
             SignalLocatorInfo.ViewSignalsInfos.ForEach(viewInfo =>
             {
-                if(SignalLocation == null) { SignalLocation = new SignalCollection(); }
+                if (SignalLocation == null) { SignalLocation = new SignalCollection(); }
 
                 SignalLocation.Signals.AddRange(viewInfo.Signals);
             });
@@ -927,8 +978,8 @@ namespace ERad5TestGUI.Stores
             table.Rows.Add(new SignalValueTableRow(-39, "5*Rt/(Rt+20k)", 205.26));
             SignalValueTables.Add(table3);
         }
-        
-        public double ConvertByTable(string tableName,double origionalValue)
+
+        public double ConvertByTable(string tableName, double origionalValue)
         {
             var table = SignalValueTables.FirstOrDefault(x => x.TableName == tableName);
 
@@ -960,4 +1011,6 @@ namespace ERad5TestGUI.Stores
             return table.GetTForV(origionalValue);
         }
     }
+
+   
 }

@@ -104,7 +104,7 @@
     <Compile Include="Models\PulseInSignalGroup.cs" />
     <Compile Include="Models\S19Record.cs" />
     <Compile Include="Models\SavingLogicInOutGroup.cs" />
-    <Compile Include="Models\SPIInSignal.cs" />
+    <Compile Include="Models\SPISignal.cs" />
     <Compile Include="Services\CloseModalNavigationService.cs" />
     <Compile Include="Services\CompositeNavigationService.cs" />
     <Compile Include="Services\ILogService.cs" />
@@ -153,6 +153,7 @@
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\DisConnectViewModel.cs" />
     <Compile Include="ViewModels\DiscreteViewModel.cs" />
+    <Compile Include="ViewModels\ELockerViewModel.cs" />
     <Compile Include="ViewModels\GDICViewModel.cs" />
     <Compile Include="ViewModels\LayoutViewModel.cs" />
     <Compile Include="ViewModels\LinViewModel.cs" />
@@ -185,6 +186,9 @@
     </Compile>
     <Compile Include="Views\DiscreteView.xaml.cs">
       <DependentUpon>DiscreteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ELockerView.xaml.cs">
+      <DependentUpon>ELockerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GDIC3160View.xaml.cs">
       <DependentUpon>GDIC3160View.xaml</DependentUpon>
@@ -288,6 +292,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DiscreteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ELockerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

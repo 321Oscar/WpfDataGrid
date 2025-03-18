@@ -28,6 +28,7 @@ namespace ERad5TestGUI.ViewModels
         private readonly SignalStore _signalStore;
         private string log;
         private RelayCommand _disableINHCANCommand;
+        private RelayCommand<uint> _sendCANFDWakeUpCommand;
        
         public ObservableObject CurrentViewModel => _navigationStore.CurrentViewModel;
         public ObservableObject CurrentModalViewModel => _modalNavigationStore.CurrentViewModel;
@@ -104,6 +105,8 @@ namespace ERad5TestGUI.ViewModels
             //(CloseCommand as IRelayCommand).NotifyCanExecuteChanged();
             //(StartCommand as IRelayCommand).NotifyCanExecuteChanged();
             (StopCommand as IRelayCommand).NotifyCanExecuteChanged();
+            _disableINHCANCommand.NotifyCanExecuteChanged();
+            _sendCANFDWakeUpCommand.NotifyCanExecuteChanged();
         }
 
         private void OnCurrentViewModelChanged()
@@ -123,7 +126,8 @@ namespace ERad5TestGUI.ViewModels
         public ICommand StartCommand { get; }
         public ICommand StopCommand { get; }
         public ICommand DeivceConfigCommand { get; }
-        public ICommand DisableINHCANCommand { get => _disableINHCANCommand ?? (_disableINHCANCommand = new RelayCommand(DisableINHCAN)); }
+        public ICommand DisableINHCANCommand { get => _disableINHCANCommand ?? (_disableINHCANCommand = new RelayCommand(DisableINHCAN, () => HasDevice)); }
+        public ICommand SendWakeUpCommand { get => _sendCANFDWakeUpCommand ?? (_sendCANFDWakeUpCommand = new RelayCommand<uint>(SendWakeUp, (x) => HasDevice)); }
 
         private void Stop() 
         {
@@ -153,7 +157,7 @@ namespace ERad5TestGUI.ViewModels
 
             if (this.HasDevice)
             {
-                CurrentDevice.SendMultip(SignalStore.BuildFrames(new DiscreteOutputSignal[] {
+                CurrentDevice.SendFDMultip(SignalStore.BuildFrames(new DiscreteOutputSignal[] {
                     FD16_INH_DISABLE,
                     FD5_INH_DISABLE
                 }));
@@ -163,6 +167,11 @@ namespace ERad5TestGUI.ViewModels
                 Log = "No Device Connected!";
             }
         }
+
+        private void SendWakeUp(uint msgID)
+        {
+            _deviceStore.CurrentDevice.Send(new CanFrame(msgID, new byte[8]));
+        }
     }
 
     public partial class MainViewModel
@@ -171,6 +180,8 @@ namespace ERad5TestGUI.ViewModels
         /// Soft Version
         /// </summary>
         /// <remarks>
+        /// <para>V0.0.0.3 增加SPIView <see cref="Models.SPISignal"/>，DisConnect,Resolver界面
+        /// </para>
         /// <para>V0.0.0.2 : <see cref="Models.AnalogSignal"/> 第二次转换无需 * 5 /4096;
         /// 增加NXP界面信号；
         /// 增加Disable CAN INH功能；
@@ -178,6 +189,6 @@ namespace ERad5TestGUI.ViewModels
         /// 发送CAN报文，根据ID发送该ID下的所有信号</para>
         /// <para>V0.0.0.1 : <see cref="Models.NXPInputSignal"/> 转换无需 * 5 /4096；增加LIN 界面</para>
         /// </remarks>
-        public string Version { get; } = "0.0.0.2";
+        public string Version { get; } = "0.0.0.4";
     }
 }

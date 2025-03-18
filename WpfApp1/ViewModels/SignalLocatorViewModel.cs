@@ -19,17 +19,22 @@ namespace ERad5TestGUI.ViewModels
     {
         private readonly INavigationService _navigationService;
 
-        private RelayCommand addCommand;
+        private RelayCommand _addCommand;
         //private RelayCommand<IEnumerable<Signal>> addMultipCommand;
-        private RelayCommand<object> addMultipCommand;
+        private RelayCommand<object> _addMultipCommand;
 
         private Func<Stores.Signal, TSignal> _createSignal;
         private Action<ObservableCollection<TSignal>, TSignal> _addSignal;
         private ObservableCollection<TSignal> _tmpsignals = new ObservableCollection<TSignal>();
-        private Signal currentDbcSignal;
-        private TSignal currentTSignal;
-        private RelayCommand delCommand;
-        private string title = "Locator Signal To View";
+        private ObservableCollection<Signal> _filterSignals = new ObservableCollection<Signal>();
+        private Signal _currentDbcSignal;
+        private TSignal _currentTSignal;
+        private RelayCommand _delCommand;
+        private string _title = "Locator Signal To View";
+        private string _filterStr;
+        protected string _viewName;
+        private bool filterView = true;
+
         /// <summary>
         /// 
         /// </summary>
@@ -37,22 +42,27 @@ namespace ERad5TestGUI.ViewModels
         /// <param name="signalStore"></param>
         /// <param name="createSignal"></param>
         /// <param name="addSignal"></param>
-        private SignalLocatorViewModel(string viewName, ObservableCollection<TSignal> signals, 
+        private SignalLocatorViewModel(string viewName, ObservableCollection<TSignal> signals,
                                        Stores.SignalStore signalStore,
                                        Func<Stores.Signal, TSignal> createSignal,
                                        Action<ObservableCollection<TSignal>, TSignal> addSignal = null)
         {
             _createSignal = createSignal;
             _addSignal = addSignal;
-            Signals = signals;
+            _viewName = viewName;
+
             SignalStore = signalStore;
-            var dbcSignals = SignalStore.DBCSignals.Where(x => x.Page == null || x.Page.IndexOf(viewName) > -1);
-            dbcSignals.OrderBy(x => x.Page);
-            DbcSignals = dbcSignals;
-            foreach (var item in Signals)
+            if (signals != null)
             {
-                _tmpsignals.Add(item);
+                Signals = signals;
+                _tmpsignals.AddRange(Signals);
             }
+
+            //var dbcSignals = SignalStore.DBCSignals.Where(x => x.Page == null || x.Page.IndexOf(viewName) > -1);
+            //dbcSignals.OrderBy(x => x.Page);
+            //DbcSignals = dbcSignals;
+            LoadDBCSignals();
+
             CancelCommand = new RelayCommand(Cancel);
             OkCommand = new RelayCommand(Ok);
         }
@@ -64,14 +74,17 @@ namespace ERad5TestGUI.ViewModels
         /// <param name="createSignal"></param>
         /// <param name="window"></param>
         /// <param name="addSignal"></param>
-        public SignalLocatorViewModel(string viewName, ObservableCollection<TSignal> signals, Stores.SignalStore signalStore,
-            Func<Stores.Signal, TSignal> createSignal, Window window,
-            Action<ObservableCollection<TSignal>, TSignal> addSignal = null) :
-            this(viewName, signals, signalStore, createSignal, addSignal)
+        public SignalLocatorViewModel(string viewName, 
+            ObservableCollection<TSignal> signals, 
+            Stores.SignalStore signalStore,
+            Func<Stores.Signal, TSignal> createSignal, 
+            Window window,
+            Action<ObservableCollection<TSignal>, TSignal> addSignal = null) 
+            : this(viewName, signals, signalStore, createSignal, addSignal)
         {
             Title = typeof(TSignal).Name;
             Window = window;
-           
+
         }
         /// <summary>
         /// MVVM Dialog
@@ -82,43 +95,78 @@ namespace ERad5TestGUI.ViewModels
         /// <param name="createSignal"></param>
         /// <param name="addSignal"></param>
         public SignalLocatorViewModel(string viewName, INavigationService navigationService, ObservableCollection<TSignal> signals, Stores.SignalStore signalStore,
-            Func<Stores.Signal, TSignal> createSignal, Action<ObservableCollection<TSignal>, TSignal> addSignal = null):
+            Func<Stores.Signal, TSignal> createSignal, Action<ObservableCollection<TSignal>, TSignal> addSignal = null) :
              this(viewName, signals, signalStore, createSignal, addSignal)
 
         {
             this._navigationService = navigationService;
         }
-        public string Title { get => title; set => SetProperty(ref title , value); }
+        public string Title { get => _title; set => SetProperty(ref _title, value); }
         public Stores.SignalStore SignalStore { get; }
-        public IEnumerable<Signal> DbcSignals { get; }
+        public IEnumerable<Signal> DbcSignals { get => _filterSignals; }
         public ObservableCollection<TSignal> Signals { get; }
         public ObservableCollection<TSignal> TempSignals { get => _tmpsignals; }
         public Stores.Signal CurrentDbcSignal
         {
-            get => currentDbcSignal;
+            get => _currentDbcSignal;
             set
             {
-                currentDbcSignal = value;
-                addCommand?.NotifyCanExecuteChanged();
+                _currentDbcSignal = value;
+                _addCommand?.NotifyCanExecuteChanged();
             }
         }
         public TSignal CurrentTSignal
         {
-            get => currentTSignal;
+            get => _currentTSignal;
             set
             {
-                currentTSignal = value;
-                delCommand.NotifyCanExecuteChanged();
+                _currentTSignal = value;
+                _delCommand.NotifyCanExecuteChanged();
             }
         }
 
         public ICommand CancelCommand { get; }
         public ICommand OkCommand { get; }
-        public ICommand AddCommand { get => addCommand ?? (addCommand = new RelayCommand(Add, () => (_createSignal != null && CurrentDbcSignal != null))); }
-        public ICommand AddMultipCommand { get => addMultipCommand ?? (addMultipCommand = new RelayCommand<object>(Add)); }
-        public ICommand DelCommand { get => delCommand ?? (delCommand = new RelayCommand(Del, () => CurrentTSignal != null)); }
+        public ICommand AddCommand { get => _addCommand ?? (_addCommand = new RelayCommand(Add, () => (_createSignal != null && CurrentDbcSignal != null))); }
+        public ICommand AddMultipCommand { get => _addMultipCommand ?? (_addMultipCommand = new RelayCommand<object>(Add)); }
+        public ICommand DelCommand { get => _delCommand ?? (_delCommand = new RelayCommand(Del, () => CurrentTSignal != null)); }
 
         public Window Window { get; }
+        public bool FilterView 
+        { 
+            get => filterView;
+            set
+            {
+                if (SetProperty(ref filterView, value))
+                {
+                    LoadDBCSignals();
+                }
+            }
+        }
+        public string FilterStr
+        {
+            get => _filterStr;
+            set
+            {
+                if (SetProperty(ref _filterStr, value))
+                {
+                    LoadDBCSignals();
+                }
+            }
+        }
+        private void LoadDBCSignals()
+        {
+            _filterSignals.Clear();
+            var dbcSignals = SignalStore.DBCSignals;
+            if (FilterView && !string.IsNullOrEmpty(_viewName))
+                dbcSignals = dbcSignals.Where(x => x.Page == null || x.Page.IndexOf(_viewName) > -1);
+            if (!string.IsNullOrEmpty(FilterStr))
+            {
+                dbcSignals = dbcSignals.Where(x => x.SignalName.IndexOf(FilterStr, StringComparison.OrdinalIgnoreCase) > -1);
+            }
+            _filterSignals.AddRange(dbcSignals);
+        }
+
         private void Cancel()
         {
             _navigationService?.Navigate();
@@ -151,7 +199,7 @@ namespace ERad5TestGUI.ViewModels
                     TempSignals.Add(signal);
             }
         }
-         private void Add(Signal dbcsignal)
+        private void Add(Signal dbcsignal)
         {
             var signal = _createSignal(dbcsignal);
             if (_addSignal != null)
@@ -186,6 +234,8 @@ namespace ERad5TestGUI.ViewModels
 
         private void UpdateList(IList<TSignal> list1, IList<TSignal> list2)
         {
+            if (list2 == null) return;
+
             // 添加 list1 中不在 list2 的项
             foreach (var item in list1)
             {
@@ -297,6 +347,31 @@ namespace ERad5TestGUI.ViewModels
     public class NXPInputSignalLocatorViewModel : SignalLocatorViewModel<NXPInputSignal>
     {
         public NXPInputSignalLocatorViewModel(string viewName, ObservableCollection<NXPInputSignal> signals, SignalStore signalStore, Func<Signal, NXPInputSignal> createSignal, Window window, Action<ObservableCollection<NXPInputSignal>, NXPInputSignal> addSignal = null) : base(viewName, signals, signalStore, createSignal, window, addSignal)
+        {
+        }
+    }
+
+    public class GDICStatusDataSignalLocatorViewModel : SignalLocatorViewModel<GDICStatusDataSignal>
+    {
+        public GDICStatusDataSignalLocatorViewModel(string viewName, 
+            ObservableCollection<GDICStatusDataSignal> signals, 
+            SignalStore signalStore, 
+            Func<Signal, GDICStatusDataSignal> createSignal, 
+            Window window, 
+            Action<ObservableCollection<GDICStatusDataSignal>, GDICStatusDataSignal> addSignal = null) 
+            : base(viewName, signals, signalStore, createSignal, window, addSignal)
+        {
+        }
+    }
+    public class GDICRegisterSignalLocatorViewModel : SignalLocatorViewModel<GDICRegisterSignal>
+    {
+        public GDICRegisterSignalLocatorViewModel(string viewName, 
+            ObservableCollection<GDICRegisterSignal> signals, 
+            SignalStore signalStore, 
+            Func<Signal, GDICRegisterSignal> createSignal, 
+            Window window, 
+            Action<ObservableCollection<GDICRegisterSignal>, GDICRegisterSignal> addSignal = null) 
+            : base(viewName, signals, signalStore, createSignal, window, addSignal)
         {
         }
     }

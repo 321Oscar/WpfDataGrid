@@ -29,6 +29,8 @@ namespace ERad5TestGUI.ViewModels
         public LinViewModel LinViewModel { get; private set; }
         public DisConnectViewModel DisConnectViewModel { get; private set; }
         public SPIViewModel SPIViewModel { get; private set; }
+        public PPAWLViewModel PPAWLViewModel { get; private set; }
+        public ELockerViewModel ELockerViewModel { get; private set; }
 
         protected override void DeivceConfig()
         {
@@ -63,6 +65,8 @@ namespace ERad5TestGUI.ViewModels
             //LinViewModel.Init();
             DisConnectViewModel = new DisConnectViewModel(SignalStore, _deviceStore, _logService);
             SPIViewModel = new SPIViewModel(SignalStore, _deviceStore, _logService);
+            PPAWLViewModel = new PPAWLViewModel(SignalStore, _deviceStore, _logService);
+            ELockerViewModel = new ELockerViewModel(SignalStore, _deviceStore, _logService);
             //DisConnectViewModel.Init(); 
             MemoryViewModel = new MemoryViewModel(_deviceStore, _logService);
            // MemoryViewModel.Init();

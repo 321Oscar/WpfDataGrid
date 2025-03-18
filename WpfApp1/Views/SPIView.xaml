@@ -38,11 +38,13 @@
                                             ItemsSource="{x:Static mdls:SPIValueTable.Value2Baudrate}"
                                             DisplayMemberPath="Value"
                                             SelectedValuePath="Key"
-                                            SelectedValueBinding="{Binding SelectValue.OriginValue}"/>
-                    <DataGridTextColumn Header="Note" IsReadOnly="True" />
+                                            SelectedValueBinding="{Binding SelectValue.OriginValue,UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Note" IsReadOnly="True" Binding="{Binding Note}"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Content="Reset" Grid.Row="1" Width="80" Command="{Binding ResetCommand}">
+            <Button Content="Reset TC377 and Apply" Grid.Row="1" 
+                    Width="160"
+                    Command="{Binding ResetCommand}">
                 
             </Button>
             <ctrls:ControlWithTitle Grid.Row="2" Title="Notes:" Orientation="Vertical">

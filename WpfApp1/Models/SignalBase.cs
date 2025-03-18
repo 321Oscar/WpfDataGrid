@@ -53,23 +53,26 @@ namespace ERad5TestGUI.Models
         public string Name { get; set; }
 
         public string DisplayName { get => RelaceSignalName(Name); }
+        [XmlIgnore]
         public string ViewName
         {
-            get => string.Join(ViewNameSplit, ViewNames.Distinct()) + ViewNameSplit; 
+            get => string.Join(ViewNameSplit, Views.Select(x => x.ViewName)) + ViewNameSplit;
             set
             {
                 string[] names = value.Split(ViewNameSplit);
 
                 foreach (var name in names)
                 {
-                    if (ViewNames.Contains(name))
+                    if (Views.FirstOrDefault(x => x.ViewName == name) != null)
                         continue;
-                    ViewNames.Add(name);
+                    Views.Add(new ViewEnable() { ViewName = name });
                 }
             }
         }
         [XmlIgnore]
         public List<string> ViewNames { get; set; } = new List<string>();
+        public List<ViewEnable> Views { get; set; } = new List<ViewEnable>();
+
         [XmlIgnore]
         public double OriginValue 
         {
@@ -176,6 +179,12 @@ namespace ERad5TestGUI.Models
         }
     }
 
+    public class ViewEnable
+    {
+        public string ViewName { get; set; }
+        public bool IsEnabled { get; set; } = true;
+    }
+
     public class TransFormSignalBase : SignalBase
     {
         private string value1 = "NaN";
@@ -275,13 +284,13 @@ namespace ERad5TestGUI.Models
             base.OnOriginValueChaned(originValue, changed);
             if (changed)
             {
-                var realValue = TransForm(originValue);
+                var realValue = NeedTransform ? TransForm(originValue) : originValue;
                 if (double.IsNaN(MaxValue))
-                    MaxValue = NeedTransform ? realValue : originValue;
+                    MaxValue = realValue;
                 else
                     MaxValue = Math.Max(MaxValue, realValue);
                 if (double.IsNaN(MinValue))
-                    MinValue = NeedTransform ? realValue : originValue;
+                    MinValue = realValue;
                 else
                     MinValue = Math.Min(MinValue, realValue);
                 //cal value1
@@ -349,13 +358,32 @@ namespace ERad5TestGUI.Models
 
 
 
-    public class SignalGroupBase : ObservableObject
+    public class SignalGroupBase : ObservableObject, IGroupSignal
     {
         public string GroupName { get; set; }
+        public SignalGroupBase()
+        {
 
+        }
         public SignalGroupBase(string groupName)
         {
             GroupName = groupName;
+        }
+    }
+    public class GDICStatuGroupGroup : SignalGroupGroup<GDICStatusGroup>
+    {
+        public GDICStatuGroupGroup(string groupName) : base(groupName)
+        {
+        }
+    }
+    public class SignalGroupGroup<TGroup> : SignalGroupBase
+        where TGroup : SignalGroupBase, new()
+    {
+        public List<TGroup> Groups { get; }
+
+        public SignalGroupGroup(string groupName) : base(groupName)
+        {
+            Groups = new List<TGroup>();
         }
     }
 
@@ -643,6 +671,66 @@ namespace ERad5TestGUI.Models
         public double Max { get; set; }
         [XmlAttribute]
         public double Min { get; set; }
+    }
+
+    public class MessageReceiveState : ObservableObject
+    {
+        private DateTime? _lastReceiveTime;
+        private bool _state;
+
+        public MessageReceiveState(string name, List<uint> msgIDs)
+        {
+            Name = name;
+            MessageIDs = msgIDs;
+        }
+
+        public MessageReceiveState(string name, uint minID, uint maxID)
+        {
+            Name = name;
+            MessageIDs = new List<uint>();
+            for (uint i = minID; i <= maxID; i++)
+            {
+                MessageIDs.Add(i);
+            }
+        }
+
+        public string Name { get; set; }
+        public List<uint> MessageIDs { get; set; }
+        public bool IsEnable { get; set; } = true;
+        public int OutTime { get; set; } = 1000;
+        public DateTime? LastReceiveTime
+        {
+            get => _lastReceiveTime;
+            set
+            {
+                if (_lastReceiveTime.HasValue)
+                {
+                    int r = (value.Value - _lastReceiveTime.Value).Milliseconds;
+                    State =  OutTime >= r;
+                }
+                _lastReceiveTime = value;
+            }
+        }
+        public bool State { get => _state; set => SetProperty(ref _state, value); }
+
+        public void UpdateReceiveTime(IEnumerable<uint> msgIDs)
+        {
+            foreach (var item in msgIDs)
+            {
+                if (MessageIDs.Any(x => x == item) == true)
+                {
+                    LastReceiveTime = DateTime.Now;
+                    break;
+                }
+            }
+        }
+        public void UpdateReceiveTime(uint msgID)
+        {
+            if (MessageIDs.Any(x => x == msgID) == true)
+            {
+                LastReceiveTime = DateTime.Now;
+            }
+        }
     }
 
 }

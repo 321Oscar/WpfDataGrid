@@ -5,16 +5,16 @@ using ERad5TestGUI.Stores;
 
 namespace ERad5TestGUI.Models
 {
-    public class GDICStatusRegisterGroup : ObservableObject
+    public class GDICStatusRegisterGroup : SignalGroupBase
     {
         /// <summary>
         /// RegisterName like: Top U/Top V
         /// </summary>
-        public string GroupName { get; }
+        //public string GroupName { get; }
 
-        public GDICStatusRegisterGroup(string groupName)
+        public GDICStatusRegisterGroup(string groupName) : base(groupName)
         {
-            GroupName = groupName;
+            //GroupName = groupName;
             GDICStatusGroups = new GDICStatusGroup[4];
         }
         /// <summary>
@@ -35,19 +35,26 @@ namespace ERad5TestGUI.Models
     /// <summary>
     /// it's Name like Status1/Status2
     /// </summary>
-    public class GDICStatusGroup : ObservableObject
+    public class GDICStatusGroup : SignalGroupBase
     {
         private string groupName;
 
         /// <summary>
         /// RegisterName like: Top U/Top V
         /// </summary>
-        public string GroupName { get => groupName; set => groupName = value.Replace(SignalBase.DBCSignalNameSplit, SignalBase.SignalNameSplit); }
+        public new string GroupName 
+        { 
+            get => groupName; 
+            set => groupName = value.Replace(SignalBase.DBCSignalNameSplit, SignalBase.SignalNameSplit); 
+        }
+        public GDICStatusGroup()
+        {
 
-        public GDICStatusGroup(string groupName)
+        }
+        public GDICStatusGroup(string groupName, int length = 10) : base(groupName)
         {
             GroupName = groupName;
-            GDICStatusSignals = new GDICStatusDataSignal[10];
+            GDICStatusSignals = new GDICStatusDataSignal[length];
         }
         public int Startbit
         {
@@ -81,6 +88,7 @@ namespace ERad5TestGUI.Models
         /// if <see cref="InOrOut"/> == true, need this property
         /// </summary>
         public GDICStatusDataSignal WriteIndex { get; set; }
+        public GDICStatusDataSignal WriteFlag { get; set; }
         public string RegisterName
         {
             get

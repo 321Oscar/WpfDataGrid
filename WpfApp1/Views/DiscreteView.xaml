@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ERad5TestGUI.Views"
     xmlns:models="clr-namespace:ERad5TestGUI.Models"
+    xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -57,10 +58,14 @@
                         Content="Clear Transitions" 
                         Width="120"
                         Height="25"
-                        Command="{Binding ClearTransitionsCommand}"
-                        />
+                        Command="{Binding ClearTransitionsCommand}"/>
                 </StackPanel>
-                <Grid Grid.Row="1"  Grid.IsSharedSizeScope="True">
+                <ContentControl 
+                    Grid.Row="1"
+                    Content="{Binding InputSignals}" 
+                    ContentTemplate="{StaticResource DisInSignals}" />
+
+                <!--<Grid Grid.Row="1"  Grid.IsSharedSizeScope="True">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
@@ -96,7 +101,7 @@
                     <ScrollViewer Grid.Row="1">
                         <ItemsControl ItemsSource="{Binding InputSignals}"/>
                     </ScrollViewer>
-                </Grid>
+                </Grid>-->
 
                 <!--<DataGrid
                     Grid.Row="1"
@@ -122,32 +127,82 @@
             Grid.Column="1"
             Margin="0,2"
             Header="TLF Test">
-            <StackPanel Orientation="Horizontal">
-                <Button
-                    Padding="5"
-                    Content="Disable SBC_WD_TRIG"
-                    Command="{Binding DisableWWDTRIGCommand}"
-                     >
-                    <Button.ToolTip>
-                        <ContentControl Content="{Binding DIS_SBC_WWD_TRIG}" ContentTemplate="{StaticResource SignalToolTip}"/>
-                    </Button.ToolTip>
-                </Button>
-                <Button Content="Reset TLF Faults"  />
-                <ComboBox MinWidth="80" />
-                <Button Content="Send Bad Anwser"  Command="{Binding SendBadAnwserCommand}">
-                    <Button.ToolTip>
-                        <ContentControl Content="{Binding SEND_BAD_ANSWER}" ContentTemplate="{StaticResource SignalToolTip}"/>
-                    </Button.ToolTip>
-                </Button>
-                <CheckBox
-                    Content="Sync"
-                    IsChecked="{Binding OutputSignalSync}"
-                    Style="{StaticResource NormalCheckBox}" />
-                <Button
-                    Command="{Binding UpdateCommand}"
-                    Content="Update"
-                     />
-            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="0">
+                    <ContentControl Content="{Binding TLFCurrentState}">
+                        <ContentControl.Resources>
+                            <DataTemplate DataType="{x:Type models:SPISignalGroup}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ctrls:ControlWithTitle Title="Current State" Orientation="Vertical">
+                                        <ctrls:ControlWithTitle.Content>
+                                            <TextBox Width="80" IsReadOnly="True" Text="{Binding CurrentValue.Value1}"/>
+                                        </ctrls:ControlWithTitle.Content>
+                                        <ctrls:ControlWithTitle.ToolTip>
+                                            <ContentControl Content="{Binding CurrentValue}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                                        </ctrls:ControlWithTitle.ToolTip>
+                                    </ctrls:ControlWithTitle>
+                                    <ctrls:ControlWithTitle Title="State Select" Orientation="Vertical">
+                                        <ctrls:ControlWithTitle.Content>
+                                            <ComboBox 
+                                                Width="80" 
+                                                ItemsSource="{Binding SelectValue.Value2State}"
+                                                DisplayMemberPath="Value"
+                                                SelectedValuePath="Key"
+                                                SelectedValue="{Binding SelectValue.OriginValue}"/>
+                                        </ctrls:ControlWithTitle.Content>
+                                        <ctrls:ControlWithTitle.ToolTip>
+                                            <ContentControl Content="{Binding SelectValue}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                                        </ctrls:ControlWithTitle.ToolTip>
+                                    </ctrls:ControlWithTitle>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ContentControl.Resources>
+                    </ContentControl>
+
+
+                    <Button 
+                        Content="Update TLF35584 State"
+                        Command="{Binding UpdateStateCommand}"
+                        CommandParameter="{Binding UpdateTLFState}"/>
+                </StackPanel>
+                <WrapPanel Orientation="Horizontal" Grid.Row="1" Margin="0,5">
+                    <Button
+                        Padding="5"
+                        Content="Disable SBC_WD_TRIG"
+                        Command="{Binding UpdateStateCommand}"
+                        CommandParameter="{Binding DIS_SBC_WWD_TRIG}">
+                        <Button.ToolTip>
+                            <ContentControl Content="{Binding DIS_SBC_WWD_TRIG}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button 
+                        Content="Send Bad Anwser"  
+                        Command="{Binding UpdateStateCommand}"
+                        CommandParameter="{Binding SEND_BAD_ANSWER}">
+                        <Button.ToolTip>
+                            <ContentControl Content="{Binding SEND_BAD_ANSWER}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Content="Disable ERR Trigger"
+                             Command="{Binding UpdateStateCommand}"
+                        CommandParameter="{Binding DisableErrTigger}">
+                        <Button.ToolTip>
+                            <ContentControl Content="{Binding DisableErrTigger}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                        </Button.ToolTip>
+                    </Button>
+                  
+                </WrapPanel>
+                <StackPanel Grid.Row="2">
+                    <TextBlock TextWrapping="WrapWithOverflow">NOTE: If you want to change the TLF35584 state, please confirm if the jump conditions are met.</TextBlock>
+                    <TextBlock TextWrapping="WrapWithOverflow">If you want the system to enter the safe state(SS1/SS2 LOW) without a reset, please have TLF35584 jump to the Wake state</TextBlock>
+                </StackPanel>
+            </Grid>
         </GroupBox>
         <!-- Output DataGrid -->
         <GroupBox
@@ -155,7 +210,26 @@
             Grid.Column="1"
             Header="Outputs" Margin="0,2,2,0">
             <Grid Margin="-10">
-                <ContentControl Content="{Binding OutputSignals}" ContentTemplate="{StaticResource DisOutSignals}"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <ContentControl 
+                    Content="{Binding OutputSignals}" 
+                    ContentTemplate="{StaticResource DisOutSignals}"/>
+                <StackPanel 
+                    Margin="5,2"
+                    Orientation="Horizontal" 
+                    Grid.Row="1">
+                    <CheckBox
+                        Content="Sync"
+                        IsChecked="{Binding OutputSignalSync}"
+                        Style="{StaticResource NormalCheckBox}" />
+                    <Button
+                        Command="{Binding UpdateCommand}"
+                        Content="Update"
+                     />
+                </StackPanel>
             <!--<DataGrid
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"

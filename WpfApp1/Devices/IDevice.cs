@@ -19,8 +19,9 @@ namespace ERad5TestGUI.Devices
         void Stop();
         event OnMsgReceived OnMsgReceived;
         DeviceRecieveFrameStatus RecieveStatus { get; }
+        bool SendFD(IFrame frame);
         bool Send(IFrame frame);
-        bool SendMultip(IEnumerable<IFrame> multiples);
+        bool SendFDMultip(IEnumerable<IFrame> multiples);
     }
 
     public delegate bool SendData();

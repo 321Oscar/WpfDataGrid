@@ -152,12 +152,17 @@ namespace ERad5TestGUI.Devices
             return Name;
         }
 
+        public bool SendFD(IFrame frame)
+        {
+            return true;
+        }
+
         public bool Send(IFrame frame)
         {
             return true;
         }
 
-        public bool SendMultip(IEnumerable<IFrame> multiples)
+        public bool SendFDMultip(IEnumerable<IFrame> multiples)
         {
             foreach (var frame in multiples)
             {

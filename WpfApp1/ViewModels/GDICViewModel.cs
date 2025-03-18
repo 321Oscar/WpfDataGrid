@@ -79,23 +79,24 @@ namespace ERad5TestGUI.ViewModels
         }
         private Task AddStatus()
         {
-            var gdicSignals = SignalStore.GetSignals<GDICStatusDataSignal>();
+            var gdicSignals = SignalStore.GetSignals<GDICStatusDataSignal>(ViewName);
 
             var gdicStatusGroups = gdicSignals.GroupBy(s => s.GroupName)
                                               .Select(g =>
                                               {
-                                                  var classRoom = new GDICStatusGroup(g.Key);
-                                                  var signals = g.OrderByDescending(x => x.StartBit).ToList();
+                                                  var statusGroup = new GDICStatusGroup(g.Key);
+                                                  var signals = g.OrderByDescending(x => x.StartBit).Where(x => x.Name.IndexOf("Flag") < 0).ToList();
                                                   int length = 10;
+                                                  statusGroup.WriteFlag = g.FirstOrDefault(x => x.Name.IndexOf("Flag") > -1);
                                                   //int x = signals.Count - length;
                                                   for (int i = signals.Count - 1; i > -1; i--)
                                                   {
                                                       int idenx = i + (length - signals.Count);
 
-                                                      classRoom.GDICStatusSignals[idenx] = signals[i];
+                                                      statusGroup.GDICStatusSignals[idenx] = signals[i];
                                                   }
                                                   //classRoom.GDICStatusSignals.AddRange(signals);
-                                                  return classRoom;
+                                                  return statusGroup;
                                               })
                                               .OrderBy(x => x.GroupName)
                                               .ToList();
@@ -104,14 +105,15 @@ namespace ERad5TestGUI.ViewModels
                                                   .Select(g =>
                                                   {
                                                       var registerGroup = new GDICStatusRegisterGroup(g.Key);
-                                                      var signals = g.ToList();
+                                                      var statusGroups = g.ToList();
 
                                                       //signal length should be 6 (4 Input status and 1 Write and 1 writeIndex)
-                                                      registerGroup.WriteStatus = signals.FirstOrDefault(x => x.InOrOut &&
+                                                      registerGroup.WriteStatus = statusGroups.FirstOrDefault(x => x.InOrOut &&
                                                         x.GroupName.IndexOf("status", StringComparison.OrdinalIgnoreCase) > -1);
-                                                      registerGroup.WriteStatus.WriteIndex = signals.FirstOrDefault(x => x.InOrOut &&
-                                                        x.GroupName.IndexOf("register", StringComparison.OrdinalIgnoreCase) > -1).GDICStatusSignals.FirstOrDefault(x => x != null);
-                                                      var inStatus = signals.Where(x => x.InOrOut == false).OrderBy(x => x.Startbit).ToArray();
+                                                      registerGroup.WriteStatus.WriteIndex = statusGroups.FirstOrDefault(x => x.InOrOut &&
+                                                         x.GroupName.IndexOf("register", StringComparison.OrdinalIgnoreCase) > -1).
+                                                         GDICStatusSignals.FirstOrDefault(x => x != null);
+                                                      var inStatus = statusGroups.Where(x => x.InOrOut == false).OrderBy(x => x.Startbit).ToArray();
 
                                                       for (int i = 0; i < inStatus.Count(); i++)
                                                       {
@@ -150,7 +152,9 @@ namespace ERad5TestGUI.ViewModels
         private void WriteStatus(GDICStatusGroup obj)
         {
             //throw new NotImplementedException();
+            obj.WriteFlag.OriginValue = 1;
             Send(SignalStore.BuildFrames(SignalStore.GetSignals<GDICStatusDataSignal>().Where(x => x.InOrOut)));
+            obj.WriteFlag.OriginValue = 0;
         }
 
         //--------------------------------------------------------------------
@@ -355,7 +359,7 @@ namespace ERad5TestGUI.ViewModels
                 _currentValueSelection = value;
                 if (CurrentAdcSignal != null)
                 {
-                    CurrentAdcSignal.WriteSignal.OriginValue = AdcValueSelections.IndexOf(_currentValueSelection) + 1;
+                    CurrentAdcSignal.WriteSignal.OriginValue = AdcValueSelections.IndexOf(_currentValueSelection);
 
                     Send(SignalStore.BuildFrames(new SignalBase[] { CurrentAdcSignal.WriteSignal }));
                 }

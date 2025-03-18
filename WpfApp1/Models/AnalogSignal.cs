@@ -147,6 +147,13 @@ namespace ERad5TestGUI.Models
         }
     }
 
+    public class AnalogSignalGroup : SignalGroup<AnalogSignal>
+    {
+        public AnalogSignalGroup(string groupName) : base(groupName)
+        {
+        }
+    }
+
     public class ResolverSignal : AverageSignalBase
     {
         public ResolverSignal()
