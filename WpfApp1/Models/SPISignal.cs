@@ -85,6 +85,8 @@ namespace ERad5TestGUI.Models
             {
                 Value2State.Add(keyVal.Key, keyVal.Value);
             }
+
+            Value1 = Value2Description(OriginValue);
         }
 
         [XmlIgnore]

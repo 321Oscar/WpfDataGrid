@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ERad5TestGUI.Views"
+             xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
              mc:Ignorable="d" 
              Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -13,15 +14,62 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding ViewName}" d:Text="E-Locker" Style="{StaticResource TitleLabel}"/>
-        <ScrollViewer Grid.Row="1">
-            
-        <ItemsControl ItemsSource="{Binding Groups}" >
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Grid.IsSharedSizeScope="True" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
-        </ScrollViewer>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <GroupBox Header="Setting">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <ScrollViewer Margin="-8">
+                        <ItemsControl ItemsSource="{Binding SettingGroups}" >
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Grid.IsSharedSizeScope="True" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </ScrollViewer>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock>TLF35584</TextBlock>
+                            <TextBlock FontWeight="Bold">SS1 and SS2 Sate:</TextBlock>
+                            <TextBlock FontWeight="Bold">Normal mode - High</TextBlock>
+                            <TextBlock FontWeight="Bold">Other Modes - Low</TextBlock>
+                        </StackPanel>
+                        <ctrls:ControlWithTitle 
+                            Title="Current Mode" 
+                            Orientation="Vertical" 
+                            Grid.Column="1"
+                            HorizontalAlignment="Left">
+                            <ctrls:ControlWithTitle.Content>
+                                <TextBox IsReadOnly="True" Width="80" Text="{Binding TLF35584_Current_State.Value1}"/>
+                            </ctrls:ControlWithTitle.Content>
+                        </ctrls:ControlWithTitle>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+            <ScrollViewer Grid.Row="0" Grid.Column="1">
+                <ItemsControl ItemsSource="{Binding Groups}" >
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Grid.IsSharedSizeScope="True" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </UserControl>

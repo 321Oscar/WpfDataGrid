@@ -53,7 +53,7 @@
                 <ScrollViewer Grid.Row="1">
                     <ItemsControl ItemsSource="{Binding Groups}" >
                         <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type models:PulseGroupSignalOutGroup}">
+                            <DataTemplate DataType="{x:Type models:PulseOutGroupSignalGroup}">
                                 <Border>
                                     <Grid>
                                         <Grid.ColumnDefinitions>

@@ -391,14 +391,14 @@
             <ScrollViewer Grid.Row="1">
                 <ItemsControl ItemsSource="{Binding}" >
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type models:PulseGroupSignalOutGroup}">
+                        <DataTemplate DataType="{x:Type models:PulseOutGroupSignalGroup}">
                             <Border>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition SharedSizeGroup="SignalName" Width="auto"></ColumnDefinition>
                                         <ColumnDefinition SharedSizeGroup="value1" Width="auto" MinWidth="100"/>
                                         <ColumnDefinition SharedSizeGroup="value2" Width="auto" MinWidth="100"/>
-                                        <ColumnDefinition SharedSizeGroup="note" Width="auto" MinWidth="100"/>
+                                        <ColumnDefinition SharedSizeGroup="note" Width="auto"/>
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
                                     <Border Style="{StaticResource CellBorder}">
@@ -594,7 +594,7 @@
             </Grid>
         </Border>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type models:PulseGroupSignalOutGroup}">
+    <DataTemplate DataType="{x:Type models:PulseOutGroupSignalGroup}">
         <Border Style="{StaticResource CardBorder}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -627,7 +627,24 @@
             <ContentControl Content="{Binding Groups}" ContentTemplate="{StaticResource PulseInGroupList}"  Margin="-7"/>
         </GroupBox>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type models:PulseOutGroupGroup}">
+    <DataTemplate DataType="{x:Type models:TextBoxSignalView}">
+        <ctrls:ControlWithTitle Title="{Binding Title}" Orientation="Vertical">
+            <ctrls:ControlWithTitle.Content>
+                <TextBox Text="{Binding Signal.OriginValue}" />
+            </ctrls:ControlWithTitle.Content>
+            <ctrls:ControlWithTitle.ToolTip>
+                <ContentControl Content="{Binding Signal}" ContentTemplate="{StaticResource SignalToolTip}"/>
+            </ctrls:ControlWithTitle.ToolTip>
+        </ctrls:ControlWithTitle>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:CommandSignalView}">
+        <Button Content="{Binding Title}" Command="{Binding ChangeSignalCommand}">
+            <Button.ToolTip>
+                <ContentControl Content="{Binding Signal}" ContentTemplate="{StaticResource SignalToolTip}"/>
+            </Button.ToolTip>
+        </Button>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type models:PulseOutGroupList}">
         <GroupBox Header="{Binding GroupName}" Margin="2">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -635,13 +652,9 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <ContentControl Content="{Binding Groups}" ContentTemplate="{StaticResource PulseOutGroupList}"/>
-                <StackPanel 
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Left"
-                    Grid.Column="1" 
-                    Orientation="Horizontal">
-                    <TextBox Width="80" Height="25"/>
-                    <Button Content="Update" Height="25"/>
+                <StackPanel Grid.Column="1">
+                    <ItemsControl ItemsSource="{Binding SingleSignals}"/>
+                    <Button Content="Update" Command="{Binding UpdateCommand}" Visibility="{Binding HasCommand,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </StackPanel>
             </Grid>
         </GroupBox>

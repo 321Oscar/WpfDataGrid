@@ -82,6 +82,7 @@ namespace ERad5TestGUI.Stores
                     0xCA,0x5D0,0x5D3,0x605,0x6F8,0xDB,0x5D4,0x5d7,
                     0x606,0x6F9,0x5c4,0x5c6,0x5c8,0x5c9,0x5ca,0x5cb
                 }));
+            MessagesStates.ForEach(x => x.Start());
         }
 
         public void AddSignal(SignalBase signal)

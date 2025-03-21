@@ -1,4 +1,5 @@
-﻿using ERad5TestGUI.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using ERad5TestGUI.Models;
 using ERad5TestGUI.Services;
 using ERad5TestGUI.Stores;
 using System;
@@ -12,6 +13,7 @@ namespace ERad5TestGUI.ViewModels
     public class ELockerViewModel : SendFrameViewModelBase
     {
         private readonly List<SignalGroupBase> _groups = new List<SignalGroupBase>();
+        private readonly List<SignalGroupBase> _settingGroups = new List<SignalGroupBase>();
 
         public ELockerViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) : base(signalStore, deviceStore, logService)
         {
@@ -24,6 +26,7 @@ namespace ERad5TestGUI.ViewModels
 
 
         public IEnumerable<SignalGroupBase> Groups { get => _groups; }
+        public IEnumerable<SignalGroupBase> SettingGroups { get => _settingGroups; }
 
         public override void Init()
         {
@@ -41,11 +44,11 @@ namespace ERad5TestGUI.ViewModels
 
             DiscreteInputSignalGroup disInputGroup = new DiscreteInputSignalGroup("Discrete Inputs");
             disInputGroup.Signals.AddRange(SignalStore.GetSignals<DiscreteInputSignal>(ViewName));
-            _groups.Add(disInputGroup);
+            _settingGroups.Add(disInputGroup);
 
             DiscreteOutputSignalGroup diOutGroup = new DiscreteOutputSignalGroup("Discrete Outputs");
             diOutGroup.Signals.AddRange(SignalStore.GetSignals<DiscreteOutputSignal>(ViewName));
-            _groups.Add(diOutGroup);
+            _settingGroups.Add(diOutGroup);
 
             PulseInGroupGroup pulseInGroupGroup = new PulseInGroupGroup("Pulse In");
             var pulseInSignals = SignalStore.GetSignals<PulseInSignal>(ViewName);
@@ -67,7 +70,8 @@ namespace ERad5TestGUI.ViewModels
 
             _groups.Add(pulseInGroupGroup);
 
-            PulseOutGroupGroup pulseOutGroup = new PulseOutGroupGroup("Pulse Out");
+            PulseOutGroupList pulseOutGroup = new PulseOutGroupList("Start Sequence of eLOCKER_PWM");
+            PulseOutGroupList pulseOutSettingGroup = new PulseOutGroupList("setting");
 
             SignalStore.GetSignals<PulseOutGroupSignal>(ViewName)
                        .GroupBy(s => s.GroupName)
@@ -75,7 +79,7 @@ namespace ERad5TestGUI.ViewModels
                        {
                            if (!string.IsNullOrEmpty(g.Key))
                            {
-                               var group = new PulseGroupSignalOutGroup(g.Key);
+                               var group = new PulseOutGroupSignalGroup(g.Key);
                                var signals = g.ToList();
                                signals.Sort((x, y) =>
                                {
@@ -89,8 +93,38 @@ namespace ERad5TestGUI.ViewModels
                        })
                        .OrderBy(x => x.GroupName)
                        .ToList()
-                       .ForEach(x => pulseOutGroup.Groups.Add(x));
+                       .ForEach(x => 
+                       {
+                           pulseOutSettingGroup.Groups.Add(x); 
+                           pulseOutGroup.Groups.Add(x); 
+                       });
+            TextBoxSignalView timeFrame = new TextBoxSignalView()
+            {
+                Title = "100% Frame(ms)",
+                Signal = SignalStore.GetSignalByName<PulseOutSingleSignal>("eLOCKER_Time", true)
+            };
+            
+            CommandSignalView startCmd = new CommandSignalView(new RelayCommand(()=> ChangeSignal("eLOCKER_PWM_Seq_Start")))
+            {
+                Title = "Start",
+                Signal = SignalStore.GetSignalByName<PulseOutSingleSignal>("eLOCKER_PWM_Seq_Start", true)
+            };
+            CommandSignalView updateCmd = new CommandSignalView(new RelayCommand(()=> ChangeSignal("eLOCKER_PWM_Update")))
+            {
+                Title = "Update",
+                Signal = SignalStore.GetSignalByName<PulseOutSingleSignal>("eLOCKER_PWM_Update", true)
+            };
+            CommandSignalView stopCmd = new CommandSignalView(new RelayCommand(()=> ChangeSignal("eLOCKER_PWM_Stop")))
+            {
+                Title = "Stop",
+                Signal = SignalStore.GetSignalByName<PulseOutSingleSignal>("eLOCKER_PWM_Stop", true)
+            };
 
+            pulseOutGroup.AddSignalViews(timeFrame, startCmd, stopCmd);
+            pulseOutSettingGroup.AddSignalViews(updateCmd,stopCmd);
+
+
+            _settingGroups.Add(pulseOutSettingGroup);
             _groups.Add(pulseOutGroup);
 
             GDICStatuGroupGroup sentSignals = new GDICStatuGroupGroup("SENT");
@@ -118,6 +152,21 @@ namespace ERad5TestGUI.ViewModels
             //var resDatas = SignalStore.GetSignals<GDICRegisterSignal>(ViewName);
             //registers.Signals.AddRange(resDatas);
             //_groups.Add(registers);
+            TLF35584_Current_State = SignalStore.GetSignalByName<SPISignal>("TLF35584_Current_State");
+        }
+        public SPISignal TLF35584_Current_State { get; set; }
+
+        private void ChangeSignal(string signalName)
+        {
+            var start = SignalStore.GetSignalByName<PulseOutSingleSignal>(signalName, true);
+            start.OriginValue = 1;
+            foreach (var item in SignalStore.GetSignals<PulseOutGroupSignal>(ViewName))
+            {
+                item.UpdateRealValue();
+            }
+
+            this.Send(SignalStore.BuildFrames(SignalStore.GetSignals<PulseOutGroupSignal>(ViewName)));
+            start.OriginValue = 0;
         }
     }
 }

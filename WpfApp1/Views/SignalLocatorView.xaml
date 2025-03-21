@@ -126,7 +126,7 @@
                             <DataTemplate DataType="{x:Type models:SignalBase}">
                                 <TextBlock Text="{Binding Name}"/>
                             </DataTemplate>
-                            <DataTemplate DataType="{x:Type models:PulseGroupSignalOutGroup}">
+                            <DataTemplate DataType="{x:Type models:PulseOutGroupSignalGroup}">
                                 <Grid >
                                     <Grid.RowDefinitions>
                                         <RowDefinition />

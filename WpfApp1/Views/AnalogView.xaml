@@ -206,7 +206,15 @@
                                                             Margin="0,0,5,0"
                                                             Style="{StaticResource ValueTextBlockStyle}"
                                                             FontSize="25"
-                                                            Text="{Binding Value1}" 
+                                                            Text="{Binding Value1}"
+                                                            Visibility="{Binding NeedTransform,Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                            Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"/> 
+                                                        <TextBlock 
+                                                            Margin="0,0,5,0"
+                                                            Style="{StaticResource ValueTextBlockStyle}"
+                                                            FontSize="25"
+                                                            Text="{Binding OriginValue}" 
+                                                            Visibility="{Binding NeedTransform,Converter={StaticResource BooleanInvertVisibilityConverter}}"
                                                             Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"/>
                                                         <TextBlock Text="{Binding Unit}"/>
                                                     </StackPanel>

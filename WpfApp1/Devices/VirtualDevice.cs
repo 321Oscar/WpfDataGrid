@@ -87,24 +87,6 @@ namespace ERad5TestGUI.Devices
             {
                 
                 RasieOnMsgReceived(GenerateFrameData());
-                //foreach (var signal in _signalStore.ParseMsgsYield(frames, _signalStore.Signals))
-                //{
-                //    if (signal != null)
-                //        logService.Info($"{signal.Name}:{signal.RealValue}");
-                //}
-
-                //foreach (var item in _signalStore.Signals)
-                //{
-
-                //    if (item is Models.DiscreteSignal)
-                //    {
-                //        item.RealValue = item.RealValue == 0 ? 1 : 0;
-                //    }
-                //    else
-                //    {
-                //        item.RealValue = random.NextDouble() * 100;
-                //    }
-                //}
 
                 Thread.Sleep(100);
             }
@@ -113,6 +95,9 @@ namespace ERad5TestGUI.Devices
         private List<IFrame> GenerateFrames()
         {
             List<IFrame> virtualFrames = new List<IFrame>();
+
+            //if (!isStart)
+            //    return virtualFrames;
 
             var inSignals = _signalStore.GetSignals<Models.SignalBase>()
                                      .Where(x => !x.InOrOut).ToList();

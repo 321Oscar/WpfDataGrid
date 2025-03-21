@@ -20,6 +20,7 @@ namespace ERad5TestGUI.ViewModels
 
         private readonly List<SignalGroupBase> _groups = new List<SignalGroupBase>();
         private RelayCommand _locResCommand;
+        private RelayCommand _updateLimitCommand;
 
         public PPAWLViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) 
             : base(signalStore, deviceStore, logService)
@@ -31,13 +32,15 @@ namespace ERad5TestGUI.ViewModels
            
         }
         public ICommand LocResCommand => _locResCommand ?? (_locResCommand = new RelayCommand(LocatorResSignals));
+        public ICommand UpdateLimitCommand => _updateLimitCommand ?? (_updateLimitCommand = new RelayCommand(UpdateLimit));
         public IEnumerable<AnalogSignal> AnalogSignals
         {
             get => _analogSignals;
         }
 
         public IEnumerable<SignalGroupBase> Groups { get => _groups; }
-
+        public PulseOutSingleSignal PPAWL_Current_Limit { get; set; }
+        public PulseOutSingleSignal PPAWL_Current_Limit_Update { get; set; }
         public override void Init()
         {
             base.Init();
@@ -76,7 +79,7 @@ namespace ERad5TestGUI.ViewModels
 
             _groups.Add(pulseInGroupGroup);
 
-            PulseOutGroupGroup pulseOutGroup = new PulseOutGroupGroup("Pulse Out");
+            PulseOutGroupList pulseOutGroup = new PulseOutGroupList("Pulse Out");
 
             SignalStore.GetSignals<PulseOutGroupSignal>(ViewName)
                        .GroupBy(s => s.GroupName)
@@ -84,7 +87,7 @@ namespace ERad5TestGUI.ViewModels
             {
                 if (!string.IsNullOrEmpty(g.Key))
                 {
-                    var group = new PulseGroupSignalOutGroup(g.Key);
+                    var group = new PulseOutGroupSignalGroup(g.Key);
                     var signals = g.ToList();
                     signals.Sort((x, y) =>
                     {
@@ -100,6 +103,17 @@ namespace ERad5TestGUI.ViewModels
                        .ToList()
                        .ForEach(x => pulseOutGroup.Groups.Add(x));
 
+            //add textbox
+            TextBoxSignalView timeFrame = new TextBoxSignalView()
+            {
+                Title = "Time Frame(ms)",
+                Signal = SignalStore.GetSignalByName<PulseOutSingleSignal>("PPAWL_Frame_Time", true)
+            };
+            pulseOutGroup.SingleSignals.Add(timeFrame);
+            pulseOutGroup.UpdateCommand = new RelayCommand(() =>
+            {
+                this.Send(SignalStore.BuildFrames(SignalStore.GetSignals<PulseOutGroupSignal>(ViewName)));
+            });
             _groups.Add(pulseOutGroup);
 
             GDICStatuGroupGroup sentSignals = new GDICStatuGroupGroup("SENT");
@@ -147,6 +161,17 @@ namespace ERad5TestGUI.ViewModels
 
             //       return reGroup;
             //   });
+            PPAWL_Current_Limit = SignalStore.GetSignalByName<PulseOutSingleSignal>("PPAWL_Current_Limit", true);
+            PPAWL_Current_Limit_Update = SignalStore.GetSignalByName<PulseOutSingleSignal>("PPAWL_Current_Limit_Update", true);
+        }
+
+        private void UpdateLimit()
+        {
+            PPAWL_Current_Limit_Update.OriginValue = 1;
+
+            Send(SignalStore.BuildFrames(new SignalBase[] { PPAWL_Current_Limit, PPAWL_Current_Limit_Update }));
+
+            PPAWL_Current_Limit_Update.OriginValue = 0;
         }
 
         public override void LocatorSignals()

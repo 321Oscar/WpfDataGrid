@@ -57,8 +57,16 @@
             </GroupBox>
             <GroupBox Header="PPAWL Current Limit(0.3~25A)" Grid.Row="1">
                 <StackPanel Orientation="Horizontal">
-                    <TextBox  Width="80"/>
-                    <Button Content="Update"/>
+                    <TextBox  Width="80" Text="{Binding PPAWL_Current_Limit.OriginValue}">
+                        <TextBox.ToolTip>
+                            <ContentControl Content="{Binding PPAWL_Current_Limit}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    <Button Content="Update" Command="{Binding UpdateLimitCommand}">
+                        <Button.ToolTip>
+                            <ContentControl Content="{Binding PPAWL_Current_Limit_Update}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                        </Button.ToolTip>
+                    </Button>
                 </StackPanel>
             </GroupBox>
             <ScrollViewer Grid.Row="2">

@@ -322,17 +322,17 @@ namespace ERad5TestGUI.ViewModels
         {
         }
     }
-    public class PulseOutSignalLocatorViewModel : SignalLocatorViewModel<PulseGroupSignalOutGroup>
+    public class PulseOutSignalLocatorViewModel : SignalLocatorViewModel<PulseOutGroupSignalGroup>
     {
-        public PulseOutSignalLocatorViewModel(string viewName, ObservableCollection<PulseGroupSignalOutGroup> signals, SignalStore signalStore, Func<Signal, PulseGroupSignalOutGroup> createSignal, Window window) : base(viewName, signals, signalStore, createSignal, window)
+        public PulseOutSignalLocatorViewModel(string viewName, ObservableCollection<PulseOutGroupSignalGroup> signals, SignalStore signalStore, Func<Signal, PulseOutGroupSignalGroup> createSignal, Window window) : base(viewName, signals, signalStore, createSignal, window)
         {
 
         }
         public PulseOutSignalLocatorViewModel(string viewName, INavigationService navigationService, 
-            ObservableCollection<PulseGroupSignalOutGroup> signals, 
+            ObservableCollection<PulseOutGroupSignalGroup> signals, 
             SignalStore signalStore, 
-            Func<Signal, PulseGroupSignalOutGroup> createSignal,
-            Action<ObservableCollection<PulseGroupSignalOutGroup>, PulseGroupSignalOutGroup> addSignal) 
+            Func<Signal, PulseOutGroupSignalGroup> createSignal,
+            Action<ObservableCollection<PulseOutGroupSignalGroup>, PulseOutGroupSignalGroup> addSignal) 
             : base(viewName, navigationService, signals, signalStore, createSignal, addSignal)
         {
         }

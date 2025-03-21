@@ -3,6 +3,9 @@ using System.Xml.Serialization;
 
 namespace ERad5TestGUI.Models
 {
+    /// <summary>
+    /// OriginValue Only 1/0
+    /// </summary>
     public class DiscreteOutputSignal : DiscreteSignal, ISyncValue
     {
         private DiscreteInputSignal state;

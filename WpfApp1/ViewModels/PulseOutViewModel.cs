@@ -14,7 +14,7 @@ namespace ERad5TestGUI.ViewModels
     {
         public const string VIEWNAME = "Pulse_OUT";
 
-        private readonly ObservableCollection<PulseGroupSignalOutGroup> _groups = new ObservableCollection<PulseGroupSignalOutGroup>();
+        private readonly ObservableCollection<PulseOutGroupSignalGroup> _groups = new ObservableCollection<PulseOutGroupSignalGroup>();
         private RelayCommand _updateCommand;
 
         public PulseOutViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService)
@@ -34,7 +34,7 @@ namespace ERad5TestGUI.ViewModels
         }
       
         public ICommand UpdateCommand { get => _updateCommand ?? (_updateCommand = new RelayCommand(Update)); }
-        public IEnumerable<PulseGroupSignalOutGroup> Groups => _groups;
+        public IEnumerable<PulseOutGroupSignalGroup> Groups => _groups;
         [Obsolete]
         public IEnumerable<PulseOutSingleSignal> PulseOutSignals => SignalStore.GetSignals<PulseOutSingleSignal>();
 
@@ -84,14 +84,14 @@ namespace ERad5TestGUI.ViewModels
                                                   SignalStore,
                                                   CreatePulseOutGroupSignal,
                                                   AddGroup);
-        private PulseGroupSignalOutGroup CreatePulseOutGroupSignal(Signal signal)
+        private PulseOutGroupSignalGroup CreatePulseOutGroupSignal(Signal signal)
         {
             if (signal.SignalName.IndexOf("_Duty") > -1 || signal.SignalName.IndexOf("_Freq") > -1)
             {
                 string[] groupName = signal.SignalName.Split(new string[] { "_Duty", "_Freq" }, StringSplitOptions.RemoveEmptyEntries);
                 if (groupName.Length == 1)
                 {
-                    var group = new PulseGroupSignalOutGroup(groupName[0]);
+                    var group = new PulseOutGroupSignalGroup(groupName[0]);
                     var existSignal = SignalStore.Signals.FirstOrDefault(x => x.Name == signal.SignalName && x.MessageID == signal.MessageID);
                     PulseOutGroupSignal pulseInSignal;
                     if (existSignal == null || !(existSignal is PulseOutGroupSignal analog))
@@ -117,7 +117,7 @@ namespace ERad5TestGUI.ViewModels
             return null;
         }
 
-        private void AddGroup(ObservableCollection<PulseGroupSignalOutGroup> groups, PulseGroupSignalOutGroup group)
+        private void AddGroup(ObservableCollection<PulseOutGroupSignalGroup> groups, PulseOutGroupSignalGroup group)
         {
             var existGroup = groups.FirstOrDefault(x => x.GroupName == group.GroupName);
             if (existGroup != null)
@@ -144,7 +144,7 @@ namespace ERad5TestGUI.ViewModels
             {
                 if (!string.IsNullOrEmpty(g.Key))
                 {
-                    var group = new PulseGroupSignalOutGroup(g.Key);
+                    var group = new PulseOutGroupSignalGroup(g.Key);
                     var signals = g.ToList();
                     signals.Sort((x, y) =>
                     {

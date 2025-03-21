@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -29,17 +31,50 @@ namespace ERad5TestGUI.Models
         }
     }
 
-    public class PulseOutGroupGroup : SignalGroupBase
+    public class PulseOutGroupList : SignalGroupBase
     {
-        public PulseOutGroupGroup(string groupName) : base(groupName)
+        public PulseOutGroupList(string groupName) : base(groupName)
         {
-            Groups = new List<PulseGroupSignalOutGroup>();
+            Groups = new List<PulseOutGroupSignalGroup>();
+            SingleSignals = new List<SignalView>();
+        }
+        /// <summary>
+        /// duty and cycle Group
+        /// </summary>
+        public System.Collections.Generic.List<PulseOutGroupSignalGroup> Groups { get; }
+        public System.Collections.Generic.List<SignalView> SingleSignals { get; }
+
+        //public PulseOutSingleSignal TimeFrame { get; set; }
+        //public PulseOutGroupSignal Update { get; set; }
+        public RelayCommand UpdateCommand { get; set; }
+        public bool HasCommand { get => UpdateCommand != null; }
+
+        public void AddSignalViews(params SignalView[] signalViews)
+        {
+            SingleSignals.AddRange(signalViews);
+        }
+    }
+    public abstract class SignalView
+    {
+        public string Title { get; set; }
+        public SignalBase Signal { get; set; }
+    }
+    /// <summary>
+    /// TextBox
+    /// </summary>
+    public class TextBoxSignalView : SignalView
+    {
+
+    }
+
+    public class CommandSignalView : SignalView
+    {
+        public CommandSignalView(RelayCommand command)
+        {
+            ChangeSignalCommand = command;
         }
 
-        public System.Collections.Generic.List<PulseGroupSignalOutGroup> Groups { get; }
-
-        public PulseOutGroupSignal TimeFrame { get; set; }
-        //public PulseOutGroupSignal Update { get; set; }
+        public RelayCommand ChangeSignalCommand { get; }
     }
 
     public class PulseInSignal : LimitsSignalBase, IGroupSignal
@@ -91,21 +126,22 @@ namespace ERad5TestGUI.Models
             OriginValue = tempValue;
         }
     }
-    /// <summary>
-    /// include PulseOutSingleSignal
-    /// </summary>
-    public class PulseOutSingleSignalGroup : SignalGroupBase
-    {
-        public List<PulseOutSingleSignal> Signals { get; }
-        public PulseOutSingleSignalGroup(string groupName) : base(groupName)
-        {
-            Signals = new List<PulseOutSingleSignal>();
-        }
-    }
+    ///// <summary>
+    ///// include PulseOutSingleSignal
+    ///// </summary>
+    //public class PulseOutSingleSignalGroup : SignalGroupBase
+    //{
+    //    public List<PulseOutSingleSignal> Signals { get; }
+    //    public PulseOutSingleSignalGroup(string groupName) : base(groupName)
+    //    {
+    //        Signals = new List<PulseOutSingleSignal>();
+    //    }
+    //}
 
     /// <summary>
-    /// <see cref="SignalBase.Name"/> Only Frequency Or DutyCycle
-    /// <para><see cref="GroupName"/> is the SignalName</para>
+    /// Has GroupName PulseOutSingleSignal
+    /// <para><see cref="SignalBase.Name"/> Only Frequency Or DutyCycle</para>
+    /// <para><see cref="GroupName"/> is the SignalName Split with "_"</para>
     /// </summary>
     public class PulseOutGroupSignal : PulseOutSingleSignal, IGroupSignal
     {
@@ -124,13 +160,13 @@ namespace ERad5TestGUI.Models
     /// <summary>
     /// included Frequency and Duty Cycle two signals Group
     /// </summary>
-    public class PulseGroupSignalOutGroup : SignalGroupBase
+    public class PulseOutGroupSignalGroup : SignalGroupBase
     {
         private PulseOutGroupSignal freq;
         private PulseOutGroupSignal dutyCycle;
         private bool currentViewEnable = true;
 
-        public PulseGroupSignalOutGroup(string groupName) : base(groupName)
+        public PulseOutGroupSignalGroup(string groupName) : base(groupName)
         {
         }
         public bool CurrentViewEnable { get => currentViewEnable; set => SetProperty(ref currentViewEnable , value); }

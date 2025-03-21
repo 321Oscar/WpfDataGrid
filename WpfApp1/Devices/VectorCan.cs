@@ -457,6 +457,7 @@ namespace ERad5TestGUI.Devices
                 }
                 else
                 {
+                    //OnMsgReceived?.Invoke(new List<CanFrame>());
                     RecieveStatus = DeviceRecieveFrameStatus.DisConnect;
                 }
                 // No event occurred

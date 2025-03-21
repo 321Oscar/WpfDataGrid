@@ -711,7 +711,37 @@ namespace ERad5TestGUI.Models
                 _lastReceiveTime = value;
             }
         }
-        public bool State { get => _state; set => SetProperty(ref _state, value); }
+        public bool State 
+        { 
+            get => _state;
+            set 
+            {
+                if (SetProperty(ref _state, value))
+                {
+                   
+                }
+            }
+        }
+        public bool _isStart = true;
+        public void Start()
+        {
+            //启动定时器
+            System.Threading.Tasks.Task.Run(() =>
+            {
+                while (_isStart)
+                {
+                    if (LastReceiveTime.HasValue)
+                    {
+                        var outtime = (DateTime.Now - LastReceiveTime.Value).TotalSeconds > 1;
+                        if (outtime)
+                            State = false;
+                    }
+
+                    System.Threading.Thread.Sleep(500);
+                }
+            });
+
+        }
 
         public void UpdateReceiveTime(IEnumerable<uint> msgIDs)
         {
