@@ -17,7 +17,8 @@
         <StackPanel Orientation="Horizontal">
                     <TextBlock Text="PPAWL" Style="{StaticResource TitleLabel}"/>
             <Button Content="loc reg"
-                    Command="{Binding LocResCommand}"/>
+                    Command="{Binding LocResCommand}"
+                    Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Button Content="loc sent"
                     Command="{Binding LocatorSignalsCommand}"
                     Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
