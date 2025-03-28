@@ -61,12 +61,12 @@
                 </TabItem> 
                 <TabItem Header="E-Locker">
                     <ContentControl Content="{Binding ELockerViewModel}"/>
-                </TabItem> 
+                </TabItem>
+                <TabItem Header="SavingLogic-UnFinish">
+                    <ContentControl Content="{Binding SavinLogicViewModel}"/>
+                </TabItem>
                 <TabItem Header="Memory-UnFinish">
                     <ContentControl Content="{Binding MemoryViewModel}"/>
-                </TabItem>
-                <TabItem Header="SavingLogic-Undo">
-                    <local:SavingLogicView />
                 </TabItem>
                
             </TabControl>

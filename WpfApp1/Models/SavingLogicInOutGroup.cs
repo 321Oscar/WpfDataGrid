@@ -54,7 +54,7 @@ namespace ERad5TestGUI.Models
             }
         }
 
-        public override void OnOriginValueChaned(double originValue, bool equal)
+        protected override void OnOriginValueChaned(double originValue, bool equal)
         {
             base.OnOriginValueChaned(originValue, equal);
             if (equal)
@@ -83,7 +83,7 @@ namespace ERad5TestGUI.Models
         private bool inputOrOut;
 
         public string Direction { get => OriginValue == 1 ? "Input" : "Output"; }
-
+        
         public bool InputOrOut 
         {
             get => inputOrOut;
@@ -96,7 +96,7 @@ namespace ERad5TestGUI.Models
             }
         }
 
-        public override void OnOriginValueChaned(double originValue, bool changed)
+        protected override void OnOriginValueChaned(double originValue, bool changed)
         {
             base.OnOriginValueChaned(originValue, changed);
             if (changed)
@@ -106,5 +106,81 @@ namespace ERad5TestGUI.Models
             }
         }
     }
+
+    public class SafingLogicDirectionSelect
+    {
+        private SafingLogicDirectionSignal _currentDirection;
+
+        public SafingLogicDirectionSignal CurrentDirection 
+        { 
+            get => _currentDirection;
+            set
+            {
+                if (_currentDirection != null)
+                    _currentDirection.PropertyChanged -= CurrentDirection_PropertyChanged;
+                _currentDirection = value;
+                if (_currentDirection != null)
+                    _currentDirection.PropertyChanged += CurrentDirection_PropertyChanged;
+            }
+        }
+
+        private void CurrentDirection_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(SignalBase.OriginValue))
+            {
+                if (Select != null)
+                {
+                    var cur = sender as SafingLogicDirectionSignal;
+                    Select.OriginValue = cur.OriginValue;
+                }
+            }
+        }
+
+        public SafingLogicDirectionSignal Select { get; set; }
+    }
+
+    public class SafingLogicDirectionSignal : TransFormSignalBase
+    {
+        private bool _direction;
+
+        public bool Direction { get => OriginValue == 1; set => OriginValue = value ? 1 : 0; }
+        //public string Direction { get; set; }
+        private const string Header = "Safing_Logic_";
+        private const string End = "_Dir";
+
+        protected override void OnOriginValueChaned(double originValue, bool changed)
+        {
+            base.OnOriginValueChaned(originValue, changed);
+            OnPropertyChanged(nameof(Direction));
+        }
+
+
+        public override string RelaceSignalName(string signalName)
+        {
+            string baseName =  base.RelaceSignalName(signalName);
+
+            int idxStart = baseName.IndexOf(Header);
+            if (idxStart == -1)
+                idxStart = 0;
+            else
+                idxStart += Header.Length;
+            int idxEnd = baseName.IndexOf(End) + End.Length;
+            int nameLength = idxEnd - idxStart;
+            baseName = baseName.Substring(idxStart, nameLength);
+
+            return baseName;
+        }
+    }
+
+    /**
+     * 信号Direction：
+     * 1.显示信号当前Dir
+     * 2.改变信号Dir，并且修改对应Pin信号的显示
+     * 
+     * Pin 信号值
+     * 1.分为Input/OutPut
+     * Input 显示 Pin Low/High
+     * Output 发送？
+     */
 
 }

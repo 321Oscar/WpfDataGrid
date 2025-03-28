@@ -41,6 +41,44 @@ VAL_TABLE_ AOUT_SELECT_Value 4 "VEE" 3 "VCC" 2 "AMUXIN" 1 "DESAT" 0 "NONE" ;
 VAL_TABLE_ Write_Register_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STATUS1" 0 "NONE" ;
 
 
+BO_ 1558 MCU_TX_0x616_DEVCANFD: 64 MCU
+ SG_ BOT_W_Die_TEMP_ADC_Data : 350|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_W_Power_TEMP_ADC_Data : 340|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_W_VEE_ADC_Data : 330|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_W_VCC_ADC_Data : 320|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_W_AMUXIN_ADC_Data : 310|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_W_DESAT_ADC_Data : 300|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_V_Die_TEMP_ADC_Data : 290|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_V_Power_TEMP_ADC_Data : 280|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_V_VEE_ADC_Data : 270|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_V_VCC_ADC_Data : 260|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_V_AMUXIN_ADC_Data : 250|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_V_DESAT_ADC_Data : 240|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_U_Die_TEMP_ADC_Data : 230|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_U_Power_TEMP_ADC_Data : 220|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_U_VEE_ADC_Data : 210|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_U_VCC_ADC_Data : 200|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_U_AMUXIN_ADC_Data : 190|10@1+ (1,0) [0|1023] "" GUI
+ SG_ BOT_U_DESAT_ADC_Data : 180|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_W_Die_TEMP_ADC_Data : 170|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_W_Power_TEMP_ADC_Data : 160|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_W_VEE_ADC_Data : 150|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_W_VCC_ADC_Data : 140|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_W_AMUXIN_ADC_Data : 130|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_W_DESAT_ADC_Data : 120|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_V_Die_TEMP_ADC_Data : 110|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_V_Power_TEMP_ADC_Data : 100|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_V_VEE_ADC_Data : 90|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_V_VCC_ADC_Data : 80|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_V_AMUXIN_ADC_Data : 70|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_V_DESAT_ADC_Data : 60|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_U_Die_TEMP_ADC_Data : 50|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_U_Power_TEMP_ADC_Data : 40|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_U_VEE_ADC_Data : 30|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_U_VCC_ADC_Data : 20|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_U_AMUXIN_ADC_Data : 10|10@1+ (1,0) [0|1023] "" GUI
+ SG_ TOP_U_DESAT_ADC_Data : 0|10@1+ (1,0) [0|1023] "" GUI
+
 BO_ 1282 MCU_RX_0x502_DEVCANFD: 32 GUI
  SG_ SPI_Baudrate_Update : 95|1@1+ (1,0) [0|1] ""  MCU
  SG_ PPAWL_SPI_Select_Baudrate : 136|4@1+ (1,0) [0|15] ""  MCU
@@ -70,12 +108,25 @@ BO_ 1282 MCU_RX_0x502_DEVCANFD: 32 GUI
  SG_ LIN_Send_ID : 0|8@1+ (1,0) [0|255] ""  MCU
 
 BO_ 1281 MCU_RX_0x501_DEVCANFD: 32 GUI
- SG_ BOT_W_Status_Write_Flag : 213|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ BOT_V_Status_Write_Flag : 212|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ BOT_U_Status_Write_Flag : 211|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ TOP_W_Status_Write_Flag : 210|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ TOP_V_Status_Write_Flag : 209|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ TOP_U_Status_Write_Flag : 208|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Safing_Logic_E_STOP_MAIN_MICRO_Dir_Select : 226|1@1+ (1,0) [0|1] "" MCU
+ SG_ Safing_Logic_DSAT_BOT_FLT_FB_Dir_Select : 225|1@1+ (1,0) [0|1] "" MCU
+ SG_ Safing_Logic_DSAT_TOP_FLT_FB_Dir_Select : 224|1@1+ (1,0) [0|1] "" MCU
+ SG_ Safing_Logic_UVLO_BOT_FLT_FB_Dir_Select : 223|1@1+ (1,0) [0|1] "" MCU
+ SG_ Safing_Logic_UVLO_TOP_FLT_FB_Dir_Select : 222|1@1+ (1,0) [0|1] "" MCU
+ SG_ Safing_Logic_HVDC_OV_FLT_FB_Dir_Select : 221|1@1+ (1,0) [0|1] "" MCU
+ SG_ Safing_Logic_PHASE_UVW_OC_FLT_Dir_Select : 220|1@1+ (1,0) [0|1] "" MCU
+ SG_ Safing_Logic_OC_W_FLT_Dir_Select : 219|1@1+ (1,0) [0|1] "" MCU
+ SG_ Safing_Logic_OC_V_FLT_Dir_Select : 218|1@1+ (1,0) [0|1] "" MCU
+ SG_ Safing_Logic_OC_U_FLT_Dir_Select : 217|1@1+ (1,0) [0|1] "" MCU
+ SG_ Safing_Logic_Pin_Dir_Update : 216|1@1+ (1,0) [0|1] "" MCU
+ SG_ Safing_Logic_Test_Stop : 215|1@1+ (1,0) [0|1] "" MCU
+ SG_ Safing_Logic_Test_Start : 214|1@1+ (1,0) [0|1] "" MCU
+ SG_ BOT_W_Status_Write_Flag : 213|1@1+ (1,0) [0|1] "" MCU
+ SG_ BOT_V_Status_Write_Flag : 212|1@1+ (1,0) [0|1] "" MCU
+ SG_ BOT_U_Status_Write_Flag : 211|1@1+ (1,0) [0|1] "" MCU
+ SG_ TOP_W_Status_Write_Flag : 210|1@1+ (1,0) [0|1] "" MCU
+ SG_ TOP_V_Status_Write_Flag : 209|1@1+ (1,0) [0|1] "" MCU
+ SG_ TOP_U_Status_Write_Flag : 208|1@1+ (1,0) [0|1] "" MCU
  SG_ BOT_W_AMUX_SEL : 200|8@1+ (1,0) [0|255] ""  MCU
  SG_ BOT_V_AMUX_SEL : 192|8@1+ (1,0) [0|255] ""  MCU
  SG_ BOT_U_AMUX_SEL : 184|8@1+ (1,0) [0|255] ""  MCU
@@ -846,6 +897,31 @@ BO_ 1280 MCU_RX_0x500_DEVCANFD: 32 GUI
  SG_ INST_TRIGGER : 0|1@1+ (1,0) [0|1] ""  MCU
 
 BO_ 1553 MCU_TX_0x611_DEVCANFD: 64 MCU
+ SG_ E_STOP_MAIN_MICRO_Dir : 241|1@1+ (1,0) [0|1] ""  GUI
+ SG_ DSAT_BOT_FLT_FB_Dir : 240|1@1+ (1,0) [0|1] ""  GUI
+ SG_ DSAT_TOP_FLT_FB_Dir : 239|1@1+ (1,0) [0|1] ""  GUI
+ SG_ UVLO_BOT_FLT_FB_Dir : 238|1@1+ (1,0) [0|1] ""  GUI
+ SG_ UVLO_TOP_FLT_FB_Dir : 237|1@1+ (1,0) [0|1] ""  GUI
+ SG_ HVDC_OV_FLT_FB_Dir : 236|1@1+ (1,0) [0|1] ""  GUI
+ SG_ PHASE_UVW_OC_FLT_Dir : 235|1@1+ (1,0) [0|1] ""  GUI
+ SG_ OC_W_FLT_Dir : 234|1@1+ (1,0) [0|1] ""  GUI
+ SG_ OC_V_FLT_Dir : 233|1@1+ (1,0) [0|1] ""  GUI
+ SG_ OC_U_FLT_Dir : 232|1@1+ (1,0) [0|1] ""  GUI
+ SG_ Safing_Logic_Test_Frame_PHASE_UVW_OC_FLT : 231|1@1+ (1,0) [0|1] ""  GUI
+ SG_ Safing_Logic_Test_Frame_OUT_EN : 230|1@1+ (1,0) [0|1] ""  GUI
+ SG_ Safing_Logic_Test_Frame_FSENB : 229|1@1+ (1,0) [0|1] ""  GUI
+ SG_ Safing_Logic_Test_Frame_FSSTATE_TOP : 228|1@1+ (1,0) [0|1] ""  GUI
+ SG_ Safing_Logic_Test_Frame_FSSTATE_BOT : 227|1@1+ (1,0) [0|1] ""  GUI
+ SG_ Safing_Logic_Test_Frame_PWM_BUFFER : 226|1@1+ (1,0) [0|1] ""  GUI
+ SG_ Safing_Logic_Test_Frame_FORCE_LOWERS_ON : 225|1@1+ (1,0) [0|1] ""  GUI
+ SG_ Safing_Logic_Test_Frame_FORCE_UPPERS_ON : 224|1@1+ (1,0) [0|1] ""  GUI
+ SG_ Safing_Logic_Test_Frame_Row : 216|8@1+ (1,0) [0|255] ""  GUI
+ SG_ Safing_Logic_Test_Frame_Index : 208|8@1+ (1,0) [0|255] ""  GUI
+ SG_ Safing_Logic_Test_Frame_Header : 200|8@1+ (1,0) [0|255] ""  GUI
+ SG_ Safing_Logic_Test_Error_info : 192|8@1+ (1,0) [0|255] ""  GUI
+ SG_ Safing_Logic_Test_Error_RowCnt : 184|8@1+ (1,0) [0|255] ""  GUI
+ SG_ Safing_Logic_Test_Current_Row : 176|8@1+ (1,0) [0|255] ""  GUI
+ SG_ Safing_Logic_Test_Status : 168|8@1+ (1,0) [0|255] ""  GUI
  SG_ LIN_Receive_Data7 : 160|8@1+ (1,0) [0|255] "%"  GUI
  SG_ LIN_Receive_Data6 : 152|8@1+ (1,0) [0|255] "%"  GUI
  SG_ LIN_Receive_Data5 : 144|8@1+ (1,0) [0|255] "%"  GUI
@@ -970,8 +1046,42 @@ BO_ 1563 MCU_TX_0x61B_DEVCANFD: 64 MCU
  SG_ V_CURRENT_SENSE_AI : 12|12@1+ (1,0) [0|4095] ""  GUI
  SG_ U_CURRENT_SENSE_AI : 0|12@1+ (1,0) [0|4095] ""  GUI
 
-
-
+CM_ SG_ 1558 BOT_W_Die_TEMP_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_W_Power_TEMP_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_W_VEE_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_W_VCC_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_W_AMUXIN_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_W_DESAT_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_V_Die_TEMP_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_V_Power_TEMP_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_V_VEE_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_V_VCC_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_V_AMUXIN_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_V_DESAT_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_U_Die_TEMP_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_U_Power_TEMP_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_U_VEE_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_U_VCC_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_U_AMUXIN_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 BOT_U_DESAT_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_W_Die_TEMP_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_W_Power_TEMP_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_W_VEE_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_W_VCC_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_W_AMUXIN_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_W_DESAT_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_V_Die_TEMP_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_V_Power_TEMP_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_V_VEE_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_V_VCC_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_V_AMUXIN_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_V_DESAT_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_U_Die_TEMP_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_U_Power_TEMP_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_U_VEE_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_U_VCC_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_U_AMUXIN_ADC_Data "Page:GDIC3162_ADC";
+CM_ SG_ 1558 TOP_U_DESAT_ADC_Data "Page:GDIC3162_ADC";
 CM_ SG_ 1282 SPI_Baudrate_Update "Page:SPI";
 CM_ SG_ 1282 PPAWL_SPI_Select_Baudrate "Page:SPI";
 CM_ SG_ 1282 CANFD_5_SPI_Select_Baudrate "Page:SPI";
@@ -998,6 +1108,19 @@ CM_ SG_ 1282 LIN_Send_Data0 "Page:LIN";
 CM_ SG_ 1282 LIN_Send_Checksum_Type "Page:LIN";
 CM_ SG_ 1282 LIN_Send_Length "Page:LIN";
 CM_ SG_ 1282 LIN_Send_ID "Page:LIN";
+CM_ SG_ 1281 Safing_Logic_E_STOP_MAIN_MICRO_Dir_Select "Page:Safing_Logic";
+CM_ SG_ 1281 Safing_Logic_DSAT_BOT_FLT_FB_Dir_Select "Page:Safing_Logic";
+CM_ SG_ 1281 Safing_Logic_DSAT_TOP_FLT_FB_Dir_Select "Page:Safing_Logic";
+CM_ SG_ 1281 Safing_Logic_UVLO_BOT_FLT_FB_Dir_Select "Page:Safing_Logic";
+CM_ SG_ 1281 Safing_Logic_UVLO_TOP_FLT_FB_Dir_Select "Page:Safing_Logic";
+CM_ SG_ 1281 Safing_Logic_HVDC_OV_FLT_FB_Dir_Select "Page:Safing_Logic";
+CM_ SG_ 1281 Safing_Logic_PHASE_UVW_OC_FLT_Dir_Select "Page:Safing_Logic";
+CM_ SG_ 1281 Safing_Logic_OC_W_FLT_Dir_Select "Page:Safing_Logic";
+CM_ SG_ 1281 Safing_Logic_OC_V_FLT_Dir_Select "Page:Safing_Logic";
+CM_ SG_ 1281 Safing_Logic_OC_U_FLT_Dir_Select "Page:Safing_Logic";
+CM_ SG_ 1281 Safing_Logic_Pin_Dir_Update "Page:Safing_Logic";
+CM_ SG_ 1281 Safing_Logic_Test_Stop "Page:Safing_Logic";
+CM_ SG_ 1281 Safing_Logic_Test_Start "Page:Safing_Logic";
 CM_ SG_ 1281 BOT_W_Status_Write_Flag "Page:GDIC3162_Status";
 CM_ SG_ 1281 BOT_V_Status_Write_Flag "Page:GDIC3162_Status";
 CM_ SG_ 1281 BOT_U_Status_Write_Flag "Page:GDIC3162_Status";
@@ -1652,16 +1775,16 @@ CM_ SG_ 1554 HVIL_1_PI_Freq "Page:Pulse_IN";
 CM_ SG_ 1554 HVIL_1_PI_Duty "Page:Pulse_IN";
 CM_ SG_ 1554 LOW_ACT_DISCHARGE_State "Pin_Number:Y19 Page:Discretes";
 CM_ SG_ 1554 KP_ALIVE_MP_State "Pin_Number:K20 Page:Discretes";
-CM_ SG_ 1554 LOW_MTR_SPEED_STAT_State "Pin_Number:F19 Page:Discretes";
-CM_ SG_ 1554 LOW_3PS_MAIN_MICRO_State "Pin_Number:G20 Page:Discretes";
+CM_ SG_ 1554 LOW_MTR_SPEED_STAT_State "Pin_Number:F19 Page:Discretes,Safing_Logic";
+CM_ SG_ 1554 LOW_3PS_MAIN_MICRO_State "Pin_Number:G20 Page:Discretes,Safing_Logic";
 CM_ SG_ 1554 MTR_TEMP_SEL_State "Pin_Number:B20 Page:Discretes";
 CM_ SG_ 1554 INST_TRIGGER_MAIN_MICRO_State "Pin_Number:E7 Page:Discretes";
-CM_ SG_ 1554 LOW_HVOV_PHOC_LATCH_CLR_State "Pin_Number:A3 Page:Discretes";
+CM_ SG_ 1554 LOW_HVOV_PHOC_LATCH_CLR_State "Pin_Number:A3 Page:Discretes,Safing_Logic";
 CM_ SG_ 1554 OIL_PMP_RLY_CTRL_State "Pin_Number:A9 Page:Discretes";
 CM_ SG_ 1554 SBC_WD_TRIG_State "Pin_Number:J17 Page:Discretes";
 CM_ SG_ 1554 eLOCKER_EN_State "Pin_Number:D12 Page:Discretes,E-Locker";
 CM_ SG_ 1554 HVIL_RTN_SW_State "Pin_Number:F5 Page:Discretes";
-CM_ SG_ 1554 PWM_EN_State "Pin_Number:B10 Page:Discretes";
+CM_ SG_ 1554 PWM_EN_State "Pin_Number:B10 Page:Discretes,Safing_Logic";
 CM_ SG_ 1554 LOW_RST_PPAWL_MTR_OC_FLT_State "Pin_Number:K17 Page:Discretes,PPAWL";
 CM_ SG_ 1554 PPAWL_MTR_EN_State "Pin_Number:D13 Page:Discretes,PPAWL";
 CM_ SG_ 1554 PPAWL_MTR_CTRL2_State "Pin_Number:A8 Page:Discretes,PPAWL";
@@ -1672,31 +1795,31 @@ CM_ SG_ 1554 GS_ENH_U_State "Pin_Number:Y18 Page:Discretes";
 CM_ SG_ 1554 GS_ENH_V_State "Pin_Number:N17 Page:Discretes";
 CM_ SG_ 1554 GS_ENH_W_State "Pin_Number:T19 Page:Discretes";
 CM_ SG_ 1554 eLOCKER_LS_VSENSE "Pin_Number:R17 Page:E-Locker";
-CM_ SG_ 1554 LOW_FSENB_FB "Pin_Number:U13 Page:Discretes";
-CM_ SG_ 1554 FSSTATE_BOT_FB "Pin_Number:U15 Page:Discretes";
-CM_ SG_ 1554 FSSTATE_TOP_FB "Pin_Number:P16 Page:Discretes";
+CM_ SG_ 1554 LOW_FSENB_FB "Pin_Number:U13 Page:Discretes,Safing_Logic";
+CM_ SG_ 1554 FSSTATE_BOT_FB "Pin_Number:U15 Page:Discretes,Safing_Logic";
+CM_ SG_ 1554 FSSTATE_TOP_FB "Pin_Number:P16 Page:Discretes,Safing_Logic";
 CM_ SG_ 1554 IGN_FB "Pin_Number:J19 Page:Discretes";
 CM_ SG_ 1554 ETK_WAKEUP "Pin_Number:A13 Page:Discretes";
-CM_ SG_ 1554 LOW_OUT_EN "Pin_Number:B13 Page:Discretes";
+CM_ SG_ 1554 LOW_OUT_EN "Pin_Number:B13 Page:Discretes,Safing_Logic";
 CM_ SG_ 1554 LOW_BOOT_EN_SW "Pin_Number:A4 Page:Discretes";
-CM_ SG_ 1554 LOW_E_STOP_MAIN_MICRO "Pin_Number:G1 Page:Discretes";
-CM_ SG_ 1554 FORCE_UPPERS_ON_FB "Pin_Number:N5 Page:Discretes";
-CM_ SG_ 1554 FORCE_LOWERS_ON_FB "Pin_Number:R1 Page:Discretes";
+CM_ SG_ 1554 LOW_E_STOP_MAIN_MICRO "Pin_Number:G1 Page:Discretes,Safing_Logic";
+CM_ SG_ 1554 FORCE_UPPERS_ON_FB "Pin_Number:N5 Page:Discretes,Safing_Logic";
+CM_ SG_ 1554 FORCE_LOWERS_ON_FB "Pin_Number:R1 Page:Discretes,Safing_Logic";
 CM_ SG_ 1554 LOW_RES_AMPLIFIER_FLT "Pin_Number:M16 Page:Discretes,Resolver";
 CM_ SG_ 1554 OIL_PMP_RLY_FB "Pin_Number:Y16 Page:Discretes";
-CM_ SG_ 1554 LOW_PWM_BUFFER_FB "Pin_Number:E9 Page:Discretes";
+CM_ SG_ 1554 LOW_PWM_BUFFER_FB "Pin_Number:E9 Page:Discretes,Safing_Logic";
 CM_ SG_ 1554 LOW_PPAWL_FLT "Pin_Number:A16 Page:Discretes,PPAWL";
 CM_ SG_ 1554 LOW_PPAWL_MTR_OC_LATCH "Pin_Number:B5 Page:Discretes,PPAWL";
 CM_ SG_ 1554 CRASH_IN_MAIN_MICRO "Pin_Number:K4 Page:Discretes";
-CM_ SG_ 1554 LOW_DSAT_TOP_FLT_FB "Pin_Number:E8 Page:Discretes";
-CM_ SG_ 1554 LOW_UVLO_TOP_FLT_FB "Pin_Number:D8 Page:Discretes";
-CM_ SG_ 1554 LOW_DSAT_BOT_FLT_FB "Pin_Number:E10 Page:Discretes";
-CM_ SG_ 1554 LOW_UVLO_BOT_FLT_FB "Pin_Number:F2 Page:Discretes";
-CM_ SG_ 1554 LOW_PHASE_UVW_OC_FLT_FB "Pin_Number:D6 Page:Discretes";
-CM_ SG_ 1554 LOW_HVDC_OV_FLT_FB "Pin_Number:D7 Page:Discretes";
-CM_ SG_ 1554 LOW_OC_W_FLT "Pin_Number:L17 Page:Discretes";
-CM_ SG_ 1554 LOW_OC_V_FLT "Pin_Number:L16 Page:Discretes";
-CM_ SG_ 1554 LOW_OC_U_FLT "Pin_Number:M17 Page:Discretes";
+CM_ SG_ 1554 LOW_DSAT_TOP_FLT_FB "Pin_Number:E8 Page:Discretes,Safing_Logic";
+CM_ SG_ 1554 LOW_UVLO_TOP_FLT_FB "Pin_Number:D8 Page:Discretes,Safing_Logic";
+CM_ SG_ 1554 LOW_DSAT_BOT_FLT_FB "Pin_Number:E10 Page:Discretes,Safing_Logic";
+CM_ SG_ 1554 LOW_UVLO_BOT_FLT_FB "Pin_Number:F2 Page:Discretes,Safing_Logic";
+CM_ SG_ 1554 LOW_PHASE_UVW_OC_FLT_FB "Pin_Number:D6 Page:Discretes,Safing_Logic";
+CM_ SG_ 1554 LOW_HVDC_OV_FLT_FB "Pin_Number:D7 Page:Discretes,Safing_Logic";
+CM_ SG_ 1554 LOW_OC_W_FLT "Pin_Number:L17 Page:Discretes,Safing_Logic";
+CM_ SG_ 1554 LOW_OC_V_FLT "Pin_Number:L16 Page:Discretes,Safing_Logic";
+CM_ SG_ 1554 LOW_OC_U_FLT "Pin_Number:M17 Page:Discretes,Safing_Logic";
 CM_ SG_ 1280 TLF35584_ERR_Disable "Page:Discretes";
 CM_ SG_ 1280 CAN_INH_Update "Page:Discretes";
 CM_ SG_ 1280 UVW_PWM_Dead_Time "Page:Pulse_OUT";
@@ -1731,16 +1854,16 @@ CM_ SG_ 1280 UVW_PWM_Polarity "Page:Pulse_OUT";
 CM_ SG_ 1280 Reset_Motor_Faults "Page:Discretes";
 CM_ SG_ 1280 LOW_ACT_DISCHARGE "Pin_Number:Y19 Page:Discretes";
 CM_ SG_ 1280 KP_ALIVE_MP "Pin_Number:K20 Page:Discretes";
-CM_ SG_ 1280 LOW_MTR_SPEED_STAT "Pin_Number:F19 Page:Discretes";
-CM_ SG_ 1280 LOW_3PS_MAIN_MICRO "Pin_Number:G20 Page:Discretes";
+CM_ SG_ 1280 LOW_MTR_SPEED_STAT "Pin_Number:F19 Page:Discretes,Safing_Logic";
+CM_ SG_ 1280 LOW_3PS_MAIN_MICRO "Pin_Number:G20 Page:Discretes,Safing_Logic";
 CM_ SG_ 1280 MTR_TEMP_SEL "Pin_Number:B20 Page:Discretes";
 CM_ SG_ 1280 INST_TRIGGER_MAIN_MICRO "Pin_Number:E7 Page:Discretes";
-CM_ SG_ 1280 LOW_HVOV_PHOC_LATCH_CLR "Pin_Number:A3 Page:Discretes";
+CM_ SG_ 1280 LOW_HVOV_PHOC_LATCH_CLR "Pin_Number:A3 Page:Discretes,Safing_Logic";
 CM_ SG_ 1280 OIL_PMP_RLY_CTRL "Pin_Number:A9 Page:Discretes";
 CM_ SG_ 1280 SBC_WD_TRIG "Pin_Number:J17 Page:Discretes";
 CM_ SG_ 1280 eLOCKER_EN "Pin_Number:D12 Page:Discretes,E-Locker";
 CM_ SG_ 1280 HVIL_RTN_SW "Pin_Number:F5 Page:Discretes";
-CM_ SG_ 1280 PWM_EN "Pin_Number:B10 Page:Discretes";
+CM_ SG_ 1280 PWM_EN "Pin_Number:B10 Page:Discretes,Safing_Logic";
 CM_ SG_ 1280 LOW_RST_PPAWL_MTR_OC_FLT "Pin_Number:K17 Page:Discretes,PPAWL";
 CM_ SG_ 1280 PPAWL_MTR_EN "Pin_Number:D13 Page:Discretes,PPAWL";
 CM_ SG_ 1280 PPAWL_MTR_CTRL2 "Pin_Number:A8 Page:Discretes,PPAWL";
@@ -1751,9 +1874,34 @@ CM_ SG_ 1280 GS_ENH_U "Pin_Number:Y18 Page:Discretes";
 CM_ SG_ 1280 GS_ENH_V "Pin_Number:N17 Page:Discretes";
 CM_ SG_ 1280 GS_ENH_W "Pin_Number:T19 Page:Discretes";
 CM_ SG_ 1280 LOW_NXP_ACT_DISCH "Pin_Number:PTA3 Page:NXP";
-CM_ SG_ 1280 LOW_F_RESET_NXP "Pin_Number:PTA7 Page:NXP";
-CM_ SG_ 1280 SPD_HW_3PS_I_O "Pin_Number:PTD5 Page:NXP";
+CM_ SG_ 1280 LOW_F_RESET_NXP "Pin_Number:PTA7 Page:NXP,Safing_Logic";
+CM_ SG_ 1280 SPD_HW_3PS_I_O "Pin_Number:PTD5 Page:NXP,Safing_Logic";
 CM_ SG_ 1280 INST_TRIGGER "Pin_Number:PTC3 Page:NXP";
+CM_ SG_ 1553 E_STOP_MAIN_MICRO_Dir "Page:Safing_Logic";
+CM_ SG_ 1553 DSAT_BOT_FLT_FB_Dir "Page:Safing_Logic";
+CM_ SG_ 1553 DSAT_TOP_FLT_FB_Dir "Page:Safing_Logic";
+CM_ SG_ 1553 UVLO_BOT_FLT_FB_Dir "Page:Safing_Logic";
+CM_ SG_ 1553 UVLO_TOP_FLT_FB_Dir "Page:Safing_Logic";
+CM_ SG_ 1553 HVDC_OV_FLT_FB_Dir "Page:Safing_Logic";
+CM_ SG_ 1553 PHASE_UVW_OC_FLT_Dir "Page:Safing_Logic";
+CM_ SG_ 1553 OC_W_FLT_Dir "Page:Safing_Logic";
+CM_ SG_ 1553 OC_V_FLT_Dir "Page:Safing_Logic";
+CM_ SG_ 1553 OC_U_FLT_Dir "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Frame_PHASE_UVW_OC_FLT "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Frame_OUT_EN "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Frame_FSENB "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Frame_FSSTATE_TOP "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Frame_FSSTATE_BOT "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Frame_PWM_BUFFER "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Frame_FORCE_LOWERS_ON "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Frame_FORCE_UPPERS_ON "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Frame_Row "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Frame_Index "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Frame_Header "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Error_info "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Error_RowCnt "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Current_Row "Page:Safing_Logic";
+CM_ SG_ 1553 Safing_Logic_Test_Status "Page:Safing_Logic";
 CM_ SG_ 1553 LIN_Receive_Data7 "Page:LIN";
 CM_ SG_ 1553 LIN_Receive_Data6 "Page:LIN";
 CM_ SG_ 1553 LIN_Receive_Data5 "Page:LIN";
@@ -1765,19 +1913,19 @@ CM_ SG_ 1553 LIN_Receive_Data0 "Page:LIN";
 CM_ SG_ 1553 SPEED_FW_Duty "Pin_Number:PTC2 Page:NXP";
 CM_ SG_ 1553 CRT_V_SPEED_Duty "Pin_Number:PTE8 Page:NXP";
 CM_ SG_ 1553 LOW_NXP_ACT_DISCH_State "Pin_Number:PTA3 Page:NXP";
-CM_ SG_ 1553 LOW_F_RESET_NXP_State "Pin_Number:PTA7 Page:NXP";
-CM_ SG_ 1553 SPD_HW_3PS_I_O_State "Pin_Number:PTD5 Page:NXP";
+CM_ SG_ 1553 LOW_F_RESET_NXP_State "Pin_Number:PTA7 Page:NXP,Safing_Logic";
+CM_ SG_ 1553 SPD_HW_3PS_I_O_State "Pin_Number:PTD5 Page:NXP,Safing_Logic";
 CM_ SG_ 1553 INST_TRIGGER_State "Pin_Number:PTC3 Page:NXP";
 CM_ SG_ 1553 SPEED_FW_Freq "Pin_Number:PTC2 Page:NXP";
 CM_ SG_ 1553 CRT_V_SPEED_Freq "Pin_Number:PTE8 Page:NXP";
 CM_ SG_ 1553 HVDC_SENSE1_NXP_AI "Pin_Number:PTA0 Conversion_mode:0 Factor:0.18780517578125 Page:NXP";
 CM_ SG_ 1553 VI_5V_SAFING_AI "Pin_Number:PTC1 Conversion_mode:0 Factor:0.00244140625 Page:NXP";
-CM_ SG_ 1553 LOW_SAFESTATE2_NXP "Pin_Number:PTA2 Page:NXP,E-Locker";
+CM_ SG_ 1553 LOW_SAFESTATE2_NXP "Pin_Number:PTA2 Page:NXP,E-Locker,Safing_Logic";
 CM_ SG_ 1553 LOW_SAFESTATE_NXP "Pin_Number:PTD2 Page:NXP,E-Locker";
 CM_ SG_ 1553 CRASH_IN_NXP "Pin_Number:PTC8 Page:NXP";
 CM_ SG_ 1553 LOW_HVDC_OV_FLT "Pin_Number:PTB5 Page:NXP";
 CM_ SG_ 1553 RXD_CAN "Pin_Number:PTE4 Page:NXP";
-CM_ SG_ 1553 LOW_SAFESTATE1_NXP "Pin_Number:PTE5 Page:NXP,E-Locker";
+CM_ SG_ 1553 LOW_SAFESTATE1_NXP "Pin_Number:PTE5 Page:NXP,E-Locker,Safing_Logic";
 CM_ BO_ 1552 "旋变相关信号发送";
 CM_ SG_ 1552 PPAWL_SPI_Current_Baudrate "Page:SPI";
 CM_ SG_ 1552 CANFD_5_SPI_Current_Baudrate "Page:SPI";
@@ -1793,19 +1941,19 @@ CM_ SG_ 1552 TOP_U_GDIC_SPI_Current_Baudrate "Page:SPI";
 CM_ SG_ 1552 TLF35584_Current_State "Page:Discretes,E-Locker";
 CM_ SG_ 1552 PPAWL_ENGMT_SNSR_WED_Freq "Page:PPAWL";
 CM_ SG_ 1552 PPAWL_ENGMT_SNSR_WED_Duty "Page:PPAWL";
-CM_ SG_ 1552 DRV8705_CSA_CTRL_Read_Data "Page:PPAWL";
-CM_ SG_ 1552 DRV8705_UVOV_CTRL_Read_Data "Page:PPAWL";
-CM_ SG_ 1552 DRV8705_OLSC_CTRL_Read_Data "Page:PPAWL";
-CM_ SG_ 1552 DRV8705_VDS_CTRL_2_Read_Data "Page:PPAWL";
-CM_ SG_ 1552 DRV8705_VDS_CTRL_1_Read_Data "Page:PPAWL";
-CM_ SG_ 1552 DRV8705_DRV_CTRL_3_Read_Data "Page:PPAWL";
-CM_ SG_ 1552 DRV8705_DRV_CTRL_2_Read_Data "Page:PPAWL";
-CM_ SG_ 1552 DRV8705_DRV_CTRL_1_Read_Data "Page:PPAWL";
-CM_ SG_ 1552 DRV8705_BRG_CTRL_Read_Data "Page:PPAWL";
-CM_ SG_ 1552 DRV8705_IC_CTRL_Read_Data "Page:PPAWL";
-CM_ SG_ 1552 DRV8705_IC_STAT_2_Read_Data "Page:PPAWL";
-CM_ SG_ 1552 DRV8705_VGS_VDS_STAT_Read_Data "Page:PPAWL";
-CM_ SG_ 1552 DRV8705_IC_STAT_1_Read_Data "Page:PPAWL";
+CM_ SG_ 1552 DRV8705_CSA_CTRL_Read_Data "Page:PPAWL Address:0xD";
+CM_ SG_ 1552 DRV8705_UVOV_CTRL_Read_Data "Page:PPAWL Address:0xC";
+CM_ SG_ 1552 DRV8705_OLSC_CTRL_Read_Data "Page:PPAWL Address:0xB";
+CM_ SG_ 1552 DRV8705_VDS_CTRL_2_Read_Data "Page:PPAWL Address:0xA";
+CM_ SG_ 1552 DRV8705_VDS_CTRL_1_Read_Data "Page:PPAWL Address:0x9";
+CM_ SG_ 1552 DRV8705_DRV_CTRL_3_Read_Data "Page:PPAWL Address:0x8";
+CM_ SG_ 1552 DRV8705_DRV_CTRL_2_Read_Data "Page:PPAWL Address:0x7";
+CM_ SG_ 1552 DRV8705_DRV_CTRL_1_Read_Data "Page:PPAWL Address:0x6";
+CM_ SG_ 1552 DRV8705_BRG_CTRL_Read_Data "Page:PPAWL Address:0x5";
+CM_ SG_ 1552 DRV8705_IC_CTRL_Read_Data "Page:PPAWL Address:0x4";
+CM_ SG_ 1552 DRV8705_IC_STAT_2_Read_Data "Page:PPAWL Address:0x2";
+CM_ SG_ 1552 DRV8705_VGS_VDS_STAT_Read_Data "Page:PPAWL Address:0x1";
+CM_ SG_ 1552 DRV8705_IC_STAT_1_Read_Data "Page:PPAWL Address:0x0";
 CM_ SG_ 1552 PPAWL_MTR_WED_POS_uC_SENT_Data5 "Page:PPAWL";
 CM_ SG_ 1552 PPAWL_MTR_WED_POS_uC_SENT_Data4 "Page:PPAWL";
 CM_ SG_ 1552 PPAWL_MTR_WED_POS_uC_SENT_Data3 "Page:PPAWL";
@@ -1897,6 +2045,7 @@ BA_DEF_DEF_  "CANoeStartDelay" 0;
 BA_DEF_DEF_  "VFrameFormat" "StandardCAN";
 BA_ "BusType" "CAN FD";
 BA_ "DBName" "Erad5_GUI_DEVCAN";
+BA_ "VFrameFormat" BO_ 1558 14;
 BA_ "VFrameFormat" BO_ 1282 14;
 BA_ "VFrameFormat" BO_ 1281 14;
 BA_ "VFrameFormat" BO_ 1562 14;

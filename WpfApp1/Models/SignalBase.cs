@@ -21,6 +21,7 @@ namespace ERad5TestGUI.Models
     [XmlInclude(typeof(LinConfigSignal))]
     [XmlInclude(typeof(ResolverSignal))]
     [XmlInclude(typeof(SPISignal))]
+    [XmlInclude(typeof(SafingLogicDirectionSignal))]
     public class SignalBase : ObservableObject, IDBCSignal
     {
         public const string ViewNameSplit = ";";
@@ -103,6 +104,12 @@ namespace ERad5TestGUI.Models
         ///<para>Out: True</para>
         /// </summary>
         public bool InOrOut { get;set; }
+
+        public virtual void Clear()
+        {
+            OriginValue = double.NaN;
+        }
+
         /// <summary>
         /// Not Update MessageID and Name
         /// </summary>
@@ -124,7 +131,7 @@ namespace ERad5TestGUI.Models
         /// </summary>
         /// <param name="originValue">originValue</param>
         /// <param name="changed"></param>
-        public virtual void OnOriginValueChaned(double originValue, bool changed)
+        protected virtual void OnOriginValueChaned(double originValue, bool changed)
         {
             //RealValue = TransForm(originValue).ToString();
         }
@@ -211,12 +218,12 @@ namespace ERad5TestGUI.Models
 
         public bool NeedTransform { get; set; } = true;
 
-        public virtual double TransForm(double oldVal)
+        protected virtual double TransForm(double oldVal)
         {
             return oldVal;
         }
 
-        public override void OnOriginValueChaned(double originValue, bool changed)
+        protected override void OnOriginValueChaned(double originValue, bool changed)
         {
             if (changed)
             {
@@ -279,7 +286,14 @@ namespace ERad5TestGUI.Models
         [XmlIgnore]
         public bool OutLimits { get => outLimits; set => SetProperty(ref outLimits, value); }
 
-        public override void OnOriginValueChaned(double originValue, bool changed)
+        public override void Clear()
+        {
+            base.Clear();
+            MaxValue = double.NaN;
+            MinValue = double.NaN;
+        }
+
+        protected override void OnOriginValueChaned(double originValue, bool changed)
         {
             base.OnOriginValueChaned(originValue, changed);
             if (changed)
@@ -331,7 +345,7 @@ namespace ERad5TestGUI.Models
         [XmlIgnore]
         public double Average { get => average; set => SetProperty(ref average, value); }
 
-        public override void OnOriginValueChaned(double originValue, bool changed)
+        protected override void OnOriginValueChaned(double originValue, bool changed)
         {
             valueCount++;
             base.OnOriginValueChaned(originValue, changed);

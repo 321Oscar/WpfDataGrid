@@ -12,7 +12,7 @@ using ERad5TestGUI.Stores;
 
 namespace ERad5TestGUI.ViewModels
 {
-    public class DiscreteViewModel : SendFrameViewModelBase
+    public class DiscreteViewModel : SendFrameViewModelBase, Interfaces.IClearData
     {
         private readonly ObservableCollection<DiscreteOutputSignal> _outputSignals = new ObservableCollection<DiscreteOutputSignal>();
         private readonly ObservableCollection<DiscreteInputSignal> _inputSignals = new ObservableCollection<DiscreteInputSignal>();
@@ -20,8 +20,6 @@ namespace ERad5TestGUI.ViewModels
         //private readonly DBCSignalBuildHelper dBCSignalBuildHelper;
         private RelayCommand _updateCommand;
         private RelayCommand _locatorOutputsCommand;
-        private RelayCommand _sendBadAnwserCommand;
-        private RelayCommand _disableSBCWWDTRIGCommand;
         private RelayCommand _clearTransitionsCommand;
         private RelayCommand<DiscreteOutputSignal> _updateStateCommand;
 
@@ -47,12 +45,11 @@ namespace ERad5TestGUI.ViewModels
 
         public IEnumerable<DiscreteInputSignal> InputSignals => _inputSignals;
         public IEnumerable<DiscreteOutputSignal> OutputSignals => _outputSignals;
-        public DiscreteOutputSignal DIS_SBC_WWD_TRIG => SignalStore.GetSignals<DiscreteOutputSignal>().FirstOrDefault(x => x.Name == "DIS_SBC_WWD_TRIG");
-        public DiscreteOutputSignal SEND_BAD_ANSWER => SignalStore.GetSignals<DiscreteOutputSignal>().FirstOrDefault(x => x.Name == "SEND_BAD_ANSWER");
-       // public DiscreteOutputSignal SEND_BAD_ANSWER => SignalStore.GetSignals<DiscreteOutputSignal>().FirstOrDefault(x => x.Name == "SEND_BAD_ANSWER");
-       public SPISignalGroup TLFCurrentState { get; set; }
-       public DiscreteOutputSignal UpdateTLFState { get; set; }
-       public DiscreteOutputSignal DisableErrTigger { get; set; }
+        public DiscreteOutputSignal DIS_SBC_WWD_TRIG => SignalStore.GetSignalByName<DiscreteOutputSignal>("DIS_SBC_WWD_TRIG");
+        public DiscreteOutputSignal SEND_BAD_ANSWER => SignalStore.GetSignalByName<DiscreteOutputSignal>("SEND_BAD_ANSWER");
+        public SPISignalGroup TLFCurrentState { get; set; }
+        public DiscreteOutputSignal UpdateTLFState { get; set; }
+        public DiscreteOutputSignal DisableErrTigger { get; set; }
         public bool OutputSignalSync
         {
             get => _outputSignalSync;
@@ -74,9 +71,9 @@ namespace ERad5TestGUI.ViewModels
         {
             base.Init();
 
-            _inputSignals.AddRange(SignalStore.GetSignals<DiscreteInputSignal>(nameof(DiscreteViewModel)));
+            _inputSignals.AddRange(SignalStore.GetSignals<DiscreteInputSignal>(ViewName));
 
-            _outputSignals.AddRange(SignalStore.GetSignals<DiscreteOutputSignal>(nameof(DiscreteViewModel)).Where(x => x.State != null));
+            _outputSignals.AddRange(SignalStore.GetSignals<DiscreteOutputSignal>(ViewName).Where(x => x.State != null));
 
             foreach (var item in OutputSignals)
             {
@@ -131,7 +128,7 @@ namespace ERad5TestGUI.ViewModels
 
         public override void Send()
         {
-            Send(SignalStore.BuildFrames(SignalStore.GetSignals<DiscreteOutputSignal>(nameof(DiscreteViewModel))));
+            Send(SignalStore.BuildFrames(SignalStore.GetSignals<DiscreteOutputSignal>(ViewName)));
         }
         /// <summary>
         /// locator input
@@ -150,6 +147,18 @@ namespace ERad5TestGUI.ViewModels
                 dialogView.DialogViewModel = locatorViewModel;
                 dialogView.ShowDialog();
             }
+        }
+
+        public void ClearData()
+        {
+            foreach (var item in InputSignals)
+            {
+                item.Clear();
+            }
+            //foreach (var item in OutputSignals)
+            //{
+            //    item.Clear();
+            //}
         }
 
         private void ClearTransitions()
@@ -185,6 +194,9 @@ namespace ERad5TestGUI.ViewModels
             {
                 if (sender is DiscreteOutputSignal outputSignal)
                 {
+                    if (double.IsNaN(outputSignal.OriginValue))
+                        return;
+
                     if (outputSignal.OriginValue == outputSignal.State.OriginValue)
                     {
                         return;
@@ -194,8 +206,6 @@ namespace ERad5TestGUI.ViewModels
                 Send();
             }
         }
-
-      
 
         #region Signal Locator
 
@@ -265,6 +275,8 @@ namespace ERad5TestGUI.ViewModels
             }
             return null;
         }
+
+     
         #endregion
     }
 }

@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 
 namespace ERad5TestGUI.ViewModels
 {
-    public class PulseInViewModel : ViewModelBase
+    public class PulseInViewModel : ViewModelBase, Interfaces.IClearData
     {
         public const string VIEWNAME = "Pulse_IN";
         private readonly ObservableCollection<PulseInSignalGroup> _pulseInGroups = new ObservableCollection<PulseInSignalGroup>();
@@ -40,6 +40,16 @@ namespace ERad5TestGUI.ViewModels
 
         public ICommand ResetCommand { get => _resetCommand ?? (_resetCommand = new RelayCommand(Reset)); }
         public ICommand UpdateLimitCommand { get => _updateLimitsCommand ?? (_updateLimitsCommand = new RelayCommand(UpdateLimit, () => SignalType > -1)); }
+
+        public void ClearData()
+        {
+            //throw new NotImplementedException();
+            foreach (var group in Groups)
+            {
+                group.Signal_DC.Clear();
+                group.Signal_Freq.Clear();
+            }
+        }
 
         public override void LocatorSignals()
         {

@@ -6,6 +6,8 @@
     xmlns:local="clr-namespace:ERad5TestGUI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:ERad5TestGUI.Models"
+    xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
+    xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Background="White"
@@ -81,11 +83,125 @@
             Orientation="Horizontal" 
             Margin="180,0,0,0" 
             VerticalAlignment="Center">
-            <Button Content="Start/Stop" Margin="0,10"/>
+            <Button
+                Content="Start" 
+                Command="{Binding StartTestCommand}" 
+                Margin="2,10">
+                <Button.ToolTip>
+                    <TextBlock>Currently only output files, no real test execution</TextBlock>
+                </Button.ToolTip>
+            </Button>
+            <Button 
+                Content="Stop"
+                Margin="0,10,2,10"
+                Command="{Binding StopTestCommand}"/>
+            <ProgressBar 
+                Width="120" 
+                Margin="0,10" 
+                adonisExtensions:ProgressBarExtension.Content="{Binding TestProgress.OriginValue}"
+                Value="{Binding TestProgress.OriginValue}" 
+                Maximum="199" />
+            <ctrls:ControlWithTitle 
+                Height="15"
+                Title="Err Row Count:"
+                Content="{Binding ErrRowCount.OriginValue}"
+                Style="{StaticResource ControlWithTitleGridStyle}">
+            </ctrls:ControlWithTitle>
             <Button Content="Clear" Margin="0,10"/>
             <Button Content="Notes"  Margin="0,10"/>
         </StackPanel>
-        <ScrollViewer Grid.Row="1">
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            
+            <GroupBox Header="Level1">
+                <ItemsControl ItemsSource="{Binding Level1Signals}" Margin="-8" />
+            </GroupBox> 
+            <GroupBox Header="Level2" Grid.Column="1">
+                <ItemsControl ItemsSource="{Binding Level2Signals}" Margin="-8" />
+            </GroupBox> 
+            <GroupBox Header="Level3" Grid.Column="2">
+                <ItemsControl ItemsSource="{Binding Level3Signals}" Margin="-8" />
+            </GroupBox> 
+            <GroupBox Header="Level4" Grid.Column="3">
+                <ItemsControl ItemsSource="{Binding Level4Signals}" Margin="-8" />
+            </GroupBox>
+            <GroupBox 
+                Grid.Row="1" 
+                Grid.Column="0" 
+                Header="Direction">
+                <Grid Grid.IsSharedSizeScope="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition />
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="name" />
+                            <ColumnDefinition SharedSizeGroup="inp" />
+                            <ColumnDefinition SharedSizeGroup="outp" />
+                            <ColumnDefinition SharedSizeGroup="dir" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Input" Grid.Column="1"  HorizontalAlignment="Center"/>
+                        <TextBlock Text="Output" Grid.Column="2"  HorizontalAlignment="Center"/>
+                        <TextBlock Text="Current Direction" Grid.Column="3"/>
+                    </Grid>
+                    <ItemsControl ItemsSource="{Binding DerectionSignals}"  Grid.Row="1">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type models:SafingLogicDirectionSelect}">
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition SharedSizeGroup="name" Width="auto"/>
+                                        <ColumnDefinition SharedSizeGroup="inp" Width="60"/>
+                                        <ColumnDefinition SharedSizeGroup="outp" Width="60"/>
+                                        <ColumnDefinition SharedSizeGroup="dir" Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding CurrentDirection.Name}" Grid.Column="0"/>
+                                    <RadioButton 
+                                        HorizontalAlignment="Center"
+                                        IsChecked="{Binding Select.Direction,Converter={StaticResource InvertBooleanConverter}}" Grid.Column="1"/>
+                                    <RadioButton  HorizontalAlignment="Center" IsChecked="{Binding Select.Direction}"  Grid.Column="2"/>
+                                    <TextBox  Grid.Column="3">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding CurrentDirection.Direction}" 
+                                                                 Value="True">
+                                                        <Setter Property="Text" Value="Output"/>
+                                                    </DataTrigger> 
+                                                    <DataTrigger Binding="{Binding CurrentDirection.Direction}" 
+                                                                 Value="False">
+                                                        <Setter Property="Text" Value="Input"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Style>
+                                        <TextBox.ToolTip>
+                                            <ContentControl Content="{Binding CurrentDirection}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                                        </TextBox.ToolTip>
+                                    </TextBox>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button Content="Update" Grid.Row="2" Width="80" Command="{Binding UpdateDirCommand}">
+                        <Button.ToolTip>
+                            <ContentControl Content="{Binding Safing_Logic_Pin_Dir_Update}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                        </Button.ToolTip>
+                    </Button>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <!--<ScrollViewer Grid.Row="1">
             <ItemsControl ItemsSource="{Binding SavingLogicGroups}" >
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -95,7 +211,7 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-        </ScrollViewer>
+        </ScrollViewer>-->
        
         <!--<WrapPanel Grid.Row="2">
             <GroupBox Header=" Level1 Input">

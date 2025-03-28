@@ -96,6 +96,25 @@
                 Unchecked="groupTag_Checked"
                 IsChecked="True"
                 Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"/>
+            <Button 
+                Content="Clear Data"
+                Height="25" 
+                Command="{StaticResource ClearSignalDataCommand}" 
+                CommandParameter="{Binding}"/>
+            <Button 
+                Content="Clear Data 2"
+                Height="25" 
+                Command="{StaticResource ClearSignalDataCommand}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource ClearCommandParamtersConvert}">
+                        <MultiBinding.Bindings>
+                            <Binding Path="SignalStore"/>
+                            <Binding Path="ViewName" />
+                            <Binding Source="{x:Type models:AnalogSignal}" />
+                        </MultiBinding.Bindings>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
             <!--<TextBlock Text="{Binding AnalogSignals.Count}"/>-->
         </StackPanel>
 

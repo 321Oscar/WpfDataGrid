@@ -90,6 +90,7 @@
     <Compile Include="Devices\IDevice.cs" />
     <Compile Include="Devices\VirtualDevice.cs" />
     <Compile Include="Helpers\CustomDllInvokeHelper.cs" />
+    <Compile Include="Helpers\NPOIHelper.cs" />
     <Compile Include="Helpers\XmlHelper.cs" />
     <Compile Include="Interfaces\ISeedNKey.cs" />
     <Compile Include="Models\AnalogSignal.cs" />
@@ -401,7 +402,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\Config.xml" />
+    <None Include="Config\UDSConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Config\SignalLocator.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -436,6 +439,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>9.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="NPOI">
+      <Version>2.5.5</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

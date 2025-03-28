@@ -302,6 +302,8 @@ namespace ERad5TestGUI.UDS
         /// 连续帧之间的最小时间间隔，ms
         /// </summary>
         protected byte STmin { get; set; } = 0;
+        public Action<ServerResult> RunCompleted;
+        public Action BeforeRunDo;
 
         /// <summary>
         /// 组帧
@@ -637,7 +639,10 @@ namespace ERad5TestGUI.UDS
         {
             return Task.Run(() =>
             {
-                return Run(param);
+                BeforeRunDo?.Invoke();
+                var res = Run(param);
+                RunCompleted?.Invoke(res);
+                return res;
             });
         }
 

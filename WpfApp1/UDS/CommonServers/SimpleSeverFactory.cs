@@ -120,6 +120,7 @@ namespace ERad5TestGUI.UDS
         RountineControl = 0x31,
 
         RequestDownload = 0x34,
+        RequestUpload = 0x35,
 
         DataTransfer = 0x36,
         RequestTransferExit = 0x37,

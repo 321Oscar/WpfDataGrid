@@ -115,7 +115,7 @@ namespace ERad5TestGUI.Models
         [XmlIgnore]
         public bool Sync { get; set; } = true;
 
-        public override void OnOriginValueChaned(double originValue, bool changed)
+        protected override void OnOriginValueChaned(double originValue, bool changed)
         {
             if (changed)
                 TempValue = TransForm(originValue);

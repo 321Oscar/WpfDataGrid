@@ -10,4 +10,9 @@ namespace ERad5TestGUI.Interfaces
     {
         string SeedKeyPath { get; set; }
     }
+
+    public interface IClearData
+    {
+        void ClearData();
+    }
 }

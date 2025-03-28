@@ -20,8 +20,22 @@
                 Style="{StaticResource TitleLabel}" 
                 Margin="10,5,0,0" 
                 VerticalAlignment="Top">Resolver</TextBlock>
-            <Button Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}" Height="25" Content="loc PulseIn" Command="{Binding LocatorSignalsCommand}"/>
-            <Button Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}" Height="25" Content="loc Aver" Command="{Binding LocatorAverageSignalsCommand}"/>
+            <Button 
+                Content="Clear Data"
+                Height="25" 
+                Margin="5,0" 
+                Command="{StaticResource ClearSignalDataCommand}" 
+                CommandParameter="{Binding}"/>
+            <Button 
+                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                Height="25" 
+                Content="loc PulseIn"
+                Command="{Binding LocatorSignalsCommand}"/>
+            <Button 
+                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                Height="25" 
+                Content="loc Aver" 
+                Command="{Binding LocatorAverageSignalsCommand}"/>
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>

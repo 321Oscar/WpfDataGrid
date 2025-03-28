@@ -67,7 +67,7 @@ namespace ERad5TestGUI.Models
             }
         }
 
-        public override double TransForm(double oldVal)
+        protected override double TransForm(double oldVal)
         {
             if (TransForm2Factor == 1)
                 return oldVal;
@@ -75,7 +75,7 @@ namespace ERad5TestGUI.Models
             return oldVal;// * 5 / 4096;
         }
 
-        public override void OnOriginValueChaned(double originValue, bool changed)
+        protected override void OnOriginValueChaned(double originValue, bool changed)
         {
             base.OnOriginValueChaned(originValue, changed);
             if (changed)

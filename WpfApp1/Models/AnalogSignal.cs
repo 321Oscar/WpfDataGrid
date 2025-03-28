@@ -114,7 +114,7 @@ namespace ERad5TestGUI.Models
             GroupName = signal.Comment.GetCommentByKey("GroupName");
         }
 
-        public override double TransForm(double oldVal)
+        protected override double TransForm(double oldVal)
         {
             return oldVal * 5 / 4096;
         }
@@ -123,7 +123,7 @@ namespace ERad5TestGUI.Models
         /// </summary>
         /// <param name="originValue">new Value</param>
         /// <param name="changed">is different</param>
-        public override void OnOriginValueChaned(double originValue, bool changed)
+        protected override void OnOriginValueChaned(double originValue, bool changed)
         {
             base.OnOriginValueChaned(originValue, changed);
             if (changed)
@@ -166,7 +166,7 @@ namespace ERad5TestGUI.Models
 
         }
 
-        public override void OnOriginValueChaned(double originValue, bool changed)
+        protected override void OnOriginValueChaned(double originValue, bool changed)
         {
             base.OnOriginValueChaned(originValue, changed);
         }

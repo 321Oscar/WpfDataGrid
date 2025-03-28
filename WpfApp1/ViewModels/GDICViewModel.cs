@@ -336,11 +336,15 @@ namespace ERad5TestGUI.ViewModels
         //--------------------------------------------------------------------
         //--ADC---------------------------------------------------------------
         private readonly ObservableCollection<GDICADCSignal> _adcSignals = new ObservableCollection<GDICADCSignal>();
+        private readonly ObservableCollection<GDICRegisterADCGroup> _adcSignalGroups = new ObservableCollection<GDICRegisterADCGroup>();
         private string _currentValueSelection;
-      
 
+        [Obsolete]
         public IEnumerable<GDICADCSignal> AdcSignals => _adcSignals;
+        public IEnumerable<GDICRegisterADCGroup> AdcSignalGroups => _adcSignalGroups;
+        [Obsolete]
         public GDICADCSignal CurrentAdcSignal { get; set; }
+        [Obsolete]
         public List<string> AdcValueSelections { get; } = new List<string>()
         {
             "DEST",
@@ -350,7 +354,7 @@ namespace ERad5TestGUI.ViewModels
             "Power",
             "Die",
         };
-
+        [Obsolete]
         public string CurrentValueSelection 
         { 
             get=> _currentValueSelection; 
@@ -367,21 +371,38 @@ namespace ERad5TestGUI.ViewModels
         }
         private void LoadAdcSignals()
         {
-            var gdicSignals = SignalStore.GetSignals<GDICRegisterSignal>(GDICADCViewName);
-
+            var gdicSignals = SignalStore.GetSignalsByName<GDICRegisterSignal>("_ADC_Data");
+            var gs = gdicSignals.GroupBy(x => x.DeviceName)
+                       .Select(g =>
+                        {
+                            GDICRegisterADCGroup group = _adcSignalGroups.FirstOrDefault(x => x.GroupName == g.Key);
+                            
+                            if (group == null)
+                                group = new GDICRegisterADCGroup() { GroupName = g.Key };
+                            var signals = g.ToArray();
+                            group.DeviceName = signals[0].DeviceName;
+                            group.Desat = signals.FirstOrDefault(x => x.Name.IndexOf("Desat", StringComparison.OrdinalIgnoreCase) > -1);
+                            group.Amuxin = signals.FirstOrDefault(x => x.Name.IndexOf("amuxin", StringComparison.OrdinalIgnoreCase) > -1);
+                            group.VCC = signals.FirstOrDefault(x => x.Name.IndexOf("vcc", StringComparison.OrdinalIgnoreCase) > -1);
+                            group.VEE = signals.FirstOrDefault(x => x.Name.IndexOf("vee", StringComparison.OrdinalIgnoreCase) > -1);
+                            group.PowerTemp = signals.FirstOrDefault(x => x.Name.IndexOf("power", StringComparison.OrdinalIgnoreCase) > -1);
+                            group.DieTemp = signals.FirstOrDefault(x => x.Name.IndexOf("die", StringComparison.OrdinalIgnoreCase) > -1);
+                            return group;
+                        });
+            _adcSignalGroups.AddRange(gs);
             //var inputs = gdicSignals.Where(x => !x.InOrOut);
             //var writes = gdicSignals.Where(x => x.InOrOut);
 
-            _adcSignals.AddRange( gdicSignals
-                .GroupBy(s=>s.DeviceName)
-                .Select(g =>
-                {
-                    return new GDICADCSignal()
-                    {
-                        RegisterSignal = g.ToList().FirstOrDefault(x=> !x.InOrOut),
-                        WriteSignal = g.ToList().FirstOrDefault(x=> x.InOrOut),
-                    };
-                }));
+            //_adcSignals.AddRange( gdicSignals
+            //    .GroupBy(s=>s.DeviceName)
+            //    .Select(g =>
+            //    {
+            //        return new GDICADCSignal()
+            //        {
+            //            RegisterSignal = g.ToList().FirstOrDefault(x=> !x.InOrOut),
+            //            WriteSignal = g.ToList().FirstOrDefault(x=> x.InOrOut),
+            //        };
+            //    }));
 
             //adcSignals = 
         }

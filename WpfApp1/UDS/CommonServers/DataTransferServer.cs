@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ERad5TestGUI.Converters;
 using ERad5TestGUI.Devices;
+using ERad5TestGUI.Helpers;
 using ERad5TestGUI.Services;
 
 namespace ERad5TestGUI.UDS
@@ -391,5 +392,248 @@ namespace ERad5TestGUI.UDS
             }
         }
 
+    }
+
+    public class UploadDataTransferServer : DataTransferServer
+    {
+        public int DataLength { get; set; }
+        public List<byte> UploadedData { get => _buffer; }
+
+        public UploadDataTransferServer(uint slaver, uint master, IDevice device, ILogService logService, string custom = "") 
+            : base(slaver, master, device, logService, custom)
+        {
+            //UploadedData = new List<byte>();
+        }
+
+        public override byte[] BuildFrame()
+        {
+            if (UploadedDataLength >= DataLength)
+                return null;
+
+            int index = UploadedDataLength / ReadLen + 1;
+
+            return FillFrame(new List<byte> { 0x02, 0x36, (byte)index });
+        }
+
+        protected override void ParseFirstFrmame(byte[] receive)
+        {
+            recieveByteLength = ((receive[0] & 0x0f) * 0x100) + (receive[1] & 0xff);//数据长度
+            //_receiveDataCount = (length_ff - 6) / 7 + ((((length_ff - 6) % 7) > 0) ? 1 : 0);
+            //_receiveDataCount = length_ff - 3;
+            //_buffer.Clear();
+            _buffer.AddRange(receive.ToList().Skip(4));
+
+            SendFrame = new CanFrame(PhyID_Req, UDSHelper.Frame0x30, extendedFrame: IDExtended, IsCanFD, fillData: FillData);
+            previousDatas = UDSHelper.Frame0x30;
+            CurrentStatue = ServerStatus.WaitReceive;
+        }
+
+        /// <summary>
+        /// 解析首帧时有多余的2个byte
+        /// </summary>
+        public int UploadedDataLength
+        {
+            get
+            {
+                if (UploadedData.Count == 0) return 0;
+                return UploadedData.Count;
+            }
+        }
+        protected override void ParseContinueFrame(byte[] receive)
+        {
+            //DebugLogger($"ParseContinueFrame :{string.Join(" ", receive.Select(x => x.ToString("X2")))}");
+            int unTakedDataLength = DataLength - UploadedDataLength;
+            int seqUnTakedDataLength = (recieveByteLength - 2) - UploadedDataLength % ReadLen;//减去76 seqIndex两个byte
+            seqUnTakedDataLength = Math.Min(unTakedDataLength, seqUnTakedDataLength);
+            int frameLength = receive.Length - 1;
+            int takeLength = Math.Min(seqUnTakedDataLength, frameLength);
+            ProgressInt = (int)((double)UploadedData.Count / DataLength * 100);
+            UploadedData.AddRange(receive.Skip(1).Take(takeLength));
+            //DebugLogger($"uploaded:{UploadedData.Count}");
+            if (UploadedDataLength == DataLength)//接收完毕
+            {
+                ParseData(receive);
+            }
+            else if (UploadedDataLength % ReadLen == 0)//已接受1次读取的数据，需要再发送
+            {
+                //DebugLogger("Upload Next");
+                base.ParseData(receive);
+                //BuildFrame();
+                CurrentStatue = ServerStatus.WaitReceive;
+            }
+            else
+            {
+                DebugLogger($"uploaded:{UploadedData.Count}");
+                CurrentStatue = ServerStatus.Normal;
+            }
+
+            //base.ParseContinueFrame(receive);
+        }
+
+        public override void ParseData(byte[] data)
+        {
+            if (UploadedData.Count >= DataLength)
+            {
+                CurrentStatue = ServerStatus.Done;
+                Result = UDSResponse.Positive;
+                //ResultMsg = $"{CurrentStep}：{DIDInfo.Data}";
+                ProgressInt = 100;
+                return;
+            }
+            else
+            {
+                //单帧
+                UploadedData.AddRange(data.Skip(3).Take(DataLength - UploadedData.Count));
+                //base.ParseData(data);
+                if (UploadedData.Count < DataLength)
+                {
+                    base.ParseData(data);
+                }
+                else
+                {
+                    CurrentStatue = ServerStatus.Done;
+                }
+            }
+        }
+
+        public override void Reset()
+        {
+            //base.Reset();
+            UploadedData.Clear();
+        }
+    }
+
+    public class Erad5ReadMemoryServer : ComplexServers
+    {
+        public Erad5ReadMemoryServer(int normalTimeout, int pendingTimeout, IDevice device, ILogService logService) : base(normalTimeout, pendingTimeout, device, logService)
+        {
+            this.Name = "eRad5 Read";
+            UploadData = new Dictionary<uint, List<byte>>();
+        }
+        public Dictionary<uint, List<byte>> UploadData { get; }
+        public override void LoadServers()
+        {
+            Servers = new List<MultipServer>();
+            MultipServer flow01 = new MultipServer(NormalTimeout, PendingTimeout, Device, Log);
+            flow01.Name = "Read Memory";
+            Add(flow01);
+
+            var diagnosticSession03 = new DiagnosticSessionControlServer(PhyID_Res, FunctionID, Device, Log)
+            {
+                SubFuncCode = 0x03
+            };
+            flow01.Add(diagnosticSession03);
+
+            SercureAccessServer security0x2701 = new SercureAccessServer(PhyID_Res, PhyID_Req, Device, Log);
+            security0x2701.SubFuncCode = 0x01;
+            flow01.Add(security0x2701);
+
+            for (int i = 0; i < BinTmpFile.Segments.Count; i++)
+            {
+                UniversalServer server0x34_app = new UniversalServer(PhyID_Res, PhyID_Req,
+                   $"RequestUpload seg {i}:{string.Join("", BinTmpFile.Segments[i].DataStartAddress.Select(x => x.ToString("X2")))}",
+                   UDSServerCode.RequestUpload, Device, Log);
+                //server0x28.SubFunc = 0x03;
+                var appinfo = new List<byte> { 0x00, 0x44 };
+                appinfo.AddRange(BinTmpFile.Segments[i].DataStartAddress);
+                appinfo.AddRange(BinTmpFile.Segments[i].Length);
+                server0x34_app.SendDatas = appinfo.ToArray();// add start position and app data length
+                server0x34_app.ParseForParameter = new Func<byte[], object>((x) => { return new Result0x34(x); });
+                flow01.Add(server0x34_app);
+
+                UploadDataTransferServer transferServer_app = new UploadDataTransferServer(PhyID_Res, PhyID_Req, Device, Log, $"DataTransfer seg{i}");
+                var lengthArr = BinTmpFile.Segments[i].Length.Reverse().ToArray();
+                //lengthArr.;
+                transferServer_app.DataLength = BitConverter.ToInt32(lengthArr, 0);
+                var appinfo2 = new List<byte>();
+                //appinfo2.AddRange(BinTmpFile.App_DataBuffer);
+                //appinfo2.AddRange(BinTmpFile.Segments[i].Data);
+                transferServer_app.SendDatas = appinfo2.ToArray();
+                flow01.Add(transferServer_app);
+                var addr = BitConverter.ToUInt32(BinTmpFile.Segments[i].DataStartAddress.Reverse().ToArray(), 0);
+                transferServer_app.RunCompleted = (x) =>
+                {
+                    if (x.UDSResponse == UDSResponse.Positive)
+                        UploadData.Add(addr, transferServer_app.UploadedData);
+                };
+
+                UniversalServer server0x37_01 = new UniversalServer(PhyID_Res, PhyID_Req, $"RequestTransferExit seg{i}", UDSServerCode.RequestTransferExit, Device, Log);
+                flow01.Add(server0x37_01);
+            }
+        }
+
+        public override void ResetResult()
+        {
+            UploadData.Clear();
+            base.ResetResult();
+        }
+    }
+
+    public class Erad5WriteMemoryServer : ComplexServers
+    {
+        public Erad5WriteMemoryServer(int normalTimeout, int pendingTimeout, IDevice device, ILogService logService) : base(normalTimeout, pendingTimeout, device, logService)
+        {
+            Name = "eRad5 Write";
+        }
+
+        public override void LoadServers()
+        {
+            Servers = new List<MultipServer>();
+            MultipServer flow01 = new MultipServer(NormalTimeout, PendingTimeout, Device, Log);
+            flow01.Name = "Write Memory";
+            Add(flow01);
+
+            var diagnosticSession03 = new DiagnosticSessionControlServer(PhyID_Res, FunctionID, Device, Log)
+            {
+                SubFuncCode = 0x03
+            };
+            flow01.Add(diagnosticSession03);
+
+            SercureAccessServer security0x2701 = new SercureAccessServer(PhyID_Res, PhyID_Req, Device, Log);
+            security0x2701.SubFuncCode = 0x01;
+            flow01.Add(security0x2701);
+
+            for (int i = 0; i < BinTmpFile.Segments.Count; i++)
+            {
+                //擦除app 数据
+                RoutineControlServer server0x3101_Erase_Flash = new RoutineControlServer(PhyID_Res, PhyID_Req, Device, Log)
+                {
+                    Name = "FF 00 44 RountineControl",
+                    SubFuncCode = 0x01
+                };
+                var flashinfo_EraseFlash = new List<byte> { 0xff, 0x00, 0x44 };
+                //flashinfo_EraseFlash.AddRange(BinTmpFile.App_MEM_START_ADDR);
+                //flashinfo_EraseFlash.AddRange(BinTmpFile.App_Data_Length_bytes);
+                flashinfo_EraseFlash.AddRange(BinTmpFile.Segments[i].DataStartAddress);
+                flashinfo_EraseFlash.AddRange(BinTmpFile.Segments[i].Length);
+                server0x3101_Erase_Flash.SendDatas = flashinfo_EraseFlash.ToArray();
+                flow01.Add(server0x3101_Erase_Flash);
+
+                UniversalServer server0x34_app = new UniversalServer(PhyID_Res, PhyID_Req,
+                    $"RequestDownload seg {i}:{string.Join("", BinTmpFile.Segments[i].DataStartAddress.Select(x => x.ToString("X2")))}",
+                    UDSServerCode.RequestDownload, Device, Log);
+                //server0x28.SubFunc = 0x03;
+                var appinfo = new List<byte> { 0x00, 0x44 };
+                //appinfo.AddRange(BinTmpFile.App_MEM_START_ADDR);
+                //appinfo.AddRange(BinTmpFile.App_Data_Length_bytes);
+                appinfo.AddRange(BinTmpFile.Segments[i].DataStartAddress);
+                appinfo.AddRange(BinTmpFile.Segments[i].Length);
+                server0x34_app.SendDatas = appinfo.ToArray();// add start position and app data length
+                server0x34_app.ParseForParameter = new Func<byte[], object>((x) => { return new Result0x34(x); });
+                flow01.Add(server0x34_app);
+
+                var transferServer_app = new DataTransferServer(PhyID_Res, PhyID_Req, Device, Log, $"DataTransfer seg{i}");
+
+                var appinfo2 = new List<byte>();
+                //appinfo2.AddRange(BinTmpFile.App_DataBuffer);
+                appinfo2.AddRange(BinTmpFile.Segments[i].Data);
+                transferServer_app.SendDatas = appinfo2.ToArray();
+                flow01.Add(transferServer_app);
+
+                UniversalServer server0x37_01 = new UniversalServer(PhyID_Res, PhyID_Req, $"RequestTransferExit seg{i}", UDSServerCode.RequestTransferExit, Device, Log);
+                flow01.Add(server0x37_01);
+
+            }
+        }
     }
 }

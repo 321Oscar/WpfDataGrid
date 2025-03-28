@@ -41,6 +41,13 @@ namespace ERad5TestGUI.UDS
             Length = alldata.Skip(startidx + 4 + 4).Take(4).ToArray();
         }
 
+        public BinDataSegment(int startAddr, int dataLength, byte[] data)
+        {
+            DataStartAddress = BitConverter.GetBytes(startAddr).Reverse().ToArray();
+            Length = BitConverter.GetBytes(dataLength).Reverse().ToArray();
+            Data = data;
+        }
+
         public BinDataSegment()
         {
         }
@@ -97,6 +104,10 @@ namespace ERad5TestGUI.UDS
 
         private string _filePath;
         public BinTmpFile() { Segments = new List<BinDataSegment>(); }
+        public BinTmpFile(params BinDataSegment[] segments)
+        {
+            Segments = new List<BinDataSegment>(segments);
+        }
 
         public BinTmpFile(string filePath) : this()
         {

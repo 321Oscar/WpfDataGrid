@@ -4,7 +4,7 @@
   <LimitInfo Name="V_CURRENT_SENSE_AI" Max="5" Min="0" />
   <LimitInfo Name="W_CURRENT_SENSE_AI" Max="5" Min="0" />
   <LimitInfo Name="HVDC_SENSE_MAIN_MICRO_AI" Max="5" Min="0" />
-  <LimitInfo Name="RED_U_CURRENT_SENSE_AI" Max="5" Min="0" />
+  <LimitInfo Name="RED_U_CURRENT_SENSE_AI" Max="4.5" Min="0.5" />
   <LimitInfo Name="RED_V_CURRENT_SENSE_AI" Max="5" Min="0" />
   <LimitInfo Name="RED_W_CURRENT_SENSE_AI" Max="5" Min="0" />
   <LimitInfo Name="HVDC_CURRENT_SENSE_AI" Max="5" Min="0" />

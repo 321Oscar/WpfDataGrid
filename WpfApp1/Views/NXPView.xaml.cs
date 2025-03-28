@@ -24,5 +24,21 @@ namespace ERad5TestGUI.Views
         {
             InitializeComponent();
         }
+
+        private void SplitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+
+            object[] pas = new object[2];
+
+            //ClearDataCommand:SignalStore,ViewName
+            var vm = this.DataContext as ViewModels.NXPViewModel;
+            //var signalStore = ().SignalStore;
+
+            pas[0] =  vm.SignalStore;
+            pas[1] =  vm.ViewName;
+
+            btn.Command.Execute(pas);
+        }
     }
 }

@@ -76,7 +76,20 @@ namespace ERad5TestGUI.Models
                 }
             }
         }
-        public override void OnOriginValueChaned(double originValue, bool equal)
+
+        public override void Clear()
+        {
+            if (State != null)
+            {
+                State.OriginValue = double.NaN;
+            }
+            else
+            {
+                base.Clear();
+            }
+        }
+
+        protected override void OnOriginValueChaned(double originValue, bool equal)
         {
             base.OnOriginValueChaned(originValue, equal);
             if (equal)

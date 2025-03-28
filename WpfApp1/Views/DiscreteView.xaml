@@ -39,9 +39,15 @@
                 Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"
                 Height="25"/>
             <Button 
+                Visibility="Collapsed"
                 Content="Reset Motor Faults" 
                 Height="25" 
                 Margin="5"/>
+            <Button 
+                Content="Clear Data"
+                Height="25" 
+                Command="{StaticResource ClearSignalDataCommand}" 
+                CommandParameter="{Binding}"/>
         </WrapPanel>
         <GroupBox 
             Grid.Row="1"

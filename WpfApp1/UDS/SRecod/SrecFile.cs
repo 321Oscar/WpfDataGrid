@@ -882,22 +882,29 @@ namespace ERad5TestGUI.UDS.SRecord
     public class SrecFileOnlyData
     {
         private readonly ObservableCollection<SrecDataOnly> _content = new ObservableCollection<SrecDataOnly>();
-
+        private SrecFile _srecFile;
         public ObservableCollection<SrecDataOnly> Content { get => _content; }
+
+        public SrecFile SrecFile { get => _srecFile; }
+
+        public SrecFileOnlyData()
+        {
+
+        }
 
         public SrecFileOnlyData(string filePath)
         {
             ParseWithPath(filePath);
         }
-
+        public int TakeLength = 4;
         private void ParseWithPath(string filePath)
         {
-            var srecFile = new SrecFile(filePath);
+            _srecFile = new SrecFile(filePath);
 
-            foreach (var item in srecFile.AddrData)
+            foreach (var item in _srecFile.AddrData)
             {
                 var startPostion = item.Key;
-                int takeLength = 4;
+                int takeLength = TakeLength;
 
                 int dataOnlyCount = item.Value.Count / takeLength;
                 int remainder = item.Value.Count % takeLength;
@@ -920,7 +927,7 @@ namespace ERad5TestGUI.UDS.SRecord
                     SrecDataOnly dataonly = new SrecDataOnly
                     {
                         Address = (uint)(startPostion + i * takeLength),
-                        Data = new byte[takeLength]
+                        Data = new List<byte>(takeLength)
                     };
                     for (int j = 0; j < takeLength; j++)
                     {
@@ -934,23 +941,60 @@ namespace ERad5TestGUI.UDS.SRecord
 
         public void AddData(uint address, byte[] data)
         {
+            int count = data.Length / TakeLength;
+            for (int i = 0; i < count; i++)
+            {
+                SrecDataOnly srecdata = null;
+                if (Content != null)
+                {
+                    //find close Content by address
+                    srecdata = Content.FirstOrDefault(x => x.Address == address + (uint)(i * TakeLength));
+                }
+                if (srecdata == null)
+                {
+                    srecdata = new SrecDataOnly();
+                    Content.Add(srecdata);
+                }
 
+                srecdata.Address = address + (uint)(i * TakeLength);
+                srecdata.UpdateData(data.Skip(i * TakeLength).Take(TakeLength).ToArray(), 0);
+            }
         }
     }
 
-    public class SrecDataOnly
+    public class SrecDataOnly :CommunityToolkit.Mvvm.ComponentModel.ObservableObject
     {
-        public uint Address { get; set; }
+        private uint address;
 
-        public byte[] Data { get; set; }
+        public uint Address { get => address; set => SetProperty(ref address, value); }
+
+        public List<byte> Data { get; set; }
 
         public string DataStr
         {
             get
             {
-                if (Data == null || Data.Length == 0)
+                if (Data == null || Data.Count == 0)
                     return "";
                 return string.Join("", Data.Select(d => d.ToString("X2")));
+            }
+        }
+
+        public void UpdateData(byte data, int index)
+        {
+            if (Data == null) Data = new List<byte>();
+            if (Data.Count <= index)
+                Data.Add(data);
+            else
+                Data[index] = data;
+            OnPropertyChanged(nameof(DataStr));
+        }
+
+        public void UpdateData(byte[] data, int index)
+        {
+            for (int i = 0; i < data.Length; i++)
+            {
+                UpdateData(data[i], index + i);
             }
         }
     }

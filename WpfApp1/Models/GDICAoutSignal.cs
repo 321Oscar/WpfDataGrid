@@ -42,7 +42,7 @@ namespace ERad5TestGUI.Models
 
         public string GDDevice { get => string.Join(SignalNameSplit, Name.Split(DBCSignalNameSplit).Take(2)); }
 
-        public override void OnOriginValueChaned(double originValue, bool changed)
+        protected override void OnOriginValueChaned(double originValue, bool changed)
         {
             base.OnOriginValueChaned(originValue, changed);
             TmpValues.Enqueue(Value1);
@@ -117,7 +117,7 @@ namespace ERad5TestGUI.Models
             Freq.CalStandard(count);
         }
 
-        public override void OnOriginValueChaned(double originValue, bool changed)
+        protected override void OnOriginValueChaned(double originValue, bool changed)
         {
             base.OnOriginValueChaned(originValue, changed);
         }
@@ -169,7 +169,7 @@ namespace ERad5TestGUI.Models
             Address = signal.Comment.GetCommentByKey("Address");
         }
 
-        public override void OnOriginValueChaned(double originValue, bool changed)
+        protected override void OnOriginValueChaned(double originValue, bool changed)
         {
             //base.OnOriginValueChaned(originValue, changed);
             if (Fixed)
@@ -214,7 +214,9 @@ namespace ERad5TestGUI.Models
 
         public List<GDICRegisterGroup> RegisterGroups { get; }
     }
-
+    /// <summary>
+    /// &amp;&lt;&gt;
+    /// </summary>
     public class GDICADCSignal : CommunityToolkit.Mvvm.ComponentModel.ObservableObject
     {
         private double desat;
@@ -284,5 +286,17 @@ namespace ERad5TestGUI.Models
         public double VEE { get => vEE; set => SetProperty(ref vEE , value); }
         public double PowerTemp { get => powerTemp; set => SetProperty(ref powerTemp , value); }
         public double DieTemp { get => dieTemp; set => SetProperty(ref dieTemp , value); }
+    }
+
+    public class GDICRegisterADCGroup : IGroupSignal
+    {
+        public string GroupName { get; set; }
+        public string DeviceName { get; set; }
+        public GDICRegisterSignal Desat { get; set; }
+        public GDICRegisterSignal Amuxin { get; set; }
+        public GDICRegisterSignal VCC { get; set; }
+        public GDICRegisterSignal VEE { get; set; }
+        public GDICRegisterSignal PowerTemp { get; set; }
+        public GDICRegisterSignal DieTemp { get; set; }
     }
 }

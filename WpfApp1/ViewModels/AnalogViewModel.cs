@@ -19,7 +19,7 @@ using System.ComponentModel;
 
 namespace ERad5TestGUI.ViewModels
 {
-    public class AnalogViewModel : ViewModelBase
+    public class AnalogViewModel : ViewModelBase, Interfaces.IClearData
     {
         private RelayCommand _updateSignalThresholdCommand;
         private RelayCommand _resetSignalThresholdCommand;
@@ -144,6 +144,16 @@ namespace ERad5TestGUI.ViewModels
         private AnalogSignal[] searchedSignals;
         private bool updateSearchedSignals = true;
         private int searchSignalIndexIn = -1;
+
+        public void ClearData()
+        {
+            foreach (var signal in AnalogSignals)
+            {
+                //signal.cle
+                signal.Clear();
+            }
+        }
+
         private void SearchSignalByName()
         {
             if (updateSearchedSignals)

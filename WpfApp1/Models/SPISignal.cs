@@ -50,7 +50,7 @@ namespace ERad5TestGUI.Models
             base.UpdateFormDBC(signal);
            
         }
-        public override void OnOriginValueChaned(double originValue, bool changed)
+        protected override void OnOriginValueChaned(double originValue, bool changed)
         {
             base.OnOriginValueChaned(originValue, changed);
             if (changed)

@@ -12,22 +12,25 @@ namespace ERad5TestGUI.Stores
 {
     public class SignalStore
     {
+        private const string UDSConfigFilePath = @"./Config/UDSConfig.xml";
         /// <summary>
         /// Use AddSignal Function
         /// </summary>
         private readonly List<SignalBase> _signals;
         private readonly List<Signal> _dbcSignals = new List<Signal>();
         private readonly LogService logService;
-
+        private UDS.UDSConfig _udsConfig;
         //public const double AnalogConst = 5 / 4096;
         [Obsolete]
         public DbcFile DbcFile { get; private set; }
+        public UDS.UDSConfig UDSConfig { get => _udsConfig ?? (_udsConfig = XmlHelper.DeserializeFromXml<UDS.UDSConfig>(UDSConfigFilePath)); }
         public List<DbcFile> DbcFiles { get; } = new List<DbcFile>();
         public SignalStore(Services.LogService logService)
         {
             this.logService = logService;
             _signals = new List<SignalBase>();
             LoadMsgStates();
+            LoadUDSConfig();
             ValueTable.LoadTables();
             LoadDBC();
             LoadSignalLocator();
@@ -35,7 +38,7 @@ namespace ERad5TestGUI.Stores
             //LoadAnalogSignals(0x605, nameof(ViewModels.ResolverViewModel));
             //LoadPPAWL(0x01, nameof(ViewModels.PPAWLViewModel));
             //LoadDiscretes(nameof(ViewModels.DiscreteViewModel));
-            LoadDiscreteFixedSignals(nameof(ViewModels.DiscreteViewModel));
+            //LoadDiscreteFixedSignals(nameof(ViewModels.DiscreteViewModel));
             //LoadSavingLogicSignals();
             LoadGDICStatusSignals();
             //LoadPulseInSignals(ViewModels.PulseInViewModel.VIEWNAME);
@@ -43,7 +46,6 @@ namespace ERad5TestGUI.Stores
             //LoadPulseOutSignals(nameof(ViewModels.PPAWLViewModel));
             LoadPulseOutFixedSignals();
             LoadLinSignals();
-
             LoadDiConnectSignals();
             LoadSPISignals();
         }
@@ -85,6 +87,11 @@ namespace ERad5TestGUI.Stores
             MessagesStates.ForEach(x => x.Start());
         }
 
+        private void LoadUDSConfig()
+        {
+            _udsConfig = XmlHelper.DeserializeFromXml<UDS.UDSConfig>(UDSConfigFilePath);
+        }
+
         public void AddSignal(SignalBase signal)
         {
             var updateSignal = DBCSignals.FirstOrDefault(x => x.SignalName == signal.Name);
@@ -110,18 +117,31 @@ namespace ERad5TestGUI.Stores
                     SignalLocation.Signals.Add(signal);
             }
         }
-
-        public IEnumerable<TSignal> GetSignals<TSignal>(params string[] viewNames) where TSignal : SignalBase
+        /// <summary>
+        /// 根据多个ViewName，信号类型，输入/输出获取信号列表
+        /// </summary>
+        /// <typeparam name="TSignal">信号类型</typeparam>
+        /// <param name="inOrOut">输入/输出</param>
+        /// <param name="viewNames"></param>
+        /// <returns></returns>
+        public IEnumerable<TSignal> GetSignals<TSignal>(bool? inOrOut, params string[] viewNames) where TSignal : SignalBase
         {
             List<TSignal> signals = new List<TSignal>();
             foreach (var viewName in viewNames)
             {
-                signals.AddRange(GetSignals<TSignal>(viewName));
+                signals.AddRange(GetSignals<TSignal>(viewName, inOrOut));
             }
 
             return signals.Distinct();
         }
-        public IEnumerable<TSignal> GetSignals<TSignal>(string viewName = "") where TSignal : SignalBase
+        /// <summary>
+        /// 根据ViewName，信号类型，输入/输出获取信号列表
+        /// </summary>
+        /// <typeparam name="TSignal"></typeparam>
+        /// <param name="viewName">为空时，获取所有信号</param>
+        /// <param name="inOrOut">null:不区分；false:In;true:Out</param>
+        /// <returns></returns>
+        public IEnumerable<TSignal> GetSignals<TSignal>(string viewName = "", bool? inOrOut = null) where TSignal : SignalBase
         {
             viewName = SignalBase.ReplaceViewModel(viewName);
             _signals.Sort((x, y) =>
@@ -141,12 +161,82 @@ namespace ERad5TestGUI.Stores
             return _signals.OfType<TSignal>()
                            .Where(x =>
                            {
-                               if (string.IsNullOrEmpty(viewName))
-                                   return true;
-                               return x.ViewName.IndexOf(viewName, StringComparison.OrdinalIgnoreCase) > -1;
+                               if (inOrOut.HasValue)
+                               {
+                                   if (inOrOut.Value == x.InOrOut)
+                                   {
+                                       if (string.IsNullOrEmpty(viewName))
+                                           return true;
+                                       return x.ViewName.IndexOf(viewName, StringComparison.OrdinalIgnoreCase) > -1;
+                                   }
+                                   else
+                                   {
+                                       return false;
+                                   }
+                               }
+                               else
+                               {
+                                   if (string.IsNullOrEmpty(viewName))
+                                       return true;
+                                   return x.ViewName.IndexOf(viewName, StringComparison.OrdinalIgnoreCase) > -1;
+                               }
                            });
         }
-        public TSignal GetSignalByName<TSignal>(string signalName, bool inOrOut = false) where TSignal : SignalBase, new()
+        /// <summary>
+        /// 模糊查询信号，若没有则新建信号
+        /// </summary>
+        /// <typeparam name="TSignal"></typeparam>
+        /// <param name="signalName"></param>
+        /// <param name="inOrOut"></param>
+        /// <param name="addToStore">新建信号是否加入全局</param>
+        /// <returns></returns>
+        public IEnumerable<TSignal> GetSignalsByName<TSignal>(string signalName, bool inOrOut = false, bool addToStore = true) where TSignal : SignalBase, new()
+        {
+            var exsitSignals = _signals.OfType<TSignal>().Where(x => x.Name.IndexOf(signalName, StringComparison.OrdinalIgnoreCase) > -1).ToList();
+
+            List<Signal> dbcSignals = new List<Signal>();
+
+            DbcFiles.ForEach(
+            file =>
+            {
+                file.Messages.ForEach(msg =>
+                {
+                    msg.signals.ForEach(signal =>
+                    {
+                        if (signal.SignalName.IndexOf(signalName, StringComparison.OrdinalIgnoreCase) > -1 &&
+                            exsitSignals.FirstOrDefault(eS => eS.Name == signal.SignalName) == null)
+                        {
+                            dbcSignals.Add(signal);
+                        }
+                    });
+                });
+            });
+
+            dbcSignals.ForEach(nS =>
+            {
+                var t = new TSignal()
+                {
+                    Name = nS.SignalName,
+                    MessageID = nS.MessageID,
+                    InOrOut = inOrOut
+                };
+                t.UpdateFormDBC(nS);
+                if (addToStore)
+                    AddSignal(t);
+                exsitSignals.Add(t);
+            });
+
+            return exsitSignals;
+        }
+        /// <summary>
+        /// 模糊查询信号，若没有则新建信号
+        /// </summary>
+        /// <typeparam name="TSignal"></typeparam>
+        /// <param name="signalName"></param>
+        /// <param name="inOrOut"></param>
+        /// <param name="addToStore"></param>
+        /// <returns></returns>
+        public TSignal GetSignalByName<TSignal>(string signalName, bool inOrOut = false, bool addToStore = true) where TSignal : SignalBase, new()
         {
             var s = _signals.OfType<TSignal>().FirstOrDefault(x => x.Name == signalName);
 
@@ -172,10 +262,10 @@ namespace ERad5TestGUI.Stores
                     InOrOut = inOrOut
                 };
                 t.UpdateFormDBC(dbcSignal);
-                AddSignal(t);
+                if (addToStore)
+                    AddSignal(t);
                 return t;
             }
-
 
             return default;
         }
@@ -215,7 +305,7 @@ namespace ERad5TestGUI.Stores
         }
 
         /// <summary>
-        /// 
+        /// 解析CAN报文 DBC 信号
         /// </summary>
         /// <param name="can_msg"></param>
         /// <param name="singals"></param>
@@ -252,6 +342,25 @@ namespace ERad5TestGUI.Stores
                 }
             }
             //return signalValue;
+        }
+        /// <summary>
+        /// 解析单个ID 报文
+        /// </summary>
+        /// <param name="can_msg"></param>
+        /// <param name="singals"></param>
+        /// <returns>DBCSignal</returns>
+        public IEnumerable<SignalBase> ParseMsgYield(IFrame can_msg, IEnumerable<SignalBase> singals)
+        {
+            foreach (var signal in singals)
+            {
+                if (signal.MessageID != can_msg.MessageID)
+                    yield return signal;
+
+                var val = ParseBytes(can_msg.Data, signal);
+                signal.OriginValue = val;
+                //signal.TimeStamp = (int)item.TimeStampInt;
+                yield return signal;
+            }
         }
 
         public double ParseBytes(byte[] msg, SignalBase signal)
@@ -386,6 +495,11 @@ namespace ERad5TestGUI.Stores
         }
         #endregion
 
+        /// <summary>
+        /// 根据PageName获取 DBC 文件中的信号
+        /// </summary>
+        /// <param name="viewName"></param>
+        /// <returns></returns>
         private List<Signal> GetSignalsByPageName(string viewName)
         {
             List<Signal> signals = new List<Signal>();
@@ -410,7 +524,12 @@ namespace ERad5TestGUI.Stores
 
             return signals;
         }
-
+        /// <summary>
+        /// 获取信号枚举
+        /// </summary>
+        /// <param name="msgID"></param>
+        /// <param name="signalName"></param>
+        /// <returns>Dictionary&lt;int,string&gt;</returns>
         public Dictionary<int, string> GetKeyValuePairs(uint msgID, string signalName)
         {
             var enumValue = DbcFiles.Select(x =>
@@ -430,17 +549,11 @@ namespace ERad5TestGUI.Stores
             DbcFiles.ForEach(
                 file =>
                 {
-                    file.Messages.ForEach(x =>
+                    file.Messages.ForEach(msg =>
                     {
-                        //List<AnalogSignal> analogSignals = new List<AnalogSignal>();
-                        foreach (var signal in x.signals)
+                        if(msg.MessageID == msgId)
                         {
-                            if (signal.MessageID == msgId)
-                            {
-                                //signal.MessageID = x.MessageID;
-                                //signal.MessageName = x.messageName;
-                                signals.Add(signal);
-                            }
+                            signals.AddRange(msg.signals);
                         }
                     });
                 });
@@ -465,19 +578,6 @@ namespace ERad5TestGUI.Stores
                 });
                 DbcFiles.Add(dbcf);
             }
-
-            //DbcFile = new DbcFile(@".\Config\Erad5_GUI_DEVCAN.dbc");
-
-            //DbcFile.Messages.ForEach(x =>
-            //{
-            //    //List<AnalogSignal> analogSignals = new List<AnalogSignal>();
-            //    foreach (var signal in x.signals)
-            //    {
-            //        signal.MessageID = x.MessageID;
-            //        signal.MessageName = x.messageName;
-            //        _dbcSignals.Add(signal);
-            //    }
-            //});
         }
 
         private void LoadAnalogSignals(string viewName = nameof(ViewModels.AnalogViewModel))

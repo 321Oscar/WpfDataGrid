@@ -21,12 +21,16 @@ namespace ERad5TestGUI.Models
         {
 
         }
-
+        public override void Clear()
+        {
+            base.Clear();
+            ClearTransitions();
+        }
         public void ClearTransitions()
         {
             Transitions = 0;
         }
-        public override void OnOriginValueChaned(double originValue, bool changed)
+        protected override void OnOriginValueChaned(double originValue, bool changed)
         {
             base.OnOriginValueChaned(originValue, changed);
             if (changed)

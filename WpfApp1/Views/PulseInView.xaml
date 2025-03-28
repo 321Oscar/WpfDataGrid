@@ -34,8 +34,21 @@
                 Margin="5,0"
                 Command="{Binding LocatorSignalsCommand}"
                 Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            <Button Content="Reset Min/Max" Height="25" Margin="5,0" Command="{Binding ResetCommand}"/>
-            <ToggleButton x:Name="tog" Content="Grid Or Card" Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}" />
+            <Button 
+                Content="Reset Min/Max" 
+                Height="25" 
+                Margin="5,0" 
+                Command="{Binding ResetCommand}"/>
+            <Button 
+                Content="Clear Data"
+                Height="25" 
+                Margin="5,0" 
+                Command="{StaticResource ClearSignalDataCommand}" 
+                CommandParameter="{Binding}"/>
+            <ToggleButton 
+                x:Name="tog" 
+                Content="Grid Or Card" 
+                Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}" />
         </WrapPanel>
         <GroupBox 
             Header="Inputs" 

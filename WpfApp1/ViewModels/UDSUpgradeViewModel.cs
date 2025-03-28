@@ -15,7 +15,7 @@ namespace ERad5TestGUI.ViewModels
 {
     public class UDSUpgradeViewModel : ViewModelBase
     {
-        private const string UDSConfigPath = @".\Config\UDS_Config.xml";
+        private const string UDSConfigPath = @".\Config\UDSConfig.xml";
         private ObservableCollection<IUDSServer> servers;
         private ICommand selectFileCommand;
         private ICommand readDIDCommand;

@@ -9,6 +9,7 @@
     xmlns:cvts="clr-namespace:ERad5TestGUI.Converters"
     xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Background="White"
@@ -51,7 +52,53 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Text="GDIC3162" Style="{StaticResource TitleLabel}"/>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="GDIC3162" Style="{StaticResource TitleLabel}"/>
+            <adonisControls:SplitButton 
+                Margin="5,0"
+                Content="Clear Data" 
+                Height="25"
+                VerticalAlignment="Center">
+                <adonisControls:SplitButton.SplitMenu>
+                    <ContextMenu MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+                        <MenuItem Header="Clear Status" Command="{StaticResource ClearSignalDataCommand}">
+                            <MenuItem.CommandParameter>
+                                <MultiBinding Converter="{StaticResource ClearCommandParamtersConvert}">
+                                    <MultiBinding.Bindings>
+                                        <Binding Path="SignalStore"/>
+                                        <Binding Path="ViewName" />
+                                        <Binding Source="{x:Type models:GDICStatusDataSignal}" />
+                                    </MultiBinding.Bindings>
+                                </MultiBinding>
+                            </MenuItem.CommandParameter>
+                        </MenuItem>
+                        <MenuItem Header="Clear Aout" Command="{StaticResource ClearSignalDataCommand}">
+                            <MenuItem.CommandParameter>
+                                <MultiBinding Converter="{StaticResource ClearCommandParamtersConvert}">
+                                    <MultiBinding.Bindings>
+                                        <Binding Path="SignalStore"/>
+                                        <Binding Path="ViewName" />
+                                        <Binding Source="{x:Type models:GDICAoutSignal}" />
+                                    </MultiBinding.Bindings>
+                                </MultiBinding>
+                            </MenuItem.CommandParameter>
+                        </MenuItem>
+                        <MenuItem Header="Clear Register &amp; ADC" Command="{StaticResource ClearSignalDataCommand}">
+                            <MenuItem.CommandParameter>
+                                <MultiBinding Converter="{StaticResource ClearCommandParamtersConvert}">
+                                    <MultiBinding.Bindings>
+                                        <Binding Path="SignalStore"/>
+                                        <Binding Path="ViewName" />
+                                        <Binding Source="{x:Type models:GDICRegisterSignal}" />
+                                    </MultiBinding.Bindings>
+                                </MultiBinding>
+                            </MenuItem.CommandParameter>
+                        </MenuItem>
+                    </ContextMenu>
+                </adonisControls:SplitButton.SplitMenu>
+            </adonisControls:SplitButton>
+        </StackPanel>
+   
 
         <Grid Grid.Row="1" Panel.ZIndex="99">
             <Grid.Style>
@@ -120,10 +167,13 @@
                             ScrollViewer.VerticalScrollBarVisibility="Visible">
                         <ScrollViewer.Resources>
                             <DataTemplate DataType="{x:Type models:GDICStatusDataSignal}">
-                                <Border Style="{StaticResource CellBorder}" Margin="0,1" Background="White">
+                                <Border Style="{StaticResource CellBorder}" Margin="0,1" Background="White" Padding="1">
                                     <StackPanel Margin="0">
-                                        <TextBlock Text="{Binding DisplayName}" Padding="2"/>
-                                        <Rectangle Height="2" Margin="0,2" Fill="#f6f6f6"/>
+                                        <Border Background="#e8e8e8">
+                                            <TextBlock Text="{Binding DisplayName}" Padding="2"/>
+                                        </Border>
+                                        
+                                        <!--<Rectangle Height="2" Margin="0,2" Fill="#f6f6f6"/>-->
                                         <TextBlock Text="{Binding OriginValue}" Margin="0,2,0,0" Padding="2"/>
                                     </StackPanel>
                                     <Border.ToolTip>
@@ -506,21 +556,21 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>-->
-                    <ListView ItemsSource="{Binding AdcSignals}" Grid.Row="1">
+                    <ListView ItemsSource="{Binding AdcSignalGroups}" Grid.Row="1">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Device" DisplayMemberBinding="{Binding RegisterSignal.DeviceName}"/>
-                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding RegisterSignal.Name}"/>
-                                <GridViewColumn Header="DESAT" DisplayMemberBinding="{Binding Desat}"/>
-                                <GridViewColumn Header="AMUXIN" DisplayMemberBinding="{Binding Amuxin}"/>
-                                <GridViewColumn Header="VCC" DisplayMemberBinding="{Binding VCC}"/>
-                                <GridViewColumn Header="VEE" DisplayMemberBinding="{Binding VEE}"/>
-                                <GridViewColumn Header="Power Device Temperature" DisplayMemberBinding="{Binding PowerTemp}"/>
-                                <GridViewColumn Header="Die Device Temperature" DisplayMemberBinding="{Binding DieTemp}"/>
+                                <GridViewColumn Header="Device" DisplayMemberBinding="{Binding DeviceName}"/>
+                                <!--<GridViewColumn Header="Name" DisplayMemberBinding="{Binding RegisterSignal.Name}"/>-->
+                                <GridViewColumn Header="DESAT" DisplayMemberBinding="{Binding Desat.OriginValue}"/>
+                                <GridViewColumn Header="AMUXIN" DisplayMemberBinding="{Binding Amuxin.OriginValue}"/>
+                                <GridViewColumn Header="VCC" DisplayMemberBinding="{Binding VCC.OriginValue}"/>
+                                <GridViewColumn Header="VEE" DisplayMemberBinding="{Binding VEE.OriginValue}"/>
+                                <GridViewColumn Header="Power Device Temperature" DisplayMemberBinding="{Binding PowerTemp.OriginValue}"/>
+                                <GridViewColumn Header="Die Device Temperature" DisplayMemberBinding="{Binding DieTemp.OriginValue}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <GroupBox Grid.Row="0">
+                    <GroupBox Grid.Row="0" Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
                             <ctrls:ControlWithTitle Title="Device:">
                                 <ctrls:ControlWithTitle.Content>

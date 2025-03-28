@@ -13,7 +13,7 @@
         <ResourceDictionary Source="pack://application:,,,/eRad5TestGUI;component/Themes/Styles.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/eRad5TestGUI;component/Themes/Icons.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-
+    <cmds:ClearSignalDataCommand x:Key="ClearSignalDataCommand"/>
     <cvts:OutLimitsColorConverter x:Key="OutLimitsColorConverter" />
     <cvts:DoubleBooleanConverter x:Key="DoubleBooleanConverter"/>
     <cvts:BooleanInvertVisibilityConverter x:Key="BooleanInvertVisibilityConverter"/>
@@ -22,6 +22,7 @@
     <cvts:InvertBooleanConverter x:Key="InvertBooleanConverter"/>
     <cvts:DoubleHexConverter x:Key="DoubleHexConverter"/>
     <cvts:DoubleToByteHexConverter x:Key="DoubleToByteHexConverter"/>
+    <cvts:ClearCommandParamtersConvert x:Key="ClearCommandParamtersConvert"/>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
     <DataTemplate DataType="{x:Type viewModels:DeviceViewModel}">
@@ -787,17 +788,29 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type models:AnalogSignalGroup}">
         <GroupBox Header="{Binding GroupName}">
-            <DataGrid ItemsSource="{Binding Signals}" 
-                      AutoGenerateColumns="False"
-                      CanUserAddRows="False"
-                      CanUserDeleteRows="False" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding DisplayName}" />
-                    <DataGridTextColumn Header="ADC Counter" Binding="{Binding OriginValue}" />
-                    <DataGridTextColumn Header="AI RAW" Binding="{Binding Value1}" />
-                    <DataGridTextColumn Header="AI Scaled" Binding="{Binding Value2}" />
-                </DataGrid.Columns>
-            </DataGrid>
+            <Grid Margin="-8">
+                <Button 
+                    Content="Clear" 
+                    Width="80"
+                    Height="25"
+                    Margin="80,-28,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Command="{StaticResource ClearSignalDataCommand}" 
+                    CommandParameter="{Binding Signals}">
+                </Button>
+                <DataGrid ItemsSource="{Binding Signals}" 
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding DisplayName}" />
+                        <DataGridTextColumn Header="ADC Counter" Binding="{Binding OriginValue}" />
+                        <DataGridTextColumn Header="AI RAW" Binding="{Binding Value1}" />
+                        <DataGridTextColumn Header="AI Scaled" Binding="{Binding Value2}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
         </GroupBox>
     </DataTemplate>
 

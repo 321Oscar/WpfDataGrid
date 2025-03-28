@@ -10,7 +10,7 @@ using ERad5TestGUI.Stores;
 
 namespace ERad5TestGUI.ViewModels
 {
-    public class ResolverViewModel : ViewModelBase
+    public class ResolverViewModel : ViewModelBase, Interfaces.IClearData
     {
         private readonly ObservableCollection<AnalogSignal> _analogSignals = new ObservableCollection<AnalogSignal>();
         private readonly ObservableCollection<ResolverSignal> _resolverSignals = new ObservableCollection<ResolverSignal>();
@@ -30,16 +30,18 @@ namespace ERad5TestGUI.ViewModels
         public IEnumerable<PulseInSignalGroup> PulseInGroups { get => _pulseInGroups; }
         public IEnumerable<DiscreteInputSignal> DiscreteInputs { get => _discreteInputSignals; }
         public IEnumerable<ResolverSignal> ResolverSignals { get => _resolverSignals; }
-        public IEnumerable<AnalogSignal> AnalogSignals
-        {
-            get
-            {
-                return _analogSignals;
-            }
-        }
+        public IEnumerable<AnalogSignal> AnalogSignals => _analogSignals;
+       
 
         public ICommand LocatorAverageSignalsCommand { get => _locatorAverageSignalsCommand ?? (_locatorAverageSignalsCommand = new RelayCommand(LocatorAverageSignals)); }
-
+        public void ClearData()
+        {
+            foreach (var item in SignalStore.GetSignals<SignalBase>(ViewName))
+            {
+                item.Clear();
+            }
+            //throw new NotImplementedException();
+        }
         public override void Init()
         {
             base.Init();
