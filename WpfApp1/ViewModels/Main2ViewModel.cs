@@ -31,7 +31,7 @@ namespace ERad5TestGUI.ViewModels
         public SPIViewModel SPIViewModel { get; private set; }
         public PPAWLViewModel PPAWLViewModel { get; private set; }
         public ELockerViewModel ELockerViewModel { get; private set; }
-        public SavinLogicViewModel SavinLogicViewModel { get; private set; }
+        public SafingLogicViewModel SafingLogicViewModel { get; private set; }
 
         protected override void DeivceConfig()
         {
@@ -68,7 +68,7 @@ namespace ERad5TestGUI.ViewModels
             SPIViewModel = new SPIViewModel(SignalStore, _deviceStore, _logService);
             PPAWLViewModel = new PPAWLViewModel(SignalStore, _deviceStore, _logService);
             ELockerViewModel = new ELockerViewModel(SignalStore, _deviceStore, _logService);
-            SavinLogicViewModel = new SavinLogicViewModel(SignalStore, _deviceStore, _logService);
+            SafingLogicViewModel = new SafingLogicViewModel(SignalStore, _deviceStore, _logService);
             //DisConnectViewModel.Init(); 
             MemoryViewModel = new MemoryViewModel(SignalStore, _deviceStore, _logService);
            // MemoryViewModel.Init();

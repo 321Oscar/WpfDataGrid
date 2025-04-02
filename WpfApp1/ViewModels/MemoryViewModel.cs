@@ -21,6 +21,7 @@ namespace ERad5TestGUI.ViewModels
         private AsyncRelayCommand _writeMemoryCommand;
         private UDSServerAbstract _runningServer;
         private int erad5MemoryValue;
+        private bool _udsRunning;
 
         public MemoryViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) : base(signalStore, deviceStore, logService)
         {
@@ -38,7 +39,7 @@ namespace ERad5TestGUI.ViewModels
 
         public UDS.UDSConfig _udsConfig => SignalStore.UDSConfig;
         public UpgradeID CurrentUpgradeType => _udsConfig.UpGradeIDs[0];
-        public bool UdsRunning { get; set; }
+        public bool UdsRunning { get => _udsRunning; set => SetProperty(ref _udsRunning, value); }
         public UDSServerAbstract RunningServer { get => _runningServer; set => SetProperty(ref _runningServer, value); }
         public int Erad5MemoryAddr { get; set; }
         public int Erad5MemoryValue { get => erad5MemoryValue; set => SetProperty(ref erad5MemoryValue, value); }

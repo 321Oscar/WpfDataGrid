@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace ERad5TestGUI.Models
 {
@@ -128,21 +129,26 @@ namespace ERad5TestGUI.Models
         {
             if (e.PropertyName == nameof(SignalBase.OriginValue))
             {
+                var cur = sender as SafingLogicDirectionSignal;
                 if (Select != null)
                 {
-                    var cur = sender as SafingLogicDirectionSignal;
                     Select.OriginValue = cur.OriginValue;
+                }
+
+                if(DirEnableSignal != null)
+                {
+                    DirEnableSignal.IsOutput = cur.OriginValue == 1;
                 }
             }
         }
-
+        public DiscreteOutputSignal DirEnableSignal { get; set; }
         public SafingLogicDirectionSignal Select { get; set; }
     }
 
     public class SafingLogicDirectionSignal : TransFormSignalBase
     {
-        private bool _direction;
-
+        //private bool _direction;
+        [XmlIgnore]
         public bool Direction { get => OriginValue == 1; set => OriginValue = value ? 1 : 0; }
         //public string Direction { get; set; }
         private const string Header = "Safing_Logic_";

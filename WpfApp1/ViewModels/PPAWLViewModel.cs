@@ -112,7 +112,9 @@ namespace ERad5TestGUI.ViewModels
             pulseOutGroup.SingleSignals.Add(timeFrame);
             pulseOutGroup.UpdateCommand = new RelayCommand(() =>
             {
-                this.Send(SignalStore.BuildFrames(SignalStore.GetSignals<PulseOutGroupSignal>(ViewName)));
+                var outSignals = SignalStore.GetSignals<PulseOutGroupSignal>(ViewName);
+                outSignals.ToList().ForEach(x => x.UpdateRealValue());
+                this.SendFD(SignalStore.BuildFrames(outSignals));
             });
             _groups.Add(pulseOutGroup);
 
@@ -169,7 +171,7 @@ namespace ERad5TestGUI.ViewModels
         {
             PPAWL_Current_Limit_Update.OriginValue = 1;
 
-            Send(SignalStore.BuildFrames(new SignalBase[] { PPAWL_Current_Limit, PPAWL_Current_Limit_Update }));
+            SendFD(SignalStore.BuildFrames(new SignalBase[] { PPAWL_Current_Limit, PPAWL_Current_Limit_Update }));
 
             PPAWL_Current_Limit_Update.OriginValue = 0;
         }

@@ -165,7 +165,7 @@ namespace ERad5TestGUI.ViewModels
                 item.UpdateRealValue();
             }
 
-            this.Send(SignalStore.BuildFrames(SignalStore.GetSignals<PulseOutGroupSignal>(ViewName)));
+            this.SendFD(SignalStore.BuildFrames(SignalStore.GetSignals<PulseOutGroupSignal>(ViewName)));
             start.OriginValue = 0;
         }
     }

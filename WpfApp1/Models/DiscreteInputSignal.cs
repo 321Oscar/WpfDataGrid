@@ -17,7 +17,7 @@ namespace ERad5TestGUI.Models
             //this.PropertyChanged += DiscreteSignal_PropertyChanged;
         }
 
-        public DiscreteInputSignal(Signal signal, string viewName):base(signal, viewName)
+        public DiscreteInputSignal(Signal signal, string viewName) : base(signal, viewName)
         {
 
         }
@@ -47,6 +47,7 @@ namespace ERad5TestGUI.Models
         //    base.OnRealValueChanged();
         //    Transitions += 1;
         //}
+        public bool IsEnable { get => MessageID != 0; }
     }
     public class DiscreteInputSignalGroup : SignalGroup<DiscreteInputSignal>
     {

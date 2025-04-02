@@ -42,11 +42,19 @@ namespace ERad5TestGUI.Devices
         Vector
     }
 
+    public enum FrameFlags
+    {
+        CAN,
+        CANFD,
+        CANFDSpeed,
+    }
+
     public interface IFrame
     {
         uint MessageID { get; }
         byte[] Data { get; }
         int DLC { get; }
+        FrameFlags FrameFlags { get; }
     }
 
     public class CanFrame : IFrame
@@ -60,10 +68,11 @@ namespace ERad5TestGUI.Devices
         {
 
         }
-        public CanFrame(uint messageID, byte[] data)
+        public CanFrame(uint messageID, byte[] data, FrameFlags frameFlags = FrameFlags.CANFDSpeed)
         {
             MessageID = messageID;
             Data = data;
+            FrameFlags = frameFlags;
         }
         /// <summary>
         /// 
@@ -74,18 +83,20 @@ namespace ERad5TestGUI.Devices
         /// <param name="isCanFD"></param>
         /// <param name="dlc">1-15</param>
         /// <param name="fillData"></param>
-        public CanFrame(uint messageID, byte[] data, bool extendedFrame = false, bool isCanFD = false, int dlc = 8, byte fillData=0x00) : this(messageID, data)
+        public CanFrame(uint messageID, byte[] data, bool extendedFrame = false, bool isCanFD = false, int dlc = 8, byte fillData= 0x00, FrameFlags frameFlags = FrameFlags.CANFDSpeed) 
+            : this(messageID, data, frameFlags)
         {
             this.extendedFrame = extendedFrame;
             this.isCanFD = isCanFD;
             this.dlc = dlc;
             this.fillData = fillData;
-            int length = GetLengthByDlc(dlc);
+            int length = Math.Min(GetLengthByDlc(dlc), data.Length);
             Data = new byte[length];
             for (int i = 0; i < length; i++)
             {
                 Data[i] = data[i];
             }
+            FrameFlags = frameFlags;
         }
 
         public uint MessageID { get; set; }
@@ -93,6 +104,8 @@ namespace ERad5TestGUI.Devices
         public byte[] Data { get; set; }
 
         public int DLC { get => GetDLCByDataLength(Data.Length); }
+
+        public FrameFlags FrameFlags { get; }
 
         public static int GetDLCByDataLength(int dataLength)
         {

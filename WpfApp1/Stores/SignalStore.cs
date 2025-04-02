@@ -54,6 +54,8 @@ namespace ERad5TestGUI.Stores
         {
             try
             {
+                MessagesStates.ForEach(x => x.IsStart = false);
+
                 SignalLocation.Signals = SignalLocation.Signals.Distinct().ToList();
                 XmlHelper.SerializeToXml(SignalLocation, SignalLocatorFilePath);
             }
@@ -403,7 +405,7 @@ namespace ERad5TestGUI.Stores
             }
 
             double physicalValue = rawValue * signal.Factor + signal.Offset;
-
+            signal.OriginValue = physicalValue;
             return physicalValue;
 
         }
@@ -426,7 +428,7 @@ namespace ERad5TestGUI.Stores
                 if (message != null)
                 {
                     byte[] resData = message.Data;//8 帧数据
-                    cAN_Msg_BytesList.Add(new CanFrame(messageid, resData));
+                    cAN_Msg_BytesList.Add(new CanFrame(messageid, resData, FrameFlags.CANFDSpeed));
                 }
             }
 
@@ -1008,9 +1010,17 @@ namespace ERad5TestGUI.Stores
             foreach (var signal in SignalLocation.Signals)
             {
                 AddSignal(signal);
-                if (signal is DiscreteOutputSignal disout && disout.State != null)
+
+                if (signal is DiscreteOutputSignal disout)
                 {
-                    AddSignal(disout.State);
+                    if (disout.State != null)
+                    {
+                        AddSignal(disout.State);
+                        if (disout.State.Name.Contains("State"))
+                        {
+                            disout.IsOutput = true;
+                        }
+                    }
                 }
             }
         }

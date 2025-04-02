@@ -121,7 +121,7 @@ namespace ERad5TestGUI.Models
             Offset = signal.offset;
             ByteOrder = (int)signal.byteOrder;
             Length = (int)signal.signalSize;
-            //MessageID = signal.MessageID;
+            MessageID = signal.MessageID;
             //ViewName += viewName;
             Unit = signal.Unit;
         }
@@ -737,6 +737,7 @@ namespace ERad5TestGUI.Models
             }
         }
         public bool _isStart = true;
+        public bool IsStart { get => _isStart; set => _isStart = value; }
         public void Start()
         {
             //启动定时器

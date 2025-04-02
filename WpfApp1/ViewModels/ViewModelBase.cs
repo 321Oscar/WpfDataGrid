@@ -174,11 +174,26 @@ namespace ERad5TestGUI.ViewModels
 
         public SendFrameViewModelBase(SignalStore signalStore, DeviceStore deviceStore, LogService logService) : base(signalStore, deviceStore, logService) { }
 
-        public virtual void Send(IEnumerable<IFrame> frames)
+        public virtual void SendFD(IEnumerable<IFrame> frames)
         {
             if (DeviceStore.HasDevice)
             {
                 DeviceStore.CurrentDevice.SendFDMultip(frames);
+            }
+            else
+            {
+                LogService.Log("No CAN Device Connected!");
+            }
+        }
+
+        protected void SendFDNoExp(IEnumerable<IFrame> frames)
+        {
+            if (DeviceStore.HasDevice)
+            {
+                foreach (var frame in frames)
+                {
+                    DeviceStore.CurrentDevice.Send(frame);
+                }
             }
             else
             {

@@ -112,8 +112,6 @@ namespace ERad5TestGUI.UDS
         /// </summary>
         public int CurrentTimeout { get; protected set; }
 
-        public abstract UDSServerCode CurrentUDSFunction { get; protected set; }
-
         /// <summary>
         /// 错误码含义
         /// </summary>
@@ -302,6 +300,8 @@ namespace ERad5TestGUI.UDS
         /// 连续帧之间的最小时间间隔，ms
         /// </summary>
         protected byte STmin { get; set; } = 0;
+        public abstract UDSServerCode CurrentUDSFunction { get; protected set; }
+
         public Action<ServerResult> RunCompleted;
         public Action BeforeRunDo;
 

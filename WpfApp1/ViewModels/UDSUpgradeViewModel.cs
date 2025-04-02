@@ -22,7 +22,6 @@ namespace ERad5TestGUI.ViewModels
         private bool _udsRunning;
         private DIDInfo currentDID;
         private UpgradeID currentUpgradeType;
-        private UDSConfig _udsConfig;
         private string didData;
         private UDSServerAbstract runningServer;
         public const int FAILFLAG = 0;
@@ -31,7 +30,7 @@ namespace ERad5TestGUI.ViewModels
             : base(signalStore, deviceStore, logService)
         {
             servers = new ObservableCollection<IUDSServer>();
-            _udsConfig = XmlHelper.DeserializeFromXml<UDSConfig>(UDSConfigPath);
+            //_udsConfig = XmlHelper.DeserializeFromXml<UDSConfig>(UDSConfigPath);
             DIDInfos = _udsConfig.DIDInfos;
             UpgradeTypeSources = _udsConfig.UpGradeIDs;
             CurrentUpgradeType = _udsConfig.UpGradeIDs[0];
@@ -39,6 +38,7 @@ namespace ERad5TestGUI.ViewModels
             DeviceStore.CurrentDeviceChanged += OnCurrentDeviceChanged;
         }
 
+        public UDSConfig _udsConfig => SignalStore.UDSConfig;
       
 
         public IEnumerable<DIDInfo> DIDInfos { get; set; }
@@ -113,8 +113,11 @@ namespace ERad5TestGUI.ViewModels
         {
 
         }
-
-        private async Task<int> ReadDID()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns><see cref="SUCFLAG"/> : 1 , <see cref="FAILFLAG"/> : 0</returns>
+        public async Task<int> ReadDID()
         {
             if (CurrentDID == null)
             {

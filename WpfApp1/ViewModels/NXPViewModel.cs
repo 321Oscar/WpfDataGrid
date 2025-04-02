@@ -91,7 +91,7 @@ namespace ERad5TestGUI.ViewModels
 
         public override void Send()
         {
-            Send(SignalStore.BuildFrames(SignalStore.GetSignals<DiscreteOutputSignal>(nameof(NXPViewModel))));
+            SendFD(SignalStore.BuildFrames(SignalStore.GetSignals<DiscreteOutputSignal>(nameof(NXPViewModel))));
         }
 
         #region Locator Signals

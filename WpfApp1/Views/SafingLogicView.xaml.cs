@@ -18,9 +18,9 @@ namespace ERad5TestGUI.Views
     /// <summary>
     /// SavingLogicView.xaml 的交互逻辑
     /// </summary>
-    public partial class SavingLogicView : UserControl
+    public partial class SafingLogicView : UserControl
     {
-        public SavingLogicView()
+        public SafingLogicView()
         {
             InitializeComponent();
         }

@@ -62,8 +62,8 @@
                 <TabItem Header="E-Locker">
                     <ContentControl Content="{Binding ELockerViewModel}"/>
                 </TabItem>
-                <TabItem Header="SavingLogic-UnFinish">
-                    <ContentControl Content="{Binding SavinLogicViewModel}"/>
+                <TabItem Header="SafingLogic-UnFinish">
+                    <ContentControl Content="{Binding SafingLogicViewModel}"/>
                 </TabItem>
                 <TabItem Header="Memory-UnFinish">
                     <ContentControl Content="{Binding MemoryViewModel}"/>

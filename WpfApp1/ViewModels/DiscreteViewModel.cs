@@ -9,6 +9,7 @@ using ERad5TestGUI.Devices;
 using ERad5TestGUI.Models;
 using ERad5TestGUI.Services;
 using ERad5TestGUI.Stores;
+using System.Threading.Tasks;
 
 namespace ERad5TestGUI.ViewModels
 {
@@ -128,7 +129,7 @@ namespace ERad5TestGUI.ViewModels
 
         public override void Send()
         {
-            Send(SignalStore.BuildFrames(SignalStore.GetSignals<DiscreteOutputSignal>(ViewName)));
+            SendFD(SignalStore.BuildFrames(SignalStore.GetSignals<DiscreteOutputSignal>(ViewName)));
         }
         /// <summary>
         /// locator input
@@ -169,6 +170,8 @@ namespace ERad5TestGUI.ViewModels
                 item.ClearTransitions();
             }
         }
+       
+
 
         private void Update()
         {

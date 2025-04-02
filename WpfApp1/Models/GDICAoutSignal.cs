@@ -63,14 +63,18 @@ namespace ERad5TestGUI.Models
     {
         private GDICAoutSignal duty;
         private GDICAoutSignal freq;
-        public GDICAoutTemperatureSignal(GDICAoutSignal duty, GDICAoutSignal freq)
+        public bool HasTemperature { get; }
+        public GDICAoutTemperatureSignal(GDICAoutSignal duty, GDICAoutSignal freq, bool hasTemp = true)
         {
             Name = duty.GDDevice;
+
+            HasTemperature = hasTemp;
 
             Duty = duty;
             Freq = freq;
             Selection = duty.Selection;
             CanChangeSelection = duty.CanChangeSelection;
+
         }
 
 
@@ -82,7 +86,7 @@ namespace ERad5TestGUI.Models
                 if(duty != null)
                     duty.PropertyChanged -= Duty_PropertyChanged;
                 duty = value;
-                if (duty != null)
+                if (duty != null && HasTemperature)
                     duty.PropertyChanged += Duty_PropertyChanged;
             } 
         }

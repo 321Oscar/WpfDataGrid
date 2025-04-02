@@ -108,6 +108,16 @@ BO_ 1282 MCU_RX_0x502_DEVCANFD: 32 GUI
  SG_ LIN_Send_ID : 0|8@1+ (1,0) [0|255] ""  MCU
 
 BO_ 1281 MCU_RX_0x501_DEVCANFD: 32 GUI
+ SG_ E_STOP_MAIN_MICRO_OUTPUT : 236|1@1+ (1,0) [0|1] ""  MCU
+ SG_ DSAT_BOT_FLT_FB_OUTPUT : 235|1@1+ (1,0) [0|1] ""  MCU
+ SG_ DSAT_TOP_FLT_FB_OUTPUT : 234|1@1+ (1,0) [0|1] ""  MCU
+ SG_ UVLO_BOT_FLT_FB_OUTPUT : 233|1@1+ (1,0) [0|1] ""  MCU
+ SG_ UVLO_TOP_FLT_FB_OUTPUT : 232|1@1+ (1,0) [0|1] ""  MCU
+ SG_ HVDC_OV_FLT_FB_OUTPUT : 231|1@1+ (1,0) [0|1] ""  MCU
+ SG_ PHASE_UVW_OC_FLT_OUTPUT : 230|1@1+ (1,0) [0|1] ""  MCU
+ SG_ OC_W_FLT_OUTPUT : 229|1@1+ (1,0) [0|1] ""  MCU
+ SG_ OC_V_FLT_OUTPUT : 228|1@1+ (1,0) [0|1] ""  MCU
+ SG_ OC_U_FLT_OUTPUT : 227|1@1+ (1,0) [0|1] ""  MCU
  SG_ Safing_Logic_E_STOP_MAIN_MICRO_Dir_Select : 226|1@1+ (1,0) [0|1] "" MCU
  SG_ Safing_Logic_DSAT_BOT_FLT_FB_Dir_Select : 225|1@1+ (1,0) [0|1] "" MCU
  SG_ Safing_Logic_DSAT_TOP_FLT_FB_Dir_Select : 224|1@1+ (1,0) [0|1] "" MCU
@@ -837,7 +847,7 @@ BO_ 1554 MCU_TX_0x612_DEVCANFD: 64 MCU
  SG_ LOW_OC_V_FLT : 1|1@1+ (1,0) [0|1] ""  GUI
  SG_ LOW_OC_U_FLT : 0|1@1+ (1,0) [0|1] ""  GUI
 
-BO_ 1280 MCU_RX_0x500_DEVCANFD: 32 GUI
+BO_ 1283 MCU_RX_0x503_DEVCANFD: 32 GUI
  SG_ TLF35584_ERR_Disable : 175|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ CAN_INH_Update : 174|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ UVW_PWM_Dead_Time : 4|4@1+ (1,0) [0|15] "us" Vector__XXX
@@ -1108,6 +1118,16 @@ CM_ SG_ 1282 LIN_Send_Data0 "Page:LIN";
 CM_ SG_ 1282 LIN_Send_Checksum_Type "Page:LIN";
 CM_ SG_ 1282 LIN_Send_Length "Page:LIN";
 CM_ SG_ 1282 LIN_Send_ID "Page:LIN";
+CM_ SG_ 1281 E_STOP_MAIN_MICRO_OUTPUT "Page:Safing_Logic";
+CM_ SG_ 1281 DSAT_BOT_FLT_FB_OUTPUT "Page:Safing_Logic";
+CM_ SG_ 1281 DSAT_TOP_FLT_FB_OUTPUT "Page:Safing_Logic";
+CM_ SG_ 1281 UVLO_BOT_FLT_FB_OUTPUT "Page:Safing_Logic";
+CM_ SG_ 1281 UVLO_TOP_FLT_FB_OUTPUT "Page:Safing_Logic";
+CM_ SG_ 1281 HVDC_OV_FLT_FB_OUTPUT "Page:Safing_Logic";
+CM_ SG_ 1281 PHASE_UVW_OC_FLT_OUTPUT "Page:Safing_Logic";
+CM_ SG_ 1281 OC_W_FLT_OUTPUT "Page:Safing_Logic";
+CM_ SG_ 1281 OC_V_FLT_OUTPUT "Page:Safing_Logic";
+CM_ SG_ 1281 OC_U_FLT_OUTPUT "Page:Safing_Logic";
 CM_ SG_ 1281 Safing_Logic_E_STOP_MAIN_MICRO_Dir_Select "Page:Safing_Logic";
 CM_ SG_ 1281 Safing_Logic_DSAT_BOT_FLT_FB_Dir_Select "Page:Safing_Logic";
 CM_ SG_ 1281 Safing_Logic_DSAT_TOP_FLT_FB_Dir_Select "Page:Safing_Logic";
@@ -1820,63 +1840,63 @@ CM_ SG_ 1554 LOW_HVDC_OV_FLT_FB "Pin_Number:D7 Page:Discretes,Safing_Logic";
 CM_ SG_ 1554 LOW_OC_W_FLT "Pin_Number:L17 Page:Discretes,Safing_Logic";
 CM_ SG_ 1554 LOW_OC_V_FLT "Pin_Number:L16 Page:Discretes,Safing_Logic";
 CM_ SG_ 1554 LOW_OC_U_FLT "Pin_Number:M17 Page:Discretes,Safing_Logic";
-CM_ SG_ 1280 TLF35584_ERR_Disable "Page:Discretes";
-CM_ SG_ 1280 CAN_INH_Update "Page:Discretes";
-CM_ SG_ 1280 UVW_PWM_Dead_Time "Page:Pulse_OUT";
-CM_ SG_ 1280 TLF35584_Tran_State "Page:Discretes";
-CM_ SG_ 1280 TLF35584_State_Update "Page:Discretes";
-CM_ SG_ 1280 PPAWL_Frame_Time "Page:PPAWL";
-CM_ SG_ 1280 eLOCKER_Time "Page:E-Locker";
-CM_ SG_ 1280 eLOCKER_PWM_Freq "Page:E-Locker";
-CM_ SG_ 1280 eLOCKER_PWM_Duty "Page:E-Locker";
-CM_ SG_ 1280 eLOCKER_PWM_Seq_Start "Page:E-Locker";
-CM_ SG_ 1280 eLOCKER_PWM_Stop "Page:E-Locker";
-CM_ SG_ 1280 eLOCKER_PWM_Update "Page:E-Locker";
-CM_ SG_ 1280 PPAWL_Current_Limit_Update "Page:PPAWL";
-CM_ SG_ 1280 PPAWL_PWM_Update "Page:PPAWL";
-CM_ SG_ 1280 PPAWL_Current_Limit "Page:PPAWL";
-CM_ SG_ 1280 FD16_INH_DISABLE "Page:Discretes";
-CM_ SG_ 1280 FD5_INH_DISABLE "Page:Discretes";
-CM_ SG_ 1280 DIS_SBC_WWD_TRIG "Page:Discretes";
-CM_ SG_ 1280 SEND_BAD_ANSWER "Page:Discretes";
-CM_ SG_ 1280 UVWPWM_Duty_Freq_Update "Page:Pulse_OUT";
-CM_ SG_ 1280 PWM_Duty_Freq_Update "Page:Pulse_OUT";
-CM_ SG_ 1280 PWM_W_Duty "Page:Pulse_OUT";
-CM_ SG_ 1280 PWM_V_Duty "Page:Pulse_OUT";
-CM_ SG_ 1280 PWM_U_Duty "Page:Pulse_OUT";
-CM_ SG_ 1280 UVW_PWM_Freq "Page:Pulse_OUT";
-CM_ SG_ 1280 HVIL_PWM_SEND_Freq "Page:Pulse_OUT";
-CM_ SG_ 1280 HVIL_PWM_SEND_Duty "Page:Pulse_OUT";
-CM_ SG_ 1280 PPAWL_MTR_CTRL1_Freq "Page:Pulse_OUT,PPAWL";
-CM_ SG_ 1280 PPAWL_MTR_CTRL1_Duty "Page:Pulse_OUT,PPAWL";
-CM_ SG_ 1280 PinOut_Update "Page:Discretes";
-CM_ SG_ 1280 UVW_PWM_Polarity "Page:Pulse_OUT";
-CM_ SG_ 1280 Reset_Motor_Faults "Page:Discretes";
-CM_ SG_ 1280 LOW_ACT_DISCHARGE "Pin_Number:Y19 Page:Discretes";
-CM_ SG_ 1280 KP_ALIVE_MP "Pin_Number:K20 Page:Discretes";
-CM_ SG_ 1280 LOW_MTR_SPEED_STAT "Pin_Number:F19 Page:Discretes,Safing_Logic";
-CM_ SG_ 1280 LOW_3PS_MAIN_MICRO "Pin_Number:G20 Page:Discretes,Safing_Logic";
-CM_ SG_ 1280 MTR_TEMP_SEL "Pin_Number:B20 Page:Discretes";
-CM_ SG_ 1280 INST_TRIGGER_MAIN_MICRO "Pin_Number:E7 Page:Discretes";
-CM_ SG_ 1280 LOW_HVOV_PHOC_LATCH_CLR "Pin_Number:A3 Page:Discretes,Safing_Logic";
-CM_ SG_ 1280 OIL_PMP_RLY_CTRL "Pin_Number:A9 Page:Discretes";
-CM_ SG_ 1280 SBC_WD_TRIG "Pin_Number:J17 Page:Discretes";
-CM_ SG_ 1280 eLOCKER_EN "Pin_Number:D12 Page:Discretes,E-Locker";
-CM_ SG_ 1280 HVIL_RTN_SW "Pin_Number:F5 Page:Discretes";
-CM_ SG_ 1280 PWM_EN "Pin_Number:B10 Page:Discretes,Safing_Logic";
-CM_ SG_ 1280 LOW_RST_PPAWL_MTR_OC_FLT "Pin_Number:K17 Page:Discretes,PPAWL";
-CM_ SG_ 1280 PPAWL_MTR_EN "Pin_Number:D13 Page:Discretes,PPAWL";
-CM_ SG_ 1280 PPAWL_MTR_CTRL2 "Pin_Number:A8 Page:Discretes,PPAWL";
-CM_ SG_ 1280 GS_ENL_U "Pin_Number:G19 Page:Discretes";
-CM_ SG_ 1280 GS_ENL_V "Pin_Number:D10 Page:Discretes";
-CM_ SG_ 1280 GS_ENL_W "Pin_Number:R16 Page:Discretes";
-CM_ SG_ 1280 GS_ENH_U "Pin_Number:Y18 Page:Discretes";
-CM_ SG_ 1280 GS_ENH_V "Pin_Number:N17 Page:Discretes";
-CM_ SG_ 1280 GS_ENH_W "Pin_Number:T19 Page:Discretes";
-CM_ SG_ 1280 LOW_NXP_ACT_DISCH "Pin_Number:PTA3 Page:NXP";
-CM_ SG_ 1280 LOW_F_RESET_NXP "Pin_Number:PTA7 Page:NXP,Safing_Logic";
-CM_ SG_ 1280 SPD_HW_3PS_I_O "Pin_Number:PTD5 Page:NXP,Safing_Logic";
-CM_ SG_ 1280 INST_TRIGGER "Pin_Number:PTC3 Page:NXP";
+CM_ SG_ 1283 TLF35584_ERR_Disable "Page:Discretes";
+CM_ SG_ 1283 CAN_INH_Update "Page:Discretes";
+CM_ SG_ 1283 UVW_PWM_Dead_Time "Page:Pulse_OUT";
+CM_ SG_ 1283 TLF35584_Tran_State "Page:Discretes";
+CM_ SG_ 1283 TLF35584_State_Update "Page:Discretes";
+CM_ SG_ 1283 PPAWL_Frame_Time "Page:PPAWL";
+CM_ SG_ 1283 eLOCKER_Time "Page:E-Locker";
+CM_ SG_ 1283 eLOCKER_PWM_Freq "Page:E-Locker";
+CM_ SG_ 1283 eLOCKER_PWM_Duty "Page:E-Locker";
+CM_ SG_ 1283 eLOCKER_PWM_Seq_Start "Page:E-Locker";
+CM_ SG_ 1283 eLOCKER_PWM_Stop "Page:E-Locker";
+CM_ SG_ 1283 eLOCKER_PWM_Update "Page:E-Locker";
+CM_ SG_ 1283 PPAWL_Current_Limit_Update "Page:PPAWL";
+CM_ SG_ 1283 PPAWL_PWM_Update "Page:PPAWL";
+CM_ SG_ 1283 PPAWL_Current_Limit "Page:PPAWL";
+CM_ SG_ 1283 FD16_INH_DISABLE "Page:Discretes";
+CM_ SG_ 1283 FD5_INH_DISABLE "Page:Discretes";
+CM_ SG_ 1283 DIS_SBC_WWD_TRIG "Page:Discretes";
+CM_ SG_ 1283 SEND_BAD_ANSWER "Page:Discretes";
+CM_ SG_ 1283 UVWPWM_Duty_Freq_Update "Page:Pulse_OUT";
+CM_ SG_ 1283 PWM_Duty_Freq_Update "Page:Pulse_OUT";
+CM_ SG_ 1283 PWM_W_Duty "Page:Pulse_OUT";
+CM_ SG_ 1283 PWM_V_Duty "Page:Pulse_OUT";
+CM_ SG_ 1283 PWM_U_Duty "Page:Pulse_OUT";
+CM_ SG_ 1283 UVW_PWM_Freq "Page:Pulse_OUT";
+CM_ SG_ 1283 HVIL_PWM_SEND_Freq "Page:Pulse_OUT";
+CM_ SG_ 1283 HVIL_PWM_SEND_Duty "Page:Pulse_OUT";
+CM_ SG_ 1283 PPAWL_MTR_CTRL1_Freq "Page:Pulse_OUT,PPAWL";
+CM_ SG_ 1283 PPAWL_MTR_CTRL1_Duty "Page:Pulse_OUT,PPAWL";
+CM_ SG_ 1283 PinOut_Update "Page:Discretes";
+CM_ SG_ 1283 UVW_PWM_Polarity "Page:Pulse_OUT";
+CM_ SG_ 1283 Reset_Motor_Faults "Page:Discretes";
+CM_ SG_ 1283 LOW_ACT_DISCHARGE "Pin_Number:Y19 Page:Discretes";
+CM_ SG_ 1283 KP_ALIVE_MP "Pin_Number:K20 Page:Discretes";
+CM_ SG_ 1283 LOW_MTR_SPEED_STAT "Pin_Number:F19 Page:Discretes,Safing_Logic";
+CM_ SG_ 1283 LOW_3PS_MAIN_MICRO "Pin_Number:G20 Page:Discretes,Safing_Logic";
+CM_ SG_ 1283 MTR_TEMP_SEL "Pin_Number:B20 Page:Discretes";
+CM_ SG_ 1283 INST_TRIGGER_MAIN_MICRO "Pin_Number:E7 Page:Discretes";
+CM_ SG_ 1283 LOW_HVOV_PHOC_LATCH_CLR "Pin_Number:A3 Page:Discretes,Safing_Logic";
+CM_ SG_ 1283 OIL_PMP_RLY_CTRL "Pin_Number:A9 Page:Discretes";
+CM_ SG_ 1283 SBC_WD_TRIG "Pin_Number:J17 Page:Discretes";
+CM_ SG_ 1283 eLOCKER_EN "Pin_Number:D12 Page:Discretes,E-Locker";
+CM_ SG_ 1283 HVIL_RTN_SW "Pin_Number:F5 Page:Discretes";
+CM_ SG_ 1283 PWM_EN "Pin_Number:B10 Page:Discretes,Safing_Logic";
+CM_ SG_ 1283 LOW_RST_PPAWL_MTR_OC_FLT "Pin_Number:K17 Page:Discretes,PPAWL";
+CM_ SG_ 1283 PPAWL_MTR_EN "Pin_Number:D13 Page:Discretes,PPAWL";
+CM_ SG_ 1283 PPAWL_MTR_CTRL2 "Pin_Number:A8 Page:Discretes,PPAWL";
+CM_ SG_ 1283 GS_ENL_U "Pin_Number:G19 Page:Discretes";
+CM_ SG_ 1283 GS_ENL_V "Pin_Number:D10 Page:Discretes";
+CM_ SG_ 1283 GS_ENL_W "Pin_Number:R16 Page:Discretes";
+CM_ SG_ 1283 GS_ENH_U "Pin_Number:Y18 Page:Discretes";
+CM_ SG_ 1283 GS_ENH_V "Pin_Number:N17 Page:Discretes";
+CM_ SG_ 1283 GS_ENH_W "Pin_Number:T19 Page:Discretes";
+CM_ SG_ 1283 LOW_NXP_ACT_DISCH "Pin_Number:PTA3 Page:NXP";
+CM_ SG_ 1283 LOW_F_RESET_NXP "Pin_Number:PTA7 Page:NXP,Safing_Logic";
+CM_ SG_ 1283 SPD_HW_3PS_I_O "Pin_Number:PTD5 Page:NXP,Safing_Logic";
+CM_ SG_ 1283 INST_TRIGGER "Pin_Number:PTC3 Page:NXP";
 CM_ SG_ 1553 E_STOP_MAIN_MICRO_Dir "Page:Safing_Logic";
 CM_ SG_ 1553 DSAT_BOT_FLT_FB_Dir "Page:Safing_Logic";
 CM_ SG_ 1553 DSAT_TOP_FLT_FB_Dir "Page:Safing_Logic";
@@ -1978,17 +1998,17 @@ CM_ SG_ 1552 RED_DSADC_RES_COS "Page:Analog,Resolver GroupName:Resolver";
 CM_ SG_ 1552 RED_DSADC_RES_SIN "Page:Analog,Resolver GroupName:Resolver";
 CM_ SG_ 1552 DSADC_RES_COS "Page:Analog,Resolver GroupName:Resolver";
 CM_ SG_ 1552 DSADC_RES_SIN "Page:Analog,Resolver GroupName:Resolver";
-CM_ SG_ 1552 EXC_LO_DIAG_AI "Pin_Number:G2 A/D_Channel:P00.1 Page:Analog,Resolver GroupName:Resolver";
-CM_ SG_ 1552 EXC_HI_DIAG_AI "Pin_Number:L4 A/D_Channel:AN43 Page:Analog,Resolver GroupName:Resolver";
-CM_ SG_ 1552 COS_LO_DIAG_AI "Pin_Number:P5 A/D_Channel:AN34 Page:Analog,Resolver GroupName:Resolver";
-CM_ SG_ 1552 SIN_LO_DIAG_AI "Pin_Number:U2 A/D_Channel:AN28  Page:Analog,Resolver GroupName:Resolver";
+CM_ SG_ 1552 EXC_LO_DIAG_AI "Pin_Number:G2 A/D_Channel:P00.1 Conversion_mode:0 Factor:0.001220703125 Page:Analog,Resolver GroupName:Resolver";
+CM_ SG_ 1552 EXC_HI_DIAG_AI "Pin_Number:L4 A/D_Channel:AN43 Conversion_mode:0 Factor:0.001220703125 Page:Analog,Resolver GroupName:Resolver";
+CM_ SG_ 1552 COS_LO_DIAG_AI "Pin_Number:P5 A/D_Channel:AN34 Conversion_mode:0 Factor:0.001220703125 Page:Analog,Resolver GroupName:Resolver";
+CM_ SG_ 1552 SIN_LO_DIAG_AI "Pin_Number:U2 A/D_Channel:AN28 Conversion_mode:0 Factor:0.001220703125 Page:Analog,Resolver GroupName:Resolver";
 CM_ BO_ 1563 "ADC采样值发送报文";
-CM_ SG_ 1563 eLOCKER_LS_ISENSE_AI "Pin_Number:N2 A/D_Channel:AN45 Page:Analog,E-Locker GroupName:E-Locker";
-CM_ SG_ 1563 eLOCKER_HS_VSENSE_AI "Pin_Number:N1 A/D_Channel:AN44 Page:Analog,E-Locker GroupName:E-Locker";
-CM_ SG_ 1563 eLOCKER_HS_ISENSE_AI "Pin_Number:T5 A/D_Channel:AN22 Page:Analog,E-Locker GroupName:E-Locker";
-CM_ SG_ 1563 eLOCKER_LS_VSENSE_AI "Pin_Number:W13 A/D_Channel:P33.6 Page:Analog,E-Locker GroupName:E-Locker";
-CM_ SG_ 1563 PPAWL_MTR_CURRENT_SENSE_AI "Pin_Number:R2 A/D_Channel:AN35 Page:Analog,PPAWL GroupName:PPAWL";
-CM_ SG_ 1563 PPAWL_MTR_PWR_AI "Pin_Number:U7 A/D_Channel:AN9 Page:Analog,PPAWL GroupName:PPAWL";
+CM_ SG_ 1563 eLOCKER_LS_ISENSE_AI "Pin_Number:N2 A/D_Channel:AN45 Conversion_mode:0 Factor:0.00244140625 Page:Analog,E-Locker GroupName:E-Locker";
+CM_ SG_ 1563 eLOCKER_HS_VSENSE_AI "Pin_Number:N1 A/D_Channel:AN44 Conversion_mode:0 Factor:0.00732421875 Page:Analog,E-Locker GroupName:E-Locker";
+CM_ SG_ 1563 eLOCKER_HS_ISENSE_AI "Pin_Number:T5 A/D_Channel:AN22 Conversion_mode:0 Factor:0.002380466312402 Page:Analog,E-Locker GroupName:E-Locker";
+CM_ SG_ 1563 eLOCKER_LS_VSENSE_AI "Pin_Number:W13 A/D_Channel:P33.6 Conversion_mode:0 Factor:0.00732421875 Page:Analog,E-Locker GroupName:E-Locker";
+CM_ SG_ 1563 PPAWL_MTR_CURRENT_SENSE_AI "Pin_Number:R2 A/D_Channel:AN35 Conversion_mode:0 Factor:0.00778228820625 Offset:-3.915625 Page:Analog,PPAWL GroupName:PPAWL";
+CM_ SG_ 1563 PPAWL_MTR_PWR_AI "Pin_Number:U7 A/D_Channel:AN9 Conversion_mode:0 Factor:0.0093587239583 Page:Analog,PPAWL GroupName:PPAWL";
 CM_ SG_ 1563 ACT_DIS_FET_HEALTH_AI "Pin_Number:Y10 A/D_Channel:P33.1 Conversion_mode:0 Factor:0.001220703125 Page:Analog GroupName:Others";
 CM_ SG_ 1563 VI_5V_COMM_AI "Pin_Number:U11 A/D_Channel:P34.1 Conversion_mode:0 Factor:0.00244140625 Page:Analog GroupName:Power_Supply";
 CM_ SG_ 1563 AC_BB_TEMP_AI "Pin_Number:F4 A/D_Channel:P02.11 Conversion_mode:1 Table:3 Page:Analog GroupName:Temperature";
@@ -2001,7 +2021,7 @@ CM_ SG_ 1563 VI_15V_SAFETY_BOT_AI "Pin_Number:M2 A/D_Channel:AN47 Conversion_mod
 CM_ SG_ 1563 VI_15V_SAFETY_TOP_AI "Pin_Number:M1 A/D_Channel:AN46 Conversion_mode:0 Factor:0.0070263671875 Page:Analog GroupName:Power_Supply";
 CM_ SG_ 1563 VI_5V_OUT_AI "Pin_Number:L5 A/D_Channel:AN42 Conversion_mode:0 Factor:0.00244140625 Page:Analog GroupName:Power_Supply";
 CM_ SG_ 1563 VI_5V_CURRENT_SENSE_AI "Pin_Number:M4 A/D_Channel:AN41 Conversion_mode:0 Factor:0.00244140625 Page:Analog GroupName:Power_Supply";
-CM_ SG_ 1563 VBATT2_AI "Pin_Number:M5 A/D_Channel:AN40 Conversion_mode:0 Factor:0.00244140625 Page:Analog GroupName:Power_Supply";
+CM_ SG_ 1563 VBATT2_AI "Pin_Number:M5 A/D_Channel:AN40 Conversion_mode:0 Factor:0.00625 Page:Analog GroupName:Power_Supply";
 CM_ SG_ 1563 VI_5V_GDIC_TOP_AI "Pin_Number:P4 A/D_Channel:AN32 Conversion_mode:0 Factor:0.00244140625 Page:Analog GroupName:Power_Supply";
 CM_ SG_ 1563 VBATT1_AI "Pin_Number:T4 A/D_Channel:AN30 Conversion_mode:0 Factor:0.00625 Page:Analog GroupName:Power_Supply";
 CM_ SG_ 1563 MTR_TEMP_AI "Pin_Number:U1 A/D_Channel:AN29 Conversion_mode:1 Table:1 Page:Analog GroupName:Temperature";
@@ -2056,7 +2076,7 @@ BA_ "VFrameFormat" BO_ 1557 14;
 BA_ "VFrameFormat" BO_ 1556 14;
 BA_ "VFrameFormat" BO_ 1555 14;
 BA_ "VFrameFormat" BO_ 1554 14;
-BA_ "VFrameFormat" BO_ 1280 14;
+BA_ "VFrameFormat" BO_ 1283 14;
 BA_ "VFrameFormat" BO_ 1553 14;
 BA_ "VFrameFormat" BO_ 1552 14;
 BA_ "VFrameFormat" BO_ 1563 14;
@@ -2089,7 +2109,7 @@ VAL_ 1281 BOT_U_Register_Write_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STA
 VAL_ 1281 TOP_W_Register_Write_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STATUS1" 0 "NONE" ;
 VAL_ 1281 TOP_V_Register_Write_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STATUS1" 0 "NONE" ;
 VAL_ 1281 TOP_U_Register_Write_Index 4 "STATCON4" 3 "STATUS3" 2 "STATUS2" 1 "STATUS1" 0 "NONE" ;
-VAL_ 1280 TLF35584_Tran_State 7 "RESERVED" 6 "RESERVED" 5 "WAKE" 4 "STANDBY" 3 "SLEEP" 2 "NORMAL" 1 "INIT" 0 "NONE" ;
+VAL_ 1283 TLF35584_Tran_State 7 "RESERVED" 6 "RESERVED" 5 "WAKE" 4 "STANDBY" 3 "SLEEP" 2 "NORMAL" 1 "INIT" 0 "NONE" ;
 VAL_ 1552 PPAWL_SPI_Current_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
 VAL_ 1552 CANFD_5_SPI_Current_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;
 VAL_ 1552 CANFD_16_SPI_Current_Baudrate 11 "50" 10 "40" 9 "25" 8 "20" 7 "10" 6 "8" 5 "5" 4 "4" 3 "2.5" 2 "0.5" 1 "1" 0 "2" ;

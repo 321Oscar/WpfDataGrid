@@ -59,7 +59,7 @@ namespace ERad5TestGUI
             services.AddTransient<ViewModels.ResolverViewModel>();
             services.AddTransient<ViewModels.NXPViewModel>();
             services.AddTransient<ViewModels.MemoryViewModel>();
-            services.AddTransient<ViewModels.SavinLogicViewModel>();
+            services.AddTransient<ViewModels.SafingLogicViewModel>();
             services.AddTransient<ViewModels.PPAWLViewModel>();
             services.AddTransient<ViewModels.SPIViewModel>();
             services.AddTransient<ViewModels.LinViewModel>();
@@ -215,7 +215,7 @@ namespace ERad5TestGUI
                 CreateService<ViewModels.NXPViewModel>(serviceProvider, "NXP"),
                 CreateService<ViewModels.ResolverViewModel>(serviceProvider, "Resolver"),
                 CreateService<ViewModels.MemoryViewModel>(serviceProvider, "Memory"),
-                CreateService<ViewModels.SavinLogicViewModel>(serviceProvider, "SavingLogic"),
+                CreateService<ViewModels.SafingLogicViewModel>(serviceProvider, "SavingLogic"),
                 CreateService<ViewModels.PPAWLViewModel>(serviceProvider, "PPAWL"),
                 CreateService<ViewModels.SPIViewModel>(serviceProvider, "SPI"),
                 CreateService<ViewModels.UDSUpgradeViewModel>(serviceProvider, "UDSUpgrade"),

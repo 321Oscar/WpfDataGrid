@@ -6,7 +6,7 @@ using ERad5TestGUI.Services;
 
 namespace ERad5TestGUI.UDS
 {
-    public abstract class UDSServerAbstract : ObservableObject, IUDSServer, IUDSEvent
+    public class UDSServerAbstract : ObservableObject, IUDSServer, IUDSEvent
     {
         private int progressInt;
         private string resultMsg;
@@ -63,6 +63,8 @@ namespace ERad5TestGUI.UDS
         //public abstract event OutputLog DebugLog;
         public IDevice Device { get; }
         public ILogService Log { get; }
+
+       
 
         public UDSServerAbstract(IDevice device, ILogService log)
         {

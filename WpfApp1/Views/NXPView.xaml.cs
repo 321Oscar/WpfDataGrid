@@ -27,18 +27,39 @@ namespace ERad5TestGUI.Views
 
         private void SplitButton_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
+            AdonisUI.Controls.SplitButton btn = sender as AdonisUI.Controls.SplitButton;
 
-            object[] pas = new object[2];
+           
+            //double x = mousePosition.X;
+            //double y = mousePosition.Y;
 
-            //ClearDataCommand:SignalStore,ViewName
-            var vm = this.DataContext as ViewModels.NXPViewModel;
-            //var signalStore = ().SignalStore;
+            //btn.PART_MenuExpander
+            var expander = btn.Template.FindName("PART_MenuExpander", btn) as Button;
+            var mousePosition = Mouse.GetPosition(expander);
 
-            pas[0] =  vm.SignalStore;
-            pas[1] =  vm.ViewName;
+            //不在expander中则执行Command
+            if (mousePosition.X >= 0 && mousePosition.X <= expander.ActualWidth &&
+                  mousePosition.Y >= 0 && mousePosition.Y <= expander.ActualHeight)
+            {
+                return;
+            }
+            else
+            {
+                // 如果点击在 PART_Content 内部，则执行 Button 的 Command
+                //expander.
+                object[] pas = new object[2];
 
-            btn.Command.Execute(pas);
+                //ClearDataCommand:SignalStore,ViewName
+                var vm = this.DataContext as ViewModels.NXPViewModel;
+                //var signalStore = ().SignalStore;
+
+                pas[0] = vm.SignalStore;
+                pas[1] = vm.ViewName;
+
+                btn.Command.Execute(pas);
+            }
+
+            
         }
     }
 }

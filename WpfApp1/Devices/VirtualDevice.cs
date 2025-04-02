@@ -108,7 +108,7 @@ namespace ERad5TestGUI.Devices
                                      .Distinct();
             foreach (var msgID in msgIDs)
             {
-                virtualFrames.Add(new CanFrame(msgID, new byte[64]));
+                virtualFrames.Add(new CanFrame(msgID, new byte[64], FrameFlags.CANFDSpeed));
             }
 
             return virtualFrames;

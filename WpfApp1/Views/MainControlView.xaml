@@ -82,7 +82,7 @@
                 <ctrls:TextBoxWithLabel 
                     Style="{StaticResource TextBlockWithLabelGridStyle}"
                     Title="EM SW Version:" 
-                    Content="x.x.x.x"                        
+                    Content="{Binding EMSWVersion}"                        
                     Grid.Row="3"/>
                 <ctrls:TextBoxWithLabel 
                     Title="PC SW Version:"  
@@ -93,7 +93,7 @@
                 <ctrls:TextBoxWithLabel 
                     Style="{StaticResource TextBlockWithLabelGridStyle}"
                     Title="Hardware ID:" 
-                    Content="x.x.x.x"                        
+                    Content="{Binding HardwareID}"                        
                     Grid.Row="3"/>
 
             </StackPanel>
@@ -157,7 +157,12 @@
                         Grid.ColumnSpan="2" 
                         Grid.Row="1"
                         Margin="1"
-                        Command="{Binding DisableINHCANCommand}"/>
+                        Command="{Binding DisableINHCANCommand}">
+                        <!--CAN_INH_Update-->
+                        <Button.ToolTip>
+                            <ContentControl Content="{Binding CAN_INH_Update}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                        </Button.ToolTip>
+                    </Button>
                 </Grid>
                 <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
                     <Button 

@@ -302,23 +302,42 @@ namespace ERad5TestGUI.Devices
 
         }
 
-        public bool Transmit(uint msgID, byte[] data, ref string fail, int dlc = 8)
-        {
-            XLClass.xl_event_collection xlEventCollection = new XLClass.xl_event_collection(1);
-            xlEventCollection.xlEvent[0].tagData.can_Msg.id = msgID;
-            xlEventCollection.xlEvent[0].tagData.can_Msg.dlc = 8;
-            for (int i = 0; i < data.Length; i++)
-            {
-                xlEventCollection.xlEvent[0].tagData.can_Msg.data[i] = data[i];
-            }
-            xlEventCollection.xlEvent[0].tag = XLDefine.XL_EventTags.XL_TRANSMIT_MSG;
-            var txStatus = VectorDriver.XL_CanTransmit(portHandle, txMask, xlEventCollection);
-            fail = txStatus.ToString();
-            return txStatus == XLDefine.XL_Status.XL_SUCCESS;
-        }
+        //public bool Transmit(uint msgID, byte[] data, ref string fail, int dlc = 8)
+        //{
+        //    XLClass.xl_canfd_event_collection xlEventCollection = new XLClass.xl_canfd_event_collection(1);
 
-        public bool TransmitFD(uint msgID, byte[] data, int dlc, ref string fail)
+        //    // event 1
+        //    xlEventCollection.xlCANFDEvent[0].tag = XLDefine.XL_CANFD_TX_EventTags.XL_CAN_EV_TAG_TX_MSG;
+        //    xlEventCollection.xlCANFDEvent[0].tagData.canId = msgID;
+        //    switch (dlc)
+        //    {
+        //        default:
+        //        case 8:
+        //            xlEventCollection.xlCANFDEvent[0].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CAN_CANFD_8_BYTES;
+        //            break;
+        //        case 15:
+        //            xlEventCollection.xlCANFDEvent[0].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CANFD_64_BYTES;
+        //            break;
+        //    }
+
+        //    xlEventCollection.xlCANFDEvent[0].tagData.msgFlags = XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_NONE;
+        //        //| XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_EDL;
+        //    for (int i = 0; i < data.Length; i++)
+        //    {
+        //        xlEventCollection.xlCANFDEvent[0].tagData.data[i] = data[i];
+        //    }
+
+        //    // Transmit events
+        //    uint messageCounterSent = 0;
+        //    var txStatus = VectorDriver.XL_CanTransmitEx(portHandle, txMask, ref messageCounterSent, xlEventCollection);
+        //    fail = txStatus.ToString();
+        //    return messageCounterSent == 1;
+        //}
+
+        public bool Transmit(uint msgID, byte[] data, int dlc, ref string fail, FrameFlags frameFlags = FrameFlags.CANFDSpeed)
         {
+            //return Transmit(new CanFrame(msgID,data,fr))
+
             //CANFDTransmitTest();
 
             // Create an event collection with 2 messages (events)
@@ -338,8 +357,21 @@ namespace ERad5TestGUI.Devices
                     break;
             }
 
-            xlEventCollection.xlCANFDEvent[0].tagData.msgFlags = XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_BRS
-                | XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_EDL;
+            switch (frameFlags)
+            {
+                default:
+                case FrameFlags.CANFDSpeed:
+                    xlEventCollection.xlCANFDEvent[0].tagData.msgFlags = XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_BRS
+                        | XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_EDL;
+                    break;
+                case FrameFlags.CAN:
+                    xlEventCollection.xlCANFDEvent[0].tagData.msgFlags = XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_NONE;
+                    break;
+                case FrameFlags.CANFD:
+                    xlEventCollection.xlCANFDEvent[0].tagData.msgFlags = XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_NONE
+                        | XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_EDL;
+                    break;
+            }
             for (int i = 0; i < data.Length; i++)
             {
                 xlEventCollection.xlCANFDEvent[0].tagData.data[i] = data[i];
@@ -365,18 +397,31 @@ namespace ERad5TestGUI.Devices
                 {
                     default:
                     case 8:
-                        xlEventCollection.xlCANFDEvent[0].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CAN_CANFD_8_BYTES;
+                        xlEventCollection.xlCANFDEvent[i].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CAN_CANFD_8_BYTES;
                         break;
                     case 15:
-                        xlEventCollection.xlCANFDEvent[0].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CANFD_64_BYTES;
+                        xlEventCollection.xlCANFDEvent[i].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CANFD_64_BYTES;
                         break;
                 }
-
-                xlEventCollection.xlCANFDEvent[0].tagData.msgFlags = XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_BRS
-                    | XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_EDL;
+                switch (frame.FrameFlags)
+                {
+                    default:
+                    case FrameFlags.CANFDSpeed:
+                        xlEventCollection.xlCANFDEvent[i].tagData.msgFlags = XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_BRS
+                            | XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_EDL;
+                        break;
+                    case FrameFlags.CAN:
+                        xlEventCollection.xlCANFDEvent[i].tagData.msgFlags = XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_NONE;
+                        break;
+                    case FrameFlags.CANFD:
+                        xlEventCollection.xlCANFDEvent[i].tagData.msgFlags = XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_NONE
+                            | XLDefine.XL_CANFD_TX_MessageFlags.XL_CAN_TXMSG_FLAG_EDL;
+                        break;
+                }
+                
                 for (int j = 0; j < frame.Data.Length; j++)
                 {
-                    xlEventCollection.xlCANFDEvent[0].tagData.data[j] = frame.Data[j];
+                    xlEventCollection.xlCANFDEvent[i].tagData.data[j] = frame.Data[j];
                 }
             }
             uint messageCounterSent = 0;
@@ -509,7 +554,7 @@ namespace ERad5TestGUI.Devices
         public bool SendFD(IFrame frame)
         {
             string fail = "";
-            if (!TransmitFD(frame.MessageID, frame.Data, frame.DLC, ref fail))
+            if (!Transmit(frame.MessageID, frame.Data, frame.DLC, ref fail, frame.FrameFlags))
             {
                 logService.Debug($"Send Fail:{fail}");
                 return false;
@@ -520,7 +565,7 @@ namespace ERad5TestGUI.Devices
         public bool Send(IFrame frame)
         {
             string fail = "";
-            if (!Transmit(frame.MessageID, frame.Data, ref fail, frame.DLC))
+            if (!Transmit(frame.MessageID, frame.Data, frame.DLC, ref fail, frame.FrameFlags))
             {
                 logService.Debug($"Send Fail:{fail}");
                 return false;

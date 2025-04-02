@@ -7,6 +7,8 @@ using System.Windows.Input;
 using ERad5TestGUI.Models;
 using ERad5TestGUI.Services;
 using ERad5TestGUI.Stores;
+using System.Threading.Tasks;
+using ERad5TestGUI.Devices;
 
 namespace ERad5TestGUI.ViewModels
 {
@@ -43,7 +45,46 @@ namespace ERad5TestGUI.ViewModels
 
         private void Update()
         {
-            Send(SignalStore.BuildFrames(OutputSignals));
+            SendFD(SignalStore.BuildFrames(OutputSignals));
+        }
+
+        private System.Threading.CancellationTokenSource cancelSource;
+        private readonly CanFrame Frame0x15 = new CanFrame(0x15, new byte[8], FrameFlags.CAN);
+        private readonly CanFrame Frame0x16 = new CanFrame(0x16, new byte[8], FrameFlags.CAN);
+        private RelayCommand _wakeUpCommand;
+        private bool _sending;
+
+        public RelayCommand WakeUpCommand => _wakeUpCommand ?? (_wakeUpCommand = new RelayCommand(WakeUP));
+        public bool Sending { get => _sending; set => SetProperty(ref _sending, value); }
+        private void WakeUP()
+        {
+            if (Sending)
+            {
+                cancelSource.Cancel();
+                Sending = false;
+            }
+            else
+            {
+                cancelSource = new System.Threading.CancellationTokenSource();
+                Sending = true;
+                Task.Run(async () =>
+                {
+                    do
+                    {
+                        if (cancelSource.Token.IsCancellationRequested)
+                            cancelSource.Token.ThrowIfCancellationRequested();
+
+                        SendFDNoExp(new CanFrame[] { Frame0x15, Frame0x16 });
+
+                        await Task.Delay(10);
+
+                    } while (Sending);
+
+
+                }, cancelSource.Token);
+            }
+
+
         }
 
     }

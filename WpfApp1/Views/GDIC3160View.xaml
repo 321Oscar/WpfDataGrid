@@ -311,11 +311,11 @@
                                     </GroupBox.Header>
                                     <Grid Margin="-8">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition />
+                                            <RowDefinition Height="auto"/>
                                             <RowDefinition />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <Grid Grid.Row="0" Background="White">
+                                        <Grid Grid.Row="0" Background="White" Visibility="{Binding HasTemperature,Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="auto" SharedSizeGroup="SignalName" MinWidth="100"/>
                                                 <ColumnDefinition Width="auto" SharedSizeGroup="value1" MinWidth="100"/>

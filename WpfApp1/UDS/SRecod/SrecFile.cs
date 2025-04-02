@@ -927,7 +927,7 @@ namespace ERad5TestGUI.UDS.SRecord
                     SrecDataOnly dataonly = new SrecDataOnly
                     {
                         Address = (uint)(startPostion + i * takeLength),
-                        Data = new List<byte>(takeLength)
+                        Data = new List<byte>(new byte[takeLength])
                     };
                     for (int j = 0; j < takeLength; j++)
                     {

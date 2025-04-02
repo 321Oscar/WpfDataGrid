@@ -58,7 +58,7 @@ namespace ERad5TestGUI.Stores
                 if (message != null)
                 {
                     byte[] resData = message.Data;//8 帧数据
-                    cAN_Msg_BytesList.Add(new CanFrame(messageid, resData));
+                    cAN_Msg_BytesList.Add(new CanFrame(messageid, resData, FrameFlags.CANFDSpeed));
                 }
             }
 
@@ -384,6 +384,17 @@ namespace ERad5TestGUI.Stores
                                 if (uint.TryParse(lineAry[3], out uint messageID))
                                 {
                                     Messages.Find(x => x.CheckID(messageID)).cycleTime = int.Parse(lineAry[4].Replace(';', ' '));
+                                }
+                            }
+                            if (lineAry[1].Contains("SystemSignalLongSymbol") && lineAry[2] == "SG_")//长名称
+                            {
+                                if (uint.TryParse(lineAry[3], out uint messageID))
+                                {
+                                    var name1 = lineAry[4];
+
+                                    var signal = Messages.FirstOrDefault(x => x.CheckID(messageID)).signals.FirstOrDefault(s => s.SignalName == name1);
+
+                                    signal.SignalName = lineAry[5].TrimEnd(';').Replace("\"", "");
                                 }
                             }
                             break;

@@ -54,6 +54,7 @@ namespace ERad5TestGUI.ViewModels
         public SignalStore SignalStore { get => _signalStore; }
         public DiscreteOutputSignal FD5_INH_DISABLE => SignalStore.GetSignals<DiscreteOutputSignal>().FirstOrDefault(x => x.Name == "FD5_INH_DISABLE");
         public DiscreteOutputSignal FD16_INH_DISABLE => SignalStore.GetSignals<DiscreteOutputSignal>().FirstOrDefault(x => x.Name == "FD16_INH_DISABLE");
+        public DiscreteOutputSignal CAN_INH_Update => SignalStore.GetSignalByName<DiscreteOutputSignal>("CAN_INH_Update", inOrOut: true);
         public MainViewModel(IServiceProvider serviceProvider, NavigationStore navigationStore, ModalNavigationStore modalNavigationStore,
             DeviceStore deviceStore, LogService logService, SignalStore signalStore) 
             : this(deviceStore, logService, signalStore)
@@ -79,10 +80,11 @@ namespace ERad5TestGUI.ViewModels
             this._deviceStore.CurrentDeviceChanged += OnCurrentDeviceChanged;
             this._deviceStore.FrameCountChanged += OnFrameCountChanged;
             _signalStore = signalStore;
+            _udsVm = new UDSUpgradeViewModel(signalStore, deviceStore, logService);
             //OpenCommand = new RelayCommand(Open, () => HasDevice);
             //CloseCommand = new RelayCommand(Close, () => HasDevice);
             //StartCommand = new RelayCommand(Start, () => HasDevice);
-            StopCommand = new RelayCommand(Stop, () => HasDevice);
+            StopCommand = new AsyncRelayCommand(Stop, () => HasDevice);
             DeivceConfigCommand = new RelayCommand(DeivceConfig);
         }
 
@@ -129,7 +131,7 @@ namespace ERad5TestGUI.ViewModels
         public ICommand DisableINHCANCommand { get => _disableINHCANCommand ?? (_disableINHCANCommand = new RelayCommand(DisableINHCAN, () => HasDevice)); }
         public ICommand SendWakeUpCommand { get => _sendCANFDWakeUpCommand ?? (_sendCANFDWakeUpCommand = new RelayCommand<uint>(SendWakeUp, (x) => HasDevice)); }
 
-        private void Stop() 
+        private async Task Stop() 
         {
             if (CurrentDevice.Started)
             {
@@ -139,6 +141,16 @@ namespace ERad5TestGUI.ViewModels
             else
             {
                 CurrentDevice.Start();
+                if (CurrentDevice is VectorCan)
+                {
+                    HardwareID = await ReadDID(DIDF193);
+                    EMSWVersion = await ReadDID(DIDF130);
+                }
+                else
+                {
+                    HardwareID = "x.x.x.x";
+                    EMSWVersion = "x.x.x.x";
+                }
             }
             OnPropertyChanged(nameof(Started));
         }
@@ -157,10 +169,13 @@ namespace ERad5TestGUI.ViewModels
 
             if (this.HasDevice)
             {
+                CAN_INH_Update.OriginValue = 1;
                 CurrentDevice.SendFDMultip(SignalStore.BuildFrames(new DiscreteOutputSignal[] {
+                    CAN_INH_Update,
                     FD16_INH_DISABLE,
                     FD5_INH_DISABLE
                 }));
+                CAN_INH_Update.OriginValue = 0;
             }
             else
             {
@@ -170,16 +185,56 @@ namespace ERad5TestGUI.ViewModels
 
         private void SendWakeUp(uint msgID)
         {
-            _deviceStore.CurrentDevice.Send(new CanFrame(msgID, new byte[8]));
+            _deviceStore.CurrentDevice.Send(new CanFrame(msgID, new byte[8], FrameFlags.CAN));
         }
+
+        #region DID
+        private UDSUpgradeViewModel _udsVm;
+        private UDS.DIDInfo DIDF193 = new UDS.DIDInfo("hardware version", 0xF193, 10, UDS.DIDType.ASCII);
+        private UDS.DIDInfo DIDF130 = new UDS.DIDInfo("software version", 0xF130, 10, UDS.DIDType.ASCII);
+        private string _hardVersion;
+        private string _softVersion;
+        public string HardwareID { get => _hardVersion; set=>SetProperty(ref _hardVersion,value); }
+        public string EMSWVersion { get => _softVersion; set=>SetProperty(ref _softVersion, value); }
+        private async Task<string> ReadDID(UDS.DIDInfo did)
+        {
+            _udsVm.CurrentDID = did;
+
+            var flags = await _udsVm.ReadDID();
+
+            if(flags == 1)
+            {
+                return _udsVm.DIDData;
+            }
+            return "";
+        }
+        #endregion
     }
 
     public partial class MainViewModel
     {
+        /// 0.0.0.9
+        /// 1.PPAWL 中 Duty Freq下发失败
+        /// 2.PulseOut中 Freq设置后会自行变化
+        /// 3.SafingLogic增加输入输出可变信号
+        /// 4.增加读取DIDF193 & F130
+        /// 0.0.0.8
+        /// 关闭软件时，取消MsgStatus后台线程
+        /// Disable Can 需绑定信号
+        /// safinglogic测试进度改为百分制；
+        /// dbc文件增加解析信号长名称
+        /// 0.0.0.7：
+        /// 1.GDIC_Aout 右侧删除Temperature
+        /// 2.DisConnect 增加后台循环发送can2.0报文
+        /// 3.safinglogic测试结果通过弹窗显示，测试失败则弹出是否保存excel,选择保存后再导出excel
+        /// 4.修改Frame结构，修复发送can2.0报文失败
+
         /// <summary>
         /// Soft Version
         /// </summary>
         /// <remarks>
+        /// <para>V0.0.0.6 safinglogic Test 
+        /// </para>
         /// <para>V0.0.0.5 1.完善PPAWL，E-Locker界面
         ///2.修改GDIC ADC信号显示
         ///3.增加SafingLogic，Memory界面
@@ -196,6 +251,6 @@ namespace ERad5TestGUI.ViewModels
         /// 发送CAN报文，根据ID发送该ID下的所有信号</para>
         /// <para>V0.0.0.1 : <see cref="Models.NXPInputSignal"/> 转换无需 * 5 /4096；增加LIN 界面</para>
         /// </remarks>
-        public string Version { get; } = "0.0.0.5";
+        public string Version { get; } = "0.0.0.9";
     }
 }

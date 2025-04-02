@@ -153,7 +153,7 @@ namespace ERad5TestGUI.ViewModels
         {
             //throw new NotImplementedException();
             obj.WriteFlag.OriginValue = 1;
-            Send(SignalStore.BuildFrames(SignalStore.GetSignals<GDICStatusDataSignal>().Where(x => x.InOrOut)));
+            SendFD(SignalStore.BuildFrames(SignalStore.GetSignals<GDICStatusDataSignal>().Where(x => x.InOrOut)));
             obj.WriteFlag.OriginValue = 0;
         }
 
@@ -172,21 +172,21 @@ namespace ERad5TestGUI.ViewModels
         private void GetTemperatueSignals()
         {
             var gdicSignals = SignalStore.GetSignals<GDICAoutSignal>();
+            _deviceSelections.AddRange(gdicSignals.Where(x => x.Name.IndexOf("Select", StringComparison.OrdinalIgnoreCase) > -1));
 
             var allTemp = gdicSignals.GroupBy(s => s.GDDevice + s.Selection + s.CanChangeSelection)
                 .Select(g =>
                 {
                     var signals = g.ToList();
-                    var dutyCanChangeSelection = signals.FirstOrDefault(x => x.Name.IndexOf("Duty") > -1);
+                    var duty = signals.FirstOrDefault(x => x.Name.IndexOf("Duty") > -1);
                     //var dutyCanNotChangeSelection = signals.FirstOrDefault(x => x.Name.IndexOf("Duty") > -1 && !x.CanChangeSelection);
-                    var freqCanChangeSelection = signals.FirstOrDefault(x => x.Name.IndexOf("Freq") > -1);
+                    var freq = signals.FirstOrDefault(x => x.Name.IndexOf("Freq") > -1);
                     //var freqCanNotChangeSelection = signals.FirstOrDefault(x => x.Name.IndexOf("freq") > -1 && !x.CanChangeSelection);
 
-                    GDICAoutTemperatureSignal temperature = new GDICAoutTemperatureSignal(dutyCanChangeSelection, freqCanChangeSelection);
+                    var temperature = new GDICAoutTemperatureSignal(duty, freq, !duty.CanChangeSelection);
 
                     return temperature;
                 });
-            _deviceSelections.AddRange(gdicSignals.Where(x => x.Name.IndexOf("Select", StringComparison.OrdinalIgnoreCase) > -1));
             _temperatueSignals.AddRange(allTemp.Where(x => !x.CanChangeSelection));
             _temperatueAoutSignals.AddRange(allTemp.Where(x => x.CanChangeSelection));
         }
@@ -251,7 +251,7 @@ namespace ERad5TestGUI.ViewModels
                     });
 
                     //send meesage
-                    Send(SignalStore.BuildFrames(DeviceSelections));
+                    SendFD(SignalStore.BuildFrames(DeviceSelections));
                 }
             }
         }
@@ -365,7 +365,7 @@ namespace ERad5TestGUI.ViewModels
                 {
                     CurrentAdcSignal.WriteSignal.OriginValue = AdcValueSelections.IndexOf(_currentValueSelection);
 
-                    Send(SignalStore.BuildFrames(new SignalBase[] { CurrentAdcSignal.WriteSignal }));
+                    SendFD(SignalStore.BuildFrames(new SignalBase[] { CurrentAdcSignal.WriteSignal }));
                 }
             }
         }

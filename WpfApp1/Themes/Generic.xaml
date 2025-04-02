@@ -7,6 +7,7 @@
     xmlns:viewModels="clr-namespace:ERad5TestGUI.ViewModels"
     xmlns:models="clr-namespace:ERad5TestGUI.Models"
     xmlns:views="clr-namespace:ERad5TestGUI.Views"
+    xmlns:udsModel="clr-namespace:ERad5TestGUI.UDS"
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI">
 
     <ResourceDictionary.MergedDictionaries>
@@ -21,9 +22,17 @@
     <cvts:DeviceStartConverter x:Key="DeviceStartConverter"/>
     <cvts:InvertBooleanConverter x:Key="InvertBooleanConverter"/>
     <cvts:DoubleHexConverter x:Key="DoubleHexConverter"/>
+    <cvts:HexConverter x:Key="HexConverter"/>
     <cvts:DoubleToByteHexConverter x:Key="DoubleToByteHexConverter"/>
     <cvts:ClearCommandParamtersConvert x:Key="ClearCommandParamtersConvert"/>
+    <cvts:ProgressToPercentageConverter x:Key="ProgressToPercentageConverter"/>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+    <cvts:ColorMultiConverter x:Key="staMultiColor" />
+    <cvts:ColorConverter x:Key="staColor" />
+    <cvts:Int2StringConverter x:Key="intStrConverter" />
+    <cvts:Enable2ReadOnlyConverter x:Key="enable2ReadConverter" />
+    <cvts:ProgressStyleConverter x:Key="progressConverter" />
 
     <DataTemplate DataType="{x:Type viewModels:DeviceViewModel}">
         <views:DevicesView />
@@ -55,8 +64,8 @@
     <DataTemplate DataType="{x:Type viewModels:PPAWLViewModel}">
         <views:PPAWLView />
     </DataTemplate> 
-    <DataTemplate DataType="{x:Type viewModels:SavinLogicViewModel}">
-        <views:SavingLogicView />
+    <DataTemplate DataType="{x:Type viewModels:SafingLogicViewModel}">
+        <views:SafingLogicView />
     </DataTemplate> 
     <DataTemplate DataType="{x:Type viewModels:SPIViewModel}">
         <views:SPIView />
@@ -391,52 +400,7 @@
             </Border>
             <ScrollViewer Grid.Row="1">
                 <ItemsControl ItemsSource="{Binding}" >
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type models:PulseOutGroupSignalGroup}">
-                            <Border>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition SharedSizeGroup="SignalName" Width="auto"></ColumnDefinition>
-                                        <ColumnDefinition SharedSizeGroup="value1" Width="auto" MinWidth="100"/>
-                                        <ColumnDefinition SharedSizeGroup="value2" Width="auto" MinWidth="100"/>
-                                        <ColumnDefinition SharedSizeGroup="note" Width="auto"/>
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Border Style="{StaticResource CellBorder}">
-                                        <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}"/>
-                                    </Border>
-                                    <TextBox 
-                                            Text="{Binding Freq.TempValue}" 
-                                            x:Name="freq"
-                                            Grid.Column="1" 
-                                            Margin="2,0" IsEnabled="{Binding CurrentViewEnable}" />
-                                    <TextBox 
-                                            Name="duty"
-                                            Text="{Binding DutyCycle.TempValue}" 
-                                            Grid.Column="2"
-                                            IsEnabled="{Binding CurrentViewEnable}"/>
-                                    <TextBlock 
-                                            Text="{Binding Note}" 
-                                            Grid.Column="3" 
-                                            HorizontalAlignment="Center" 
-                                            VerticalAlignment="Center"/>
-                                </Grid>
-                                <Border.Style>
-                                    <Style TargetType="Border" BasedOn="{StaticResource CardBorder}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding CurrentViewEnable}" Value="False">
-                                                <Setter Property="Background" Value="LightGray"/>
-                                                <!--<Setter TargetName="freq" Property="IsEnabled" Value="False"/>-->
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding CurrentViewEnable}" Value="True">
-                                                <Setter Property="Background" Value="Transparent"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                    
                 </ItemsControl>
             </ScrollViewer>
         </Grid>
@@ -470,8 +434,10 @@
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Center" 
                     Orientation="Horizontal">
-                    <ToggleButton IsChecked="{Binding Pin_High, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                  Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}">
+                    <ToggleButton 
+                        Visibility="{Binding IsOutput,Converter={StaticResource BooleanToVisibilityConverter}}"
+                        IsChecked="{Binding Pin_High, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}">
                     </ToggleButton>
                     <TextBlock 
                         Text="Low" 
@@ -596,20 +562,56 @@
         </Border>
     </DataTemplate>
     <DataTemplate DataType="{x:Type models:PulseOutGroupSignalGroup}">
-        <Border Style="{StaticResource CardBorder}">
+        <Border>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition SharedSizeGroup="SignalName" Width="auto"></ColumnDefinition>
                     <ColumnDefinition SharedSizeGroup="value1" Width="auto" MinWidth="100"/>
                     <ColumnDefinition SharedSizeGroup="value2" Width="auto" MinWidth="100"/>
+                    <ColumnDefinition SharedSizeGroup="note" Width="auto"/>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Border Style="{StaticResource CellBorder}">
                     <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}"/>
                 </Border>
-                <TextBox Text="{Binding Freq.TempValue}" Grid.Column="1" Margin="2,0"/>
-                <TextBox Text="{Binding DutyCycle.TempValue}" Grid.Column="2"/>
+                <TextBox 
+                    Text="{Binding Freq.TempValue}" 
+                    x:Name="freq"
+                    Grid.Column="1" 
+                    Margin="2,0" 
+                    IsEnabled="{Binding CurrentViewEnable}">
+                    <TextBox.ToolTip>
+                        <ContentControl Content="{Binding Freq}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                    </TextBox.ToolTip>
+                </TextBox>
+                <TextBox 
+                    Name="duty"
+                    Text="{Binding DutyCycle.TempValue}" 
+                    Grid.Column="2"
+                    IsEnabled="{Binding CurrentViewEnable}">
+                    <TextBox.ToolTip>
+                        <ContentControl Content="{Binding DutyCycle}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                    </TextBox.ToolTip>
+                </TextBox>
+                <TextBlock 
+                    Text="{Binding Note}" 
+                    Grid.Column="3" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center"/>
             </Grid>
+            <Border.Style>
+                <Style TargetType="Border" BasedOn="{StaticResource CardBorder}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentViewEnable}" Value="False">
+                            <Setter Property="Background" Value="LightGray"/>
+                            <!--<Setter TargetName="freq" Property="IsEnabled" Value="False"/>-->
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CurrentViewEnable}" Value="True">
+                            <Setter Property="Background" Value="Transparent"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
         </Border>
     </DataTemplate>
 

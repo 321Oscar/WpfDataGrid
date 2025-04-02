@@ -101,7 +101,7 @@
                 Height="25" 
                 Command="{StaticResource ClearSignalDataCommand}" 
                 CommandParameter="{Binding}"/>
-            <Button 
+            <!--<Button 
                 Content="Clear Data 2"
                 Height="25" 
                 Command="{StaticResource ClearSignalDataCommand}">
@@ -114,7 +114,7 @@
                         </MultiBinding.Bindings>
                     </MultiBinding>
                 </Button.CommandParameter>
-            </Button>
+            </Button>-->
             <!--<TextBlock Text="{Binding AnalogSignals.Count}"/>-->
         </StackPanel>
 
@@ -303,7 +303,7 @@
                     <DataTemplate x:Key="DataGridTemplate">
                         <DataGrid
                             Margin="5"
-                            Width="1200"
+                            MaxWidth="1200"
                             HorizontalAlignment="Left"
                             AutoGenerateColumns="False"
                             CanUserAddRows="False" CanUserDeleteRows="False"

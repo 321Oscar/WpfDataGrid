@@ -52,7 +52,7 @@ namespace ERad5TestGUI.ViewModels
         private void Update()
         {
             //Send();
-            Send(SignalStore.BuildFrames(SignalStore.GetSignals<LinConfigSignal>().Where(x => x.InOrOut)));
+            SendFD(SignalStore.BuildFrames(SignalStore.GetSignals<LinConfigSignal>().Where(x => x.InOrOut)));
         }
 
 

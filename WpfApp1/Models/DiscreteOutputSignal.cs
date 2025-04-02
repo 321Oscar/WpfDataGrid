@@ -9,6 +9,7 @@ namespace ERad5TestGUI.Models
     public class DiscreteOutputSignal : DiscreteSignal, ISyncValue
     {
         private DiscreteInputSignal state;
+        private bool _isOutput = true;
 
         //public new bool InOrOut { get; }
 
@@ -76,6 +77,11 @@ namespace ERad5TestGUI.Models
                 }
             }
         }
+        public bool IsOutput 
+        { 
+            get => _isOutput; 
+            set => SetProperty(ref _isOutput, value); 
+        }
 
         public override void Clear()
         {
@@ -108,17 +114,17 @@ namespace ERad5TestGUI.Models
             }
         }
 
-        public DiscreteInputSignal State 
-        { 
+        public DiscreteInputSignal State
+        {
             get => state;
-            set 
-            { 
-                if(state != null)
+            set
+            {
+                if (state != null)
                 {
                     state.OnPinChanged -= StateChanged;
                 }
-                state = value; 
-                if(state != null)
+                state = value;
+                if (state != null)
                 {
                     state.OnPinChanged += StateChanged;
                 }
@@ -162,6 +168,11 @@ namespace ERad5TestGUI.Models
             }
 
             return true;
+        }
+
+        public void SetStateSignal(DiscreteInputSignal stateSignal)
+        {
+            State = stateSignal;
         }
     }
 }

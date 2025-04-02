@@ -24,5 +24,41 @@ namespace ERad5TestGUI.Views
         {
             InitializeComponent();
         }
+
+        private void ListView_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = true;
+
+                var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+                eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+                eventArg.Source = sender;
+                var parent = ((Control)sender).Parent as UIElement;
+                while (!(parent is ScrollViewer))
+                {
+                    if (parent is Control)
+                    {
+                        if (((Control)parent).Parent != null)
+                        {
+                            parent = ((Control)parent).Parent as UIElement;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    else if (parent is Grid)
+                    {
+                        parent = ((Grid)parent).Parent as UIElement;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                parent.RaiseEvent(eventArg);
+            }
+        }
     }
 }

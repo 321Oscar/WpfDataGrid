@@ -168,7 +168,7 @@
     <Compile Include="ViewModels\PulseInViewModel.cs" />
     <Compile Include="ViewModels\PulseOutViewModel.cs" />
     <Compile Include="ViewModels\ResolverViewModel.cs" />
-    <Compile Include="ViewModels\SavinLogicViewModel.cs" />
+    <Compile Include="ViewModels\SafingLogicViewModel.cs" />
     <Compile Include="ViewModels\SignalLocatorViewModel.cs" />
     <Compile Include="ViewModels\SPIViewModel.cs" />
     <Compile Include="ViewModels\UDSUpgradeViewModel.cs" />
@@ -227,8 +227,8 @@
     <Compile Include="Views\ResolverView.xaml.cs">
       <DependentUpon>ResolverView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SavingLogicView.xaml.cs">
-      <DependentUpon>SavingLogicView.xaml</DependentUpon>
+    <Compile Include="Views\SafingLogicView.xaml.cs">
+      <DependentUpon>SafingLogicView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SignalLocatorView.xaml.cs">
       <DependentUpon>SignalLocatorView.xaml</DependentUpon>
@@ -348,7 +348,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SavingLogicView.xaml">
+    <Page Include="Views\SafingLogicView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

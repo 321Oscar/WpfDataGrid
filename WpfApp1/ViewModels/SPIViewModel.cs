@@ -57,7 +57,7 @@ namespace ERad5TestGUI.ViewModels
         {
             if (e.PropertyName == nameof(SignalBase.OriginValue))
             {
-                Send(SignalStore.BuildFrames(new SignalBase[] { sender as SPISignal }));
+                SendFD(SignalStore.BuildFrames(new SignalBase[] { sender as SPISignal }));
             }
         }
 
@@ -69,7 +69,7 @@ namespace ERad5TestGUI.ViewModels
         private void Reset()
         {
             ResetSignal.OriginValue = 1;
-            Send(SignalStore.BuildFrames(new SignalBase[] { ResetSignal }));
+            SendFD(SignalStore.BuildFrames(new SignalBase[] { ResetSignal }));
             ResetSignal.OriginValue = 0;
         }
     }

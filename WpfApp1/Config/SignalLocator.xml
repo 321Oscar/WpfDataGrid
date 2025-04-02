@@ -681,7 +681,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>36</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -716,7 +716,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>35</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -751,7 +751,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>26</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -786,7 +786,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>33</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -821,7 +821,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>32</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -856,7 +856,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>31</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -891,7 +891,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>30</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -926,7 +926,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>29</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -961,7 +961,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>28</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -1000,7 +1000,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>27</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -1035,7 +1035,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>34</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -1070,7 +1070,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>25</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -1109,7 +1109,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>24</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -1148,7 +1148,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>23</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -1187,7 +1187,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>22</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -1222,7 +1222,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>21</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -1257,7 +1257,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>20</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -1292,7 +1292,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>19</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -1327,7 +1327,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>18</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -1362,7 +1362,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>17</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -1397,7 +1397,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>16</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -2294,7 +2294,7 @@
       <PinNumber>M5</PinNumber>
       <ADChannel>AN40</ADChannel>
       <Transform2Type>0</Transform2Type>
-      <TransForm2Factor>0.00244140625</TransForm2Factor>
+      <TransForm2Factor>0.00625</TransForm2Factor>
       <TransForm2Offset>0</TransForm2Offset>
     </SignalBase>
     <SignalBase xsi:type="AnalogSignal">
@@ -16455,7 +16455,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>0</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -16490,7 +16490,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>1</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -16525,7 +16525,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>2</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -16801,7 +16801,7 @@
       <PinNumber>G2</PinNumber>
       <ADChannel>P00.1</ADChannel>
       <Transform2Type>0</Transform2Type>
-      <TransForm2Factor>1</TransForm2Factor>
+      <TransForm2Factor>0.001220703125</TransForm2Factor>
       <TransForm2Offset>0</TransForm2Offset>
     </SignalBase>
     <SignalBase xsi:type="AnalogSignal">
@@ -16833,7 +16833,7 @@
       <PinNumber>L4</PinNumber>
       <ADChannel>AN43</ADChannel>
       <Transform2Type>0</Transform2Type>
-      <TransForm2Factor>1</TransForm2Factor>
+      <TransForm2Factor>0.001220703125</TransForm2Factor>
       <TransForm2Offset>0</TransForm2Offset>
     </SignalBase>
     <SignalBase xsi:type="AnalogSignal">
@@ -16865,7 +16865,7 @@
       <PinNumber>P5</PinNumber>
       <ADChannel>AN34</ADChannel>
       <Transform2Type>0</Transform2Type>
-      <TransForm2Factor>1</TransForm2Factor>
+      <TransForm2Factor>0.001220703125</TransForm2Factor>
       <TransForm2Offset>0</TransForm2Offset>
     </SignalBase>
     <SignalBase xsi:type="AnalogSignal">
@@ -16897,7 +16897,7 @@
       <PinNumber>U2</PinNumber>
       <ADChannel>AN28</ADChannel>
       <Transform2Type>0</Transform2Type>
-      <TransForm2Factor>1</TransForm2Factor>
+      <TransForm2Factor>0.001220703125</TransForm2Factor>
       <TransForm2Offset>0</TransForm2Offset>
     </SignalBase>
     <SignalBase xsi:type="AnalogSignal">
@@ -16929,7 +16929,7 @@
       <PinNumber>N2</PinNumber>
       <ADChannel>AN45</ADChannel>
       <Transform2Type>0</Transform2Type>
-      <TransForm2Factor>1</TransForm2Factor>
+      <TransForm2Factor>0.00244140625</TransForm2Factor>
       <TransForm2Offset>0</TransForm2Offset>
     </SignalBase>
     <SignalBase xsi:type="AnalogSignal">
@@ -16961,7 +16961,7 @@
       <PinNumber>N1</PinNumber>
       <ADChannel>AN44</ADChannel>
       <Transform2Type>0</Transform2Type>
-      <TransForm2Factor>1</TransForm2Factor>
+      <TransForm2Factor>0.00732421875</TransForm2Factor>
       <TransForm2Offset>0</TransForm2Offset>
     </SignalBase>
     <SignalBase xsi:type="AnalogSignal">
@@ -16993,7 +16993,7 @@
       <PinNumber>T5</PinNumber>
       <ADChannel>AN22</ADChannel>
       <Transform2Type>0</Transform2Type>
-      <TransForm2Factor>1</TransForm2Factor>
+      <TransForm2Factor>0.002380466312402</TransForm2Factor>
       <TransForm2Offset>0</TransForm2Offset>
     </SignalBase>
     <SignalBase xsi:type="AnalogSignal">
@@ -17025,7 +17025,7 @@
       <PinNumber>W13</PinNumber>
       <ADChannel>P33.6</ADChannel>
       <Transform2Type>0</Transform2Type>
-      <TransForm2Factor>1</TransForm2Factor>
+      <TransForm2Factor>0.00732421875</TransForm2Factor>
       <TransForm2Offset>0</TransForm2Offset>
     </SignalBase>
     <SignalBase xsi:type="AnalogSignal">
@@ -17057,8 +17057,8 @@
       <PinNumber>R2</PinNumber>
       <ADChannel>AN35</ADChannel>
       <Transform2Type>0</Transform2Type>
-      <TransForm2Factor>1</TransForm2Factor>
-      <TransForm2Offset>0</TransForm2Offset>
+      <TransForm2Factor>0.00778228820625</TransForm2Factor>
+      <TransForm2Offset>-3.915625</TransForm2Offset>
     </SignalBase>
     <SignalBase xsi:type="AnalogSignal">
       <Name>PPAWL_MTR_PWR_AI</Name>
@@ -17089,7 +17089,7 @@
       <PinNumber>U7</PinNumber>
       <ADChannel>AN9</ADChannel>
       <Transform2Type>0</Transform2Type>
-      <TransForm2Factor>1</TransForm2Factor>
+      <TransForm2Factor>0.0093587239583</TransForm2Factor>
       <TransForm2Offset>0</TransForm2Offset>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
@@ -17100,7 +17100,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>170</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -17120,7 +17120,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>171</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -17140,7 +17140,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>172</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -17160,7 +17160,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>173</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -18930,7 +18930,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>189</StartBit>
       <Length>16</Length>
       <ByteOrder>1</ByteOrder>
@@ -18951,7 +18951,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>205</StartBit>
       <Length>16</Length>
       <ByteOrder>1</ByteOrder>
@@ -19233,7 +19233,7 @@
     <SignalBase xsi:type="SPISignal">
       <Name>TLF35584_Tran_State</Name>
       <Views />
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>12</StartBit>
       <Length>4</Length>
       <ByteOrder>1</ByteOrder>
@@ -19247,7 +19247,7 @@
     <SignalBase xsi:type="DiscreteOutputSignal">
       <Name>TLF35584_State_Update</Name>
       <Views />
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>11</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -19262,7 +19262,7 @@
     <SignalBase xsi:type="DiscreteOutputSignal">
       <Name>TLF35584_ERR_Disable</Name>
       <Views />
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>175</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -19286,7 +19286,7 @@
           <IsEnabled>false</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>40</StartBit>
       <Length>16</Length>
       <ByteOrder>1</ByteOrder>
@@ -19311,7 +19311,7 @@
           <IsEnabled>false</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>56</StartBit>
       <Length>16</Length>
       <ByteOrder>1</ByteOrder>
@@ -19332,7 +19332,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>72</StartBit>
       <Length>16</Length>
       <ByteOrder>1</ByteOrder>
@@ -19353,7 +19353,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>88</StartBit>
       <Length>16</Length>
       <ByteOrder>1</ByteOrder>
@@ -19374,7 +19374,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>120</StartBit>
       <Length>16</Length>
       <ByteOrder>1</ByteOrder>
@@ -19394,7 +19394,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>136</StartBit>
       <Length>16</Length>
       <ByteOrder>1</ByteOrder>
@@ -19414,7 +19414,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>152</StartBit>
       <Length>16</Length>
       <ByteOrder>1</ByteOrder>
@@ -19434,7 +19434,7 @@
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>104</StartBit>
       <Length>16</Length>
       <ByteOrder>1</ByteOrder>
@@ -19449,7 +19449,7 @@
     <SignalBase xsi:type="PulseOutSingleSignal">
       <Name>UVW_PWM_Polarity</Name>
       <Views />
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>9</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -19464,7 +19464,7 @@
     <SignalBase xsi:type="PulseOutSingleSignal">
       <Name>UVW_PWM_Dead_Time</Name>
       <Views />
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>4</StartBit>
       <Length>4</Length>
       <ByteOrder>1</ByteOrder>
@@ -19479,7 +19479,7 @@
     <SignalBase xsi:type="PulseOutSingleSignal">
       <Name>PPAWL_Frame_Time</Name>
       <Views />
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>237</StartBit>
       <Length>16</Length>
       <ByteOrder>1</ByteOrder>
@@ -19494,7 +19494,7 @@
     <SignalBase xsi:type="PulseOutSingleSignal">
       <Name>PPAWL_Current_Limit</Name>
       <Views />
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>176</StartBit>
       <Length>8</Length>
       <ByteOrder>1</ByteOrder>
@@ -19509,7 +19509,7 @@
     <SignalBase xsi:type="PulseOutSingleSignal">
       <Name>PPAWL_Current_Limit_Update</Name>
       <Views />
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>185</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -19524,7 +19524,7 @@
     <SignalBase xsi:type="PulseOutSingleSignal">
       <Name>eLOCKER_Time</Name>
       <Views />
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>221</StartBit>
       <Length>16</Length>
       <ByteOrder>1</ByteOrder>
@@ -19539,7 +19539,7 @@
     <SignalBase xsi:type="PulseOutSingleSignal">
       <Name>eLOCKER_PWM_Seq_Start</Name>
       <Views />
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>188</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -19554,7 +19554,7 @@
     <SignalBase xsi:type="PulseOutSingleSignal">
       <Name>eLOCKER_PWM_Update</Name>
       <Views />
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>186</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -19569,7 +19569,7 @@
     <SignalBase xsi:type="PulseOutSingleSignal">
       <Name>eLOCKER_PWM_Stop</Name>
       <Views />
-      <MessageID>1280</MessageID>
+      <MessageID>1283</MessageID>
       <StartBit>187</StartBit>
       <Length>1</Length>
       <ByteOrder>1</ByteOrder>
@@ -20402,7 +20402,6 @@
       <InOrOut>true</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>false</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>E_STOP_MAIN_MICRO_Dir</Name>
@@ -20418,7 +20417,6 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>false</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>Safing_Logic_DSAT_BOT_FLT_FB_Dir_Select</Name>
@@ -20434,7 +20432,6 @@
       <InOrOut>true</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>false</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>DSAT_BOT_FLT_FB_Dir</Name>
@@ -20450,7 +20447,6 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>false</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>Safing_Logic_DSAT_TOP_FLT_FB_Dir_Select</Name>
@@ -20466,7 +20462,6 @@
       <InOrOut>true</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>true</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>DSAT_TOP_FLT_FB_Dir</Name>
@@ -20482,7 +20477,6 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>true</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>Safing_Logic_UVLO_BOT_FLT_FB_Dir_Select</Name>
@@ -20498,7 +20492,6 @@
       <InOrOut>true</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>true</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>UVLO_BOT_FLT_FB_Dir</Name>
@@ -20514,7 +20507,6 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>true</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>Safing_Logic_UVLO_TOP_FLT_FB_Dir_Select</Name>
@@ -20530,7 +20522,6 @@
       <InOrOut>true</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>false</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>UVLO_TOP_FLT_FB_Dir</Name>
@@ -20546,7 +20537,6 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>false</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>Safing_Logic_HVDC_OV_FLT_FB_Dir_Select</Name>
@@ -20562,7 +20552,6 @@
       <InOrOut>true</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>true</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>HVDC_OV_FLT_FB_Dir</Name>
@@ -20578,7 +20567,6 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>true</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>Safing_Logic_PHASE_UVW_OC_FLT_Dir_Select</Name>
@@ -20594,7 +20582,6 @@
       <InOrOut>true</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>false</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>PHASE_UVW_OC_FLT_Dir</Name>
@@ -20610,7 +20597,6 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>false</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>Safing_Logic_OC_W_FLT_Dir_Select</Name>
@@ -20626,7 +20612,6 @@
       <InOrOut>true</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>false</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>OC_W_FLT_Dir</Name>
@@ -20642,7 +20627,6 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>false</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>Safing_Logic_OC_V_FLT_Dir_Select</Name>
@@ -20658,7 +20642,6 @@
       <InOrOut>true</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>false</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>OC_V_FLT_Dir</Name>
@@ -20674,7 +20657,6 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>false</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>Safing_Logic_OC_U_FLT_Dir_Select</Name>
@@ -20690,7 +20672,6 @@
       <InOrOut>true</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>true</Direction>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>OC_U_FLT_Dir</Name>
@@ -20706,7 +20687,64 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <Direction>true</Direction>
+    </SignalBase>
+    <SignalBase>
+      <Name>Safing_Logic_Test_Error_RowCnt</Name>
+      <Views />
+      <MessageID>1553</MessageID>
+      <StartBit>184</StartBit>
+      <Length>8</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>false</InOrOut>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>Safing_Logic_Test_Start</Name>
+      <Views />
+      <MessageID>1281</MessageID>
+      <StartBit>214</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>false</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>Safing_Logic_Test_Stop</Name>
+      <Views />
+      <MessageID>1281</MessageID>
+      <StartBit>215</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>false</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>CAN_INH_Update</Name>
+      <Views />
+      <MessageID>1283</MessageID>
+      <StartBit>174</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>true</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
     </SignalBase>
   </Signals>
 </SignalCollection>

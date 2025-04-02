@@ -19,11 +19,39 @@
                 Text="{Binding ViewName}" 
                 d:Text="DisConnect" 
                 Style="{StaticResource TitleLabel}"/>
+
+            <Button Command="{Binding WakeUpCommand}" Height="25" Margin="5,0">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                        <Setter Property="Content" Value="Wake Up"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Sending}" Value="True">
+                                <Setter Property="Content" Value="Cancel"/>
+                                <Setter Property="ToolTip">
+                                    <Setter.Value>
+                                        <TextBlock Text="Stop Send 0x15,0x16 Can2.0 msg"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger> 
+                            <DataTrigger Binding="{Binding Sending}" Value="False">
+                                <Setter Property="Content" Value="Wake Up"/>
+                                <Setter Property="ToolTip">
+                                    <Setter.Value>
+                                        <TextBlock Text="Start Send 0x15,0x16 Can2.0 msg"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            
             <Button 
                 Content="Clear Data"
                 Height="25" 
                 Command="{StaticResource ClearSignalDataCommand}"
                 CommandParameter="{Binding InputSignals}"/>
+            
         </StackPanel>
         
         <Grid Grid.Row="1">
