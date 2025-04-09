@@ -23,6 +23,11 @@ namespace ERad5TestGUI.Models
         }
 
         public string PinNumber { get; set; }
+
+        public override string RelaceSignalName(string signalName)
+        {
+            return base.RelaceSignalName(signalName).Replace("_OUTPUT", "").Replace("_FB", "");
+        }
     }
 
 }

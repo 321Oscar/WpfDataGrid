@@ -189,4 +189,155 @@ namespace ERad5TestGUI.Models
      * Output 发送？
      */
 
+    public class SafingLogicTestResult
+    {
+        public SafingLogicTestResult()
+        {
+            Result = new Dictionary<string, int>();
+        }
+        public int RowIndex
+        {
+            get
+            {
+                if (Result.TryGetValue("Safing_Logic_Test_Frame_Row", out int rowIndex))
+                {
+                    return rowIndex;
+                }
+                return -1;
+            }
+        }
+        public Dictionary<string, int> Result { get; }
+
+        public bool TryGetValue(string name, out int val)
+        {
+            name = name.Replace(" ", "").Replace("\n", "_").Replace("/", "");
+            name = $"Safing_Logic_Test_Frame_{name}";
+            return Result.TryGetValue(name, out val);
+        }
+    }
+    public class SafingLogicTestTableRow : ObservableObject
+    {
+        private int _safeState1;
+        private int _safeState2;
+        private bool? _result;
+
+        public int RowIndex { get; set; }
+
+        public int SAFESTATE1 { get => _safeState1; set => SetProperty(ref _safeState1, value); }
+
+        public int SAFESTATE2
+        {
+            get { return _safeState2; }
+            set { SetProperty(ref _safeState2, value); }
+        }
+
+        private int spdHW2psout;
+
+        public int SPD_HW_3PS_OUT
+        {
+            get { return spdHW2psout; }
+            set { spdHW2psout = value; }
+        }
+        public int PS_MAIN_MICRO { get; set; }
+        public int MTR_SPEED_STAT { get; set; }
+        public int PWM_EN { get; set; }
+        public int ESTOP { get; set; }
+        public int HVDC_OV_FLT { get; set; }
+        public int DSAT_TOP_FLT { get; set; }
+        public int DSAT_BOT_FLT { get; set; }
+        public int UVLO_TOP_FLT { get; set; }
+        public int UVLO_BOT_FLT { get; set; }
+        public int OC_U_FLT { get; set; }
+        public int OC_V_FLT { get; set; }
+        public int OC_W_FLT { get; set; }
+
+        /***Need To Compare****/
+        private SafingLoficTestResult forceUppersOn;
+        private SafingLoficTestResult forcLowersOn;
+        private SafingLoficTestResult pwmBuffer;
+        private SafingLoficTestResult fsstateTop;
+        private SafingLoficTestResult fsstateBot;
+        private SafingLoficTestResult fsenb;
+        private SafingLoficTestResult outEn;
+        private SafingLoficTestResult phaseUvw_OC_FLT;
+        public SafingLoficTestResult FORCE_UPPERS_ON { get => forceUppersOn; set => SetProperty(ref forceUppersOn,value); }
+        public SafingLoficTestResult FORCE_LOWERS_ON { get => forcLowersOn; set => SetProperty(ref forcLowersOn, value); }
+        public SafingLoficTestResult PWM_BUFFER { get => pwmBuffer; set => SetProperty(ref pwmBuffer, value); }
+        public SafingLoficTestResult FSSTATE_BOT { get => fsstateTop; set => SetProperty(ref fsstateTop, value); }
+        public SafingLoficTestResult FSSTATE_TOP { get => fsstateBot; set => SetProperty(ref fsstateBot, value); }
+        public SafingLoficTestResult FSENB { get => fsenb; set => SetProperty(ref fsenb, value); }
+        public SafingLoficTestResult OUT_EN { get => outEn; set => SetProperty(ref outEn, value); }
+        public SafingLoficTestResult PHASE_UVW_OC_FLT { get => phaseUvw_OC_FLT; set => SetProperty(ref phaseUvw_OC_FLT, value); }
+
+        public bool? Result { get => _result; set => SetProperty(ref _result, value); }
+        public void UpdateResultPass()
+        {
+            Result = true;
+            FORCE_UPPERS_ON.RealValue  = FORCE_UPPERS_ON.TargetValue;
+            FORCE_LOWERS_ON.RealValue  = FORCE_LOWERS_ON.TargetValue;
+            PWM_BUFFER.RealValue       = PWM_BUFFER.TargetValue;
+            FSSTATE_BOT.RealValue      = FSSTATE_BOT.TargetValue;
+            FSSTATE_TOP.RealValue      = FSSTATE_TOP.TargetValue;
+            FSENB.RealValue            = FSENB.TargetValue;
+            OUT_EN.RealValue           = OUT_EN.TargetValue;
+            PHASE_UVW_OC_FLT.RealValue = PHASE_UVW_OC_FLT.TargetValue;
+        }
+        public void Clear()
+        {
+            Result                     = null;
+            FORCE_UPPERS_ON.RealValue  = null;
+            FORCE_LOWERS_ON.RealValue  = null;
+            PWM_BUFFER.RealValue       = null;
+            FSSTATE_BOT.RealValue      = null;
+            FSSTATE_TOP.RealValue      = null;
+            FSENB.RealValue            = null;
+            OUT_EN.RealValue           = null;
+            PHASE_UVW_OC_FLT.RealValue = null;
+        }
+
+    }
+
+    public class SafingLoficTestResult : ObservableObject
+    {
+        private int? realValue;
+
+        public string Name { get; set; }
+
+        public int TargetValue { get; set; }
+
+        public int? RealValue
+        {
+            get => realValue;
+            set
+            {
+                if (SetProperty(ref realValue, value))
+                {
+                    OnPropertyChanged(nameof(Pass));
+                }
+            }
+        }
+
+        public bool? Pass
+        {
+            get
+            {
+                if (!RealValue.HasValue)
+                    return null;
+                return RealValue.Value == TargetValue;
+            }
+            set
+            {
+
+            }
+        }
+
+        public override string ToString()
+        {
+            if (RealValue.HasValue)
+                return realValue.Value.ToString();
+            else return TargetValue.ToString();
+
+            //return base.ToString();
+        }
+    }
 }

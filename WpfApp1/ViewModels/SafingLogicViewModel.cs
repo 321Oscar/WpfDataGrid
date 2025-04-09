@@ -18,19 +18,26 @@ namespace ERad5TestGUI.ViewModels
     public class SafingLogicViewModel : SendFrameViewModelBase
     {
         //private List<ObservableObject> _datas;
+        private IDialogService _dialogService;
         private RelayCommand _updateDirCommand;
+        private RelayCommand _DialogCommand;
         private ObservableCollection<SignalGroupBase> _level1Group = new ObservableCollection<SignalGroupBase>();
         private ObservableCollection<SignalGroupBase> _level2Group = new ObservableCollection<SignalGroupBase>();
         private ObservableCollection<SignalGroupBase> _level3Group = new ObservableCollection<SignalGroupBase>();
         private ObservableCollection<SignalGroupBase> _level4Group = new ObservableCollection<SignalGroupBase>();
+        private SignalGroup<SignalBase> _inputSignals = new SignalGroup<SignalBase>("Inputs");
+        private SignalGroup<SignalBase> _outputSignals = new SignalGroup<SignalBase>("Outputs");
         private ObservableCollection<SafingLogicDirectionSelect> _derectionSignals = new ObservableCollection<SafingLogicDirectionSelect>();
-        public SafingLogicViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) : base(signalStore, deviceStore, logService)
+        public SafingLogicViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, IDialogService dialog)
+            : base(signalStore, deviceStore, logService)
         {
+            _dialogService = dialog;
             _ViewName = "Safing_Logic";
         }
         public SafingLogicViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService, ModalNavigationStore modalNavigationStore, IServiceProvider serviceProvider)
             : base(signalStore, deviceStore, logService, modalNavigationStore, serviceProvider)
         {
+
             //ChangeSignalInputOutputCommand = new RelayCommand<object>(ChangeSignalInputOutput);
             //_datas = new List<ObservableObject>();
             //Load();
@@ -42,11 +49,14 @@ namespace ERad5TestGUI.ViewModels
         public IEnumerable<SignalGroupBase> Level2Signals { get => _level2Group; }
         public IEnumerable<SignalGroupBase> Level3Signals { get => _level3Group; }
         public IEnumerable<SignalGroupBase> Level4Signals { get => _level4Group; }
+        public SignalGroupBase InputSignals { get => _inputSignals; }
+        public SignalGroupBase OutputSignals { get => _outputSignals; }
         public IEnumerable<SafingLogicDirectionSelect> DerectionSignals { get => _derectionSignals; }
 
         //public IEnumerable<SavingLogicSignal> SavingLogicSignals => SignalStore.GetObservableCollection<SavingLogicSignal>();
         //public IEnumerable<ObservableObject> SavingLogicGroups { get => _datas; }
-        public ICommand UpdateDirCommand { get => _updateDirCommand??(_updateDirCommand = new RelayCommand(UpdateDir)); }
+        public ICommand UpdateDirCommand { get => _updateDirCommand ?? (_updateDirCommand = new RelayCommand(UpdateDir)); }
+        public ICommand DialogCommand { get => _DialogCommand ?? (_DialogCommand = new RelayCommand(Dialog)); }
         public DiscreteOutputSignal Safing_Logic_Pin_Dir_Update => SignalStore.GetSignalByName<DiscreteOutputSignal>("Safing_Logic_Pin_Dir_Update", inOrOut: true);
         public override void Init()
         {
@@ -54,6 +64,16 @@ namespace ERad5TestGUI.ViewModels
                 _ViewName = "Safing_Logic";
             base.Init();
             Load();
+            LoadInOutSignals();
+        }
+
+        private void Dialog()
+        {
+            _dialogService.ShowDialog("SafingLogicResultTableView",
+                (x) =>
+                {
+                    LogService.Debug(x);
+                });
         }
 
         private void Load()
@@ -65,7 +85,7 @@ namespace ERad5TestGUI.ViewModels
                     /***/
                     { ("LOW_SAFESTATE1_NXP"      , "")                       , false },
                     { ("LOW_SAFESTATE2_NXP"      , "")                       , false },
-                    { ("E_STOP_MAIN_MICRO_OUTPUT", "LOW_E_STOP_MAIN_MICRO")  , false },
+                    { ("E_STOP_MAIN_MICRO_OUTPUT", "LOW_E_STOP_MAIN_MICRO")  , true  },
                     { ("PWM_EN"                  , "")                       , true  },
                     { ("LOW_F_RESET_NXP"         , "")                       , true  },
                     { ("LOW_HVOV_PHOC_LATCH_CLR" , "")                       , true  },
@@ -77,16 +97,16 @@ namespace ERad5TestGUI.ViewModels
                     { ("UVLO_BOT_FLT_FB_OUTPUT"  , "LOW_UVLO_BOT_FLT_FB")    , true  },
                     { ("DSAT_TOP_FLT_FB_OUTPUT"  , "LOW_DSAT_TOP_FLT_FB")    , true  },
                     { ("DSAT_BOT_FLT_FB_OUTPUT"  , "LOW_DSAT_BOT_FLT_FB")    , true  },
-                }, 
-                new Dictionary<(string,string), bool>
+                },
+                new Dictionary<(string, string), bool>
                 {
                     { ("LOW_OUT_EN"               , "")                      ,false },
                     { ("PWM_EN_CB"                , "")                      ,false },
                     { ("LOW_HVOV_PHOC_LATCH_CLR_O", "")                      ,false },
                 });
             LoadLevels(_level2Group,
-                new Dictionary<(string,string), bool> 
-                { 
+                new Dictionary<(string, string), bool>
+                {
                     { ("LOW_3PS_MAIN_MICRO"      , "")                       , true },
                     { ("SPD_HW_3PS_I_O"          , "")                       , true },
                     { ("HVDC_OV_FLT_FB_OUTPUT"   , "LOW_HVDC_OV_FLT_FB")     , true },
@@ -97,39 +117,39 @@ namespace ERad5TestGUI.ViewModels
                     { ("LOW_SAFESTATE1_NXP"      , "")                       , false },
                     { ("LOW_SAFESTATE2_NXP"      , "")                       , false },
                     { ("E_STOP_MAIN_MICRO_OUTPUT", "LOW_E_STOP_MAIN_MICRO")  , false },
-                }, 
-                new Dictionary<(string,string), bool> 
+                },
+                new Dictionary<(string, string), bool>
                 {
                     { ("FORCE_LOWERS_ON_FB", ""), false } ,
                     { ("FORCE_UPPERS_ON_FB", ""), false } ,
                     { ("LOW_PWM_BUFFER_FB" , ""), false }
-                }); 
+                });
             LoadLevels(_level3Group,
-                new Dictionary<(string,string), bool> 
+                new Dictionary<(string, string), bool>
                 {
                     { ("FORCE_LOWERS_ON_FB", ""), false } ,
                     { ("FORCE_UPPERS_ON_FB", ""), false } ,
                     { ("LOW_PWM_BUFFER_FB" , ""), false } ,
-                }, 
-                new Dictionary<(string,string), bool> 
-                { 
+                },
+                new Dictionary<(string, string), bool>
+                {
                     { ("LOW_FSENB_FB"  , ""), false } ,
                     { ("FSSTATE_BOT_FB", ""), false } ,
-                    { ("FSSTATE_TOP_FB", ""), false } 
-                }); 
+                    { ("FSSTATE_TOP_FB", ""), false }
+                });
             LoadLevels(_level4Group,
-                new Dictionary<(string,string), bool> 
-                { 
+                new Dictionary<(string, string), bool>
+                {
                     { ("OC_U_FLT_OUTPUT"          , "LOW_OC_U_FLT"), true },
                     { ("OC_V_FLT_OUTPUT"          , "LOW_OC_V_FLT"), true },
                     { ("OC_W_FLT_OUTPUT"          , "LOW_OC_W_FLT"), true },
                     { ("LOW_HVOV_PHOC_LATCH_CLR"  , "")            , true },
                     { ("LOW_HVOV_PHOC_LATCH_CLR_O", "")            , false},
 
-                }, 
-                new Dictionary<(string,string), bool> 
-                { 
-                    { ("PHASE_UVW_OC_FLT_OUTPUT" ,"LOW_PHASE_UVW_OC_FLT_FB"),true } 
+                },
+                new Dictionary<(string, string), bool>
+                {
+                    { ("PHASE_UVW_OC_FLT_OUTPUT" ,"LOW_PHASE_UVW_OC_FLT_FB"),true }
                 });
 
             var dirSignals = SignalStore.GetSignalsByName<SafingLogicDirectionSignal>("_Dir", addToStore: false);
@@ -145,7 +165,7 @@ namespace ERad5TestGUI.ViewModels
                         CurrentDirection = currentDirSignal
                     };
                     var dirDisOutSignal = SignalStore.GetSignalByName<DiscreteOutputSignal>(currentDirSignal.Name.Replace("Dir", "OUTPUT"));
-                    if(dirDisOutSignal != null)
+                    if (dirDisOutSignal != null)
                     {
                         dirDisOutSignal.IsOutput = false;
                         select.DirEnableSignal = dirDisOutSignal;
@@ -158,7 +178,35 @@ namespace ERad5TestGUI.ViewModels
             }
         }
 
-        private void LoadLevels(ObservableCollection<SignalGroupBase> levelGroup, Dictionary<(string,string), bool> inputSignals, Dictionary<(string, string), bool> outputSignals)
+        private void LoadInOutSignals()
+        {
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteInputSignal>("LOW_SAFESTATE1_NXP"));
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteInputSignal>("LOW_SAFESTATE2_NXP"));
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteOutputSignal>("SPD_HW_3PS_I_O"));
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteOutputSignal>("LOW_3PS_MAIN_MICRO"));
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteOutputSignal>("LOW_MTR_SPEED_STAT"));
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteOutputSignal>("PWM_EN"));
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteOutputSignal>("E_STOP_MAIN_MICRO_OUTPUT"));
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteOutputSignal>("HVDC_OV_FLT_FB_OUTPUT"));
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteOutputSignal>("DSAT_TOP_FLT_FB_OUTPUT"));
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteOutputSignal>("DSAT_BOT_FLT_FB_OUTPUT"));
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteOutputSignal>("UVLO_TOP_FLT_FB_OUTPUT"));
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteOutputSignal>("UVLO_BOT_FLT_FB_OUTPUT"));
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteOutputSignal>("OC_U_FLT_OUTPUT"));
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteOutputSignal>("OC_V_FLT_OUTPUT"));
+            _inputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteOutputSignal>("OC_W_FLT_OUTPUT"));
+
+            _outputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteInputSignal>("FORCE_UPPERS_ON_FB"));
+            _outputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteInputSignal>("FORCE_LOWERS_ON_FB"));
+            _outputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteInputSignal>("LOW_PWM_BUFFER_FB"));
+            _outputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteInputSignal>("FSSTATE_BOT_FB"));
+            _outputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteInputSignal>("FSSTATE_TOP_FB"));
+            _outputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteInputSignal>("LOW_FSENB_FB"));
+            _outputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteInputSignal>("LOW_OUT_EN"));
+            _outputSignals.Signals.Add(SignalStore.GetSignalByName<DiscreteOutputSignal>("PHASE_UVW_OC_FLT_OUTPUT"));
+        }
+
+        private void LoadLevels(ObservableCollection<SignalGroupBase> levelGroup, Dictionary<(string, string), bool> inputSignals, Dictionary<(string, string), bool> outputSignals)
         {
             var disInputGroup = new SignalGroup<SignalBase>("Inputs");
             foreach (var input in inputSignals)
@@ -175,7 +223,7 @@ namespace ERad5TestGUI.ViewModels
             foreach (var output in outputSignals)
             {
                 if (output.Value)
-            
+
                     diOutGroup.Signals.Add(GetOutSignal(output.Key.Item1, output.Key.Item2));
                 else
                     diOutGroup.Signals.Add(GetSignalAndAddViewName<DiscreteInputSignal>(output.Key.Item1));
@@ -197,7 +245,7 @@ namespace ERad5TestGUI.ViewModels
         /// <returns></returns>
         private DiscreteOutputSignal GetOutSignal(string outSignalName, string stateName)
         {
-            var s = SignalStore.GetSignalByName<DiscreteOutputSignal>(outSignalName);
+            var s = SignalStore.GetSignalByName<DiscreteOutputSignal>(outSignalName, inOrOut: true);
 
             if (s != null)
             {
@@ -243,7 +291,7 @@ namespace ERad5TestGUI.ViewModels
         private void UpdateDir()
         {
             Safing_Logic_Pin_Dir_Update.OriginValue = 1;
-            SendFD(SignalStore.BuildFrames(new SignalBase[] { Safing_Logic_Pin_Dir_Update}));
+            SendFD(SignalStore.BuildFrames(new SignalBase[] { Safing_Logic_Pin_Dir_Update }));
             Safing_Logic_Pin_Dir_Update.OriginValue = 0;
         }
 
@@ -265,63 +313,103 @@ namespace ERad5TestGUI.ViewModels
 
         #region Safing logic Test
         private readonly string SafingLogicTableFilePath = @"./Config/SafingLogicTestTable_v11_PV.xlsx";
-        private DiscreteOutputSignal _testProgress; 
-        private DiscreteOutputSignal _testStart; 
-        private DiscreteOutputSignal _testStop; 
-        private SignalBase _testFinish; 
+        private DiscreteOutputSignal _testProgress;
+        private DiscreteOutputSignal _testStart;
+        private DiscreteOutputSignal _testStop;
+        private SignalBase _testFinish;
+        private SignalBase _testErrInfo;
         private readonly List<SignalBase> _testResult = new List<SignalBase>();
+        private readonly ObservableCollection<SafingLogicTestTableRow> _excelRows = new ObservableCollection<SafingLogicTestTableRow>();
         private bool _isTest;
         private bool _getResult;
-        private RelayCommand _startTestCommand;
+        private AsyncRelayCommand _selectExcelCommand;
+        private RelayCommand _exportExcelCommand;
+        private AsyncRelayCommand _startTestCommand;
         private RelayCommand _stopTestCommand;
         public DiscreteOutputSignal TestStart { get => _testStart; }
         public DiscreteOutputSignal TestStop { get => _testStop; }
         public DiscreteOutputSignal TestProgress { get => _testProgress; }
+        public ObservableCollection<SafingLogicTestTableRow> TableRows { get => _excelRows; }
 
-        public string TestProgressPercent 
-        { get 
+        public string TestExcelFile
+        {
+            get 
+            { 
+                if (string.IsNullOrEmpty(_testExcelFile))
+                    return SafingLogicTableFilePath; 
+                return _testExcelFile; 
+            }
+            set => _testExcelFile = value;
+        }
+
+        public string TestProgressPercent
+        {
+            get
             {
                 if (_testProgress.OriginValue > 199)
                     return "100%/100%";
-                return (_testProgress.OriginValue / 199 * 100).ToString("F2") + "%/100%"; } 
+                return (_testProgress.OriginValue / 199 * 100).ToString("F2") + "%/100%";
+            }
         }
 
         public SignalBase ErrRowCount { get => SignalStore.GetSignalByName<SignalBase>("Safing_Logic_Test_Error_RowCnt"); }
         //public int TestProgress { get => _testProgress; set => SetProperty(ref _testProgress, value); }
         //private List<SignalBase> _testStatus = new List<SignalBase>();
-        public bool IsTest 
-        { 
+        public bool IsTest
+        {
             get => _isTest;
-            set 
+            set
             {
                 if (SetProperty(ref _isTest, value))
                 {
                     if (!value)
                     {
-                        ReadExcelTest();
+                        ShowTestResult();
                     }
                     _startTestCommand.NotifyCanExecuteChanged();
                     _stopTestCommand.NotifyCanExecuteChanged();
+                    _exportExcelCommand.NotifyCanExecuteChanged();
                 }
 
             }
         }
-        public ICommand StartTestCommand => _startTestCommand ?? (_startTestCommand = new RelayCommand(StartTest, () => !IsTest));
+        public ICommand StartTestCommand => _startTestCommand ?? (_startTestCommand = new AsyncRelayCommand(StartTest, () => !IsTest));
         public ICommand StopTestCommand => _stopTestCommand ?? (_stopTestCommand = new RelayCommand(StopTest, () => IsTest));
+        public ICommand SelectExcelCommand => _selectExcelCommand ?? (_selectExcelCommand = new AsyncRelayCommand(SelectExcel));
+        public ICommand ExportExcelCommand => _exportExcelCommand ?? (_exportExcelCommand = new RelayCommand(SaveExcelTest, () => TableRows.All(x => x.Result != null)));
+
         public bool TestFinish
         {
             get => _testFinish.OriginValue == 2;
         }
 
         public List<SafingLogicTestResult> _safingLogicTestResults = new List<SafingLogicTestResult>();
+        private string _testExcelFile;
+
+        public bool TestNoFail =>
+                    _testErrInfo.OriginValue == 0;
+        public bool PreconditionFail => (((int)_testErrInfo.OriginValue) & (1 << 1)) != 0;
+        public bool NXPFail => (((int)_testErrInfo.OriginValue) & (1 << 2)) != 0;
+        public bool SBCFail => (((int)_testErrInfo.OriginValue) & (1 << 3)) != 0;
+        public bool TestRowFail => (((int)_testErrInfo.OriginValue) & (1 << 4)) != 0;
+        public override void Dispose()
+        {
+            if (_testProgress != null)
+                _testProgress.PropertyChanged -= TestProgress_PropertyChanged;
+            if (_testErrInfo != null)
+                _testErrInfo.PropertyChanged -= TestErrInfo_PropertyChanged;
+            base.Dispose();
+        }
+
         private void InitTestResultSignals()
         {
             _testProgress = SignalStore.GetSignalByName<DiscreteOutputSignal>("Safing_Logic_Test_Current_Row");
             _testProgress.PropertyChanged += TestProgress_PropertyChanged;
+            _testErrInfo = SignalStore.GetSignalByName<DiscreteOutputSignal>("Safing_Logic_Test_Error_info");
+            _testErrInfo.PropertyChanged += TestErrInfo_PropertyChanged; ;
 
-
-            _testStart = SignalStore.GetSignalByName<DiscreteOutputSignal>("Safing_Logic_Test_Start");
-            _testStop = SignalStore.GetSignalByName<DiscreteOutputSignal>("Safing_Logic_Test_Stop");
+            _testStart = SignalStore.GetSignalByName<DiscreteOutputSignal>("Safing_Logic_Test_Start", inOrOut: true);
+            _testStop = SignalStore.GetSignalByName<DiscreteOutputSignal>("Safing_Logic_Test_Stop", inOrOut: true);
 
             _testFinish = SignalStore.GetSignalByName<SignalBase>("Safing_Logic_Test_Status", addToStore: false);
 
@@ -332,13 +420,15 @@ namespace ERad5TestGUI.ViewModels
             _testResult.Add(SignalStore.GetSignalByName<SignalBase>("Safing_Logic_Test_Frame_FORCE_UPPERS_ON", addToStore: false));
             _testResult.Add(SignalStore.GetSignalByName<SignalBase>("Safing_Logic_Test_Frame_FSENB", addToStore: false));
             _testResult.Add(SignalStore.GetSignalByName<SignalBase>("Safing_Logic_Test_Frame_FSSTATE_BOT", addToStore: false));
-            _testResult.Add(SignalStore.GetSignalByName<SignalBase>("Safing_Logic_Test_Frame_FSSTATE_TOP", addToStore: false)); 
+            _testResult.Add(SignalStore.GetSignalByName<SignalBase>("Safing_Logic_Test_Frame_FSSTATE_TOP", addToStore: false));
             _testResult.Add(SignalStore.GetSignalByName<SignalBase>("Safing_Logic_Test_Frame_OUT_EN", addToStore: false));
             _testResult.Add(SignalStore.GetSignalByName<SignalBase>("Safing_Logic_Test_Frame_PHASE_UVW_OC_FLT", addToStore: false));
             _testResult.Add(SignalStore.GetSignalByName<SignalBase>("Safing_Logic_Test_Frame_PWM_BUFFER", addToStore: false));
+
+            //LoadExcel(TestExcelFile);
         }
 
-        private void TestProgress_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void TestErrInfo_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(SignalBase.OriginValue))
             {
@@ -346,24 +436,48 @@ namespace ERad5TestGUI.ViewModels
             }
         }
 
-        private async void StartTest()
+        private void TestProgress_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == nameof(SignalBase.OriginValue))
+            {
+                OnPropertyChanged(nameof(TestNoFail));
+                OnPropertyChanged(nameof(PreconditionFail));
+                OnPropertyChanged(nameof(NXPFail));
+                OnPropertyChanged(nameof(SBCFail));
+                OnPropertyChanged(nameof(TestRowFail));
+            }
+        }
+
+        private async Task StartTest()
+        {
+            if (!DeviceStore.HasDevice)
+            {
+                AdonisUI.Controls.MessageBox.Show($"No Device Selected!",
+                      "SafingLogic Test",
+                      icon: AdonisUI.Controls.MessageBoxImage.Information);
+                return; 
+            }
             //1.Send Safing_Logic_Test_Start to 1
+            TableRows.ToList().ForEach(x => x.Clear());
             ChangeSignal(TestStart);
             IsTest = true;
             _testFinish.OriginValue = -1;
             _safingLogicTestResults.Clear();
             _getResult = true;
-            DeviceStore.OnMsgReceived += DeviceStore_OnMsgReceived;
-            do
+            if (DeviceStore.CurrentDevice is Devices.VirtualDevice)
             {
                 await Task.Delay(1000);
-            } while (_getResult && IsTest);
-
-            //5.load test.xls and save SafingLogicTestResult
-
-            //save
-            //ReadExcelTest();
+                _getResult = false;
+                GenarateResult();
+            }
+            else
+            {
+                DeviceStore.OnMsgReceived += DeviceStore_OnMsgReceived;
+                do
+                {
+                    await Task.Delay(1000);
+                } while (_getResult && IsTest);
+            }
 
             IsTest = false;
         }
@@ -384,7 +498,7 @@ namespace ERad5TestGUI.ViewModels
         private void GenarateResult()
         {
             var res = new SafingLogicTestResult();
-            res.Result.Add("Safing_Logic_Test_Frame_Header",0x10);
+            res.Result.Add("Safing_Logic_Test_Frame_Header", 0x10);
             res.Result.Add("Safing_Logic_Test_Frame_Index", 0x21);
             res.Result.Add("Safing_Logic_Test_Frame_Row", 0x10);
             res.Result.Add("Safing_Logic_Test_Frame_FORCE_UPPERS_ON", 0);
@@ -397,7 +511,96 @@ namespace ERad5TestGUI.ViewModels
             res.Result.Add("Safing_Logic_Test_Frame_PHASE_UVW_OC_FLT", 0);
             _safingLogicTestResults.Add(res);
         }
-        private void ReadExcelTest()
+
+        private Task SelectExcel()
+        {
+            //throw new NotImplementedException();
+            //CommonOpenFileDialog ofd = new CommonOpenFileDialog();
+            //ofd.Filters.Add(new CommonFileDialogFilter("excel File", "*.xls;*.xlsx"));
+            //if (ofd.ShowDialog() == CommonFileDialogResult.Ok)
+            //{
+               return LoadExcel(TestExcelFile);
+            //}
+
+            //return Task.CompletedTask;
+        }
+
+        private Task LoadExcel(string fileName)
+        {
+            TableRows.Clear();
+
+            //read excel and binding to Rows
+            IWorkbook wb = NPOIHelper.GetWorkbookByExcel(fileName);
+
+            ISheet sheet = wb.GetSheetAt(0);
+
+            int rowCount = sheet.LastRowNum;
+            //第一行为列名
+            var headerRow = sheet.GetRow(0);
+            Dictionary<string, int> headerIndex = new Dictionary<string, int>();
+            for (int i = 0; i < headerRow.LastCellNum; i++)
+            {
+                headerIndex.Add(headerRow.GetCell(i).StringCellValue.Replace(" ", "").Replace("\n", "_").Replace("/", ""), i);
+            }
+
+            var properties = typeof(SafingLogicTestTableRow).GetProperties();
+            IsLoading = true;
+            var rows = new List<SafingLogicTestTableRow>();
+            return Task.Run(() =>
+             {
+                 for (int i = 1; i < rowCount; i++)
+                 {
+                     var excelRow = sheet.GetRow(i);
+                     if (excelRow.Cells.Count < 17)
+                         continue;
+
+                     if (excelRow.Cells.FirstOrDefault().CellType == CellType.Blank)
+                         continue;
+
+                     SafingLogicTestTableRow row = new SafingLogicTestTableRow()
+                     {
+                         RowIndex = i
+                     };
+
+                     foreach (var prop in properties)
+                     {
+                         // 检查当前列名是否与实体属性匹配
+                         var columnName = headerIndex.Keys.FirstOrDefault(x => x.IndexOf(prop.Name, StringComparison.OrdinalIgnoreCase) > -1);
+
+                         if (!string.IsNullOrEmpty(columnName) && headerIndex.TryGetValue(columnName, out int idx))
+                         {
+                             var cell = excelRow.GetCell(idx);
+                             //cell.CellType
+                             var cellValue = excelRow.GetCell(idx).NumericCellValue;
+                             // if (!string.IsNullOrEmpty(cellValue))
+                             {
+                                 // 使用反射赋值
+                                 if (prop.PropertyType == typeof(SafingLoficTestResult))
+                                 {
+                                     SafingLoficTestResult res = new SafingLoficTestResult()
+                                     {
+                                         TargetValue = (int)cellValue
+                                     };
+                                     prop.SetValue(row, res);
+                                 }
+                                 else
+                                 {
+                                     prop.SetValue(row, Convert.ChangeType(cellValue, prop.PropertyType));
+                                 }
+                             }
+                         }
+                     }
+                     rows.Add(row);
+                     
+                 }
+             }).ContinueWith((x) =>
+             {
+                 Dispatch(() => TableRows.AddRange(rows));
+                 IsLoading = false;
+             });
+        }
+
+        private void ShowTestResult()
         {
             if (_safingLogicTestResults.Count == 0)
             {
@@ -406,16 +609,55 @@ namespace ERad5TestGUI.ViewModels
                         icon: AdonisUI.Controls.MessageBoxImage.Information);
                 return;
             }
+            if (_safingLogicTestResults.Count == 0)
+            {
+                TableRows.ToList().ForEach(x => x.UpdateResultPass());
+            }
+            else
+            {
+                foreach (var item in TableRows)
+                {
+                    var errorRow = _safingLogicTestResults.FirstOrDefault(x => x.RowIndex == item.RowIndex);
+                    if(errorRow != null)
+                    {
+                        item.Result = false;
+                        errorRow.TryGetValue(nameof(SafingLogicTestTableRow.FORCE_UPPERS_ON), out int rV);
+                        errorRow.TryGetValue(nameof(SafingLogicTestTableRow.FORCE_LOWERS_ON), out int rV2);
+                        errorRow.TryGetValue(nameof(SafingLogicTestTableRow.PWM_BUFFER), out int rV3);
+                        errorRow.TryGetValue(nameof(SafingLogicTestTableRow.FSSTATE_BOT), out int rV4);
+                        errorRow.TryGetValue(nameof(SafingLogicTestTableRow.FSSTATE_TOP), out int rV5);
+                        errorRow.TryGetValue(nameof(SafingLogicTestTableRow.FSENB), out int rV6);
+                        errorRow.TryGetValue(nameof(SafingLogicTestTableRow.OUT_EN), out int rV7);
+                        errorRow.TryGetValue(nameof(SafingLogicTestTableRow.PHASE_UVW_OC_FLT), out int rV8);
+                        item.FORCE_UPPERS_ON.RealValue = rV;
+                        item.FORCE_LOWERS_ON.RealValue = rV2;
+                        item.PWM_BUFFER.RealValue = rV3;
+                        item.FSSTATE_BOT.RealValue = rV4;
+                        item.FSSTATE_TOP.RealValue = rV5;
+                        item.FSENB.RealValue = rV6;
+                        item.OUT_EN.RealValue = rV7;
+                        item.PHASE_UVW_OC_FLT.RealValue = rV8;
+                    }
+                    else
+                    {
+                        item.UpdateResultPass();
+                    }
+                }
+            }
 
-            if (AdonisUI.Controls.MessageBox.Show($"SafingLogic Test Failure, Do you Need to Export the Result Excel? The result excel can only be exported this time.",
-                        "Save SafingLogic Test",
-                        buttons: AdonisUI.Controls.MessageBoxButton.YesNo,
-                        icon: AdonisUI.Controls.MessageBoxImage.Information) != AdonisUI.Controls.MessageBoxResult.Yes)
+            // if (AdonisUI.Controls.MessageBox.Show($"SafingLogic Test Failure, Do you Need to Export the Result Excel? The result excel can only be exported this time.",
+            if (AdonisUI.Controls.MessageBox.Show($"SafingLogic Test Failure.",
+                    "Save SafingLogic Test",
+                    buttons: AdonisUI.Controls.MessageBoxButton.OK,
+                    icon: AdonisUI.Controls.MessageBoxImage.Information) != AdonisUI.Controls.MessageBoxResult.Yes)
             {
                 return;
             }
+        }
 
-            IWorkbook wb = NPOIHelper.GetWorkbookByExcel(SafingLogicTableFilePath);
+        private void SaveExcelTest()
+        {
+            IWorkbook wb = NPOIHelper.GetWorkbookByExcel(TestExcelFile);
 
             ISheet sheet = wb.GetSheetAt(0);
             var headerRow = sheet.GetRow(0);
@@ -456,7 +698,7 @@ namespace ERad5TestGUI.ViewModels
                     NPOIHelper.WriteExcel(saveFileDialog.FileName, wb);
                     AdonisUI.Controls.MessageBox.Show($"Save Test File to {saveFileDialog.FileName}",
                         "SafingLogic Test Result Table Save",
-                        icon:AdonisUI.Controls.MessageBoxImage.Information);
+                        icon: AdonisUI.Controls.MessageBoxImage.Information);
                 }
                 catch (Exception ex)
                 {
@@ -464,7 +706,7 @@ namespace ERad5TestGUI.ViewModels
                         "SafingLogic Test Result Table Save",
                         icon: AdonisUI.Controls.MessageBoxImage.Error);
                 }
-                
+
             }
         }
         private void DeviceStore_OnMsgReceived(IEnumerable<Devices.IFrame> can_msg)
@@ -477,7 +719,7 @@ namespace ERad5TestGUI.ViewModels
                 {
                     Log("Parse finish status.");
                     SignalStore.ParseBytes(msgs611.FirstOrDefault().Data, _testFinish);
-                    Log($"Parse finish status.{_testFinish.OriginValue} [{string.Join(" ", msgs611.FirstOrDefault().Data.Select(x=>x.ToString("X2")))}]");
+                    Log($"Parse finish status.{_testFinish.OriginValue} [{string.Join(" ", msgs611.FirstOrDefault().Data.Select(x => x.ToString("X2")))}]");
                 }
                 else
                 {
@@ -512,30 +754,5 @@ namespace ERad5TestGUI.ViewModels
         #endregion
     }
 
-    public class SafingLogicTestResult
-    {
-        public SafingLogicTestResult()
-        {
-            Result = new Dictionary<string, int>();
-        }
-        public int RowIndex
-        {
-            get
-            {
-                if (Result.TryGetValue("Safing_Logic_Test_Frame_Row", out int rowIndex))
-                {
-                    return rowIndex;
-                }
-                return -1;
-            }
-        }
-        public Dictionary<string, int> Result { get; }
 
-        public bool TryGetValue(string name, out int val)
-        {
-            name = name.Replace(" ", "").Replace("\n","_").Replace("/", "");
-            name = $"Safing_Logic_Test_Frame_{name}";
-            return Result.TryGetValue(name, out val);
-        }
-    }
 }

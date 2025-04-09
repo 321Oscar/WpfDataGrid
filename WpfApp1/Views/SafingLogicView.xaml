@@ -132,22 +132,22 @@
                 Content="{Binding ErrRowCount.OriginValue}"
                 Style="{StaticResource ControlWithTitleGridStyle}">
             </ctrls:ControlWithTitle>
-            <Button Content="Clear" Margin="0,10"/>
-            <Button Content="Notes"  Margin="0,10"/>
+            <Button Content="Init Excel" Margin="0,10" Command="{Binding SelectExcelCommand}"/>
+            <Button Content="Export Test Excel" Margin="0,10" Command="{Binding ExportExcelCommand}"/>
+            <!--<Button Content="Notes"  Margin="0,10" Command="{Binding DialogCommand}"/>-->
         </StackPanel>
+
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition />
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid.Resources>
-                <Style x:Key="DisableBorder" TargetType="Border" BasedOn="{StaticResource CellBorder}">
+                <Style x:Key="DisableBorder" TargetType="Border" BasedOn="{StaticResource CellBorderHor}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsEnable}" Value="False">
                             <Setter Property="Background" Value="#aeaaaa" />
@@ -157,26 +157,33 @@
                 <DataTemplate DataType="{x:Type models:DiscreteInputSignal}">
                     <Border Style="{StaticResource CardBorder}">
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" SharedSizeGroup="SignalName"/>
-                                <ColumnDefinition Width="auto" SharedSizeGroup="value1" MinWidth="100"/>
-                                <ColumnDefinition Width="auto" MinWidth="60" SharedSizeGroup="value2"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid Margin="10,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" SharedSizeGroup="SignalName"/>
+                                <RowDefinition Height="auto" SharedSizeGroup="value1" />
+                                <RowDefinition Height="auto" SharedSizeGroup="value2"/>
+                            </Grid.RowDefinitions>
+                            <Grid Margin="0,5" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
                                 <TextBlock 
                                     Style="{StaticResource SignalNameFontStyle}"
-                                    Text="{Binding DisplayName}"/>
+                                     Text="{Binding DisplayName}">
+                                    <TextBlock.LayoutTransform>
+                                        <RotateTransform Angle="270"></RotateTransform>
+                                    </TextBlock.LayoutTransform>
+                                </TextBlock>
                                 <TextBlock 
                                     Style="{StaticResource DescriptionTextBlockStyle}"
                                     Text="{Binding PinNumber}"
-                                    Grid.Column="1"/>
+                                    Grid.Row="1">
+                                </TextBlock>
                             </Grid>
-                            <Border  Grid.Column="1" Style="{StaticResource DisableBorder}" >
+                            <Border 
+                                Grid.Column="1" 
+                                Style="{StaticResource DisableBorder}"
+                                Grid.Row="1">
                                 <StackPanel
                                     Margin="5,0"
                                     VerticalAlignment="Center" 
@@ -205,9 +212,8 @@
                                 </StackPanel>
                             </Border>
                             <Border 
-                                Grid.Column="2" 
-                                Style="{StaticResource DisableBorder}" 
-                                BorderThickness="2,0">
+                                Grid.Row="2" 
+                                Style="{StaticResource DisableBorder}">
                                 <TextBlock 
                                     Text="{Binding OriginValue}" 
                                     Style="{StaticResource ValueTextBlockStyle}"
@@ -220,93 +226,352 @@
                     </Border>
                 </DataTemplate>
 
+                <DataTemplate DataType="{x:Type models:DiscreteOutputSignal}">
+                    <Border Style="{StaticResource CardBorder}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" SharedSizeGroup="SignalName"/>
+                                <RowDefinition Height="auto" SharedSizeGroup="value1" />
+                                <RowDefinition Height="auto" SharedSizeGroup="value2"/>
+                            </Grid.RowDefinitions>
+                            <Grid Margin="0,5" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock 
+                                    Style="{StaticResource SignalNameFontStyle}"
+                                     Text="{Binding DisplayName}">
+                                    <TextBlock.LayoutTransform>
+                                        <RotateTransform Angle="270"></RotateTransform>
+                                    </TextBlock.LayoutTransform>
+                                </TextBlock>
+                                <TextBlock 
+                                    Style="{StaticResource DescriptionTextBlockStyle}"
+                                    Text="{Binding PinNumber}"
+                                    Grid.Row="1">
+                                </TextBlock>
+                            </Grid>
+                            <Border Style="{StaticResource CellBorderHor}" Grid.Row="1">
+                                <StackPanel
+                                    Margin="5,0"
+                                    Grid.Column="1" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Center">
+                                <ToggleButton 
+                                    Visibility="{Binding IsOutput,Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    IsChecked="{Binding Pin_High, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}">
+                                </ToggleButton>
+                                <TextBlock 
+                                    Text="Low" 
+                                    Visibility="{Binding Pin_Low,Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                    Margin="0,0,5,0"/>
+                                <TextBlock 
+                                    Text="High" 
+                                    Visibility="{Binding Pin_High,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                </StackPanel>
+                            </Border>
+                            <Border 
+                                Grid.Row="2" 
+                                Style="{StaticResource CellBorderHor}" >
+                                <TextBlock 
+                                    Text="{Binding State.OriginValue}" 
+                                    Style="{StaticResource ValueTextBlockStyle}"
+                                    Grid.Column="2"/>
+                            </Border>
+
+                        </Grid>
+                        <Border.ToolTip>
+                            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                        </Border.ToolTip>
+                    </Border>
+
+                </DataTemplate>
+
                 <DataTemplate x:Key="BaseGroup">
                     <GroupBox Header="{Binding GroupName}">
                         <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" SharedSizeGroup="ColumnHeader"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <!--Column Header -->
                             <Border Grid.Row="0" Style="{StaticResource CardBorder}" Margin="0,2,0,0">
                                 <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition SharedSizeGroup="SignalName"/>
-                                        <ColumnDefinition SharedSizeGroup="value1"/>
-                                        <ColumnDefinition SharedSizeGroup="value2"/>
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Border Style="{StaticResource CellBorder}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" SharedSizeGroup="SignalName"/>
+                                        <RowDefinition Height="auto" SharedSizeGroup="value1" />
+                                        <RowDefinition Height="auto" SharedSizeGroup="value2"/>
+                                    </Grid.RowDefinitions>
+                                    <Border 
+                                        Style="{StaticResource CellBorderHor}" 
+                                        BorderThickness="0,0,0,2"
+                                        HorizontalAlignment="Center">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="auto"/>
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="SignalName" Style="{StaticResource SignalNameFontStyle}" />
+                                            <TextBlock Text="SignalName" Style="{StaticResource SignalNameFontStyle}" >
+                                                <TextBlock.LayoutTransform>
+                                                    <RotateTransform Angle="270"></RotateTransform>
+                                                </TextBlock.LayoutTransform>
+                                            </TextBlock>
                                             <TextBlock 
-                                Style="{StaticResource DescriptionTextBlockStyle}"
-                                Text=" PinNumber"
-                                Grid.Column="1"/>
+                                                Style="{StaticResource DescriptionTextBlockStyle}"
+                                                Text="PinNumber"
+                                                Grid.Column="1">
+                                                <TextBlock.LayoutTransform>
+                                                    <RotateTransform Angle="270"></RotateTransform>
+                                                </TextBlock.LayoutTransform>
+                                            </TextBlock>
                                         </Grid>
-
                                     </Border>
-                                    <TextBlock Text="Pin Low/High" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <TextBlock Text="State" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                        <TextBlock Text="Pin Low/High" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <TextBlock Text="State" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Grid>
                             </Border >
-                        
-                        <ItemsControl ItemsSource="{Binding Signals}" Grid.Row="1"/></Grid>
+                            <!--Content-->
+                            <ItemsControl ItemsSource="{Binding Signals}" Grid.Column="1">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="15" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </Grid>
                     </GroupBox>
                 </DataTemplate>
+
+                <DataTemplate x:Key="BaseGroupWithoutHeader">
+                    <GroupBox Header="{Binding GroupName}">
+                        <Grid>
+                            <ItemsControl ItemsSource="{Binding Signals}" Grid.Column="0">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="9" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </Grid>
+                    </GroupBox>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type models:SafingLoficTestResult}">
+                    <Border BorderThickness="0,2,2,1">
+                        <TextBlock Text="{Binding RealValue}" Style="{StaticResource ValueTextBlockStyle}" />
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource CellBorderHor}">
+                                <Setter Property="Background" Value="White"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Pass}" Value="True">
+                                        <Setter Property="Background" Value="White"/>
+                                    </DataTrigger>  
+                                    <!--<DataTrigger Binding="{Binding Path=Pass}" Value="{x:Null}">
+                                        <Setter Property="Background" Value="Gray"/>
+                                    </DataTrigger>--> 
+                                    <DataTrigger Binding="{Binding Path=Pass}" Value="False">
+                                        <Setter Property="Background" Value="Red"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </DataTemplate> 
+                <DataTemplate x:Key="SafingResultCell">
+                    <Border Style="{StaticResource CellBorderHor}" Background="White" BorderThickness="0,2,2,1">
+                        <TextBlock Text="{Binding}" Style="{StaticResource ValueTextBlockStyle}" />
+                    </Border>
+                </DataTemplate>
             </Grid.Resources>
-            <GroupBox Header="Level1" Margin="2,0" Grid.RowSpan="2">
-                <ScrollViewer Margin="-7">
-                    <ItemsControl 
-                        ItemsSource="{Binding Level1Signals}" 
-                        Grid.IsSharedSizeScope="True" 
-                        ItemTemplate="{StaticResource BaseGroup}">
-                        <!--<ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <GroupBox Header="{Binding GroupName}">
-                                    <ItemsControl ItemsSource="{Binding Signals}" />
-                                </GroupBox>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>-->
-                    </ItemsControl>
+            <Grid Grid.IsSharedSizeScope="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <!--Signals-->
+                <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" SharedSizeGroup="Inputs"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <ContentControl Content="{Binding InputSignals}" ContentTemplate="{StaticResource BaseGroup}" />
+
+                        <ContentControl
+                            Grid.Column="1" 
+                            Margin="5,0"
+                            Content="{Binding OutputSignals}"
+                            ContentTemplate="{StaticResource BaseGroupWithoutHeader}" />
+                    </Grid>
                 </ScrollViewer>
-            </GroupBox>
-            <GroupBox 
-                Header="Level2" 
-                Grid.Column="1" 
-                Margin="2,0" 
-                Grid.RowSpan="2">
-                <ScrollViewer Margin="-7">
-                    <ItemsControl 
-                        ItemsSource="{Binding Level2Signals}" 
-                        Grid.IsSharedSizeScope="True" 
-                        ItemTemplate="{StaticResource BaseGroup}"/>
+                <!--Test Result-->
+                <ScrollViewer Grid.Row="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" SharedSizeGroup="Inputs"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.ColumnSpan="2" Panel.ZIndex="99">
+                            <Grid.Style>
+                                <Style TargetType="FrameworkElement">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+
+                            <Border Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+                                    Opacity="0.5"/>
+
+                            <ContentControl ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingCircle}}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Width="{adonisUi:Space 5}"
+                                            Height="{adonisUi:Space 5}"
+                                            Focusable="False"/>
+                        </Grid>
+
+                        <GroupBox Header="Inputs" Grid.Column="0">
+                            <ItemsControl ItemsSource="{Binding TableRows}" Grid.Column="1">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type models:SafingLogicTestTableRow}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto" SharedSizeGroup="ColumnHeader"/>
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Border 
+                                                Grid.Row="0" 
+                                                Style="{StaticResource CardBorder}" 
+                                                Margin="0,2,0,0" 
+                                                BorderThickness="0,0,2,0">
+                                                <TextBlock Text="{Binding RowIndex}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <UniformGrid Columns="15" Grid.Column="1">
+                                                <ContentControl Content="{Binding SAFESTATE1}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                <ContentControl Content="{Binding SAFESTATE2}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                <ContentControl Content="{Binding SPD_HW_3PS_OUT}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                <ContentControl Content="{Binding PS_MAIN_MICRO}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                <ContentControl Content="{Binding MTR_SPEED_STAT}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                <ContentControl Content="{Binding PWM_EN}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                <ContentControl Content="{Binding ESTOP}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                <ContentControl Content="{Binding HVDC_OV_FLT}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                <ContentControl Content="{Binding DSAT_TOP_FLT}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                <ContentControl Content="{Binding DSAT_BOT_FLT}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                <ContentControl Content="{Binding UVLO_TOP_FLT}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                <ContentControl Content="{Binding UVLO_BOT_FLT}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                <ContentControl Content="{Binding OC_U_FLT}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                <ContentControl Content="{Binding OC_V_FLT}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                <ContentControl Content="{Binding OC_W_FLT}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                            </UniformGrid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </GroupBox>
+                        <!--Result-->
+                        <GroupBox 
+                            Header="Outputs" 
+                            Grid.Column="1"
+                            Margin="5,0">
+                            <ItemsControl ItemsSource="{Binding TableRows}" Grid.Column="1" HorizontalContentAlignment="Stretch">
+                                <!--<ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    </Style>
+                                </ListBox.ItemContainerStyle>-->
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type models:SafingLogicTestTableRow}">
+                                        <Grid >
+                                            <UniformGrid Columns="9" Grid.Column="1">
+                                                <ContentControl Content="{Binding FORCE_UPPERS_ON}" />
+                                                <ContentControl Content="{Binding FORCE_LOWERS_ON}" />
+                                                <ContentControl Content="{Binding PWM_BUFFER}" />
+                                                <ContentControl Content="{Binding FSSTATE_BOT}" />
+                                                <ContentControl Content="{Binding FSSTATE_TOP}" />
+                                                <ContentControl Content="{Binding FSENB}" />
+                                                <ContentControl Content="{Binding OUT_EN}" />
+                                                <ContentControl Content="{Binding PHASE_UVW_OC_FLT}" />
+                                                <Border >
+                                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <!--<Setter Property="Background" Value="White"/>-->
+                                                                <Setter Property="Foreground" Value="White" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Path=Result}" Value="True">
+                                                                        <Setter Property="Text" Value="Pass"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Path=Result}" Value="{x:Null}">
+                                                                        <Setter Property="Text" Value="NoTest"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Path=Result}" Value="False">
+                                                                        <Setter Property="Text" Value="Fail"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                    <Border.Style>
+                                                        <Style TargetType="Border" BasedOn="{StaticResource CellBorderHor}">
+                                                            <Setter Property="Background" Value="White"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Path=Result}" Value="True">
+                                                                    <Setter Property="Background" Value="Green"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Path=Result}" Value="{x:Null}">
+                                                                    <Setter Property="Background" Value="Gray"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Path=Result}" Value="False">
+                                                                    <Setter Property="Background" Value="Red"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                </Border>
+                                            </UniformGrid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </GroupBox>
+                    </Grid>
                 </ScrollViewer>
-            </GroupBox>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <!--<DataGrid ItemsSource="{Binding TableRows}" IsReadOnly="True" Height="200">
+
+                </DataGrid>-->
+                <GroupBox Header="Safing Logic Test Error Info" Grid.Row="1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Test Fail Reason:</TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <ctrls:ReadOnlyRadioButton Title="Test Row Fail" IsChecked="{Binding TestRowFail}"/>
+                            <ctrls:ReadOnlyRadioButton Title="SBC Fail" IsChecked="{Binding SBCFail}"/>
+                            <ctrls:ReadOnlyRadioButton Title="NXP Fail" IsChecked="{Binding NXPFail}"/>
+                            <ctrls:ReadOnlyRadioButton Title="Precondition Fail" IsChecked="{Binding PreconditionFail}"/>
+                            <ctrls:ReadOnlyRadioButton Title="No Fail" IsChecked="{Binding TestNoFail}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+            </Grid>
+
             <GroupBox 
-                Header="Level3" 
+                Grid.Row="0" 
                 Grid.Column="2" 
-                Margin="2,0">
-                <ItemsControl
-                    ItemsSource="{Binding Level3Signals}"
-                    Grid.IsSharedSizeScope="True" 
-                    ItemTemplate="{StaticResource BaseGroup}"/>
-            </GroupBox>
-            <GroupBox
-                Header="Level4" 
-                Grid.Column="3" 
-                Margin="2,0">
-                <ItemsControl 
-                    ItemsSource="{Binding Level4Signals}" 
-                    Grid.IsSharedSizeScope="True" 
-                    ItemTemplate="{StaticResource BaseGroup}"/>
-            </GroupBox>
-            <GroupBox 
-                Grid.Row="1" 
-                Grid.Column="3" 
                 Grid.ColumnSpan="1"
                 Header="Direction">
                 <Grid Grid.IsSharedSizeScope="True">

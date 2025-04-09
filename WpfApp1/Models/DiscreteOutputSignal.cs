@@ -174,5 +174,7 @@ namespace ERad5TestGUI.Models
         {
             State = stateSignal;
         }
+
+       
     }
 }

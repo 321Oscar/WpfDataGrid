@@ -75,4 +75,29 @@ namespace ERad5TestGUI.Components
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ControlWithTitle), new FrameworkPropertyMetadata(typeof(ControlWithTitle)));
         }
     }
+
+    public class ReadOnlyRadioButton : Control
+    {
+        public static readonly DependencyProperty TitleProperty =
+           DependencyProperty.Register("Title", typeof(string), typeof(ReadOnlyRadioButton), new PropertyMetadata(string.Empty));
+
+        public string Title
+        {
+            get { return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsCheckedProperty =
+            DependencyProperty.Register(
+                "IsChecked",
+                typeof(bool),
+                typeof(ReadOnlyRadioButton),
+                new PropertyMetadata(false));
+
+        public bool IsChecked
+        {
+            get { return (bool)GetValue(IsCheckedProperty); }
+            set { }
+        }
+    }
 }

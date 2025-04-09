@@ -213,6 +213,10 @@ namespace ERad5TestGUI.ViewModels
 
     public partial class MainViewModel
     {
+        /// 0.0.1.0
+        /// 重绘SafingLogic
+        /// 优化Analog计算标准差
+        /// 修改UDS诊断ID
         /// 0.0.0.9
         /// 1.PPAWL 中 Duty Freq下发失败
         /// 2.PulseOut中 Freq设置后会自行变化
@@ -251,6 +255,6 @@ namespace ERad5TestGUI.ViewModels
         /// 发送CAN报文，根据ID发送该ID下的所有信号</para>
         /// <para>V0.0.0.1 : <see cref="Models.NXPInputSignal"/> 转换无需 * 5 /4096；增加LIN 界面</para>
         /// </remarks>
-        public string Version { get; } = "0.0.0.9";
+        public string Version { get; } = "0.0.1.0";
     }
 }

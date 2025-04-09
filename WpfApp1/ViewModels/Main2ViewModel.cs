@@ -45,9 +45,11 @@ namespace ERad5TestGUI.ViewModels
             dialogView.DialogViewModel = deviceViewModel;
             dialogView.ShowDialog();
         }
-
+        private IDialogService _dialogService;
         private void InitViewModel()
         {
+            _dialogService = new DialogService();
+
             AnalogViewModel = new AnalogViewModel(SignalStore, _deviceStore, _logService);
             //AnalogViewModel.Init();
             DiscreteViewModel = new DiscreteViewModel(SignalStore, _deviceStore, _logService);
@@ -68,7 +70,7 @@ namespace ERad5TestGUI.ViewModels
             SPIViewModel = new SPIViewModel(SignalStore, _deviceStore, _logService);
             PPAWLViewModel = new PPAWLViewModel(SignalStore, _deviceStore, _logService);
             ELockerViewModel = new ELockerViewModel(SignalStore, _deviceStore, _logService);
-            SafingLogicViewModel = new SafingLogicViewModel(SignalStore, _deviceStore, _logService);
+            SafingLogicViewModel = new SafingLogicViewModel(SignalStore, _deviceStore, _logService, _dialogService);
             //DisConnectViewModel.Init(); 
             MemoryViewModel = new MemoryViewModel(SignalStore, _deviceStore, _logService);
            // MemoryViewModel.Init();

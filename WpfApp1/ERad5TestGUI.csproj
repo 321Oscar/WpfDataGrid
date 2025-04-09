@@ -36,6 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CustomMarshalers" />
     <Reference Include="System" />
@@ -108,6 +111,7 @@
     <Compile Include="Models\SPISignal.cs" />
     <Compile Include="Services\CloseModalNavigationService.cs" />
     <Compile Include="Services\CompositeNavigationService.cs" />
+    <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\ILogService.cs" />
     <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\INavigationService.cs" />
@@ -182,6 +186,9 @@
     <Compile Include="Views\DialogView.xaml.cs">
       <DependentUpon>DialogView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DisConnectView.xaml.cs">
       <DependentUpon>DisConnectView.xaml</DependentUpon>
     </Compile>
@@ -226,6 +233,9 @@
     </Compile>
     <Compile Include="Views\ResolverView.xaml.cs">
       <DependentUpon>ResolverView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SafingLogicResultTableView.xaml.cs">
+      <DependentUpon>SafingLogicResultTableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SafingLogicView.xaml.cs">
       <DependentUpon>SafingLogicView.xaml</DependentUpon>
@@ -288,6 +298,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\DialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DisConnectView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -345,6 +359,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ResolverView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SafingLogicResultTableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -417,6 +435,8 @@
     <None Include="Config\Limits.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Resource Include="Resources\logo.ico" />
+    <Resource Include="logo.ico" />
     <Content Include="vxlapi.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -9,21 +9,29 @@
     xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
     xmlns:s="clr-namespace:System;assembly=mscorlib"
     mc:Ignorable="d" 
-    d:DesignHeight="120" 
-    d:DesignWidth="1200">
-    <WrapPanel>
-        <!--  Device  -->
-        <GroupBox Header="CanDevice" Margin="5,5,0,5">
-            <Grid Margin="0,-5" Width="300">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Button 
+    d:DesignHeight="150" 
+    d:DesignWidth="1300">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <Grid MinWidth="1200">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <!--  Device  -->
+            <GroupBox Header="CanDevice" Margin="5,5,0,5" Grid.Column="0">
+                <Grid Margin="0,-5" Width="300">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button 
                     Height="25"
                             Grid.Column="0"
                             Grid.Row="0"
@@ -31,7 +39,7 @@
                             Command="{Binding DeivceConfigCommand}" 
                             HorizontalAlignment="Left"
                             Width="80"/>
-                <Button
+                    <Button
                     d:Content="Start"
                             Margin="0,2,0,0"
                             Grid.Row="1"
@@ -40,170 +48,172 @@
                             Width="80"
                     Height="25"
                             Content="{Binding Started,Converter={StaticResource DeviceStartConverter}}"/>
-                <ctrls:TextBoxWithLabel 
+                    <ctrls:TextBoxWithLabel 
                             Margin="2,2,0,0"
                             Title="Comms Count:" 
                             Content="{Binding FramesCount}" 
                             Grid.Row="1" Grid.Column="1" Orientation="Vertical" />
-                <!--<ctrls:LabelWithContent
+                    <!--<ctrls:LabelWithContent
                             Grid.Column="1"
                             Title="Connect:"
                             Content="{Binding CurrentDevice.RecieveStatus}">
                         </ctrls:LabelWithContent>-->
-                <ctrls:ControlWithTitle  
+                    <ctrls:ControlWithTitle  
                             Margin="2,2,0,0"
                             Grid.Column="1" 
                             Title="Connect Status:" 
                             Orientation="Vertical">
-                    <ctrls:ControlWithTitle.Content>
-                        <TextBlock Text="{Binding CurrentDevice.RecieveStatus}">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                    <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CurrentDevice.RecieveStatus}" Value="Connected">
-                                            <Setter Property="Foreground" Value="Green" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding CurrentDevice.RecieveStatus}" Value="DisConnect">
-                                            <Setter Property="Foreground" Value="Red" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </ctrls:ControlWithTitle.Content>
-                </ctrls:ControlWithTitle>
-            </Grid>
-        </GroupBox>
-        <GroupBox Header="Version" Margin="5">
-            <StackPanel Grid.IsSharedSizeScope="True">
-                <ctrls:TextBoxWithLabel 
+                        <ctrls:ControlWithTitle.Content>
+                            <TextBlock Text="{Binding CurrentDevice.RecieveStatus}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentDevice.RecieveStatus}" Value="Connected">
+                                                <Setter Property="Foreground" Value="Green" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CurrentDevice.RecieveStatus}" Value="DisConnect">
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </ctrls:ControlWithTitle.Content>
+                    </ctrls:ControlWithTitle>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Version" Margin="5" Grid.Column="1">
+                <StackPanel Grid.IsSharedSizeScope="True">
+                    <ctrls:TextBoxWithLabel 
                     Style="{StaticResource TextBlockWithLabelGridStyle}"
                     Title="EM SW Version:" 
                     Content="{Binding EMSWVersion}"                        
                     Grid.Row="3"/>
-                <ctrls:TextBoxWithLabel 
+                    <ctrls:TextBoxWithLabel 
                     Title="PC SW Version:"  
                     Style="{StaticResource TextBlockWithLabelGridStyle}"
                     Content="{Binding Version}"  
                     d:Content="1.0.0.0"
                     Grid.Row="3"/>
-                <ctrls:TextBoxWithLabel 
+                    <ctrls:TextBoxWithLabel 
                     Style="{StaticResource TextBlockWithLabelGridStyle}"
                     Title="Hardware ID:" 
                     Content="{Binding HardwareID}"                        
                     Grid.Row="3"/>
 
-            </StackPanel>
-        </GroupBox>
-        <GroupBox Header="CAN INH State" Margin="0,5,5,5">
-            <Grid Margin="-7">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="CAN INH State" Margin="0,5,5,5" Grid.Column="2">
+                <Grid Margin="-7">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <ItemsControl ItemsSource="{Binding SignalStore.MessagesStates}" Grid.IsSharedSizeScope="True">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type mdls:MessageReceiveState}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions >
-                                        <ColumnDefinition SharedSizeGroup="state" Width="auto"/>
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Ellipse Name="state" Width="10" Height="10">
-                                        <Ellipse.Style>
-                                            <Style TargetType="Ellipse">
-                                                <Setter Property="Fill" Value="Red"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding State}" Value="True">
-                                                        <Setter  Property="Fill" Value="Green"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding State}" Value="False">
-                                                        <Setter  Property="Fill" Value="Red"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Ellipse.Style>
-                                    </Ellipse>
-                                    <TextBlock Text="{Binding Name}" Grid.Column="1" Margin="5,0"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <StackPanel Grid.Column="1" Margin="5,0">
-                        <CheckBox 
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <ItemsControl ItemsSource="{Binding SignalStore.MessagesStates}" Grid.IsSharedSizeScope="True">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type mdls:MessageReceiveState}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions >
+                                            <ColumnDefinition SharedSizeGroup="state" Width="auto"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Name="state" Width="10" Height="10">
+                                            <Ellipse.Style>
+                                                <Style TargetType="Ellipse">
+                                                    <Setter Property="Fill" Value="Red"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding State}" Value="True">
+                                                            <Setter  Property="Fill" Value="Green"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding State}" Value="False">
+                                                            <Setter  Property="Fill" Value="Red"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Ellipse.Style>
+                                        </Ellipse>
+                                        <TextBlock Text="{Binding Name}" Grid.Column="1" Margin="5,0"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <StackPanel Grid.Column="1" Margin="5,0">
+                            <CheckBox 
                         Margin="1"
                         IsEnabled="False"/>
-                        <CheckBox 
+                            <CheckBox 
                         Margin="1"
                         IsChecked="{Binding FD5_INH_DISABLE.Pin_High}"/>
-                        <CheckBox 
+                            <CheckBox 
                         Margin="1"
                         IsChecked="{Binding FD16_INH_DISABLE.Pin_High}" />
-                    </StackPanel>
-                    <Button 
+                        </StackPanel>
+                        <Button 
                         Content="Disable CAN INH"
                         Grid.ColumnSpan="2" 
                         Grid.Row="1"
                         Margin="1"
                         Command="{Binding DisableINHCANCommand}">
-                        <!--CAN_INH_Update-->
-                        <Button.ToolTip>
-                            <ContentControl Content="{Binding CAN_INH_Update}" ContentTemplate="{StaticResource SignalToolTip}"/>
-                        </Button.ToolTip>
-                    </Button>
-                </Grid>
-                <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
-                    <Button 
+                            <!--CAN_INH_Update-->
+                            <Button.ToolTip>
+                                <ContentControl Content="{Binding CAN_INH_Update}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                            </Button.ToolTip>
+                        </Button>
+                    </Grid>
+                    <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+                        <Button 
                         Content="Send CANFD5 WAKE UP"
                         Margin="1"
                         Command="{Binding SendWakeUpCommand}">
-                        <Button.CommandParameter>
-                            <s:UInt32>0x4fd</s:UInt32>
-                        </Button.CommandParameter>
-                        <Button.ToolTip>
-                            <TextBlock>Send 0x4FD(Can2.0 )</TextBlock>
-                        </Button.ToolTip>
-                    </Button>
-                    <Button 
+                            <Button.CommandParameter>
+                                <s:UInt32>0x4fd</s:UInt32>
+                            </Button.CommandParameter>
+                            <Button.ToolTip>
+                                <TextBlock>Send 0x4FD(Can2.0 )</TextBlock>
+                            </Button.ToolTip>
+                        </Button>
+                        <Button 
                         Content="Send CANFD16 WAKE UP"
                         Margin="1"
                         Command="{Binding SendWakeUpCommand}">
-                        <Button.CommandParameter>
-                            <s:UInt32>0x4fE</s:UInt32>
-                        </Button.CommandParameter>
-                        <Button.ToolTip>
-                            <TextBlock>Send 0x4FE(Can2.0 )</TextBlock>
-                        </Button.ToolTip>
-                    </Button>
-                </StackPanel>
-            </Grid>
-        </GroupBox>
-        <GroupBox Header="Controls" Margin="0,5" Visibility="Collapsed">
-            <WrapPanel MaxWidth="500">
-                <WrapPanel.Resources>
-                    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                        <Setter Property="Margin" Value="2"/>
-                    </Style>
-                </WrapPanel.Resources>
-                <Button Content="Disable TLF Reset" IsEnabled="False"/>
-                <Button Content="Can Trcv Normal Mode"/>
-               
-                <Button Content="Send Can Wake Up"/>
-                <Button Content="Reset Min/Max"/>
-                <Button Content="Sleep TLF"/>
-            </WrapPanel>
-        </GroupBox>
-    </WrapPanel>
+                            <Button.CommandParameter>
+                                <s:UInt32>0x4fE</s:UInt32>
+                            </Button.CommandParameter>
+                            <Button.ToolTip>
+                                <TextBlock>Send 0x4FE(Can2.0 )</TextBlock>
+                            </Button.ToolTip>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Controls" Margin="0,5" Visibility="Collapsed" Grid.Column="3">
+                <WrapPanel MaxWidth="500">
+                    <WrapPanel.Resources>
+                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                            <Setter Property="Margin" Value="2"/>
+                        </Style>
+                    </WrapPanel.Resources>
+                    <Button Content="Disable TLF Reset" IsEnabled="False"/>
+                    <Button Content="Can Trcv Normal Mode"/>
+
+                    <Button Content="Send Can Wake Up"/>
+                    <Button Content="Reset Min/Max"/>
+                    <Button Content="Sleep TLF"/>
+                </WrapPanel>
+            </GroupBox>
+            <Image Grid.Column="5" Source="pack://application:,,,/Resources/logo.ico" Width="100" HorizontalAlignment="Right"/>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

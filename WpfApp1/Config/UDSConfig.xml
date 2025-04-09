@@ -6,8 +6,8 @@
     <UpgradeID>
       <Type>RMCU</Type>
       <ReqFunID>2015</ReqFunID>
-      <ReqPhyID>1825</ReqPhyID>
-      <ResPhyID>1833</ResPhyID>
+      <ReqPhyID>1703</ReqPhyID>
+      <ResPhyID>1671</ResPhyID>
     </UpgradeID>
     <UpgradeID>
       <Type>FMCU</Type>

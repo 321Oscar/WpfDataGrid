@@ -17,6 +17,11 @@
         <Setter Property="Padding" Value="10,0"/>
         <Setter Property="BorderBrush" Value="#f6f6f6"/>
         <Setter Property="BorderThickness" Value="0,0,2,0"/>
+    </Style> 
+    <Style x:Key="CellBorderHor" TargetType="Border">
+        <Setter Property="Padding" Value="4,4"/>
+        <Setter Property="BorderBrush" Value="#f6f6f6"/>
+        <Setter Property="BorderThickness" Value="0,2,0,0"/>
     </Style>
     <Style x:Key="SignalNameFontStyle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="15"/>

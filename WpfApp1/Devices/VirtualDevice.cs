@@ -106,6 +106,10 @@ namespace ERad5TestGUI.Devices
                                      .Where(x=> !x.InOrOut)
                                      .Select(x => x.MessageID)
                                      .Distinct();
+
+            var msg501 = _signalStore.GetSignals<Models.SignalBase>()
+                                     .Where(x => !x.InOrOut && x.MessageID == 0x501);
+
             foreach (var msgID in msgIDs)
             {
                 virtualFrames.Add(new CanFrame(msgID, new byte[64], FrameFlags.CANFDSpeed));
