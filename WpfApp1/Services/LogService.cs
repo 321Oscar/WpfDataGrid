@@ -13,10 +13,12 @@ namespace ERad5TestGUI.Services
     public class LogService : ILogService
     {
         private readonly log4net.ILog logInfo;
+        private readonly log4net.ILog logFrame;
         public event Action<string> LogAdded;
         public LogService()
         {
             logInfo = log4net.LogManager.GetLogger("LogTest");
+            logFrame = log4net.LogManager.GetLogger("LogFrame");
         }
         public void OnLogAdded(string context)
         {
@@ -29,7 +31,20 @@ namespace ERad5TestGUI.Services
          */
         public log4net.ILog GetLogger([CallerMemberName] string name = "")
         {
-            var repository = log4net.LogManager.CreateRepository(name);
+            log4net.Repository.ILoggerRepository repository;
+            try
+            {
+                 repository = log4net.LogManager.GetRepository(name);
+
+                //return repository.GetLogger(name);
+                //if (repository == null)
+            }
+            catch (Exception)
+            {
+                repository = log4net.LogManager.CreateRepository(name);
+            }
+           
+                
             //获取日志对象
             log4net.ILog logger = log4net.LogManager.GetLogger(name, name);
 
@@ -98,6 +113,11 @@ namespace ERad5TestGUI.Services
                 logInfo.Debug(meesage);
             }
             OnLogAdded(meesage);
+        }
+
+        public void LogFrame(string msg)
+        {
+            logFrame.Debug(msg);
         }
 
         public void Warn(string type, string formName, string meesage)

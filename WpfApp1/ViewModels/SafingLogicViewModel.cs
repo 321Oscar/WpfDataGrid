@@ -432,7 +432,12 @@ namespace ERad5TestGUI.ViewModels
         {
             if (e.PropertyName == nameof(SignalBase.OriginValue))
             {
-                OnPropertyChanged(nameof(TestProgressPercent));
+                //OnPropertyChanged(nameof(TestProgressPercent));
+                OnPropertyChanged(nameof(TestNoFail));
+                OnPropertyChanged(nameof(PreconditionFail));
+                OnPropertyChanged(nameof(NXPFail));
+                OnPropertyChanged(nameof(SBCFail));
+                OnPropertyChanged(nameof(TestRowFail));
             }
         }
 
@@ -440,11 +445,8 @@ namespace ERad5TestGUI.ViewModels
         {
             if (e.PropertyName == nameof(SignalBase.OriginValue))
             {
-                OnPropertyChanged(nameof(TestNoFail));
-                OnPropertyChanged(nameof(PreconditionFail));
-                OnPropertyChanged(nameof(NXPFail));
-                OnPropertyChanged(nameof(SBCFail));
-                OnPropertyChanged(nameof(TestRowFail));
+               
+                OnPropertyChanged(nameof(TestProgressPercent));
             }
         }
 
@@ -458,7 +460,8 @@ namespace ERad5TestGUI.ViewModels
                 return; 
             }
             //1.Send Safing_Logic_Test_Start to 1
-            TableRows.ToList().ForEach(x => x.Clear());
+            await Task.Run(() => Dispatch(() => TableRows.ToList().ForEach(x => x.Clear())));
+            
             ChangeSignal(TestStart);
             IsTest = true;
             _testFinish.OriginValue = -1;
@@ -472,6 +475,7 @@ namespace ERad5TestGUI.ViewModels
             }
             else
             {
+                Log("Start Test");
                 DeviceStore.OnMsgReceived += DeviceStore_OnMsgReceived;
                 do
                 {
@@ -480,6 +484,7 @@ namespace ERad5TestGUI.ViewModels
             }
 
             IsTest = false;
+            Log("Test Done");
         }
 
         private void StopTest()
@@ -607,10 +612,10 @@ namespace ERad5TestGUI.ViewModels
                 AdonisUI.Controls.MessageBox.Show($"SafingLogic Test Success",
                         "SafingLogic Test",
                         icon: AdonisUI.Controls.MessageBoxImage.Information);
-                return;
-            }
-            if (_safingLogicTestResults.Count == 0)
-            {
+               // return;
+            //}
+            //if (_safingLogicTestResults.Count == 0)
+            //{
                 TableRows.ToList().ForEach(x => x.UpdateResultPass());
             }
             else
@@ -643,15 +648,15 @@ namespace ERad5TestGUI.ViewModels
                         item.UpdateResultPass();
                     }
                 }
-            }
 
-            // if (AdonisUI.Controls.MessageBox.Show($"SafingLogic Test Failure, Do you Need to Export the Result Excel? The result excel can only be exported this time.",
-            if (AdonisUI.Controls.MessageBox.Show($"SafingLogic Test Failure.",
-                    "Save SafingLogic Test",
-                    buttons: AdonisUI.Controls.MessageBoxButton.OK,
-                    icon: AdonisUI.Controls.MessageBoxImage.Information) != AdonisUI.Controls.MessageBoxResult.Yes)
-            {
-                return;
+                // if (AdonisUI.Controls.MessageBox.Show($"SafingLogic Test Failure, Do you Need to Export the Result Excel? The result excel can only be exported this time.",
+                if (AdonisUI.Controls.MessageBox.Show($"SafingLogic Test Failure. ErrorRow Count:{_safingLogicTestResults.Count}",
+                        "SafingLogic Test",
+                        buttons: AdonisUI.Controls.MessageBoxButton.OK,
+                        icon: AdonisUI.Controls.MessageBoxImage.Information) != AdonisUI.Controls.MessageBoxResult.Yes)
+                {
+                    return;
+                }
             }
         }
 
@@ -714,10 +719,10 @@ namespace ERad5TestGUI.ViewModels
             var msgs611 = can_msg.Where(x => x.MessageID == 0x611);
             if (msgs611 != null && msgs611.FirstOrDefault() != null)
             {
-                Log("Receive 0x611 Msg.");
+                //Log("Receive 0x611 Msg.");
                 if (!TestFinish)
                 {
-                    Log("Parse finish status.");
+                    //Log("Parse finish status.");
                     SignalStore.ParseBytes(msgs611.FirstOrDefault().Data, _testFinish);
                     Log($"Parse finish status.{_testFinish.OriginValue} [{string.Join(" ", msgs611.FirstOrDefault().Data.Select(x => x.ToString("X2")))}]");
                 }
@@ -730,9 +735,10 @@ namespace ERad5TestGUI.ViewModels
                         {
                             res.Result.Add(item.Name, (int)item.OriginValue);
                         }
-                        Log($"Error Row:{res.RowIndex} [ [{string.Join(" ", msg611.Data.Select(x => x.ToString("X2")))}]]");
+                        Log($"Error Row:{res.RowIndex}  [{string.Join(" ", msg611.Data.Select(x => x.ToString("X2")))}]");
                         if (res.RowIndex == 0)
                         {
+                            //start receive error row info
                             _getResult = false;
                             DeviceStore.OnMsgReceived -= DeviceStore_OnMsgReceived;
                             break;
@@ -747,7 +753,7 @@ namespace ERad5TestGUI.ViewModels
             }
             else
             {
-                Log("UnReceive 0x611 Msg.");
+                //Log("UnReceive 0x611 Msg.");
             }
         }
 

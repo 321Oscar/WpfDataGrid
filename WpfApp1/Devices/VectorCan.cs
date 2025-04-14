@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using vxlapi_NET;
 using ERad5TestGUI.Services;
+using log4net;
+using System.Collections.Concurrent;
 
 namespace ERad5TestGUI.Devices
 {
@@ -19,6 +21,7 @@ namespace ERad5TestGUI.Devices
         static extern int WaitForSingleObject(int handle, int timeOut);
 
         private readonly LogService logService;
+        //private readonly ILog logger;
 
         // -----------------------------------------------------------------------------------------------
         private readonly VectorCanService _vectorCanService;
@@ -59,17 +62,24 @@ namespace ERad5TestGUI.Devices
 
         // RX thread
         private Thread rxThread;
+        private Thread msgPushThread;
         private bool blockRxThread = false;
         private DeviceRecieveFrameStatus recieveStatus;
 
         // -----------------------------------------------------------------------------------------------
-
+        public void Log(string msg)
+        {
+            logService.Info(msg);
+            //LogService.Log(msg);
+        }
         public VectorCan(LogService logService, VectorCanService vectorCanService, XLClass.xl_channel_config cfg, string name)
         {
             this.logService = logService;
+            //logger = this.logService.GetLogger(this.GetType().Name);
             _vectorCanService = vectorCanService;
             ChannelCfg = cfg;
             Name = name;
+            DataQueue = new ConcurrentQueue<XLClass.XL_CAN_TAG_DATA>();
         }
         public bool Opened { get; private set; }
         public bool Started { get; private set; }
@@ -342,7 +352,7 @@ namespace ERad5TestGUI.Devices
 
             // Create an event collection with 2 messages (events)
             XLClass.xl_canfd_event_collection xlEventCollection = new XLClass.xl_canfd_event_collection(1);
-
+            Log($"Send Frame:0x{msgID:X} {string.Join(" ", data.Select(x => x.ToString("X2")))}");
             // event 1
             xlEventCollection.xlCANFDEvent[0].tag = XLDefine.XL_CANFD_TX_EventTags.XL_CAN_EV_TAG_TX_MSG;
             xlEventCollection.xlCANFDEvent[0].tagData.canId = msgID;
@@ -425,6 +435,7 @@ namespace ERad5TestGUI.Devices
                 }
             }
             uint messageCounterSent = 0;
+            Log($"Send Frames: {string.Join("\r", frames.Select(x => x.ToString()))}");
             var txStatus = VectorDriver.XL_CanTransmitEx(portHandle, txMask, ref messageCounterSent, xlEventCollection);
             status = txStatus.ToString();
             return messageCounterSent == count;
@@ -476,26 +487,8 @@ namespace ERad5TestGUI.Devices
                         //  If receiving succeed....
                         if (xlStatus == XLDefine.XL_Status.XL_SUCCESS)
                         {
-                            if (receivedEvent.tagData.canRxOkMsg.canId != 0)
-                            {
-                                List<CanFrame> frames = new List<CanFrame>();
-                                CanFrame frame = new CanFrame(
-                                    receivedEvent.tagData.canRxOkMsg.canId,
-                                    receivedEvent.tagData.canRxOkMsg.data,
-                                    dlc: (int)receivedEvent.tagData.canRxOkMsg.dlc);
-                                frames.Add(frame);
-                                //count++;
-                                OnMsgReceived?.Invoke(frames);
-                                //logService.Debug($"{Name} add Frame {receiveFlag}");
-                            }
-                            //if (count == 10)
-                            //{
-                            //    OnMsgReceived?.Invoke(frames.Take(frames.Count));
-                            //    frames.Clear();
-                            //    count = 0;
-                            //    logService.Debug($"{Name} Invoke Frame {receiveFlag}");
-                            //}
-                            //Console.WriteLine(CANDemo.XL_CanGetEventString(receivedEvent));
+                            DataQueue.Enqueue(receivedEvent.tagData);
+                            RecieveStatus = DeviceRecieveFrameStatus.Connected;
                         }
                     }
                     RecieveStatus = DeviceRecieveFrameStatus.Connected;
@@ -506,6 +499,27 @@ namespace ERad5TestGUI.Devices
                     RecieveStatus = DeviceRecieveFrameStatus.DisConnect;
                 }
                 // No event occurred
+            }
+        }
+
+        private readonly ConcurrentQueue<XLClass.XL_CAN_TAG_DATA> DataQueue;
+        private void PushData()
+        {
+            //while (RecieveStatus != DeviceRecieveFrameStatus.NotStart)
+            while (true)
+            {
+                if (DataQueue.TryDequeue(out XLClass.XL_CAN_TAG_DATA data))
+                {
+                    List<CanFrame> frames = new List<CanFrame>();
+                    CanFrame frame = new CanFrame(
+                        data.canRxOkMsg.canId,
+                        data.canRxOkMsg.data,
+                        dlc: (int)data.canRxOkMsg.dlc);
+                    frames.Add(frame);
+                    //count++;
+                    OnMsgReceived?.Invoke(frames);
+                    logService.LogFrame($"reveived {frame}");
+                }
             }
         }
         // -----------------------------------------------------------------------------------------------
@@ -528,7 +542,9 @@ namespace ERad5TestGUI.Devices
         public void Close()
         {
             if (rxThread != null && rxThread.ThreadState == ThreadState.Running)
-                rxThread.Abort();
+                rxThread.Abort();  
+            if (msgPushThread != null && msgPushThread.ThreadState == ThreadState.Running)
+                msgPushThread.Abort();
             RecieveStatus = DeviceRecieveFrameStatus.NotStart;
             ClosePort();
         }
@@ -539,6 +555,8 @@ namespace ERad5TestGUI.Devices
             //Console.WriteLine("Start Rx thread...");
             rxThread = new Thread(new ThreadStart(RXThread));
             rxThread.Start();
+            msgPushThread = new Thread(new ThreadStart(PushData));
+            msgPushThread.Start();
             Started = true;
             RecieveStatus = DeviceRecieveFrameStatus.Connected;
         }
@@ -547,6 +565,8 @@ namespace ERad5TestGUI.Devices
         {
             if (rxThread != null && rxThread.ThreadState == ThreadState.Running)
                 rxThread.Abort();
+            if (msgPushThread != null && msgPushThread.ThreadState == ThreadState.Running)
+                msgPushThread.Abort();
             //ClosePort();
             Started = false;
         }

@@ -143,8 +143,14 @@ namespace ERad5TestGUI.ViewModels
                 CurrentDevice.Start();
                 if (CurrentDevice is VectorCan)
                 {
+#if DEBUG
+                    HardwareID = "x.x.x.x";
+                    EMSWVersion = "x.x.x.x";
+#else
                     HardwareID = await ReadDID(DIDF193);
                     EMSWVersion = await ReadDID(DIDF130);
+#endif
+
                 }
                 else
                 {
@@ -188,7 +194,7 @@ namespace ERad5TestGUI.ViewModels
             _deviceStore.CurrentDevice.Send(new CanFrame(msgID, new byte[8], FrameFlags.CAN));
         }
 
-        #region DID
+#region DID
         private UDSUpgradeViewModel _udsVm;
         private UDS.DIDInfo DIDF193 = new UDS.DIDInfo("hardware version", 0xF193, 10, UDS.DIDType.ASCII);
         private UDS.DIDInfo DIDF130 = new UDS.DIDInfo("software version", 0xF130, 10, UDS.DIDType.ASCII);
@@ -208,11 +214,18 @@ namespace ERad5TestGUI.ViewModels
             }
             return "";
         }
-        #endregion
+#endregion
     }
 
     public partial class MainViewModel
     {
+        /// 0.0.1.1
+        /// 1.SafingLogic 增加滚动条，修复进度条显示，Test结果显示bug
+        /// 2.把接收CAN与传播CAN报文区分开，修复报文丢失问题
+        /// 3.Elocker 下发报文逻辑修改
+        /// 4.修复PPAWL Update报文下发失败
+        /// 5.修改DisConnect wake up 报文
+        /// 6.Aout信号温度改电压
         /// 0.0.1.0
         /// 重绘SafingLogic
         /// 优化Analog计算标准差
@@ -255,6 +268,6 @@ namespace ERad5TestGUI.ViewModels
         /// 发送CAN报文，根据ID发送该ID下的所有信号</para>
         /// <para>V0.0.0.1 : <see cref="Models.NXPInputSignal"/> 转换无需 * 5 /4096；增加LIN 界面</para>
         /// </remarks>
-        public string Version { get; } = "0.0.1.0";
+        public string Version { get; } = "0.0.1.1";
     }
 }

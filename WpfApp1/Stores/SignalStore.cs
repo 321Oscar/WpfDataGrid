@@ -52,6 +52,17 @@ namespace ERad5TestGUI.Stores
 
         ~SignalStore()
         {
+            Dispose();
+        }
+
+        public IEnumerable<Signal> DBCSignals { get => _dbcSignals; }
+
+        public IEnumerable<SignalBase> Signals => _signals;
+
+        public List<CANMessage> Messages { get; } = new List<CANMessage>();
+        public List<MessageReceiveState> MessagesStates { get; } = new List<MessageReceiveState>();
+        public void Dispose()
+        {
             try
             {
                 MessagesStates.ForEach(x => x.IsStart = false);
@@ -65,14 +76,6 @@ namespace ERad5TestGUI.Stores
                 Console.WriteLine(ex.Message);
             }
         }
-
-        public IEnumerable<Signal> DBCSignals { get => _dbcSignals; }
-
-        public IEnumerable<SignalBase> Signals => _signals;
-
-        public List<CANMessage> Messages { get; } = new List<CANMessage>();
-        public List<MessageReceiveState> MessagesStates { get; } = new List<MessageReceiveState>();
-
         private void LoadMsgStates()
         {
             MessagesStates.Add(new MessageReceiveState("TCAN1145_DEVCAN", 0x610, 0x620)

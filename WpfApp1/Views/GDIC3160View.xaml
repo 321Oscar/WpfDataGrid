@@ -328,7 +328,7 @@
                                                         <ColumnDefinition Width="auto"/>
                                                         <ColumnDefinition Width="auto"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <TextBlock Text="Temperature" Style="{StaticResource SignalNameFontStyle}"/>
+                                                    <TextBlock Text="Voltage" Style="{StaticResource SignalNameFontStyle}"/>
                                                 </Grid>
                                             </Border>
                                             <ContentControl Content="{Binding}" ContentTemplate="{StaticResource CommonSignal}" Grid.Column="1"/>
@@ -404,7 +404,7 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <StackPanel  Orientation="Horizontal">
-                                <GroupBox Header="Control" IsEnabled="False">
+                                <GroupBox Header="Control" IsEnabled="False" Visibility="Collapsed">
                                     <StackPanel>
                                         <ComboBox Width="80"/>
                                         <Button Content="Start"/>
@@ -416,7 +416,7 @@
                                         <ctrls:ControlWithTitle Title="Signal:" Style="{StaticResource ControlWithTitleGridStyle}">
                                             <ctrls:ControlWithTitle.Content>
                                                 <ComboBox SelectedIndex="{Binding ThresholdType}">
-                                                    <ComboBoxItem>Temperature</ComboBoxItem>
+                                                    <ComboBoxItem>Voltage</ComboBoxItem>
                                                     <ComboBoxItem>Duty</ComboBoxItem>
                                                     <ComboBoxItem>Freq</ComboBoxItem>
                                                 </ComboBox>

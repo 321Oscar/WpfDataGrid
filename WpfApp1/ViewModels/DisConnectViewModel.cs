@@ -49,8 +49,8 @@ namespace ERad5TestGUI.ViewModels
         }
 
         private System.Threading.CancellationTokenSource cancelSource;
-        private readonly CanFrame Frame0x15 = new CanFrame(0x15, new byte[8], FrameFlags.CAN);
-        private readonly CanFrame Frame0x16 = new CanFrame(0x16, new byte[8], FrameFlags.CAN);
+        private readonly CanFrame Frame0x500 = new CanFrame(0x500, new byte[8], FrameFlags.CAN);
+        //private readonly CanFrame Frame0x16 = new CanFrame(0x16, new byte[8], FrameFlags.CAN);
         private RelayCommand _wakeUpCommand;
         private bool _sending;
 
@@ -74,7 +74,7 @@ namespace ERad5TestGUI.ViewModels
                         if (cancelSource.Token.IsCancellationRequested)
                             cancelSource.Token.ThrowIfCancellationRequested();
 
-                        SendFDNoExp(new CanFrame[] { Frame0x15, Frame0x16 });
+                        SendFDNoExp(new CanFrame[] { Frame0x500 });
 
                         await Task.Delay(10);
 

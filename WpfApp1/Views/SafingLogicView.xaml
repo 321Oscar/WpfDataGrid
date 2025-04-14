@@ -291,7 +291,7 @@
 
                 <DataTemplate x:Key="BaseGroup">
                     <GroupBox Header="{Binding GroupName}">
-                        <Grid>
+                        <Grid Margin="-7">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" SharedSizeGroup="ColumnHeader"/>
                                 <ColumnDefinition />
@@ -392,7 +392,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <!--Signals-->
-                <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" x:Name="sv1" ScrollChanged="s1_ScrollChanged">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" SharedSizeGroup="Inputs"/>
@@ -409,7 +409,7 @@
                     </Grid>
                 </ScrollViewer>
                 <!--Test Result-->
-                <ScrollViewer Grid.Row="1">
+                <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" x:Name="sv2" ScrollChanged="s1_ScrollChanged">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" SharedSizeGroup="Inputs"/>

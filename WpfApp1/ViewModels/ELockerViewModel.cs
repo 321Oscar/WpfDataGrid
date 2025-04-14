@@ -159,14 +159,23 @@ namespace ERad5TestGUI.ViewModels
         private void ChangeSignal(string signalName)
         {
             var start = SignalStore.GetSignalByName<PulseOutSingleSignal>(signalName, true);
+            start.PropertyChanged += Start_PropertyChanged;
             start.OriginValue = 1;
-            foreach (var item in SignalStore.GetSignals<PulseOutGroupSignal>(ViewName))
-            {
-                item.UpdateRealValue();
-            }
-
-            this.SendFD(SignalStore.BuildFrames(SignalStore.GetSignals<PulseOutGroupSignal>(ViewName)));
+            start.PropertyChanged -= Start_PropertyChanged;
             start.OriginValue = 0;
+        }
+
+        private void Start_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(SignalBase.OriginValue))
+            {
+                foreach (var item in SignalStore.GetSignals<PulseOutGroupSignal>(ViewName))
+                {
+                    item.UpdateRealValue();
+                }
+
+                this.SendFD(SignalStore.BuildFrames(SignalStore.GetSignals<PulseOutGroupSignal>(ViewName)));
+            }
         }
     }
 }

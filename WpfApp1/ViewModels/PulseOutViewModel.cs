@@ -177,6 +177,8 @@ namespace ERad5TestGUI.ViewModels
             PWM_U_Duty.UpdateRealValue();
             PWM_V_Duty.UpdateRealValue();
             PWM_W_Duty.UpdateRealValue();
+            UVW_PWM_Polarity.UpdateRealValue();
+            UVW_PWM_Dead_Time.UpdateRealValue();
 
             Send();
         }

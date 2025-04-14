@@ -109,13 +109,33 @@ namespace ERad5TestGUI.ViewModels
                 Title = "Time Frame(ms)",
                 Signal = SignalStore.GetSignalByName<PulseOutSingleSignal>("PPAWL_Frame_Time", true)
             };
-            pulseOutGroup.SingleSignals.Add(timeFrame);
-            pulseOutGroup.UpdateCommand = new RelayCommand(() =>
+
+            CommandSignalView updateCmd = new CommandSignalView(
+                new RelayCommand(() => 
+                {
+                    var start = SignalStore.GetSignalByName<PulseOutSingleSignal>("PPAWL_PWM_Update", true);
+                    start.OriginValue = 1;
+                    foreach (var item in SignalStore.GetSignals<PulseOutGroupSignal>(ViewName))
+                    {
+                        item.UpdateRealValue();
+                    }
+
+                    this.SendFD(SignalStore.BuildFrames(SignalStore.GetSignals<PulseOutGroupSignal>(ViewName)));
+                    start.OriginValue = 0;
+
+                }))
             {
-                var outSignals = SignalStore.GetSignals<PulseOutGroupSignal>(ViewName);
-                outSignals.ToList().ForEach(x => x.UpdateRealValue());
-                this.SendFD(SignalStore.BuildFrames(outSignals));
-            });
+                Title = "Update",
+                Signal = SignalStore.GetSignalByName<PulseOutSingleSignal>("PPAWL_PWM_Update", true)
+            };
+            pulseOutGroup.AddSignalViews(timeFrame,updateCmd);
+            //pulseOutGroup.SingleSignals.Add(timeFrame);
+            //pulseOutGroup.UpdateCommand = new RelayCommand(() =>
+            //{
+            //    var outSignals = SignalStore.GetSignals<PulseOutGroupSignal>(ViewName);
+            //    outSignals.ToList().ForEach(x => x.UpdateRealValue());
+            //    this.SendFD(SignalStore.BuildFrames(outSignals));
+            //});
             _groups.Add(pulseOutGroup);
 
             GDICStatuGroupGroup sentSignals = new GDICStatuGroupGroup("SENT");

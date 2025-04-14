@@ -128,7 +128,8 @@ namespace ERad5TestGUI.Models
 
         public double TransForm2(double oldVal)
         {
-            return Stores.ValueTable.ConvertByTable(TableName, oldVal);
+            return oldVal / 100 * 5;
+            //return Stores.ValueTable.ConvertByTable(TableName, oldVal);
         }
 
         private void Duty_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

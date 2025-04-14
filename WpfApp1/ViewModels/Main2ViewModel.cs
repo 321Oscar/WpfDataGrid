@@ -75,5 +75,10 @@ namespace ERad5TestGUI.ViewModels
             MemoryViewModel = new MemoryViewModel(SignalStore, _deviceStore, _logService);
            // MemoryViewModel.Init();
         }
+
+        public void Dispose()
+        {
+            this.SignalStore.Dispose();
+        }
     }
 }

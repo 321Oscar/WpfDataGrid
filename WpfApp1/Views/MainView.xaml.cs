@@ -45,5 +45,13 @@ namespace ERad5TestGUI.Views
                 Clipboard.SetText($"{signal}");
             }
         }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            var vm = this.DataContext as ViewModels.Main2ViewModel;
+            vm.Dispose();
+
+            base.OnClosed(e);
+        }
     }
 }
