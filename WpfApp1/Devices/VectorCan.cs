@@ -85,6 +85,7 @@ namespace ERad5TestGUI.Devices
         public bool Started { get; private set; }
 
         public XLClass.xl_channel_config ChannelCfg { get; }
+        public event OnIFrameReceived OnIFramesReceived;
         public event OnMsgReceived OnMsgReceived;
         public XLDefine.XL_Status OpenDriver()
         {
@@ -352,20 +353,21 @@ namespace ERad5TestGUI.Devices
 
             // Create an event collection with 2 messages (events)
             XLClass.xl_canfd_event_collection xlEventCollection = new XLClass.xl_canfd_event_collection(1);
-            Log($"Send Frame:0x{msgID:X} {string.Join(" ", data.Select(x => x.ToString("X2")))}");
+            logService.LogFrame($"Send Frame:0x{msgID:X} {string.Join(" ", data.Select(x => x.ToString("X2")))}");
             // event 1
             xlEventCollection.xlCANFDEvent[0].tag = XLDefine.XL_CANFD_TX_EventTags.XL_CAN_EV_TAG_TX_MSG;
             xlEventCollection.xlCANFDEvent[0].tagData.canId = msgID;
-            switch (dlc)
-            {
-                default:
-                case 8:
-                    xlEventCollection.xlCANFDEvent[0].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CAN_CANFD_8_BYTES;
-                    break;
-                case 15:
-                    xlEventCollection.xlCANFDEvent[0].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CANFD_64_BYTES;
-                    break;
-            }
+            xlEventCollection.xlCANFDEvent[0].tagData.dlc = GetDLC(dlc);
+            //switch (dlc)
+            //{
+            //    case 8:
+            //        xlEventCollection.xlCANFDEvent[0].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CAN_CANFD_8_BYTES;
+            //        break;
+            //    default:
+            //    case 15:
+            //        xlEventCollection.xlCANFDEvent[0].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CANFD_64_BYTES;
+            //        break;
+            //}
 
             switch (frameFlags)
             {
@@ -403,16 +405,8 @@ namespace ERad5TestGUI.Devices
                 IFrame frame = frames.Skip(i).Take(1).FirstOrDefault();
                 xlEventCollection.xlCANFDEvent[i].tag = XLDefine.XL_CANFD_TX_EventTags.XL_CAN_EV_TAG_TX_MSG;
                 xlEventCollection.xlCANFDEvent[i].tagData.canId = frame.MessageID;
-                switch (frame.DLC)
-                {
-                    default:
-                    case 8:
-                        xlEventCollection.xlCANFDEvent[i].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CAN_CANFD_8_BYTES;
-                        break;
-                    case 15:
-                        xlEventCollection.xlCANFDEvent[i].tagData.dlc = XLDefine.XL_CANFD_DLC.DLC_CANFD_64_BYTES;
-                        break;
-                }
+                xlEventCollection.xlCANFDEvent[i].tagData.dlc = GetDLC(frame.DLC);
+               
                 switch (frame.FrameFlags)
                 {
                     default:
@@ -435,10 +429,34 @@ namespace ERad5TestGUI.Devices
                 }
             }
             uint messageCounterSent = 0;
-            Log($"Send Frames: {string.Join("\r", frames.Select(x => x.ToString()))}");
+            logService.LogFrame($"Send Frames: {string.Join("\r", frames.Select(x => x.ToString()))}");
             var txStatus = VectorDriver.XL_CanTransmitEx(portHandle, txMask, ref messageCounterSent, xlEventCollection);
             status = txStatus.ToString();
             return messageCounterSent == count;
+        }
+
+        private XLDefine.XL_CANFD_DLC GetDLC(int dlc)
+        {
+            switch (dlc)
+            {
+                case 8:
+                default:
+                    return XLDefine.XL_CANFD_DLC.DLC_CAN_CANFD_8_BYTES;
+                case 9:
+                    return XLDefine.XL_CANFD_DLC.DLC_CANFD_12_BYTES;  
+                case 10:
+                    return XLDefine.XL_CANFD_DLC.DLC_CANFD_16_BYTES;  
+                case 11:
+                    return XLDefine.XL_CANFD_DLC.DLC_CANFD_20_BYTES;  
+                case 12:
+                    return XLDefine.XL_CANFD_DLC.DLC_CANFD_24_BYTES;  
+                case 13:
+                    return XLDefine.XL_CANFD_DLC.DLC_CANFD_32_BYTES;  
+                case 14:
+                    return XLDefine.XL_CANFD_DLC.DLC_CANFD_48_BYTES;  
+                case 15:
+                    return XLDefine.XL_CANFD_DLC.DLC_CANFD_64_BYTES;
+            }
         }
 
         // -----------------------------------------------------------------------------------------------
@@ -487,8 +505,29 @@ namespace ERad5TestGUI.Devices
                         //  If receiving succeed....
                         if (xlStatus == XLDefine.XL_Status.XL_SUCCESS)
                         {
-                            DataQueue.Enqueue(receivedEvent.tagData);
-                            RecieveStatus = DeviceRecieveFrameStatus.Connected;
+                            if (receivedEvent.tagData.canRxOkMsg.canId != 0)
+                            {
+                                //{
+                                //    List<CanFrame> frames = new List<CanFrame>();
+                                //    CanFrame frame = new CanFrame(
+                                //        receivedEvent.tagData.canRxOkMsg.canId,
+                                //        receivedEvent.tagData.canRxOkMsg.data,
+                                //        dlc: (int)receivedEvent.tagData.canRxOkMsg.dlc);
+                                //    frames.Add(frame);
+                                //    //count++;
+                                //    OnMsgReceived?.Invoke(frames);
+                                //    //logService.Debug($"{Name} add Frame {receiveFlag}");
+                                //}
+                                OnMsgReceived?.Invoke(receivedEvent.tagData.canRxOkMsg.canId,
+                                                      receivedEvent.tagData.canRxOkMsg.data,
+                                                      (int)receivedEvent.tagData.canRxOkMsg.dlc);
+                                DataQueue.Enqueue(receivedEvent.tagData);
+                                RecieveStatus = DeviceRecieveFrameStatus.Connected;
+                            }
+                            //else if (receivedEvent.tagData.canTxOkMsg.canId != 0)
+                            //{
+                            //    DateTime dateTime = DateTimeOffset.FromUnixTimeMilliseconds((long)receivedEvent.timeStamp).UtcDateTime;
+                            //}
                         }
                     }
                     RecieveStatus = DeviceRecieveFrameStatus.Connected;
@@ -517,7 +556,7 @@ namespace ERad5TestGUI.Devices
                         dlc: (int)data.canRxOkMsg.dlc);
                     frames.Add(frame);
                     //count++;
-                    OnMsgReceived?.Invoke(frames);
+                    OnIFramesReceived?.Invoke(frames);
                     logService.LogFrame($"reveived {frame}");
                 }
             }
@@ -720,5 +759,7 @@ namespace ERad5TestGUI.Devices
         }
     }
 
-    public delegate void OnMsgReceived(IEnumerable<IFrame> can_msg);
+    public delegate void OnIFrameReceived(IEnumerable<IFrame> can_msg);
+
+    public delegate void OnMsgReceived(uint id, byte[] data, int dlc);
 }

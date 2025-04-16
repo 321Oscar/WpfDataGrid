@@ -35,7 +35,7 @@ namespace ERad5TestGUI.UDS
         /// <summary>
         /// 一个block 发送的最多数据,需要减/加上0x36, block sqe两个byte
         /// </summary>
-        public int MaxNumOfBlockLength { get => ReadLen + 2; set => ReadLen = value - 2; } 
+        public int MaxNumOfBlockLength { get => ReadLen + 2; set => ReadLen = value - 2; }
         /// <summary>
         /// 一次发送的数据长度
         /// </summary>
@@ -43,21 +43,21 @@ namespace ERad5TestGUI.UDS
         /// <summary>
         /// start from 1
         /// </summary>
-        public int SendedIndex 
-        { 
-            get => _sendedIndex; 
-            set 
-            { 
+        public int SendedIndex
+        {
+            get => _sendedIndex;
+            set
+            {
                 _sendedIndex = value;
                 DebugLogger($"{CurrentStep} sendedindex update {_sendedIndex}");
-                _bSCount = 0; 
-            } 
+                _bSCount = 0;
+            }
         }
 
-        public DataTransferServer(uint slaver, uint master, IDevice device, ILogService logService, string custom = "") 
-            : base(slaver, master,device,logService)
+        public DataTransferServer(uint slaver, uint master, IDevice device, ILogService logService, string custom = "") : base(slaver, master, device, logService)
         {
             ServerName = $"DataTransfer {custom}";
+            FirstFrameMaxByteCount = MsgMaxLength - 2;
         }
 
         public override ServerResult Run(object param = null)
@@ -84,9 +84,23 @@ namespace ERad5TestGUI.UDS
             {
                 return BuildFirstFrameByOffset();
             }
+            else if (SendDatas.Length > 0)
+            {
+                if (Offset == 0)
+                    RemainingData = SendDatas.Length;
+                if (RemainingData == 0)
+                    return null;
+
+                var newSendData = SendDatas.ToList();
+                newSendData.Insert(0, 0x01);
+                SendDatas = newSendData.ToArray();
+                Offset += newSendData.Count;
+                RemainingData = 0;
+                return base.BuildFrame();
+            }
             else
             {
-                return base.BuildFrame();
+                return FillFrame(new List<byte> { 0x01, 0x36 });
             }
         }
 
@@ -94,7 +108,7 @@ namespace ERad5TestGUI.UDS
         {
             return base.ParseResponse(receive);
         }
-      
+
         public override void ParseData(byte[] data)
         {
             //int responseBlockNum = data[2];
@@ -133,7 +147,7 @@ namespace ERad5TestGUI.UDS
         /// </summary>
         public int PayloadSize { get => _payloadSize; set => _payloadSize = value; }
 
-       
+
         /// <summary>
         /// 组首帧
         /// </summary>
@@ -164,8 +178,8 @@ namespace ERad5TestGUI.UDS
             //加上Server ID & Block Sqe
             int payloadSize = Math.Min(RemainingData + 2, MaxNumOfBlockLength);
 
-            byte blockSeq = (byte)(SendedIndex %( 0xFF + 1));
-            if(payloadSize > 0xFFF)
+            byte blockSeq = (byte)(SendedIndex % (0xFF + 1));
+            if (payloadSize > 0xFFF)
             {
                 result.Add(0x10);
                 result.Add(0x00);
@@ -399,8 +413,7 @@ namespace ERad5TestGUI.UDS
         public int DataLength { get; set; }
         public List<byte> UploadedData { get => _buffer; }
 
-        public UploadDataTransferServer(uint slaver, uint master, IDevice device, ILogService logService, string custom = "") 
-            : base(slaver, master, device, logService, custom)
+        public UploadDataTransferServer(uint slaver, uint master, IDevice device, ILogService logService,string custom = "") : base(slaver, master, device,logService, custom)
         {
             //UploadedData = new List<byte>();
         }
@@ -452,10 +465,12 @@ namespace ERad5TestGUI.UDS
             //DebugLogger($"uploaded:{UploadedData.Count}");
             if (UploadedDataLength == DataLength)//接收完毕
             {
+                DebugLogger($"upload Done.Target Length :{DataLength}, Actual:{UploadedData.Count}.");
                 ParseData(receive);
             }
             else if (UploadedDataLength % ReadLen == 0)//已接受1次读取的数据，需要再发送
             {
+                DebugLogger($"upload next ReadLen:Uploaded:{UploadedDataLength}");
                 //DebugLogger("Upload Next");
                 base.ParseData(receive);
                 //BuildFrame();
@@ -496,6 +511,13 @@ namespace ERad5TestGUI.UDS
             }
         }
 
+        protected override void ReSend(int retryCount)
+        {
+            DebugLogger($"{CurrentStep} Not Support ReSend!");
+            //base.ReSend(retryCount);
+        }
+
+
         public override void Reset()
         {
             //base.Reset();
@@ -505,9 +527,12 @@ namespace ERad5TestGUI.UDS
 
     public class Erad5ReadMemoryServer : ComplexServers
     {
-        public Erad5ReadMemoryServer(int normalTimeout, int pendingTimeout, IDevice device, ILogService logService) : base(normalTimeout, pendingTimeout, device, logService)
+        public Erad5ReadMemoryServer(int normalTimeout, int pendingTimeout, IDevice device, ILogService logService,string name = null) : base(normalTimeout, pendingTimeout, device, logService)
         {
-            this.Name = "eRad5 Read";
+            if (string.IsNullOrEmpty(name))
+                this.Name = "eRad5 Memory Read";
+            else
+                Name = name;
             UploadData = new Dictionary<uint, List<byte>>();
         }
         public Dictionary<uint, List<byte>> UploadData { get; }
@@ -531,7 +556,7 @@ namespace ERad5TestGUI.UDS
             for (int i = 0; i < BinTmpFile.Segments.Count; i++)
             {
                 UniversalServer server0x34_app = new UniversalServer(PhyID_Res, PhyID_Req,
-                   $"RequestUpload seg {i}:{string.Join("", BinTmpFile.Segments[i].DataStartAddress.Select(x => x.ToString("X2")))}",
+                   $"RequestUpload seg {i}, Addr : 0x{string.Join("", BinTmpFile.Segments[i].DataStartAddress.Select(x => x.ToString("X2")))}",
                    UDSServerCode.RequestUpload, Device, Log);
                 //server0x28.SubFunc = 0x03;
                 var appinfo = new List<byte> { 0x00, 0x44 };

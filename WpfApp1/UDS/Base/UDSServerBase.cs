@@ -156,6 +156,7 @@ namespace ERad5TestGUI.UDS
                 DebugLogger($"{CurrentStep} receive {_receiveFrame}");
                 CurrentStatue = ServerStatus.Normal;
                 ReceiveEvent.Set();
+                CurrentTimeout = NormalTimeout;
                 //ReceiveData = true;
                 try
                 {
@@ -437,7 +438,7 @@ namespace ERad5TestGUI.UDS
 
         public void DebugLogger(string log)
         {
-            Log?.Log(log);
+            Log?.LogUds(log);
         }
 
         public void ModifyErrCode(byte errCode, string errMsg)
@@ -491,7 +492,7 @@ namespace ERad5TestGUI.UDS
                     break;
             }
 
-            CurrentTimeout = NormalTimeout;
+            //CurrentTimeout = NormalTimeout;
             //CurrentStatue = ServerStatus.Done;
             return result;
         }
@@ -519,6 +520,7 @@ namespace ERad5TestGUI.UDS
         {
             try
             {
+                Reset();
                 StartOrStopRec(CanChannel, true);
                 ServerResult = new ServerResult(Index, ProgressWeights);
 
@@ -619,7 +621,7 @@ namespace ERad5TestGUI.UDS
                 //    Thread.Sleep(1000);
                 ReceiveEvent.Close();
                 StartOrStopRec(CanChannel, false);
-                Reset();
+                
                 this.SendAndReceiveStr = SendAndReceiveStr?.Trim();
             }
 
@@ -705,6 +707,14 @@ namespace ERad5TestGUI.UDS
             catch (Exception err)
             {
                 DebugLogger($"{CurrentStep} receive error: {err.Message}");
+            }
+        }
+
+        private void OnMsgReceivedEvent(uint id, byte[] data, int dlc)
+        {
+            if (GetId(id) == PhyID_Res)
+            {
+                ReceiveFrame = new CanFrame(id, data, dlc: dlc);
             }
         }
 
@@ -922,7 +932,7 @@ namespace ERad5TestGUI.UDS
             previousDatas = data;
             if (data.Length > MsgMaxLength)//
             {
-                var frame = new CanFrame(PhyID_Req, data.Take(MsgMaxLength).ToArray(), extendedFrame: IDExtended, IsCanFD, MsgMaxLength, fillData: FillData);
+                var frame = new CanFrame(PhyID_Req, data.Take(MsgMaxLength).ToArray(), extendedFrame: IDExtended, IsCanFD, dlc: CanFrame.GetDLCByDataLength(MsgMaxLength), fillData: FillData);
                 DebugLogger($"{CurrentStep} 连续帧入栈：{data.Length / MsgMaxLength}");
                 needSendFrame = new Queue<IFrame>();
 
@@ -931,7 +941,7 @@ namespace ERad5TestGUI.UDS
                 for (int i = 1; i < count; i++)
                 {
                     int cantakeLength = Math.Min(data.Skip(MsgMaxLength * i).Count(), MsgMaxLength);
-                    var send = new CanFrame(PhyID_Req, data.Skip(MsgMaxLength * i).Take(cantakeLength).ToArray(), extendedFrame: IDExtended, IsCanFD, cantakeLength, fillData: FillData);
+                    var send = new CanFrame(PhyID_Req, data.Skip(MsgMaxLength * i).Take(cantakeLength).ToArray(), extendedFrame: IDExtended, IsCanFD, dlc: CanFrame.GetDLCByDataLength(cantakeLength), fillData: FillData);
                     needSendFrame.Enqueue(send);
                 }
                 //组帧完后再发送
@@ -940,7 +950,7 @@ namespace ERad5TestGUI.UDS
             }
             else
             {
-                SendFrame = new CanFrame(PhyID_Req, data, extendedFrame: IDExtended, IsCanFD, data.Length, fillData: FillData);
+                SendFrame = new CanFrame(PhyID_Req, data, extendedFrame: IDExtended, IsCanFD, dlc: CanFrame.GetDLCByDataLength(data.Length), fillData: FillData);
             }
         }
         /// <summary>
@@ -954,16 +964,16 @@ namespace ERad5TestGUI.UDS
                 if (open)
                 {
                     DebugLogger($"{CurrentStep} Start Receive.");
-                    Device.OnMsgReceived += OnDataCommonRecieveEvent;
+                    //Device.OnIFramesReceived += OnDataCommonRecieveEvent;
+                    Device.OnMsgReceived += OnMsgReceivedEvent;
                 }
                 else
                 {
-                    Device.OnMsgReceived -= OnDataCommonRecieveEvent;
+                    //Device.OnIFramesReceived -= OnDataCommonRecieveEvent;
+                    Device.OnMsgReceived -= OnMsgReceivedEvent;
                     DebugLogger($"{CurrentStep} Stop Receive.");
                 }
 
-
-            //RegisterRecieveEvent?.Invoke(OnDataCommonRecieveEvent, index, open);
         }
         private uint GetId(uint id)
         {

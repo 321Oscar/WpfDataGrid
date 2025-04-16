@@ -348,8 +348,11 @@
 
                 <DataTemplate x:Key="BaseGroupWithoutHeader">
                     <GroupBox Header="{Binding GroupName}">
-                        <Grid>
-                            <ItemsControl ItemsSource="{Binding Signals}" Grid.Column="0">
+                        <Grid Margin="-7">
+                            <ItemsControl 
+                                ItemsSource="{Binding Signals}" 
+                                Grid.Column="0"
+                                Margin="0,0,0,0">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="9" />
@@ -392,7 +395,13 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <!--Signals-->
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" x:Name="sv1" ScrollChanged="s1_ScrollChanged">
+                <ScrollViewer 
+                    x:Name="sv1" 
+                    
+                    HorizontalScrollBarVisibility="Auto"
+                    adonisExtensions:ScrollViewerExtension.HideScrollBarsUntilMouseOver="True"
+                    adonisExtensions:ScrollViewerExtension.HorizontalScrollBarPlacement="Overlay"
+                    ScrollChanged="s1_ScrollChanged">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" SharedSizeGroup="Inputs"/>
@@ -403,13 +412,20 @@
 
                         <ContentControl
                             Grid.Column="1" 
-                            Margin="5,0"
+                            Margin="5,0,0,0"
                             Content="{Binding OutputSignals}"
                             ContentTemplate="{StaticResource BaseGroupWithoutHeader}" />
                     </Grid>
                 </ScrollViewer>
                 <!--Test Result-->
-                <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" x:Name="sv2" ScrollChanged="s1_ScrollChanged">
+                <ScrollViewer 
+                    x:Name="sv2" 
+                    Grid.Row="1" 
+                    HorizontalScrollBarVisibility="Auto"
+                    adonisExtensions:ScrollViewerExtension.HideScrollBarsUntilMouseOver="True"
+                    adonisExtensions:ScrollViewerExtension.HorizontalScrollBarPlacement="Overlay"
+                    adonisExtensions:ScrollViewerExtension.VerticalScrollBarPlacement="Overlay"
+                    ScrollChanged="s1_ScrollChanged">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" SharedSizeGroup="Inputs"/>
@@ -431,16 +447,22 @@
                             <Border Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
                                     Opacity="0.5"/>
 
-                            <ContentControl ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingCircle}}"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Width="{adonisUi:Space 5}"
-                                            Height="{adonisUi:Space 5}"
-                                            Focusable="False"/>
+                            <ContentControl 
+                                ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingCircle}}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Width="{adonisUi:Space 5}"
+                                Height="{adonisUi:Space 5}"
+                                Focusable="False"/>
                         </Grid>
 
                         <GroupBox Header="Inputs" Grid.Column="0">
-                            <ItemsControl ItemsSource="{Binding TableRows}" Grid.Column="1">
+                            <ItemsControl 
+                                Margin="-7"
+                                ItemsSource="{Binding TableRows}"
+                                VirtualizingStackPanel.IsVirtualizing="True"
+                                VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                Grid.Column="1">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate DataType="{x:Type models:SafingLogicTestTableRow}">
                                         <Grid>
@@ -482,7 +504,13 @@
                             Header="Outputs" 
                             Grid.Column="1"
                             Margin="5,0">
-                            <ItemsControl ItemsSource="{Binding TableRows}" Grid.Column="1" HorizontalContentAlignment="Stretch">
+                            <ItemsControl 
+                                Margin="-7"
+                                ItemsSource="{Binding TableRows}" 
+                                Grid.Column="1" 
+                                VirtualizingStackPanel.IsVirtualizing="True"
+                                VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                HorizontalContentAlignment="Stretch">
                                 <!--<ListBox.ItemContainerStyle>
                                     <Style TargetType="ListBoxItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />

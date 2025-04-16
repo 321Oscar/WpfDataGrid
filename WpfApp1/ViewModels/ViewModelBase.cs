@@ -115,14 +115,14 @@ namespace ERad5TestGUI.ViewModels
         {
             if (device != null)
             {
-                device.OnMsgReceived -= CurrentDevice_OnMsgReceived;
+                device.OnIFramesReceived -= CurrentDevice_OnMsgReceived;
             }
         }
         [Obsolete]
         private void DeviceStore_CurrentDeviceChanged()
         {
             if (DeviceStore.HasDevice)
-                DeviceStore.CurrentDevice.OnMsgReceived += CurrentDevice_OnMsgReceived;
+                DeviceStore.CurrentDevice.OnIFramesReceived += CurrentDevice_OnMsgReceived;
         }
         /// <summary>
         /// 不在每个界面单独解析信号

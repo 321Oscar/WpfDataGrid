@@ -32,6 +32,7 @@ namespace ERad5TestGUI.Devices
         private CancellationTokenSource tokenSource;
         private DeviceRecieveFrameStatus recieveStatus;
 
+        public event OnIFrameReceived OnIFramesReceived;
         public event OnMsgReceived OnMsgReceived;
 
         public string Name { get; set; }
@@ -75,7 +76,7 @@ namespace ERad5TestGUI.Devices
 
         private void RasieOnMsgReceived(IEnumerable<IFrame> frames)
         {
-            OnMsgReceived?.Invoke(frames);
+            OnIFramesReceived?.Invoke(frames);
         }
         public DeviceRecieveFrameStatus RecieveStatus { get => recieveStatus; private set => SetProperty(ref recieveStatus, value); }
 

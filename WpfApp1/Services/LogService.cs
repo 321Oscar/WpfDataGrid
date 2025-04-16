@@ -14,17 +14,22 @@ namespace ERad5TestGUI.Services
     {
         private readonly log4net.ILog logInfo;
         private readonly log4net.ILog logFrame;
+        private readonly log4net.ILog logUDS;
         public event Action<string> LogAdded;
         public LogService()
         {
             logInfo = log4net.LogManager.GetLogger("LogTest");
             logFrame = log4net.LogManager.GetLogger("LogFrame");
+            logUDS = log4net.LogManager.GetLogger("LogUDS");
         }
         public void OnLogAdded(string context)
         {
             LogAdded?.Invoke(context);
         }
-
+        public void LogUds(string msg)
+        {
+            logUDS.Debug(msg);
+        }
         /**
          -Root FileAppender
          --Each Caller has own FileAppender

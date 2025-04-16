@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using ERad5TestGUI.Devices;
 using ERad5TestGUI.Services;
 
@@ -85,13 +86,36 @@ namespace ERad5TestGUI.Stores
             if (HasDevice)
             {
                 logService.Debug($"Change Device: {CurrentDevice.Name}");
-                CurrentDevice.OnMsgReceived += CurrentDevice_OnMsgReceived;
+                CurrentDevice.OnIFramesReceived += CurrentDevice_OnIFramesReceived;
+                //CurrentDevice.OnMsgReceived += CurrentDevice_OnMsgReceived;
             }
 
             CurrentDeviceChanged?.Invoke();
         }
 
-        private void CurrentDevice_OnMsgReceived(IEnumerable<IFrame> can_msg)
+        private void CurrentDevice_OnMsgReceived(uint id, byte[] data, int dlc)
+        {
+            //Task.Run(() =>
+            //{
+            //    FramesCount++;
+
+            //    var canFrames = new CanFrame[] { new CanFrame(id, data, dlc: dlc) };
+
+            //    foreach (var item in _signalStore.ParseMsgsYield(canFrames))
+            //    {
+            //        if (item != null)
+            //        {
+            //            logService.Log($"{item.GetValue()}", item.GetType());
+            //        }
+            //    }
+            //    _signalStore.MessagesStates.ForEach(x => x.UpdateReceiveTime(canFrames.Select(msg => msg.MessageID)));
+
+            //    OnMsgReceived?.Invoke(canFrames);
+            //});
+            //throw new NotImplementedException();
+        }
+
+        private void CurrentDevice_OnIFramesReceived(IEnumerable<IFrame> can_msg)
         {
             FramesCount += can_msg.Count();
             foreach (var item in _signalStore.ParseMsgsYield(can_msg))
@@ -105,12 +129,13 @@ namespace ERad5TestGUI.Stores
             OnMsgReceived?.Invoke(can_msg);
         }
 
-        public event OnMsgReceived OnMsgReceived;
+        public event OnIFrameReceived OnMsgReceived;
 
         private void OnCurrentDeviceChange(IDevice device)
         {
             if (device != null)
             {
+                device.OnIFramesReceived -= CurrentDevice_OnIFramesReceived;
                 device.OnMsgReceived -= CurrentDevice_OnMsgReceived;
                 device.Close();
             }

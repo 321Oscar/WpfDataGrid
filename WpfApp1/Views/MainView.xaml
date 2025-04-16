@@ -62,7 +62,7 @@
                 <TabItem Header="E-Locker">
                     <ContentControl Content="{Binding ELockerViewModel}"/>
                 </TabItem>
-                <TabItem Header="SafingLogic-UnFinish">
+                <TabItem Header="SafingLogic">
                     <ContentControl Content="{Binding SafingLogicViewModel}"/>
                 </TabItem>
                 <TabItem Header="Memory-UnFinish">

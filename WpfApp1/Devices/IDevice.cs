@@ -17,6 +17,7 @@ namespace ERad5TestGUI.Devices
         void Close();
         void Start();
         void Stop();
+        event OnIFrameReceived OnIFramesReceived;
         event OnMsgReceived OnMsgReceived;
         DeviceRecieveFrameStatus RecieveStatus { get; }
         bool SendFD(IFrame frame);
@@ -91,7 +92,9 @@ namespace ERad5TestGUI.Devices
             this.dlc = dlc;
             this.fillData = fillData;
             int length = Math.Min(GetLengthByDlc(dlc), data.Length);
-            Data = new byte[length];
+
+            Data = Enumerable.Repeat(fillData, length).ToArray();
+
             for (int i = 0; i < length; i++)
             {
                 Data[i] = data[i];

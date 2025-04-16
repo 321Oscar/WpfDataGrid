@@ -78,6 +78,7 @@ namespace ERad5TestGUI.ViewModels
 
         public void Dispose()
         {
+            _deviceStore.CurrentDevice?.Close();
             this.SignalStore.Dispose();
         }
     }

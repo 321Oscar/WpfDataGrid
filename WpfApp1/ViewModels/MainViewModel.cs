@@ -143,13 +143,13 @@ namespace ERad5TestGUI.ViewModels
                 CurrentDevice.Start();
                 if (CurrentDevice is VectorCan)
                 {
-#if DEBUG
-                    HardwareID = "x.x.x.x";
-                    EMSWVersion = "x.x.x.x";
-#else
+//#if DEBUG
+//                    HardwareID = "x.x.x.x";
+//                    EMSWVersion = "x.x.x.x";
+//#else
                     HardwareID = await ReadDID(DIDF193);
                     EMSWVersion = await ReadDID(DIDF130);
-#endif
+//#endif
 
                 }
                 else
@@ -219,55 +219,71 @@ namespace ERad5TestGUI.ViewModels
 
     public partial class MainViewModel
     {
-        /// 0.0.1.1
-        /// 1.SafingLogic 增加滚动条，修复进度条显示，Test结果显示bug
-        /// 2.把接收CAN与传播CAN报文区分开，修复报文丢失问题
-        /// 3.Elocker 下发报文逻辑修改
-        /// 4.修复PPAWL Update报文下发失败
-        /// 5.修改DisConnect wake up 报文
-        /// 6.Aout信号温度改电压
-        /// 0.0.1.0
-        /// 重绘SafingLogic
-        /// 优化Analog计算标准差
-        /// 修改UDS诊断ID
-        /// 0.0.0.9
-        /// 1.PPAWL 中 Duty Freq下发失败
-        /// 2.PulseOut中 Freq设置后会自行变化
-        /// 3.SafingLogic增加输入输出可变信号
-        /// 4.增加读取DIDF193 & F130
-        /// 0.0.0.8
-        /// 关闭软件时，取消MsgStatus后台线程
-        /// Disable Can 需绑定信号
-        /// safinglogic测试进度改为百分制；
-        /// dbc文件增加解析信号长名称
-        /// 0.0.0.7：
-        /// 1.GDIC_Aout 右侧删除Temperature
-        /// 2.DisConnect 增加后台循环发送can2.0报文
-        /// 3.safinglogic测试结果通过弹窗显示，测试失败则弹出是否保存excel,选择保存后再导出excel
-        /// 4.修改Frame结构，修复发送can2.0报文失败
-
+        /*
+        * 0.0.1.1
+        * 1.SafingLogic 增加滚动条，修复进度条显示，Test结果显示bug
+        * 2.把接收CAN与传播CAN报文区分开，修复报文丢失问题
+        * 3.Elocker 下发报文逻辑修改
+        * 4.修复PPAWL Update报文下发失败
+        * 5.修改DisConnect wake up 报文
+        * 6.Aout信号温度改电压
+        * 0.0.1.0
+        * 重绘SafingLogic
+        * 优化Analog计算标准差
+        * 修改UDS诊断ID
+        * 0.0.0.9
+        * 1.PPAWL 中 Duty Freq下发失败
+        * 2.PulseOut中 Freq设置后会自行变化
+        * 3.SafingLogic增加输入输出可变信号
+        * 4.增加读取DIDF193 & F130
+        * 0.0.0.8
+        * 关闭软件时，取消MsgStatus后台线程
+        * Disable Can 需绑定信号
+        * safinglogic测试进度改为百分制；
+        * dbc文件增加解析信号长名称
+        * 0.0.0.7：
+        * 1.GDIC_Aout 右侧删除Temperature
+        * 2.DisConnect 增加后台循环发送can2.0报文
+        * 3.safinglogic测试结果通过弹窗显示，测试失败则弹出是否保存excel,选择保存后再导出excel
+        * 4.修改Frame结构，修复发送can2.0报文失败
+        *         
+        * <para>
+        * V0.0.0.6 safinglogic Test 
+        * </para>
+        * <para>
+        * V0.0.0.5 
+        * 1.完善PPAWL，E-Locker界面
+        * 2.修改GDIC ADC信号显示
+        * 3.增加SafingLogic，Memory界面
+        * 4.各个界面增加清空数据按钮
+        * </para>
+        * <para>
+        * V0.0.0.4 
+        * 1.新增PPAWL，E-Locker界面
+        * 2.修改NXP,PulseIn,Analog,Discrete等界面中显示的信号
+        * 3.增加Enabel DevCan，以及DevCAN,CANFD实时状态
+        * </para>
+        * <para>
+        * V0.0.0.3 增加SPIView <see cref="Models.SPISignal"/>，DisConnect,Resolver界面
+        * </para>
+        * <para>
+        * V0.0.0.2 : <see cref="Models.AnalogSignal"/> 第二次转换无需 * 5 /4096;
+        * 增加NXP界面信号；
+        * 增加Disable CAN INH功能；
+        * 增加Discrete界面中的控制;
+        * 发送CAN报文，根据ID发送该ID下的所有信号
+        * </para>
+        * <para>
+        * V0.0.0.1 : <see cref="Models.NXPInputSignal"/> 转换无需 * 5 /4096；增加LIN 界面
+        * </para>
+        * 0.0.1.2
+        * 1.修复Memory短地址读写，优化日志
+        * 2.修改Vector设备接收数据事件
+        * 3.优化SafingLogic界面
+        */
         /// <summary>
         /// Soft Version
         /// </summary>
-        /// <remarks>
-        /// <para>V0.0.0.6 safinglogic Test 
-        /// </para>
-        /// <para>V0.0.0.5 1.完善PPAWL，E-Locker界面
-        ///2.修改GDIC ADC信号显示
-        ///3.增加SafingLogic，Memory界面
-        ///4.各个界面增加清空数据按钮</para>
-        /// <para>V0.0.0.4 1.新增PPAWL，E-Locker界面
-        ///2.修改NXP,PulseIn,Analog,Discrete等界面中显示的信号
-        ///3.增加Enabel DevCan，以及DevCAN,CANFD实时状态</para>
-        /// <para>V0.0.0.3 增加SPIView <see cref="Models.SPISignal"/>，DisConnect,Resolver界面
-        /// </para>
-        /// <para>V0.0.0.2 : <see cref="Models.AnalogSignal"/> 第二次转换无需 * 5 /4096;
-        /// 增加NXP界面信号；
-        /// 增加Disable CAN INH功能；
-        /// 增加Discrete界面中的控制;
-        /// 发送CAN报文，根据ID发送该ID下的所有信号</para>
-        /// <para>V0.0.0.1 : <see cref="Models.NXPInputSignal"/> 转换无需 * 5 /4096；增加LIN 界面</para>
-        /// </remarks>
-        public string Version { get; } = "0.0.1.1";
+        public string Version { get; } = "0.0.1.2";
     }
 }
