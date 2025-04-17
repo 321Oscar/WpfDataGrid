@@ -68,6 +68,8 @@
                             <ContentControl Content="{Binding PPAWL_Current_Limit_Update}" ContentTemplate="{StaticResource SignalToolTip}"/>
                         </Button.ToolTip>
                     </Button>
+                    <TextBlock VerticalAlignment="Center" Margin="5,0">Real Current:</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Text="{Binding ElecCurrentValue,StringFormat={}{0:f2} A}"/>
                 </StackPanel>
             </GroupBox>
             <ScrollViewer Grid.Row="2">

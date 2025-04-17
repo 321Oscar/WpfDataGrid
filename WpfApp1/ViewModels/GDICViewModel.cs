@@ -292,6 +292,14 @@ namespace ERad5TestGUI.ViewModels
         public ICommand CalculateSTDCommand => _calculateSTDCommand ?? (_calculateSTDCommand = new RelayCommand(CalculateSTD));
         private void CalculateSTD()
         {
+            if (DeviceStore.CurrentDevice.Started)
+            {
+                AdonisUI.Controls.MessageBox.Show($"calculate Standrad Must without receive Data!",
+                      "Calculate Stad",
+                      icon: AdonisUI.Controls.MessageBoxImage.Information);
+                return;
+            }
+
             foreach (var signal in TemperatueSignals)
             {
                 signal.CalStandard(StandardCount);

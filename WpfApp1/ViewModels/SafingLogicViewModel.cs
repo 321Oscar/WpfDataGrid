@@ -388,12 +388,11 @@ namespace ERad5TestGUI.ViewModels
         public List<SafingLogicTestResult> _safingLogicTestResults = new List<SafingLogicTestResult>();
         private string _testExcelFile;
 
-        public bool TestNoFail =>
-                    _testErrInfo.OriginValue == 0;
-        public bool PreconditionFail => (((int)_testErrInfo.OriginValue) & (1 << 1)) != 0;
-        public bool NXPFail => (((int)_testErrInfo.OriginValue) & (1 << 2)) != 0;
-        public bool SBCFail => (((int)_testErrInfo.OriginValue) & (1 << 4)) != 0;
-        public bool TestRowFail => (((int)_testErrInfo.OriginValue) & (1 << 8)) != 0;
+        public bool TestNoFail => _testErrInfo.OriginValue == 0;
+        public bool PreconditionFail => (((int)_testErrInfo.OriginValue) & (1 << 0)) != 0;
+        public bool NXPFail => (((int)_testErrInfo.OriginValue) & (1 << 1)) != 0;
+        public bool SBCFail => (((int)_testErrInfo.OriginValue) & (1 << 2)) != 0;
+        public bool TestRowFail => (((int)_testErrInfo.OriginValue) & (1 << 3)) != 0;
         public override void Dispose()
         {
             if (_testProgress != null)

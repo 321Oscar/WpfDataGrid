@@ -21,6 +21,8 @@ namespace ERad5TestGUI.ViewModels
         private readonly List<SignalGroupBase> _groups = new List<SignalGroupBase>();
         private RelayCommand _locResCommand;
         private RelayCommand _updateLimitCommand;
+        private AnalogSignal _elecCurrent;
+        private double _elecCurrentValue;
 
         public PPAWLViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) 
             : base(signalStore, deviceStore, logService)
@@ -41,10 +43,34 @@ namespace ERad5TestGUI.ViewModels
         public IEnumerable<SignalGroupBase> Groups { get => _groups; }
         public PulseOutSingleSignal PPAWL_Current_Limit { get; set; }
         public PulseOutSingleSignal PPAWL_Current_Limit_Update { get; set; }
+
+        public double ElecCurrentValue { get => _elecCurrentValue; set => SetProperty(ref _elecCurrentValue, value); }
+
         public override void Init()
         {
             base.Init();
+            _elecCurrent = SignalStore.GetSignalByName<AnalogSignal>("PPAWL_MTR_CURRENT_SENSE_AI");
+            if (_elecCurrent != null)
+            {
+                _elecCurrent.PropertyChanged += ElecCurrent_PropertyChanged;
+            }
             LoadOtherSignals();
+        }
+
+        private void ElecCurrent_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(AnalogSignal.OriginValue))
+            {
+                var elec = sender as AnalogSignal;
+                if (elec.OriginValue < 512)
+                {
+                    ElecCurrentValue = 0;
+                }
+                else
+                {
+                    ElecCurrentValue = (elec.OriginValue / 4095 * 5 - 0.625) * 6.25;
+                }
+            }
         }
 
         private void LoadOtherSignals()

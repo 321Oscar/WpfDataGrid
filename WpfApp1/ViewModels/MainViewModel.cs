@@ -284,10 +284,14 @@ namespace ERad5TestGUI.ViewModels
         * 1.GDIC，resolver默认最值修改
         * 2.SafingLogic Stop 弹窗，Error 修正
         * 3.Memory 写入地址错误、限制地址大小，删除Test Group
+        * 0.0.1.4
+        * 1.GDIC 计算标准差增加限制，不在接收时才能计算
+        * 2.PPAWL增加实时电流
+        * 3.SafingLogic 错误信息解析
         */
         /// <summary>
         /// Soft Version
         /// </summary>
-        public string Version { get; } = "0.0.1.3";
+        public string Version { get; } = "0.0.1.4";
     }
 }
