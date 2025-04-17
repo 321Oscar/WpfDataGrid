@@ -373,6 +373,8 @@ namespace ERad5TestGUI.ViewModels
 
             }
         }
+
+        private bool _isCancel;
         public ICommand StartTestCommand => _startTestCommand ?? (_startTestCommand = new AsyncRelayCommand(StartTest, () => !IsTest));
         public ICommand StopTestCommand => _stopTestCommand ?? (_stopTestCommand = new RelayCommand(StopTest, () => IsTest));
         public ICommand SelectExcelCommand => _selectExcelCommand ?? (_selectExcelCommand = new AsyncRelayCommand(SelectExcel));
@@ -390,8 +392,8 @@ namespace ERad5TestGUI.ViewModels
                     _testErrInfo.OriginValue == 0;
         public bool PreconditionFail => (((int)_testErrInfo.OriginValue) & (1 << 1)) != 0;
         public bool NXPFail => (((int)_testErrInfo.OriginValue) & (1 << 2)) != 0;
-        public bool SBCFail => (((int)_testErrInfo.OriginValue) & (1 << 3)) != 0;
-        public bool TestRowFail => (((int)_testErrInfo.OriginValue) & (1 << 4)) != 0;
+        public bool SBCFail => (((int)_testErrInfo.OriginValue) & (1 << 4)) != 0;
+        public bool TestRowFail => (((int)_testErrInfo.OriginValue) & (1 << 8)) != 0;
         public override void Dispose()
         {
             if (_testProgress != null)
@@ -459,6 +461,7 @@ namespace ERad5TestGUI.ViewModels
                       icon: AdonisUI.Controls.MessageBoxImage.Information);
                 return; 
             }
+            _isCancel = false;
             //1.Send Safing_Logic_Test_Start to 1
             await Task.Run(() => Dispatch(() => TableRows.ToList().ForEach(x => x.Clear())));
             
@@ -490,6 +493,7 @@ namespace ERad5TestGUI.ViewModels
         private void StopTest()
         {
             ChangeSignal(TestStop);
+            _isCancel = true;
             IsTest = false;
             DeviceStore.OnMsgReceived -= DeviceStore_OnMsgReceived;
         }
@@ -552,7 +556,7 @@ namespace ERad5TestGUI.ViewModels
             IsLoading = true;
             var rows = new List<SafingLogicTestTableRow>();
             return Task.Run(() =>
-             {
+            {
                  for (int i = 1; i < rowCount; i++)
                  {
                      var excelRow = sheet.GetRow(i);
@@ -596,26 +600,35 @@ namespace ERad5TestGUI.ViewModels
                          }
                      }
                      rows.Add(row);
-                     
+
                  }
-             }).ContinueWith((x) =>
-             {
-                 Dispatch(() => TableRows.AddRange(rows));
-                 IsLoading = false;
-             });
+            }).ContinueWith((x) =>
+            {
+                Dispatch(() => TableRows.AddRange(rows));
+                //foreach (var item in rows)
+                //{
+                //    Dispatch(() => TableRows.Add(item));
+                //}
+                IsLoading = false;
+            });
         }
 
         private void ShowTestResult()
         {
+            if (_isCancel)
+            {
+                AdonisUI.Controls.MessageBox.Show(text: $"SafingLogic Test  Cancel.",
+                        caption: "SafingLogic Test",
+                        icon: AdonisUI.Controls.MessageBoxImage.Information);
+                return;
+            }
+
             if (_safingLogicTestResults.Count == 0)
             {
                 AdonisUI.Controls.MessageBox.Show($"SafingLogic Test Success",
                         "SafingLogic Test",
                         icon: AdonisUI.Controls.MessageBoxImage.Information);
-               // return;
-            //}
-            //if (_safingLogicTestResults.Count == 0)
-            //{
+
                 TableRows.ToList().ForEach(x => x.UpdateResultPass());
             }
             else

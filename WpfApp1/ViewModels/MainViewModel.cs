@@ -280,10 +280,14 @@ namespace ERad5TestGUI.ViewModels
         * 1.修复Memory短地址读写，优化日志
         * 2.修改Vector设备接收数据事件
         * 3.优化SafingLogic界面
+        * 0.0.1.3
+        * 1.GDIC，resolver默认最值修改
+        * 2.SafingLogic Stop 弹窗，Error 修正
+        * 3.Memory 写入地址错误、限制地址大小，删除Test Group
         */
         /// <summary>
         /// Soft Version
         /// </summary>
-        public string Version { get; } = "0.0.1.2";
+        public string Version { get; } = "0.0.1.3";
     }
 }

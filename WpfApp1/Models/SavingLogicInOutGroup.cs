@@ -251,6 +251,26 @@ namespace ERad5TestGUI.Models
         public int OC_V_FLT { get; set; }
         public int OC_W_FLT { get; set; }
 
+        public IEnumerable<int> Inputs => new List<int>()
+        {
+            SAFESTATE1,
+            SAFESTATE2,
+            SPD_HW_3PS_OUT,
+            PS_MAIN_MICRO,
+            MTR_SPEED_STAT,
+            PWM_EN,
+            ESTOP,
+            HVDC_OV_FLT,
+            DSAT_TOP_FLT,
+            DSAT_BOT_FLT,
+            UVLO_TOP_FLT,
+            UVLO_BOT_FLT,
+            OC_U_FLT,
+            OC_V_FLT,
+            OC_W_FLT,
+        };
+            
+
         /***Need To Compare****/
         private SafingLoficTestResult forceUppersOn;
         private SafingLoficTestResult forcLowersOn;
@@ -270,6 +290,19 @@ namespace ERad5TestGUI.Models
         public SafingLoficTestResult PHASE_UVW_OC_FLT { get => phaseUvw_OC_FLT; set => SetProperty(ref phaseUvw_OC_FLT, value); }
 
         public bool? Result { get => _result; set => SetProperty(ref _result, value); }
+
+        public IEnumerable<object> Outputs => new List<object>()
+        {
+            FORCE_UPPERS_ON,
+            FORCE_LOWERS_ON,
+            PWM_BUFFER,
+            FSSTATE_BOT,
+            FSSTATE_TOP,
+            OUT_EN,
+            PHASE_UVW_OC_FLT,
+            Result,
+        };
+
         public void UpdateResultPass()
         {
             Result = true;

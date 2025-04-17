@@ -501,7 +501,7 @@ namespace ERad5TestGUI.Devices
                         //logService.Debug($"{Name} receive not Empty {receiveFlag}");
                         // ...receive data from hardware.
                         xlStatus = VectorDriver.XL_CanReceive(portHandle, ref receivedEvent);
-
+                        //VectorDriver.XL_Receive()
                         //  If receiving succeed....
                         if (xlStatus == XLDefine.XL_Status.XL_SUCCESS)
                         {
@@ -608,6 +608,7 @@ namespace ERad5TestGUI.Devices
                 msgPushThread.Abort();
             //ClosePort();
             Started = false;
+            RecieveStatus = DeviceRecieveFrameStatus.NotStart;
         }
 
         public bool SendFD(IFrame frame)

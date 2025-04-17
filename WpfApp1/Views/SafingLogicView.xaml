@@ -397,7 +397,6 @@
                 <!--Signals-->
                 <ScrollViewer 
                     x:Name="sv1" 
-                    
                     HorizontalScrollBarVisibility="Auto"
                     adonisExtensions:ScrollViewerExtension.HideScrollBarsUntilMouseOver="True"
                     adonisExtensions:ScrollViewerExtension.HorizontalScrollBarPlacement="Overlay"
@@ -417,6 +416,31 @@
                             ContentTemplate="{StaticResource BaseGroupWithoutHeader}" />
                     </Grid>
                 </ScrollViewer>
+
+                <Grid Grid.Row="2" Panel.ZIndex="99">
+                    <Grid.Style>
+                        <Style TargetType="FrameworkElement">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+
+                    <Border Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+                                    Opacity="0.5"/>
+
+                    <ContentControl 
+                                ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingCircle}}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Width="{adonisUi:Space 5}"
+                                Height="{adonisUi:Space 5}"
+                                Focusable="False"/>
+                </Grid>
+
                 <!--Test Result-->
                 <ScrollViewer 
                     x:Name="sv2" 
@@ -432,30 +456,6 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <Grid Grid.ColumnSpan="2" Panel.ZIndex="99">
-                            <Grid.Style>
-                                <Style TargetType="FrameworkElement">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Grid.Style>
-
-                            <Border Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
-                                    Opacity="0.5"/>
-
-                            <ContentControl 
-                                ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingCircle}}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Width="{adonisUi:Space 5}"
-                                Height="{adonisUi:Space 5}"
-                                Focusable="False"/>
-                        </Grid>
-
                         <GroupBox Header="Inputs" Grid.Column="0">
                             <ItemsControl 
                                 Margin="-7"
@@ -463,6 +463,11 @@
                                 VirtualizingStackPanel.IsVirtualizing="True"
                                 VirtualizingStackPanel.VirtualizationMode="Recycling"
                                 Grid.Column="1">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate DataType="{x:Type models:SafingLogicTestTableRow}">
                                         <Grid>
@@ -477,6 +482,18 @@
                                                 BorderThickness="0,0,2,0">
                                                 <TextBlock Text="{Binding RowIndex}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Border>
+                                            <!--<ItemsControl ItemsSource="{Binding Inputs}" Grid.Column="1">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <UniformGrid Columns="15"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SafingResultCell}"/>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>-->
                                             <UniformGrid Columns="15" Grid.Column="1">
                                                 <ContentControl Content="{Binding SAFESTATE1}" ContentTemplate="{StaticResource SafingResultCell}"/>
                                                 <ContentControl Content="{Binding SAFESTATE2}" ContentTemplate="{StaticResource SafingResultCell}"/>
@@ -511,6 +528,11 @@
                                 VirtualizingStackPanel.IsVirtualizing="True"
                                 VirtualizingStackPanel.VirtualizationMode="Recycling"
                                 HorizontalContentAlignment="Stretch">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
                                 <!--<ListBox.ItemContainerStyle>
                                     <Style TargetType="ListBoxItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />

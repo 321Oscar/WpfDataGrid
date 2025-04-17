@@ -158,7 +158,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*" MinWidth="150"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" SharedSizeGroup="threshold"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock 
@@ -174,7 +174,7 @@
                 <TextBlock Text="{Binding MinValue,StringFormat={}{0:f2}}" FontSize="10"  Margin="0,3,0,0"/>
                 <!--<TextBlock Text="{Binding OutLimits}" FontSize="10"  Margin="0,3,0,0"/>-->
             </StackPanel>
-            <StackPanel Grid.Column="2" Margin="5" >
+            <StackPanel Grid.Column="2" Margin="5">
                 <TextBlock Text="{Binding MaxThreshold}" FontSize="10"/>
                 <TextBlock Text="{Binding MinThreshold}" FontSize="10"/>
             </StackPanel>
@@ -510,7 +510,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto" MinWidth="120"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" SharedSizeGroup="threshold"/>
             </Grid.ColumnDefinitions>
             <Border Style="{StaticResource CellBorder}">
                 <TextBlock 

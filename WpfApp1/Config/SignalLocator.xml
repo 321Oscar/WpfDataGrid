@@ -28,6 +28,10 @@
           <ViewName>Discrete</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1554</MessageID>
       <StartBit>24</StartBit>
@@ -48,6 +52,10 @@
           <ViewName>Discrete</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1554</MessageID>
       <StartBit>23</StartBit>
@@ -66,6 +74,10 @@
       <Views>
         <ViewEnable>
           <ViewName>Discrete</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
@@ -128,6 +140,10 @@
           <ViewName>Discrete</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1554</MessageID>
       <StartBit>19</StartBit>
@@ -168,6 +184,10 @@
           <ViewName>Discrete</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1554</MessageID>
       <StartBit>17</StartBit>
@@ -188,6 +208,10 @@
           <ViewName>Discrete</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1554</MessageID>
       <StartBit>16</StartBit>
@@ -206,6 +230,10 @@
       <Views>
         <ViewEnable>
           <ViewName>Discrete</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
@@ -270,6 +298,10 @@
       <Views>
         <ViewEnable>
           <ViewName>Discrete</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
@@ -360,6 +392,10 @@
           <ViewName>Discrete</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1554</MessageID>
       <StartBit>8</StartBit>
@@ -378,6 +414,10 @@
       <Views>
         <ViewEnable>
           <ViewName>Discrete</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
@@ -400,6 +440,10 @@
           <ViewName>Discrete</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1554</MessageID>
       <StartBit>6</StartBit>
@@ -418,6 +462,10 @@
       <Views>
         <ViewEnable>
           <ViewName>Discrete</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
@@ -440,6 +488,10 @@
           <ViewName>Discrete</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1554</MessageID>
       <StartBit>4</StartBit>
@@ -458,6 +510,10 @@
       <Views>
         <ViewEnable>
           <ViewName>Discrete</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
@@ -480,6 +536,10 @@
           <ViewName>Discrete</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1554</MessageID>
       <StartBit>2</StartBit>
@@ -498,6 +558,10 @@
       <Views>
         <ViewEnable>
           <ViewName>Discrete</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
       </Views>
@@ -660,6 +724,10 @@
           <ViewName>E-Locker</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1553</MessageID>
       <StartBit>5</StartBit>
@@ -692,6 +760,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>Y19</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_ACT_DISCHARGE_State</Name>
         <Views />
@@ -727,6 +796,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>K20</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>KP_ALIVE_MP_State</Name>
         <Views />
@@ -762,6 +832,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>F19</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_MTR_SPEED_STAT_State</Name>
         <Views />
@@ -785,6 +856,10 @@
           <ViewName>Discrete</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1283</MessageID>
       <StartBit>33</StartBit>
@@ -797,6 +872,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>G20</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_3PS_MAIN_MICRO_State</Name>
         <Views />
@@ -832,6 +908,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>B20</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>MTR_TEMP_SEL_State</Name>
         <Views />
@@ -867,6 +944,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>E7</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>INST_TRIGGER_MAIN_MICRO_State</Name>
         <Views />
@@ -890,6 +968,10 @@
           <ViewName>Discrete</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1283</MessageID>
       <StartBit>30</StartBit>
@@ -902,6 +984,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>A3</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_HVOV_PHOC_LATCH_CLR_State</Name>
         <Views />
@@ -937,6 +1020,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>A9</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>OIL_PMP_RLY_CTRL_State</Name>
         <Views />
@@ -972,6 +1056,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>J17</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>SBC_WD_TRIG_State</Name>
         <Views />
@@ -1011,6 +1096,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>D12</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>eLOCKER_EN_State</Name>
         <Views />
@@ -1046,6 +1132,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>F5</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>HVIL_RTN_SW_State</Name>
         <Views />
@@ -1069,6 +1156,10 @@
           <ViewName>Discrete</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1283</MessageID>
       <StartBit>25</StartBit>
@@ -1081,6 +1172,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>B10</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>PWM_EN_State</Name>
         <Views />
@@ -1120,6 +1212,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>K17</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_RST_PPAWL_MTR_OC_FLT_State</Name>
         <Views />
@@ -1159,6 +1252,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>D13</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>PPAWL_MTR_EN_State</Name>
         <Views />
@@ -1198,6 +1292,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>A8</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>PPAWL_MTR_CTRL2_State</Name>
         <Views />
@@ -1233,6 +1328,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>G19</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>GS_ENL_U_State</Name>
         <Views />
@@ -1268,6 +1364,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>D10</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>GS_ENL_V_State</Name>
         <Views />
@@ -1303,6 +1400,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>R16</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>GS_ENL_W_State</Name>
         <Views />
@@ -1338,6 +1436,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>Y18</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>GS_ENH_U_State</Name>
         <Views />
@@ -1373,6 +1472,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>N17</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>GS_ENH_V_State</Name>
         <Views />
@@ -1408,6 +1508,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>T19</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>GS_ENH_W_State</Name>
         <Views />
@@ -9352,7 +9453,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>60000</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>TSENSEA</Selection>
       <CanChangeSelection>false</CanChangeSelection>
@@ -9376,7 +9477,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>100</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>TSENSEA</Selection>
       <CanChangeSelection>false</CanChangeSelection>
@@ -9400,7 +9501,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>60000</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>TSENSEA</Selection>
       <CanChangeSelection>false</CanChangeSelection>
@@ -9424,7 +9525,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>100</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>TSENSEA</Selection>
       <CanChangeSelection>false</CanChangeSelection>
@@ -9448,7 +9549,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>60000</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>TSENSEA</Selection>
       <CanChangeSelection>false</CanChangeSelection>
@@ -9472,7 +9573,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>100</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>TSENSEA</Selection>
       <CanChangeSelection>false</CanChangeSelection>
@@ -9496,7 +9597,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>60000</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>TSENSEA</Selection>
       <CanChangeSelection>false</CanChangeSelection>
@@ -9520,7 +9621,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>100</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>TSENSEA</Selection>
       <CanChangeSelection>false</CanChangeSelection>
@@ -9544,7 +9645,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>60000</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>TSENSEA</Selection>
       <CanChangeSelection>false</CanChangeSelection>
@@ -9568,7 +9669,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>100</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>TSENSEA</Selection>
       <CanChangeSelection>false</CanChangeSelection>
@@ -9592,7 +9693,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>60000</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>TSENSEA</Selection>
       <CanChangeSelection>false</CanChangeSelection>
@@ -9616,7 +9717,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>100</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>TSENSEA</Selection>
       <CanChangeSelection>false</CanChangeSelection>
@@ -9640,7 +9741,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>60000</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>AOUT</Selection>
       <CanChangeSelection>true</CanChangeSelection>
@@ -9664,7 +9765,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>100</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>AOUT</Selection>
       <CanChangeSelection>true</CanChangeSelection>
@@ -9688,7 +9789,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>60000</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>AOUT</Selection>
       <CanChangeSelection>true</CanChangeSelection>
@@ -9712,7 +9813,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>100</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>AOUT</Selection>
       <CanChangeSelection>true</CanChangeSelection>
@@ -9736,7 +9837,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>60000</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>AOUT</Selection>
       <CanChangeSelection>true</CanChangeSelection>
@@ -9760,7 +9861,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>100</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>AOUT</Selection>
       <CanChangeSelection>true</CanChangeSelection>
@@ -9784,7 +9885,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>60000</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>AOUT</Selection>
       <CanChangeSelection>true</CanChangeSelection>
@@ -9808,7 +9909,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>100</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>AOUT</Selection>
       <CanChangeSelection>true</CanChangeSelection>
@@ -9832,7 +9933,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>60000</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>AOUT</Selection>
       <CanChangeSelection>true</CanChangeSelection>
@@ -9856,7 +9957,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>100</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>AOUT</Selection>
       <CanChangeSelection>true</CanChangeSelection>
@@ -9880,7 +9981,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>60000</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>AOUT</Selection>
       <CanChangeSelection>true</CanChangeSelection>
@@ -9904,7 +10005,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>100</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <Selection>AOUT</Selection>
       <CanChangeSelection>true</CanChangeSelection>
@@ -16466,6 +16567,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>PTC3</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>INST_TRIGGER_State</Name>
         <Views />
@@ -16489,6 +16591,10 @@
           <ViewName>NXPViewModel</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1283</MessageID>
       <StartBit>1</StartBit>
@@ -16501,6 +16607,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>PTD5</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>SPD_HW_3PS_I_O_State</Name>
         <Views />
@@ -16524,6 +16631,10 @@
           <ViewName>NXPViewModel</ViewName>
           <IsEnabled>true</IsEnabled>
         </ViewEnable>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
       </Views>
       <MessageID>1283</MessageID>
       <StartBit>2</StartBit>
@@ -16536,6 +16647,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber>PTA7</PinNumber>
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_F_RESET_NXP_State</Name>
         <Views />
@@ -17111,6 +17223,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber />
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
       <Name>DIS_SBC_WWD_TRIG</Name>
@@ -17131,6 +17244,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber />
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
       <Name>FD5_INH_DISABLE</Name>
@@ -17151,6 +17265,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber />
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
       <Name>FD16_INH_DISABLE</Name>
@@ -17171,6 +17286,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber />
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="LinConfigSignal">
       <Name>LIN_Receive_Checksum_Type</Name>
@@ -17847,7 +17963,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>100</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <GroupName>EXC_HI_DIAG_FREQ</GroupName>
     </SignalBase>
@@ -17870,7 +17986,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>60000</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <GroupName>EXC_LO_DIAG_FREQ</GroupName>
     </SignalBase>
@@ -17893,7 +18009,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>100</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <GroupName>EXC_LO_DIAG_FREQ</GroupName>
     </SignalBase>
@@ -17916,7 +18032,7 @@
       <InOrOut>false</InOrOut>
       <Format>f2</Format>
       <NeedTransform>true</NeedTransform>
-      <MaxThreshold>5</MaxThreshold>
+      <MaxThreshold>60000</MaxThreshold>
       <MinThreshold>0</MinThreshold>
       <GroupName>EXC_HI_DIAG_FREQ</GroupName>
     </SignalBase>
@@ -18401,6 +18517,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber />
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="PulseInSignal">
       <Name>PPAWL_ENGMT_SNSR_WED_Freq</Name>
@@ -19258,6 +19375,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber />
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
       <Name>TLF35584_ERR_Disable</Name>
@@ -19273,6 +19391,7 @@
       <InOrOut>true</InOrOut>
       <PinNumber />
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="PulseOutGroupSignal">
       <Name>PPAWL_MTR_CTRL1_Duty</Name>
@@ -20387,6 +20506,7 @@
       <InOrOut>false</InOrOut>
       <PinNumber />
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>Safing_Logic_E_STOP_MAIN_MICRO_Dir_Select</Name>
@@ -20712,9 +20832,10 @@
       <Factor>1</Factor>
       <Offset>0</Offset>
       <Unit />
-      <InOrOut>false</InOrOut>
+      <InOrOut>true</InOrOut>
       <PinNumber />
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
       <Name>Safing_Logic_Test_Stop</Name>
@@ -20727,9 +20848,10 @@
       <Factor>1</Factor>
       <Offset>0</Offset>
       <Unit />
-      <InOrOut>false</InOrOut>
+      <InOrOut>true</InOrOut>
       <PinNumber />
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
       <Name>CAN_INH_Update</Name>
@@ -20745,6 +20867,469 @@
       <InOrOut>true</InOrOut>
       <PinNumber />
       <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>HVDC_OV_FLT_FB_OUTPUT</Name>
+      <Views>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
+      </Views>
+      <MessageID>1281</MessageID>
+      <StartBit>231</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>true</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
+      <State>
+        <Name>LOW_HVDC_OV_FLT_FB</Name>
+        <Views>
+          <ViewEnable>
+            <ViewName>Discrete</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+          <ViewEnable>
+            <ViewName>Safing_Logic</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+        </Views>
+        <MessageID>1554</MessageID>
+        <StartBit>3</StartBit>
+        <Length>1</Length>
+        <ByteOrder>1</ByteOrder>
+        <ValueType>0</ValueType>
+        <Factor>1</Factor>
+        <Offset>0</Offset>
+        <Unit />
+        <InOrOut>false</InOrOut>
+        <PinNumber>D7</PinNumber>
+        <NeedTransitions>true</NeedTransitions>
+      </State>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>UVLO_TOP_FLT_FB_OUTPUT</Name>
+      <Views>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
+      </Views>
+      <MessageID>1281</MessageID>
+      <StartBit>232</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>true</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
+      <State>
+        <Name>LOW_UVLO_TOP_FLT_FB</Name>
+        <Views>
+          <ViewEnable>
+            <ViewName>Discrete</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+          <ViewEnable>
+            <ViewName>Safing_Logic</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+        </Views>
+        <MessageID>1554</MessageID>
+        <StartBit>7</StartBit>
+        <Length>1</Length>
+        <ByteOrder>1</ByteOrder>
+        <ValueType>0</ValueType>
+        <Factor>1</Factor>
+        <Offset>0</Offset>
+        <Unit />
+        <InOrOut>false</InOrOut>
+        <PinNumber>D8</PinNumber>
+        <NeedTransitions>true</NeedTransitions>
+      </State>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>DSAT_TOP_FLT_FB_OUTPUT</Name>
+      <Views>
+        <ViewEnable>
+          <ViewName>Safing_Logic</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
+      </Views>
+      <MessageID>1281</MessageID>
+      <StartBit>234</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>true</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
+      <State>
+        <Name>LOW_DSAT_TOP_FLT_FB</Name>
+        <Views>
+          <ViewEnable>
+            <ViewName>Discrete</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+          <ViewEnable>
+            <ViewName>Safing_Logic</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+        </Views>
+        <MessageID>1554</MessageID>
+        <StartBit>8</StartBit>
+        <Length>1</Length>
+        <ByteOrder>1</ByteOrder>
+        <ValueType>0</ValueType>
+        <Factor>1</Factor>
+        <Offset>0</Offset>
+        <Unit />
+        <InOrOut>false</InOrOut>
+        <PinNumber>E8</PinNumber>
+        <NeedTransitions>true</NeedTransitions>
+      </State>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>PHASE_UVW_OC_FLT_OUTPUT</Name>
+      <Views />
+      <MessageID>1281</MessageID>
+      <StartBit>230</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>true</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
+      <State>
+        <Name>LOW_PHASE_UVW_OC_FLT_FB</Name>
+        <Views>
+          <ViewEnable>
+            <ViewName>Discrete</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+          <ViewEnable>
+            <ViewName>Safing_Logic</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+        </Views>
+        <MessageID>1554</MessageID>
+        <StartBit>4</StartBit>
+        <Length>1</Length>
+        <ByteOrder>1</ByteOrder>
+        <ValueType>0</ValueType>
+        <Factor>1</Factor>
+        <Offset>0</Offset>
+        <Unit />
+        <InOrOut>false</InOrOut>
+        <PinNumber>D6</PinNumber>
+        <NeedTransitions>true</NeedTransitions>
+      </State>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>UVLO_BOT_FLT_FB_OUTPUT</Name>
+      <Views />
+      <MessageID>1281</MessageID>
+      <StartBit>233</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>true</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
+      <IsOutput>false</IsOutput>
+      <State>
+        <Name>LOW_UVLO_BOT_FLT_FB</Name>
+        <Views>
+          <ViewEnable>
+            <ViewName>Discrete</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+          <ViewEnable>
+            <ViewName>Safing_Logic</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+        </Views>
+        <MessageID>1554</MessageID>
+        <StartBit>5</StartBit>
+        <Length>1</Length>
+        <ByteOrder>1</ByteOrder>
+        <ValueType>0</ValueType>
+        <Factor>1</Factor>
+        <Offset>0</Offset>
+        <Unit />
+        <InOrOut>false</InOrOut>
+        <PinNumber>F2</PinNumber>
+        <NeedTransitions>true</NeedTransitions>
+      </State>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>DSAT_BOT_FLT_FB_OUTPUT</Name>
+      <Views />
+      <MessageID>1281</MessageID>
+      <StartBit>235</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>true</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
+      <State>
+        <Name>LOW_DSAT_BOT_FLT_FB</Name>
+        <Views>
+          <ViewEnable>
+            <ViewName>Discrete</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+          <ViewEnable>
+            <ViewName>Safing_Logic</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+        </Views>
+        <MessageID>1554</MessageID>
+        <StartBit>6</StartBit>
+        <Length>1</Length>
+        <ByteOrder>1</ByteOrder>
+        <ValueType>0</ValueType>
+        <Factor>1</Factor>
+        <Offset>0</Offset>
+        <Unit />
+        <InOrOut>false</InOrOut>
+        <PinNumber>E10</PinNumber>
+        <NeedTransitions>true</NeedTransitions>
+      </State>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>OC_U_FLT_OUTPUT</Name>
+      <Views />
+      <MessageID>1281</MessageID>
+      <StartBit>227</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>true</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
+      <IsOutput>false</IsOutput>
+      <State>
+        <Name>LOW_OC_U_FLT</Name>
+        <Views>
+          <ViewEnable>
+            <ViewName>Discrete</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+          <ViewEnable>
+            <ViewName>Safing_Logic</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+        </Views>
+        <MessageID>1554</MessageID>
+        <StartBit>0</StartBit>
+        <Length>1</Length>
+        <ByteOrder>1</ByteOrder>
+        <ValueType>0</ValueType>
+        <Factor>1</Factor>
+        <Offset>0</Offset>
+        <Unit />
+        <InOrOut>false</InOrOut>
+        <PinNumber>M17</PinNumber>
+        <NeedTransitions>true</NeedTransitions>
+      </State>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>OC_V_FLT_OUTPUT</Name>
+      <Views />
+      <MessageID>1281</MessageID>
+      <StartBit>228</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>true</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
+      <IsOutput>false</IsOutput>
+      <State>
+        <Name>LOW_OC_V_FLT</Name>
+        <Views>
+          <ViewEnable>
+            <ViewName>Discrete</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+          <ViewEnable>
+            <ViewName>Safing_Logic</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+        </Views>
+        <MessageID>1554</MessageID>
+        <StartBit>1</StartBit>
+        <Length>1</Length>
+        <ByteOrder>1</ByteOrder>
+        <ValueType>0</ValueType>
+        <Factor>1</Factor>
+        <Offset>0</Offset>
+        <Unit />
+        <InOrOut>false</InOrOut>
+        <PinNumber>L16</PinNumber>
+        <NeedTransitions>true</NeedTransitions>
+      </State>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>OC_W_FLT_OUTPUT</Name>
+      <Views />
+      <MessageID>1281</MessageID>
+      <StartBit>229</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>true</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
+      <State>
+        <Name>LOW_OC_W_FLT</Name>
+        <Views>
+          <ViewEnable>
+            <ViewName>Discrete</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+          <ViewEnable>
+            <ViewName>Safing_Logic</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+        </Views>
+        <MessageID>1554</MessageID>
+        <StartBit>2</StartBit>
+        <Length>1</Length>
+        <ByteOrder>1</ByteOrder>
+        <ValueType>0</ValueType>
+        <Factor>1</Factor>
+        <Offset>0</Offset>
+        <Unit />
+        <InOrOut>false</InOrOut>
+        <PinNumber>L17</PinNumber>
+        <NeedTransitions>true</NeedTransitions>
+      </State>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>Safing_Logic_Test_Error_info</Name>
+      <Views />
+      <MessageID>1553</MessageID>
+      <StartBit>192</StartBit>
+      <Length>8</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>false</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>E_STOP_MAIN_MICRO_OUTPUT</Name>
+      <Views />
+      <MessageID>1281</MessageID>
+      <StartBit>236</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>true</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
+      <State>
+        <Name>LOW_E_STOP_MAIN_MICRO</Name>
+        <Views>
+          <ViewEnable>
+            <ViewName>Discrete</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+          <ViewEnable>
+            <ViewName>Safing_Logic</ViewName>
+            <IsEnabled>true</IsEnabled>
+          </ViewEnable>
+        </Views>
+        <MessageID>1554</MessageID>
+        <StartBit>17</StartBit>
+        <Length>1</Length>
+        <ByteOrder>1</ByteOrder>
+        <ValueType>0</ValueType>
+        <Factor>1</Factor>
+        <Offset>0</Offset>
+        <Unit />
+        <InOrOut>false</InOrOut>
+        <PinNumber>G1</PinNumber>
+        <NeedTransitions>true</NeedTransitions>
+      </State>
+    </SignalBase>
+    <SignalBase xsi:type="PulseOutSingleSignal">
+      <Name>PPAWL_PWM_Update</Name>
+      <Views />
+      <MessageID>1283</MessageID>
+      <StartBit>184</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>true</InOrOut>
+      <Format>f2</Format>
+      <NeedTransform>true</NeedTransform>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>Safing_Logic_Pin_Dir_Update</Name>
+      <Views />
+      <MessageID>1281</MessageID>
+      <StartBit>216</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>true</InOrOut>
+      <PinNumber />
+      <Sync>false</Sync>
+      <IsOutput>true</IsOutput>
     </SignalBase>
   </Signals>
 </SignalCollection>

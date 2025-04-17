@@ -15,6 +15,7 @@ namespace ERad5TestGUI.ViewModels
 {
     public class MemoryViewModel : ViewModelBase
     {
+        private readonly int MaxAddr = 0x200000;
         private readonly ObservableCollection<IUDSServer> _servers = new ObservableCollection<IUDSServer>();
         private readonly ObservableCollection<UDS.SRecord.SrecDataOnly> _s19Records = new ObservableCollection<UDS.SRecord.SrecDataOnly>();
         private AsyncRelayCommand _loadSrecFileCommand;
@@ -24,6 +25,8 @@ namespace ERad5TestGUI.ViewModels
         private UDSServerAbstract _runningServer;
         private int erad5MemoryValue;
         private bool _udsRunning;
+        private int erad5MemoryWriteAddr;
+        private int erad5MemoryAddr;
 
         public MemoryViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) : base(signalStore, deviceStore, logService)
         {
@@ -44,9 +47,37 @@ namespace ERad5TestGUI.ViewModels
         public UpgradeID CurrentUpgradeType => _udsConfig.UpGradeIDs[0];
         public bool UdsRunning { get => _udsRunning; set => SetProperty(ref _udsRunning, value); }
         public UDSServerAbstract RunningServer { get => _runningServer; set => SetProperty(ref _runningServer, value); }
-        public int Erad5MemoryAddr { get; set; }
+        public int Erad5MemoryAddr 
+        { 
+            get => erad5MemoryAddr; 
+            set 
+            {
+                if (value > MaxAddr - 4)
+                {
+                    erad5MemoryAddr = MaxAddr - 4;
+                }
+                else
+                {
+                    erad5MemoryAddr = value;
+                }
+            } 
+        }
         public int Erad5MemoryValue { get => erad5MemoryValue; set => SetProperty(ref erad5MemoryValue, value); }
-        public int Erad5MemoryWriteAddr { get; set; }
+        public int Erad5MemoryWriteAddr 
+        { 
+            get => erad5MemoryWriteAddr; 
+            set
+            {
+                if (value > MaxAddr - 4) 
+                {
+                    erad5MemoryWriteAddr = MaxAddr - 4;
+                } 
+                else
+                {
+                    erad5MemoryWriteAddr = value; 
+                }
+            } 
+        }
         public int Erad5MemoryWriteValue { get; set; }
         public SrecFileOnlyData SrecFileOnlyData { get; set; }
         public ObservableCollection<IUDSServer> Servers { get => _servers; }
@@ -100,7 +131,7 @@ namespace ERad5TestGUI.ViewModels
 
             //AddServer(readMemory);
             //UdsRunning = true;
-            var res = await ReadMemoryByLengthAsync(Erad5MemoryAddr,0x04);
+            var res = await ReadMemoryByLengthAsync(Erad5MemoryAddr, 0x04);
             //var suc = res.UDSResponse == UDSResponse.Positive;
             if (res != null)
             {
@@ -124,7 +155,7 @@ namespace ERad5TestGUI.ViewModels
                     caption: "Read Memory",
                     icon: AdonisUI.Controls.MessageBoxImage.Error);
             }
-            
+
             return 1;
         }
 
@@ -138,7 +169,7 @@ namespace ERad5TestGUI.ViewModels
             //};
             //AddEventToServer(writeMemory);
             var data = BitConverter.GetBytes(Erad5MemoryWriteValue).Reverse().ToArray();
-            
+
             //data = new byte[4];
 
             //writeMemory.BinTmpFile = new BinTmpFile(new BinDataSegment(Erad5MemoryWriteAddr, dataLength: data.Length, data));
@@ -146,16 +177,16 @@ namespace ERad5TestGUI.ViewModels
 
             //AddServer(writeMemory);
 
-            var res = await WriteMemoryByLengthAsync(new Dictionary<int, byte[]>() { { Erad5MemoryAddr, data } }); ;
-            if( res == 1)
+            var res = await WriteMemoryByLengthAsync(new Dictionary<int, byte[]>() { { Erad5MemoryWriteAddr, data } }); ;
+            if (res == 1)
             {
-                AdonisUI.Controls.MessageBox.Show($"Write to 0x{Erad5MemoryAddr:X} Memory Successfully.",
+                AdonisUI.Controls.MessageBox.Show($"Write to 0x{Erad5MemoryWriteAddr:X} Memory Successfully.",
                  caption: "Write Memory",
                  icon: AdonisUI.Controls.MessageBoxImage.Information);
             }
             else
             {
-                AdonisUI.Controls.MessageBox.Show($"Write 0x{Erad5MemoryAddr:X} Memory Fail",
+                AdonisUI.Controls.MessageBox.Show($"Write 0x{Erad5MemoryWriteAddr:X} Memory Fail",
                   caption: "Write Memory",
                   icon: AdonisUI.Controls.MessageBoxImage.Error);
             }
@@ -216,7 +247,7 @@ namespace ERad5TestGUI.ViewModels
             {
                 return 1;
             }
- 
+
             return -1;
         }
 

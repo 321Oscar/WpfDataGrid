@@ -258,7 +258,7 @@
                                 <Button Content="Write" Command="{Binding WriteCommand}" Margin="0,2,0,0"/>
                             </StackPanel>
                         </GroupBox>
-                        <GroupBox Header="Test">
+                        <GroupBox Header="Test" Visibility="Collapsed">
                             <StackPanel Margin="-4">
                                 <Button Content="Test Serial Flash" IsEnabled="False"></Button>
                                 <ProgressBar Height="25" Value="80" Margin="0,2"/>
@@ -334,7 +334,7 @@
                     </GroupBox>
 
                     <GroupBox 
-                        Header="Detials"
+                        Header="Details"
                         Grid.Row="0"
                         Grid.RowSpan="2"
                         Grid.Column="2">
@@ -346,10 +346,13 @@
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Button Content="Clear" Command="{Binding ClearUdsServersCommand}"/>
                             </StackPanel>
-                            <ItemsControl 
+                            <ScrollViewer Grid.Row="1">
+                                <ItemsControl 
                                 Background="White"
-                                Grid.Row="1"
+                                
                                 ItemsSource="{Binding Servers}"/>
+                            </ScrollViewer>
+
                         </Grid>
                     </GroupBox>
                 </Grid>
