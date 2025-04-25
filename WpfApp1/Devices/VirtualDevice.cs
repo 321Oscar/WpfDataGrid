@@ -86,7 +86,6 @@ namespace ERad5TestGUI.Devices
 
             while (true && !tokenSource.Token.IsCancellationRequested)
             {
-                
                 RasieOnMsgReceived(GenerateFrameData());
 
                 Thread.Sleep(100);

@@ -102,6 +102,7 @@ namespace ERad5TestGUI.UDS
         /// </summary>
         Pass,
         SendFail,
+        Cancel
     }
 
     public enum UDSServerCode

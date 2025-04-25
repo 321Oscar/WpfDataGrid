@@ -353,7 +353,7 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" SharedSizeGroup="title"/>
-                            <ColumnDefinition Width="auto" SharedSizeGroup="content"/>
+                            <ColumnDefinition Width="*" SharedSizeGroup="content"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{TemplateBinding Title}" 
                                    FontWeight="Bold" 

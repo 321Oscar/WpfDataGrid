@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ERad5TestGUI.UDS
@@ -44,7 +45,7 @@ namespace ERad5TestGUI.UDS
         string Name { get; set; }
 
         void ResetResult();
-        Task<ServerResult> RunAsync(object param = null);
+        Task<ServerResult> RunAsync(CancellationTokenSource cancelSource = null, object param = null);
 
         object AfterRunParameter { get; set; }
     }

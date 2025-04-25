@@ -62,7 +62,7 @@ namespace ERad5TestGUI.UDS
 
         public override UDSServerCode CurrentUDSFunction { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
 
-        public override Task<ServerResult> RunAsync(object param = null)
+        public override Task<ServerResult> RunAsync(System.Threading.CancellationTokenSource cancelSource = null, object param = null)
         {
             ServerResult = new ServerResult(Index, ProgressWeights);
             return Task.Run(async () =>
@@ -71,7 +71,7 @@ namespace ERad5TestGUI.UDS
                 Result = UDSResponse.Positive;
                 ProgressInt = 100;
                 return ServerResult;
-            });
+            }, cancelSource.Token);
         }
     }
 }

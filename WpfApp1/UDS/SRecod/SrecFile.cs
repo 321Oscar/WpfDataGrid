@@ -266,6 +266,10 @@ namespace ERad5TestGUI.UDS.SRecord
         public void Add(SrecData srecData, int index = 0)
         {
             //var exist = srecDatas.Find(x => x.Addr == srecData.Addr);
+            if (srecDatas.Count == 0)
+            {
+                srecDatas.Add(srecData);
+            }
             int idx = srecDatas.FindIndex(x => x.Addr == srecData.Addr);
             if (idx >= 0)
             {
@@ -626,7 +630,8 @@ namespace ERad5TestGUI.UDS.SRecord
         {
             if (string.IsNullOrEmpty(outpuFile))
                 outpuFile = $"{DateTime.Now:MMdd-HHmmss}.srec";
-            if (outpuFile.IndexOf(".srec") < 0)
+            if (outpuFile.IndexOf(".srec") < 0 || 
+                outpuFile.IndexOf(".s19") < 0)
                 outpuFile += ".srec";
             if (isSort)
                 srecDatas.Sort();
@@ -885,7 +890,7 @@ namespace ERad5TestGUI.UDS.SRecord
         private SrecFile _srecFile;
         public ObservableCollection<SrecDataOnly> Content { get => _content; }
 
-        public SrecFile SrecFile { get => _srecFile; }
+        public SrecFile SrecFile { get => _srecFile; set => _srecFile = value; }
 
         public SrecFileOnlyData()
         {
@@ -960,11 +965,62 @@ namespace ERad5TestGUI.UDS.SRecord
                 srecdata.UpdateData(data.Skip(i * TakeLength).Take(TakeLength).ToArray(), 0);
             }
         }
+
+        public void InsertData(byte[] byteArray, uint startAddr = 0x00)
+        {
+            for (int i = 0; i < byteArray.Length; i += 4)
+            {
+                if (i + 3 < byteArray.Length) // 确保不会越界
+                {
+                    uint value = byteArray.ToUInt32Endian(i, true);
+                    //string address = $"0x{i:X}";
+                    _content.Add(new SrecDataOnly 
+                    {
+                        Address = (uint)i + startAddr,
+                        DataStr = $"0x{value:X8}",
+                        Data = new List<byte>()
+                        {
+                            byteArray[i],
+                            byteArray[i + 1],
+                            byteArray[i + 2],
+                            byteArray[i + 3],
+                        },
+                    });
+                }
+            }
+        }
+    }
+
+     public static class BitConverterExtensions
+    {
+        // 扩展方法，支持根据指定的大小端转换为UInt32
+        public static uint ToUInt32Endian(this byte[] bytes, int startIndex, bool isBigEndian = false)
+        {
+            if (bytes == null)
+                throw new ArgumentNullException(nameof(bytes));
+
+            if (bytes.Length < startIndex + 4)
+                throw new ArgumentException("Byte array is too small to convert to UInt32.", nameof(bytes));
+
+            byte[] byteArray = new byte[4];
+
+            // 将字节复制到新的数组中
+            Array.Copy(bytes, startIndex, byteArray, 0, 4);
+
+            // 如果是大端，反转字节数组
+            if (isBigEndian)
+            {
+                Array.Reverse(byteArray);
+            }
+
+            return BitConverter.ToUInt32(byteArray, 0);
+        }
     }
 
     public class SrecDataOnly :CommunityToolkit.Mvvm.ComponentModel.ObservableObject
     {
         private uint address;
+        private string _value;
 
         public uint Address { get => address; set => SetProperty(ref address, value); }
 
@@ -974,10 +1030,14 @@ namespace ERad5TestGUI.UDS.SRecord
         {
             get
             {
+                if (!string.IsNullOrEmpty(_value))
+                    return _value;
+
                 if (Data == null || Data.Count == 0)
                     return "";
                 return string.Join("", Data.Select(d => d.ToString("X2")));
             }
+            set => _value = value;
         }
 
         public void UpdateData(byte data, int index)

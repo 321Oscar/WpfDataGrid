@@ -80,6 +80,7 @@ namespace ERad5TestGUI.Devices
             ChannelCfg = cfg;
             Name = name;
             DataQueue = new ConcurrentQueue<XLClass.XL_CAN_TAG_DATA>();
+            //DataQueue = new BlockingCollection<XLClass.XL_CAN_TAG_DATA>();
         }
         public bool Opened { get; private set; }
         public bool Started { get; private set; }
@@ -522,6 +523,7 @@ namespace ERad5TestGUI.Devices
                                                       receivedEvent.tagData.canRxOkMsg.data,
                                                       (int)receivedEvent.tagData.canRxOkMsg.dlc);
                                 DataQueue.Enqueue(receivedEvent.tagData);
+                                //DataQueue.Add(receivedEvent.tagData);
                                 RecieveStatus = DeviceRecieveFrameStatus.Connected;
                             }
                             //else if (receivedEvent.tagData.canTxOkMsg.canId != 0)
@@ -541,10 +543,12 @@ namespace ERad5TestGUI.Devices
             }
         }
 
+        //private readonly BlockingCollection<XLClass.XL_CAN_TAG_DATA> DataQueue;
         private readonly ConcurrentQueue<XLClass.XL_CAN_TAG_DATA> DataQueue;
         private void PushData()
         {
             //while (RecieveStatus != DeviceRecieveFrameStatus.NotStart)
+            //while (!DataQueue.IsAddingCompleted)
             while (true)
             {
                 if (DataQueue.TryDequeue(out XLClass.XL_CAN_TAG_DATA data))
@@ -555,10 +559,24 @@ namespace ERad5TestGUI.Devices
                         data.canRxOkMsg.data,
                         dlc: (int)data.canRxOkMsg.dlc);
                     frames.Add(frame);
-                    //count++;
                     OnIFramesReceived?.Invoke(frames);
                     logService.LogFrame($"reveived {frame}");
                 }
+
+                //foreach (var data in DataQueue.GetConsumingEnumerable())
+                //{
+                //    List<CanFrame> frames = new List<CanFrame>();
+                //    CanFrame frame = new CanFrame(
+                //        data.canRxOkMsg.canId,
+                //        data.canRxOkMsg.data,
+                //        dlc: (int)data.canRxOkMsg.dlc);
+                //    frames.Add(frame);
+                //    OnIFramesReceived?.Invoke(frames);
+                //    //count++;
+                //    logService.LogFrame($"reveived {frame}");
+                //};
+
+                //Thread.Sleep(1);
             }
         }
         // -----------------------------------------------------------------------------------------------
@@ -594,7 +612,11 @@ namespace ERad5TestGUI.Devices
             //Console.WriteLine("Start Rx thread...");
             rxThread = new Thread(new ThreadStart(RXThread));
             rxThread.Start();
-            msgPushThread = new Thread(new ThreadStart(PushData));
+            msgPushThread = new Thread(new ThreadStart(PushData))
+            {
+                IsBackground = true,
+                Priority = ThreadPriority.Highest
+            };
             msgPushThread.Start();
             Started = true;
             RecieveStatus = DeviceRecieveFrameStatus.Connected;

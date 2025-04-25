@@ -7,6 +7,7 @@
     xmlns:viewModels="clr-namespace:ERad5TestGUI.ViewModels"
     xmlns:models="clr-namespace:ERad5TestGUI.Models"
     xmlns:views="clr-namespace:ERad5TestGUI.Views"
+    xmlns:dialogs="clr-namespace:ERad5TestGUI.Dialogs"
     xmlns:udsModel="clr-namespace:ERad5TestGUI.UDS"
     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI">
 
@@ -14,7 +15,11 @@
         <ResourceDictionary Source="pack://application:,,,/eRad5TestGUI;component/Themes/Styles.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/eRad5TestGUI;component/Themes/Icons.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+    <!--Global Command-->
     <cmds:ClearSignalDataCommand x:Key="ClearSignalDataCommand"/>
+    <cmds:ModifySignalInfoCommand x:Key="ModifySignalInfoCommand"/>
+    
+    <!--Converters-->
     <cvts:OutLimitsColorConverter x:Key="OutLimitsColorConverter" />
     <cvts:DoubleBooleanConverter x:Key="DoubleBooleanConverter"/>
     <cvts:BooleanInvertVisibilityConverter x:Key="BooleanInvertVisibilityConverter"/>
@@ -150,8 +155,35 @@
         <MenuItem Header="Copy" Command="{x:Static cmds:ApplicationCommands.CopyNameCommand}" CommandParameter="{Binding}"/>
         <!--<MenuItem Header="Paste" Command="ApplicationCommands.Paste"/>-->
         <Separator/>
+        <MenuItem Header="Change Threshold" Command="{StaticResource ModifySignalInfoCommand}" CommandParameter="{Binding}"/>
         <!--<MenuItem Header="Custom Action" Command="{Binding CustomCommand}"/>-->
     </ContextMenu>
+
+    <DataTemplate DataType="{x:Type models:ChangeLimit}">
+        <dialogs:ChangeLimitDialog />
+        <!--<Grid HorizontalAlignment="Center"  Margin="10" MinHeight="100"> 
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.IsSharedSizeScope="True" VerticalAlignment="Center">
+                <ctrls:ControlWithTitle Title="Min Threshold" Style="{StaticResource ControlWithTitleGridStyle}">
+                    <ctrls:ControlWithTitle.Content>
+                        <TextBox Text="{Binding MinThreshold}"/>
+                    </ctrls:ControlWithTitle.Content>
+                </ctrls:ControlWithTitle>
+                <ctrls:ControlWithTitle Title="Max Threshold" Style="{StaticResource ControlWithTitleGridStyle}" Margin="0,5,0,0">
+                    <ctrls:ControlWithTitle.Content>
+                        <TextBox Text="{Binding MaxThreshold}"/>
+                    </ctrls:ControlWithTitle.Content>
+                </ctrls:ControlWithTitle>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
+                <Button Content="Ok" />
+                <Button Content="Cancel" />
+            </StackPanel>
+        </Grid>-->
+    </DataTemplate>
 
     <DataTemplate x:Key="CommonSignalNoBorder">
         <Grid ContextMenu="{StaticResource CommonGridContextMenu}">

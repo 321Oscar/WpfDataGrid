@@ -96,4 +96,40 @@ namespace ERad5TestGUI.Commands
             }
         }
     }
+
+    public class ModifySignalInfoCommand : CommandBase
+    {
+        public override void Execute(object parameter)
+        {
+            if (parameter is Models.ILimits limit)
+            {
+                //throw new NotImplementedException();
+                Views.DialogWindow dialog = new Views.DialogWindow();
+                Dialogs.ChangeLimitDialog content = new Dialogs.ChangeLimitDialog();
+                dialog.Title = "Change Limits";
+                dialog.Width = content.Width + 20;
+                dialog.Height = content.Height + 40;
+                ChangeLimit changeLimit = new ChangeLimit()
+                {
+                    MaxThreshold = limit.MaxThreshold,
+                    MinThreshold = limit.MinThreshold,
+                };
+                content.DataContext = changeLimit;
+                void closeEventHandler(object s, EventArgs e)
+                {
+                    if (dialog.DialogResult == true)
+                    {
+                        limit.MinThreshold = changeLimit.MinThreshold;
+                        limit.MaxThreshold = changeLimit.MaxThreshold;
+                    }
+
+                    dialog.Closed -= closeEventHandler;
+                }
+                dialog.Closed += closeEventHandler;
+                dialog.Content = content;
+
+                dialog.ShowDialog();
+            }
+        }
+    }
 }

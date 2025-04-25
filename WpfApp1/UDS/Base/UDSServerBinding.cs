@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using ERad5TestGUI.Devices;
 using ERad5TestGUI.Services;
+using System.Threading;
 
 namespace ERad5TestGUI.UDS
 {
@@ -93,7 +94,7 @@ namespace ERad5TestGUI.UDS
             return Device.SendFDMultip(frames);
         }
 
-        public virtual Task<ServerResult> RunAsync(object param = null)
+        public virtual Task<ServerResult> RunAsync(CancellationTokenSource cancelSource = null, object param = null)
         {
             throw new NotImplementedException();
         }

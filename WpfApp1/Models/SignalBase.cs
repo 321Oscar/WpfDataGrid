@@ -367,10 +367,15 @@ namespace ERad5TestGUI.Models
         double MinValue { get; set; }
         double MaxThreshold { get; set; }
         bool OutLimits { get; }
+        double MinThreshold { get; set; }
         //SolidColorBrush ValueColor { get; set; }
     }
 
-
+    public class ChangeLimit
+    {
+        public double MaxThreshold { get; set; }
+        public double MinThreshold { get; set; }
+    }
 
     public class SignalGroupBase : ObservableObject, IGroupSignal
     {

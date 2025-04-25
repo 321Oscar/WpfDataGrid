@@ -49,11 +49,11 @@ namespace ERad5TestGUI.UDS
 
         //public byte SubFuc { get; set; }
 
-        public override async Task<ServerResult> RunAsync(object param = null)
+        public override async Task<ServerResult> RunAsync(System.Threading.CancellationTokenSource cancelSource = null, object param = null)
         {
             await Task.Delay(600);
 
-            return await base.RunAsync(param);
+            return await base.RunAsync(cancelSource, param);
         }
 
         /// <summary>

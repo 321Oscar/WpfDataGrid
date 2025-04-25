@@ -97,8 +97,20 @@ namespace ERad5TestGUI.UDS
                     return;
                 }
                 if (_status == ServerStatus.Done)
-                    ReceiveEvent.Set();
+                    ReceiveSet();
                 DebugLogger($"{CurrentStep} {value}");
+            }
+        }
+
+        private void ReceiveSet()
+        {
+            try
+            {
+                ReceiveEvent.Set();
+            }
+            catch (Exception)
+            {
+
             }
         }
 
@@ -155,11 +167,12 @@ namespace ERad5TestGUI.UDS
                 SendAndReceiveStr += $"Receive:{_receiveFrame} \r";
                 DebugLogger($"{CurrentStep} receive {_receiveFrame}");
                 CurrentStatue = ServerStatus.Normal;
-                ReceiveEvent.Set();
-                CurrentTimeout = NormalTimeout;
                 //ReceiveData = true;
                 try
                 {
+                    ReceiveEvent.Set();
+                    CurrentTimeout = NormalTimeout;
+                    DebugLogger($"{CurrentStep} Start Prase {_receiveFrame}");
                     ParseResponse(_receiveFrame.Data);
                 }
                 catch (UDSException e)
@@ -189,6 +202,8 @@ namespace ERad5TestGUI.UDS
             get => result;
             set
             {
+                //if(result == UDSResponse.Cancel)
+
                 SetProperty(ref result, value);
                 if (ServerResult == null)
                     ServerResult = new ServerResult(Index, ProgressWeights);
@@ -473,7 +488,7 @@ namespace ERad5TestGUI.UDS
         {
             //剔除 0xAA
             //receive = receive.ToList().re
-            Result = UDSResponse.Init;
+            //Result = UDSResponse.Init;
             bool result = false;
             int frameType = receive[0] & 0xf0;
             switch ((FrameType)frameType)
@@ -561,6 +576,11 @@ namespace ERad5TestGUI.UDS
                 DateTime preDate = DateTime.Now;
                 do
                 {
+                    if (this.cancelSource != null && this.cancelSource.IsCancellationRequested)
+                    {
+                        this.cancelSource.Token.ThrowIfCancellationRequested();
+                    }
+
                     if (CurrentStatue == ServerStatus.WaitReceive)
                     {
                         waitCount++;
@@ -610,6 +630,10 @@ namespace ERad5TestGUI.UDS
                 } while (CurrentStatue != ServerStatus.Done);
 
             }
+            catch(OperationCanceledException)
+            {
+                Result = UDSResponse.Cancel;
+            }
             catch (Exception e)
             {
                 Result = UDSResponse.Unknow;
@@ -631,14 +655,16 @@ namespace ERad5TestGUI.UDS
 
             return ServerResult;
         }
-
+        private CancellationTokenSource cancelSource;
         /// <summary>
         /// 异步执行，并报告进度
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
-        public override Task<ServerResult> RunAsync(object param = null)
+        public override Task<ServerResult> RunAsync(CancellationTokenSource cancelSource = null, object param = null)
         {
+            this.cancelSource = cancelSource;
+
             return Task.Run(() =>
             {
                 BeforeRunDo?.Invoke();
@@ -646,6 +672,7 @@ namespace ERad5TestGUI.UDS
                 RunCompleted?.Invoke(res);
                 return res;
             });
+
         }
 
         public ServerResult RunTimeoutRetry(int retryCount = 2)

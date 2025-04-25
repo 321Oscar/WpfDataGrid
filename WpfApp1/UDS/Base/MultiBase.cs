@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using ERad5TestGUI.Devices;
 using ERad5TestGUI.Services;
@@ -72,7 +73,7 @@ namespace ERad5TestGUI.UDS
         //}
 
         public abstract void LoadServers();
-        public override async Task<ServerResult> RunAsync(object param = null)
+        public override async Task<ServerResult> RunAsync(CancellationTokenSource cancelSource = null, object param = null)
         {
             //return Task.Run(async () =>
             //{
@@ -82,6 +83,10 @@ namespace ERad5TestGUI.UDS
             //ModifyProgressInt(1, $"{Name} {GlobalVar.START}");
             for (int i = 0; i < Servers.Count; i++)
             {
+                if (cancelSource != null && cancelSource.IsCancellationRequested)
+                {
+                    cancelSource.Token.ThrowIfCancellationRequested();
+                }
                 //ModifyProgressInt((int)((double)(i) / Servers.Count * 100), $"{Name},{Servers[i].Name} {GlobalVar.START}");
                 currentStep = (int)(i * 1.00 / Servers.Count * 100);
                 if (!Servers[i].Checked)
@@ -99,7 +104,7 @@ namespace ERad5TestGUI.UDS
                 {
                     previousParam = Servers[i - 1].AfterRunParameter;
                 }
-                res = await Servers[i].RunAsync(previousParam);
+                res = await Servers[i].RunAsync(cancelSource, previousParam);
                 Result = res.UDSResponse;
                 if (res.UDSResponse != UDSResponse.Positive)
                 {

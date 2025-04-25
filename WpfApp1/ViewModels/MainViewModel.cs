@@ -288,10 +288,14 @@ namespace ERad5TestGUI.ViewModels
         * 1.GDIC 计算标准差增加限制，不在接收时才能计算
         * 2.PPAWL增加实时电流
         * 3.SafingLogic 错误信息解析
+        * 0.0.1.5
+        * 增加Memory Read/Write All
+        * 增加UDS 取消操作
+        * 增加Limit信号修改限值
         */
         /// <summary>
         /// Soft Version
         /// </summary>
-        public string Version { get; } = "0.0.1.4";
+        public string Version { get; } = "0.0.1.5";
     }
 }

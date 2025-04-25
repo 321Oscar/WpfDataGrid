@@ -275,14 +275,16 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                <Button Content="Read All" IsEnabled="False"/>
-                                <Button Content="Write All" Margin="2,0" IsEnabled="False"/>
+                                <Button Content="Read All" Command="{Binding ReadAllCommand}"/>
+                                <Button Content="Write All" Margin="2,0" Command="{Binding WriteAllCommand}"/>
+                                <Button Content="Cancel" Command="{Binding CancelUdsServersCommand}"/>
                                 <Button Content="Load File" Command="{Binding LoadSrecFileCommand}">
                                     <Button.ToolTip>
                                         <TextBlock Text="Support Srec File Only"/>
                                     </Button.ToolTip>
                                 </Button>
-                                <ProgressBar Width="80" Margin="2,0"/>
+                               
+                                <Button Content="Save" Command="{Binding SaveAsSrecCommand}"/>
                             </StackPanel>
 
                             <Grid Grid.Row="1" Panel.ZIndex="99">
@@ -309,8 +311,9 @@
                                     Focusable="False"/>
                             </Grid>
 
+                            
                             <ListView 
-                                ItemsSource="{Binding S19Records}"
+                                ItemsSource="{Binding SrecFileOnlyData.Content}"
                                 Grid.Column="0" 
                                 FontFamily="Consolas"
                                 FontSize="16"

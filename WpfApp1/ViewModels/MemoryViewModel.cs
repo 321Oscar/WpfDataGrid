@@ -8,7 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ERad5TestGUI.ViewModels
@@ -20,13 +22,18 @@ namespace ERad5TestGUI.ViewModels
         private readonly ObservableCollection<UDS.SRecord.SrecDataOnly> _s19Records = new ObservableCollection<UDS.SRecord.SrecDataOnly>();
         private AsyncRelayCommand _loadSrecFileCommand;
         private AsyncRelayCommand _readMemoryCommand;
+        private AsyncRelayCommand _readAllMemoryCommand;
         private AsyncRelayCommand _writeMemoryCommand;
+        private AsyncRelayCommand _writeAllMemoryCommand;
+        private AsyncRelayCommand _saveAsSrecCommand;
+        private RelayCommand _cancelUdsServersCommand;
         private RelayCommand _clearUdsServersCommand;
         private UDSServerAbstract _runningServer;
         private int erad5MemoryValue;
         private bool _udsRunning;
         private int erad5MemoryWriteAddr;
         private int erad5MemoryAddr;
+        private SrecFileOnlyData srecFileOnlyData;
 
         public MemoryViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) : base(signalStore, deviceStore, logService)
         {
@@ -37,20 +44,39 @@ namespace ERad5TestGUI.ViewModels
         {
         }
 
-        public ICommand LoadSrecFileCommand => _loadSrecFileCommand ?? (_loadSrecFileCommand = new AsyncRelayCommand(LoadSrecFile));
-        public ICommand ReadCommand => _readMemoryCommand ?? (_readMemoryCommand = new AsyncRelayCommand(ReadMemory));
-        public ICommand WriteCommand => _writeMemoryCommand ?? (_writeMemoryCommand = new AsyncRelayCommand(WriteMemory));
-        public ICommand ClearUdsServersCommand => _clearUdsServersCommand ?? (_clearUdsServersCommand = new RelayCommand(ClearUDSServers));
+        public ICommand LoadSrecFileCommand => _loadSrecFileCommand ?? (_loadSrecFileCommand = new AsyncRelayCommand(LoadSrecFile, () => !UdsRunning));
+        public ICommand ReadCommand => _readMemoryCommand ?? (_readMemoryCommand = new AsyncRelayCommand(ReadMemory, () => !UdsRunning));
+        public ICommand ReadAllCommand => _readAllMemoryCommand ?? (_readAllMemoryCommand = new AsyncRelayCommand(ReadMemoryAll, () => !UdsRunning));
+        public ICommand WriteCommand => _writeMemoryCommand ?? (_writeMemoryCommand = new AsyncRelayCommand(WriteMemory, () => !UdsRunning));
+        public ICommand WriteAllCommand => _writeAllMemoryCommand ?? (_writeAllMemoryCommand = new AsyncRelayCommand(WriteMemoryAll, () => !UdsRunning));
+        public ICommand SaveAsSrecCommand => _saveAsSrecCommand ?? (_saveAsSrecCommand = new AsyncRelayCommand(SaveAsSrecAsync, () => !UdsRunning));
+        public ICommand CancelUdsServersCommand => _cancelUdsServersCommand ?? (_cancelUdsServersCommand = new RelayCommand(CancelUds, () => UdsRunning));
+        public ICommand ClearUdsServersCommand => _clearUdsServersCommand ?? (_clearUdsServersCommand = new RelayCommand(ClearUDSServers, () => !UdsRunning));
         public ReadOnlyObservableCollection<UDS.SRecord.SrecDataOnly> S19Records { get; set; }
 
         public UDS.UDSConfig _udsConfig => SignalStore.UDSConfig;
         public UpgradeID CurrentUpgradeType => _udsConfig.UpGradeIDs[0];
-        public bool UdsRunning { get => _udsRunning; set => SetProperty(ref _udsRunning, value); }
-        public UDSServerAbstract RunningServer { get => _runningServer; set => SetProperty(ref _runningServer, value); }
-        public int Erad5MemoryAddr 
+        public bool UdsRunning 
         { 
-            get => erad5MemoryAddr; 
+            get => _udsRunning;
             set 
+            { 
+                SetProperty(ref _udsRunning, value);
+                _loadSrecFileCommand.NotifyCanExecuteChanged();
+                _readMemoryCommand.NotifyCanExecuteChanged();
+                _writeMemoryCommand.NotifyCanExecuteChanged();
+                _readAllMemoryCommand.NotifyCanExecuteChanged();
+                _writeAllMemoryCommand.NotifyCanExecuteChanged();
+                _saveAsSrecCommand.NotifyCanExecuteChanged();
+                _cancelUdsServersCommand.NotifyCanExecuteChanged();
+                _clearUdsServersCommand.NotifyCanExecuteChanged();
+            }
+        }
+        public UDSServerAbstract RunningServer { get => _runningServer; set => SetProperty(ref _runningServer, value); }
+        public int Erad5MemoryAddr
+        {
+            get => erad5MemoryAddr;
+            set
             {
                 if (value > MaxAddr - 4)
                 {
@@ -60,26 +86,26 @@ namespace ERad5TestGUI.ViewModels
                 {
                     erad5MemoryAddr = value;
                 }
-            } 
+            }
         }
         public int Erad5MemoryValue { get => erad5MemoryValue; set => SetProperty(ref erad5MemoryValue, value); }
-        public int Erad5MemoryWriteAddr 
-        { 
-            get => erad5MemoryWriteAddr; 
+        public int Erad5MemoryWriteAddr
+        {
+            get => erad5MemoryWriteAddr;
             set
             {
-                if (value > MaxAddr - 4) 
+                if (value > MaxAddr - 4)
                 {
                     erad5MemoryWriteAddr = MaxAddr - 4;
-                } 
+                }
                 else
                 {
-                    erad5MemoryWriteAddr = value; 
+                    erad5MemoryWriteAddr = value;
                 }
-            } 
+            }
         }
         public int Erad5MemoryWriteValue { get; set; }
-        public SrecFileOnlyData SrecFileOnlyData { get; set; }
+        public SrecFileOnlyData SrecFileOnlyData { get => srecFileOnlyData; set => SetProperty(ref srecFileOnlyData, value); }
         public ObservableCollection<IUDSServer> Servers { get => _servers; }
         private Task LoadSrecFile()
         {
@@ -94,15 +120,16 @@ namespace ERad5TestGUI.ViewModels
                     //S19RecordFile s19File = new S19RecordFile();
                     //S19RecordFile.ParseS19File(ofd.FileName, S19Records);
                     IsLoading = true;
-                    UDS.SRecord.SrecFileOnlyData f = new UDS.SRecord.SrecFileOnlyData(ofd.FileName);
-                    Dispatch(() =>
-                    {
-                        _s19Records.Clear();
-                        foreach (var sData in f.Content)
-                        {
-                            _s19Records.Add(sData);
-                        }
-                    });
+                    SrecFileOnlyData = new UDS.SRecord.SrecFileOnlyData(ofd.FileName);
+                    //Dispatch(() =>
+                    //{
+                    //    if(SrecFileOnlyData == null)
+                    //    _s19Records.Clear();
+                    //    foreach (var sData in f.Content)
+                    //    {
+                    //        _s19Records.Add(sData);
+                    //    }
+                    //});
                     return;
                 }).ContinueWith((x) =>
                 {
@@ -117,20 +144,6 @@ namespace ERad5TestGUI.ViewModels
 
         private async Task<int> ReadMemory()
         {
-            //var readMemory = new Erad5ReadMemoryServer(_udsConfig.NormalTimeout, _udsConfig.PendingTimeout, this.DeviceStore.CurrentDevice, LogService,
-            //    $"Read Memory : 0x{Erad5MemoryAddr:X},length:0x04")
-            //{
-            //    FunctionID = CurrentUpgradeType.ReqFunID,
-            //    PhyID_Req = CurrentUpgradeType.ReqPhyID,
-            //    PhyID_Res = CurrentUpgradeType.ResPhyID
-            //};
-            //AddEventToServer(readMemory);
-
-            //readMemory.BinTmpFile = new BinTmpFile(new BinDataSegment(Erad5MemoryAddr, dataLength: 0x04, null));
-            //readMemory.LoadServers();
-
-            //AddServer(readMemory);
-            //UdsRunning = true;
             var res = await ReadMemoryByLengthAsync(Erad5MemoryAddr, 0x04);
             //var suc = res.UDSResponse == UDSResponse.Positive;
             if (res != null)
@@ -147,13 +160,51 @@ namespace ERad5TestGUI.ViewModels
                         caption: "Read Memory",
                         icon: AdonisUI.Controls.MessageBoxImage.Error);
                 }
-
             }
             else
             {
                 AdonisUI.Controls.MessageBox.Show($"Read 0x{Erad5MemoryAddr:X} Memory Fail",
                     caption: "Read Memory",
                     icon: AdonisUI.Controls.MessageBoxImage.Error);
+            }
+
+            return 1;
+        }
+
+        private async Task<int> ReadMemoryAll()
+        {
+            int totalLength = 1024 * 1024 * 2;
+
+            int step = 1024 * 100;
+            int count = totalLength / step;
+            int startAddr = 0x00;
+            if (SrecFileOnlyData == null) SrecFileOnlyData = new SrecFileOnlyData();
+            SrecFileOnlyData.Content.Clear();
+            for (int i = 0; i < count; i++)
+            {
+                if (cancelSource != null && cancelSource.IsCancellationRequested)
+                    break;
+
+                var data = await ReadMemoryByLengthAsync(startAddr, step);
+
+                if (data != null)
+                {
+                    await Task.Run(() =>
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            SrecFileOnlyData.InsertData(data.ToArray(), (uint)startAddr);
+                        });
+                    });
+                }
+                else
+                {
+                    AdonisUI.Controls.MessageBox.Show($"Read 0x{startAddr:X} Memory Fail/Cancel",
+                        caption: "Read Memory",
+                        icon: AdonisUI.Controls.MessageBoxImage.Error);
+                    return -1;
+                }
+                startAddr += step;
             }
 
             return 1;
@@ -193,8 +244,34 @@ namespace ERad5TestGUI.ViewModels
             return 1;
         }
 
+        private async Task<int> WriteMemoryAll()
+        {
+            if (SrecFileOnlyData == null || SrecFileOnlyData.SrecFile == null)
+            {
+                byte[] byteArray = new byte[2 * 1024 * 1024];
+                // 填充数组（这里可以根据需要填充数据）
+                new Random().NextBytes(byteArray);
+
+                return await WriteMemoryByLengthAsync(new Dictionary<int, byte[]>() { { 0x00, byteArray } });
+            }
+            //return -1;
+            return await WriteMemoryByLengthAsync(this.SrecFileOnlyData.SrecFile.AddrData);
+        }
+
+        private Task<int> WriteMemoryByLengthAsync(Dictionary<uint, List<byte>> addrAndDatas)
+        {
+            Dictionary<int, byte[]> addrAndDatasArray = new Dictionary<int, byte[]>();
+
+            foreach (var item in addrAndDatas)
+            {
+                addrAndDatasArray.Add((int)item.Key, item.Value.ToArray());
+            }
+            return WriteMemoryByLengthAsync(addrAndDatasArray);
+        }
+        private CancellationTokenSource cancelSource;
         private async Task<IEnumerable<byte>> ReadMemoryByLengthAsync(int startAddr, int length)
         {
+            cancelSource = new CancellationTokenSource();
             var readMemory = new Erad5ReadMemoryServer(_udsConfig.NormalTimeout, _udsConfig.PendingTimeout, this.DeviceStore.CurrentDevice, LogService,
                 $"Read Memory : 0x{startAddr:X},length:0x{length:X}")
             {
@@ -209,8 +286,11 @@ namespace ERad5TestGUI.ViewModels
 
             AddServer(readMemory);
             UdsRunning = true;
-            var res = await readMemory.RunAsync();
-            var suc = res.UDSResponse == UDSResponse.Positive;
+            ServerResult res = null;
+            res = await readMemory.RunAsync(cancelSource);
+            var suc = false;
+            if (res != null)
+                suc = res.UDSResponse == UDSResponse.Positive;
             UdsRunning = false;
             if (suc)
             {
@@ -220,8 +300,53 @@ namespace ERad5TestGUI.ViewModels
             return null;
         }
 
+        private async Task SaveAsSrecAsync()
+        {
+            if (SrecFileOnlyData.SrecFile == null && SrecFileOnlyData.Content.Count == 0)
+            {
+                return;
+            }
+
+            CommonSaveFileDialog sfd = new CommonSaveFileDialog();
+            sfd.Filters.Add(new CommonFileDialogFilter("srec file", "*.s19"));
+            //sfd.DefaultDirectory 
+            if (sfd.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string saveFilePath = sfd.FileName;
+                await Task.Run(() =>
+                {
+                    if (SrecFileOnlyData.SrecFile == null)
+                    {
+                        SrecFileOnlyData.SrecFile = new SrecFile(type: "S1", datalength: 0x20);
+
+                        List<byte> allData = new List<byte>();
+                        foreach (var item in SrecFileOnlyData.Content)
+                        {
+                            //SrecFileOnlyData.Content
+                            allData.AddRange(item.Data);
+                        }
+                        SrecFileOnlyData.SrecFile.Add(allData.ToArray(), startPosition: 0x00);
+                    }
+                    SrecFileOnlyData.SrecFile.Output(saveFilePath);
+                });
+            }
+
+            return;
+        }
+
+        private void CancelUds()
+        {
+            if (cancelSource != null)
+            {
+                cancelSource.Cancel();
+                cancelSource = null;
+            }
+                
+        }
+
         private async Task<int> WriteMemoryByLengthAsync(Dictionary<int, byte[]> addrAndDatas)
         {
+            cancelSource = new CancellationTokenSource();
             var writeMemory = new Erad5WriteMemoryServer(_udsConfig.NormalTimeout, _udsConfig.PendingTimeout, this.DeviceStore.CurrentDevice, LogService)
             {
                 FunctionID = CurrentUpgradeType.ReqFunID,
@@ -240,7 +365,7 @@ namespace ERad5TestGUI.ViewModels
 
             AddServer(writeMemory);
             UdsRunning = true;
-            var res = await writeMemory.RunAsync();
+            var res = await writeMemory.RunAsync(cancelSource);
             UdsRunning = false;
             var suc = res.UDSResponse == UDSResponse.Positive;
             if (suc)
