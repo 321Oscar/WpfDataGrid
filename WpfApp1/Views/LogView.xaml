@@ -19,10 +19,12 @@
             <CheckBox Content="Log DI" />
             <CheckBox Content="Log DO" />
             <CheckBox Content="Log PWM IN and TEMP" />
-            <Button Content="Start" />
+            <Button Content="Start" Command="{Binding StartCommand}"/>
             <Button Content="Stop" />
             <Button Content="Clear" />
         </StackPanel>
-        <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="1" VerticalScrollBarVisibility="Visible"/>
+        
+        <ListBox ItemsSource="{Binding SignalLogs}" Grid.Column="1"/>
+        <!--<TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="1" VerticalScrollBarVisibility="Visible" />-->
     </Grid>
 </UserControl>

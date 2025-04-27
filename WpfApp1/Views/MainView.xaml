@@ -68,7 +68,9 @@
                 <TabItem Header="Memory-UnFinish">
                     <ContentControl Content="{Binding MemoryViewModel}"/>
                 </TabItem>
-               
+                <TabItem Header="Log-UnFinish">
+                    <ContentControl Content="{Binding LogViewModel}"/>
+                </TabItem>
             </TabControl>
         </Grid>
 

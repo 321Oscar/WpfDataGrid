@@ -515,9 +515,9 @@ namespace ERad5TestGUI.Devices
                                 //        receivedEvent.tagData.canRxOkMsg.data,
                                 //        dlc: (int)receivedEvent.tagData.canRxOkMsg.dlc);
                                 //    frames.Add(frame);
-                                //    //count++;
-                                //    OnMsgReceived?.Invoke(frames);
-                                //    //logService.Debug($"{Name} add Frame {receiveFlag}");
+                                //    count++;
+                                //    OnIFramesReceived?.Invoke(frames);
+                                //    logService.Debug($"{Name} add Frame {receiveFlag}");
                                 //}
                                 OnMsgReceived?.Invoke(receivedEvent.tagData.canRxOkMsg.canId,
                                                       receivedEvent.tagData.canRxOkMsg.data,
@@ -551,18 +551,23 @@ namespace ERad5TestGUI.Devices
             //while (!DataQueue.IsAddingCompleted)
             while (true)
             {
-                if (DataQueue.TryDequeue(out XLClass.XL_CAN_TAG_DATA data))
+                var d = DateTime.Now;
+                List<CanFrame> frames = new List<CanFrame>();
+                while (d.AddMilliseconds(50) > DateTime.Now)
                 {
-                    List<CanFrame> frames = new List<CanFrame>();
-                    CanFrame frame = new CanFrame(
-                        data.canRxOkMsg.canId,
-                        data.canRxOkMsg.data,
-                        dlc: (int)data.canRxOkMsg.dlc);
-                    frames.Add(frame);
-                    OnIFramesReceived?.Invoke(frames);
-                    logService.LogFrame($"reveived {frame}");
-                }
+                    if (DataQueue.TryDequeue(out XLClass.XL_CAN_TAG_DATA data))
+                    {
 
+                        CanFrame frame = new CanFrame(
+                            data.canRxOkMsg.canId,
+                            data.canRxOkMsg.data,
+                            dlc: (int)data.canRxOkMsg.dlc);
+                        frames.Add(frame);
+
+                        logService.LogFrame($"reveived {frame}");
+                    }
+                }
+                OnIFramesReceived?.Invoke(frames);
                 //foreach (var data in DataQueue.GetConsumingEnumerable())
                 //{
                 //    List<CanFrame> frames = new List<CanFrame>();
@@ -576,7 +581,7 @@ namespace ERad5TestGUI.Devices
                 //    logService.LogFrame($"reveived {frame}");
                 //};
 
-                //Thread.Sleep(1);
+                //Thread.Sleep(100);
             }
         }
         // -----------------------------------------------------------------------------------------------
@@ -598,9 +603,9 @@ namespace ERad5TestGUI.Devices
 
         public void Close()
         {
-            if (rxThread != null && rxThread.ThreadState == ThreadState.Running)
+            if (rxThread != null)
                 rxThread.Abort();  
-            if (msgPushThread != null && msgPushThread.ThreadState == ThreadState.Running)
+            if (msgPushThread != null)
                 msgPushThread.Abort();
             RecieveStatus = DeviceRecieveFrameStatus.NotStart;
             ClosePort();
@@ -610,7 +615,11 @@ namespace ERad5TestGUI.Devices
         {
             // Run Rx thread
             //Console.WriteLine("Start Rx thread...");
-            rxThread = new Thread(new ThreadStart(RXThread));
+            rxThread = new Thread(new ThreadStart(RXThread))
+            {
+                IsBackground = true,
+                Priority = ThreadPriority.Highest
+            };
             rxThread.Start();
             msgPushThread = new Thread(new ThreadStart(PushData))
             {
@@ -624,9 +633,9 @@ namespace ERad5TestGUI.Devices
 
         public void Stop()
         {
-            if (rxThread != null && rxThread.ThreadState == ThreadState.Running)
+            if (rxThread != null)
                 rxThread.Abort();
-            if (msgPushThread != null && msgPushThread.ThreadState == ThreadState.Running)
+            if (msgPushThread != null)
                 msgPushThread.Abort();
             //ClosePort();
             Started = false;

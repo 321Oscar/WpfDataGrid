@@ -270,22 +270,31 @@ namespace ERad5TestGUI.UDS.SRecord
             {
                 srecDatas.Add(srecData);
             }
-            int idx = srecDatas.FindIndex(x => x.Addr == srecData.Addr);
-            if (idx >= 0)
-            {
-                srecDatas[idx].Replace(srecData.ToByte(), index);
-                //if (srecDatas[idx].IS00 || srecDatas[idx].ISFF)
-                //{
-                //	srecDatas[idx].Replace(srecData.ToByte(), index);
-                //	Console.WriteLine($"Update Info:{srecDatas[idx]}");
-                //}
-            }
             else
             {
-                srecDatas.Add(srecData);
+                try
+                {
+                    int idx = srecDatas.FindIndex(x => x.Addr == srecData.Addr);
+                    if (idx >= 0)
+                    {
+                        srecDatas[idx].Replace(srecData.ToByte(), index);
+                        //if (srecDatas[idx].IS00 || srecDatas[idx].ISFF)
+                        //{
+                        //	srecDatas[idx].Replace(srecData.ToByte(), index);
+                        //	Console.WriteLine($"Update Info:{srecDatas[idx]}");
+                        //}
+                    }
+                    else
+                    {
+                        srecDatas.Add(srecData);
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+                
             }
-
-
             //srecDatas.Sort();
         }
         /// <summary>
@@ -630,7 +639,7 @@ namespace ERad5TestGUI.UDS.SRecord
         {
             if (string.IsNullOrEmpty(outpuFile))
                 outpuFile = $"{DateTime.Now:MMdd-HHmmss}.srec";
-            if (outpuFile.IndexOf(".srec") < 0 || 
+            if (outpuFile.IndexOf(".srec") < 0 && 
                 outpuFile.IndexOf(".s19") < 0)
                 outpuFile += ".srec";
             if (isSort)
@@ -988,6 +997,55 @@ namespace ERad5TestGUI.UDS.SRecord
                     });
                 }
             }
+        }
+        public void OutoutFile(string fileName, byte[] data)
+        {
+            string srec = ConvertToSRecord(data);
+
+            File.WriteAllText(fileName, srec);
+        }
+        static string ConvertToSRecord(byte[] data)
+        {
+            StringBuilder srecBuilder = new StringBuilder();
+
+            // S0 记录 - 文件开始
+            srecBuilder.AppendLine($"S0{GetHexByte(0)}{GetHexByte((byte)(data.Length + 3))}00{GetChecksum($"00{(data.Length + 3):X}")}");
+
+            // S1 记录 - 数据
+            for (int i = 0; i < data.Length; i += 16) // 每条记录最多 16 字节
+            {
+                int length = Math.Min(16, data.Length - i); // 实际长度
+                string dataSegment = BitConverter.ToString(data, i, length).Replace("-", "");
+                string address = GetHexByte((byte)i); // 示例中使用段地址，从 0 开始
+                string lengthStr = GetHexByte((byte)(length + 2));
+                string record = $"S1{GetHexByte((byte)(length + 2))}{address}{dataSegment}{GetChecksum(lengthStr+address + dataSegment)}";
+                srecBuilder.AppendLine(record);
+            }
+
+            // S5 记录 - 文件结束
+            srecBuilder.AppendLine($"S5{GetHexByte(0)}{GetChecksum("00")}");
+
+            return srecBuilder.ToString();
+        }
+
+        static string GetHexByte(byte value)
+        {
+            return value.ToString("X2");
+        }
+
+        static string GetChecksum(string hexData)
+        {
+            if(hexData.Length % 2 != 0)
+            {
+                hexData = "0" + hexData;
+            }
+            byte checksum = 0;
+            for (int i = 0; i < hexData.Length; i += 2)
+            {
+                checksum += Convert.ToByte(hexData.Substring(i, 2), 16);
+            }
+            checksum = (byte)((~checksum + 1) & 0xFF); // 2's complement
+            return GetHexByte(checksum);
         }
     }
 

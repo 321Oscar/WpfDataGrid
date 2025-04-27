@@ -153,19 +153,18 @@ namespace ERad5TestGUI.ViewModels
                 try
                 {
                     Erad5MemoryValue = BitConverter.ToInt32(data.ToArray(), 0);
+                    ShowMsgInfoBox($"Success : {string.Join("", data.Select(x => x.ToString("X2")))}", caption: "Read Memory");
                 }
                 catch (Exception ex)
                 {
-                    AdonisUI.Controls.MessageBox.Show($"Read {Erad5MemoryAddr:X} Data : {string.Join("", data.Select(x => x.ToString("X2")))} Error : {ex.Message}",
-                        caption: "Read Memory",
-                        icon: AdonisUI.Controls.MessageBoxImage.Error);
+                    ShowMsgErrorBox($"Read {Erad5MemoryAddr:X} Data : {string.Join("", data.Select(x => x.ToString("X2")))} Error : {ex.Message}",
+                        caption: "Read Memory");
                 }
             }
             else
             {
-                AdonisUI.Controls.MessageBox.Show($"Read 0x{Erad5MemoryAddr:X} Memory Fail",
-                    caption: "Read Memory",
-                    icon: AdonisUI.Controls.MessageBoxImage.Error);
+                ShowMsgErrorBox($"Read 0x{Erad5MemoryAddr:X} Memory Fail",
+                    caption: "Read Memory");
             }
 
             return 1;
@@ -199,9 +198,7 @@ namespace ERad5TestGUI.ViewModels
                 }
                 else
                 {
-                    AdonisUI.Controls.MessageBox.Show($"Read 0x{startAddr:X} Memory Fail/Cancel",
-                        caption: "Read Memory",
-                        icon: AdonisUI.Controls.MessageBoxImage.Error);
+                    ShowMsgErrorBox($"Read 0x{startAddr:X} Memory Fail/Cancel", caption: "Read Memory");
                     return -1;
                 }
                 startAddr += step;
@@ -212,47 +209,32 @@ namespace ERad5TestGUI.ViewModels
 
         private async Task<int> WriteMemory()
         {
-            //var writeMemory = new Erad5WriteMemoryServer(_udsConfig.NormalTimeout, _udsConfig.PendingTimeout, this.DeviceStore.CurrentDevice, LogService)
-            //{
-            //    FunctionID = CurrentUpgradeType.ReqFunID,
-            //    PhyID_Req = CurrentUpgradeType.ReqPhyID,
-            //    PhyID_Res = CurrentUpgradeType.ResPhyID
-            //};
-            //AddEventToServer(writeMemory);
             var data = BitConverter.GetBytes(Erad5MemoryWriteValue).Reverse().ToArray();
 
-            //data = new byte[4];
-
-            //writeMemory.BinTmpFile = new BinTmpFile(new BinDataSegment(Erad5MemoryWriteAddr, dataLength: data.Length, data));
-            //writeMemory.LoadServers();
-
-            //AddServer(writeMemory);
-
             var res = await WriteMemoryByLengthAsync(new Dictionary<int, byte[]>() { { Erad5MemoryWriteAddr, data } }); ;
-            if (res == 1)
-            {
-                AdonisUI.Controls.MessageBox.Show($"Write to 0x{Erad5MemoryWriteAddr:X} Memory Successfully.",
-                 caption: "Write Memory",
-                 icon: AdonisUI.Controls.MessageBoxImage.Information);
-            }
-            else
-            {
-                AdonisUI.Controls.MessageBox.Show($"Write 0x{Erad5MemoryWriteAddr:X} Memory Fail",
-                  caption: "Write Memory",
-                  icon: AdonisUI.Controls.MessageBoxImage.Error);
-            }
-            return 1;
+
+            return res;
         }
 
         private async Task<int> WriteMemoryAll()
         {
             if (SrecFileOnlyData == null || SrecFileOnlyData.SrecFile == null)
             {
-                byte[] byteArray = new byte[2 * 1024 * 1024];
-                // 填充数组（这里可以根据需要填充数据）
-                new Random().NextBytes(byteArray);
+                if (AdonisUI.Controls.MessageBox.Show("No S19 File Loaded, it will write random data. Click OK to Write.",
+                    caption:"Write Memory",
+                    icon: AdonisUI.Controls.MessageBoxImage.Information,
+                    buttons: AdonisUI.Controls.MessageBoxButton.OKCancel) == AdonisUI.Controls.MessageBoxResult.OK)
+                {
+                    byte[] byteArray = new byte[2 * 1024 * 1024];
+                    // 填充数组（这里可以根据需要填充数据）
+                    new Random().NextBytes(byteArray);
 
-                return await WriteMemoryByLengthAsync(new Dictionary<int, byte[]>() { { 0x00, byteArray } });
+                    return await WriteMemoryByLengthAsync(new Dictionary<int, byte[]>() { { 0x00, byteArray } });
+                }
+                else
+                {
+                    return 1;
+                }
             }
             //return -1;
             return await WriteMemoryByLengthAsync(this.SrecFileOnlyData.SrecFile.AddrData);
@@ -302,7 +284,7 @@ namespace ERad5TestGUI.ViewModels
 
         private async Task SaveAsSrecAsync()
         {
-            if (SrecFileOnlyData.SrecFile == null && SrecFileOnlyData.Content.Count == 0)
+            if (SrecFileOnlyData == null ||( SrecFileOnlyData.SrecFile == null && SrecFileOnlyData.Content.Count == 0))
             {
                 return;
             }
@@ -313,22 +295,47 @@ namespace ERad5TestGUI.ViewModels
             if (sfd.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 string saveFilePath = sfd.FileName;
-                await Task.Run(() =>
+                string errMsg = string.Empty;
+                bool res = await Task.Run(() =>
                 {
-                    if (SrecFileOnlyData.SrecFile == null)
+                    try
                     {
-                        SrecFileOnlyData.SrecFile = new SrecFile(type: "S1", datalength: 0x20);
-
+                        if (SrecFileOnlyData.SrecFile == null)
+                        {
+                            SrecFileOnlyData.SrecFile = new SrecFile(type: "S1", datalength: 0x20);
+                        }
                         List<byte> allData = new List<byte>();
                         foreach (var item in SrecFileOnlyData.Content)
                         {
                             //SrecFileOnlyData.Content
                             allData.AddRange(item.Data);
                         }
-                        SrecFileOnlyData.SrecFile.Add(allData.ToArray(), startPosition: 0x00);
+#if DEBUG
+                        byte[] byteArray = new byte[2 * 1024 * 1024];
+                        // 填充数组（这里可以根据需要填充数据）
+                        new Random().NextBytes(byteArray);
+                        
+                        //SrecFileOnlyData.OutoutFile(saveFilePath, byteArray);
+#endif
+                        //SrecFileOnlyData.SrecFile.Add(allData.ToArray(), startPosition: 0x00);
+                        //SrecFileOnlyData.SrecFile.Output(saveFilePath);
                     }
-                    SrecFileOnlyData.SrecFile.Output(saveFilePath);
+                    catch (Exception ex)
+                    {
+                        errMsg = ex.Message;
+                        return false;
+                    }
+
+                    return true;
                 });
+                if (res)
+                {
+                    ShowMsgInfoBox($"Save S19 File to [{saveFilePath}] Success.", caption: "Save S19 File");
+                }
+                else
+                {
+                    ShowMsgErrorBox($"Save S19 File Fail: {errMsg}", caption: "Save S19 File");
+                }
             }
 
             return;
@@ -341,9 +348,13 @@ namespace ERad5TestGUI.ViewModels
                 cancelSource.Cancel();
                 cancelSource = null;
             }
-                
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="addrAndDatas"></param>
+        /// <returns>1 & -1</returns>
         private async Task<int> WriteMemoryByLengthAsync(Dictionary<int, byte[]> addrAndDatas)
         {
             cancelSource = new CancellationTokenSource();
@@ -370,9 +381,10 @@ namespace ERad5TestGUI.ViewModels
             var suc = res.UDSResponse == UDSResponse.Positive;
             if (suc)
             {
+                ShowMsgInfoBox("Write Memory Success", "Write Memory");
                 return 1;
             }
-
+            ShowMsgErrorBox("Write Memory Fail", "Write Memory");
             return -1;
         }
 

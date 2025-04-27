@@ -16,6 +16,7 @@ namespace ERad5TestGUI.Stores
         private IDevice currentDevice;
         private ObservableCollection<IDevice> devices;
         private int framesCount;
+        private readonly log4net.ILog _logger;
 
         public event Action CurrentDeviceChanged;
         public event Action FrameCountChanged;
@@ -25,6 +26,7 @@ namespace ERad5TestGUI.Stores
         {
             _signalStore = signalStore;
             this.logService = logService;
+            _logger = this.logService.GetLogger();
             devices = new ObservableCollection<IDevice>();
 
             LoadVirtualDevice();
@@ -87,7 +89,7 @@ namespace ERad5TestGUI.Stores
             {
                 logService.Debug($"Change Device: {CurrentDevice.Name}");
                 CurrentDevice.OnIFramesReceived += CurrentDevice_OnIFramesReceived;
-                //CurrentDevice.OnMsgReceived += CurrentDevice_OnMsgReceived;
+                CurrentDevice.OnMsgReceived += CurrentDevice_OnMsgReceived;
             }
 
             CurrentDeviceChanged?.Invoke();
@@ -99,7 +101,7 @@ namespace ERad5TestGUI.Stores
             //{
             //    FramesCount++;
 
-            //    var canFrames = new CanFrame[] { new CanFrame(id, data, dlc: dlc) };
+            var canFrames = new CanFrame[] { new CanFrame(id, data, dlc: dlc) };
 
             //    foreach (var item in _signalStore.ParseMsgsYield(canFrames))
             //    {
@@ -113,8 +115,10 @@ namespace ERad5TestGUI.Stores
             //    OnMsgReceived?.Invoke(canFrames);
             //});
             //throw new NotImplementedException();
+            OnMsgReceived?.Invoke(canFrames);
         }
-
+        private bool _signalLog = false;
+        public bool SignalLogEnable { get => _signalLog; set => _signalLog = value; }
         private void CurrentDevice_OnIFramesReceived(IEnumerable<IFrame> can_msg)
         {
             FramesCount += can_msg.Count();
@@ -122,11 +126,18 @@ namespace ERad5TestGUI.Stores
             {
                 if (item != null)
                 {
-                    logService.Log($"{item.GetValue()}", item.GetType());
+                    //不记录 最快
+                    if (_signalLog)
+                    {
+                        Task.Run(() => _signalStore.LogSignal($"{item.GetValue()}", item.GetType()));
+                    }
+                    //_signalStore.LogSignal($"{item.GetValue()}", item.GetType()); //最慢，判断信号类型
+
+                    //logService.Log($"{item.GetValue()}", item.GetType());
                 }
             }
             _signalStore.MessagesStates.ForEach(x => x.UpdateReceiveTime(can_msg.Select(msg => msg.MessageID)));
-            OnMsgReceived?.Invoke(can_msg);
+            
         }
 
         public event OnIFrameReceived OnMsgReceived;

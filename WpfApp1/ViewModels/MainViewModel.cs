@@ -140,6 +140,7 @@ namespace ERad5TestGUI.ViewModels
             }
             else
             {
+                _deviceStore.FramesCount = 0;
                 CurrentDevice.Start();
                 if (CurrentDevice is VectorCan)
                 {
@@ -147,8 +148,8 @@ namespace ERad5TestGUI.ViewModels
 //                    HardwareID = "x.x.x.x";
 //                    EMSWVersion = "x.x.x.x";
 //#else
-                    HardwareID = await ReadDID(DIDF193);
                     EMSWVersion = await ReadDID(DIDF130);
+                    HardwareID = await ReadDID(DIDF193);
 //#endif
 
                 }
@@ -292,10 +293,15 @@ namespace ERad5TestGUI.ViewModels
         * 增加Memory Read/Write All
         * 增加UDS 取消操作
         * 增加Limit信号修改限值
+        * 0.0.1.6
+        * 修改VectorCAN 接收数据逻辑；
+        * 修改解析报文后的日志逻辑；
+        * 修改Memory读写的结果弹窗；
+        * 增加LogView
         */
         /// <summary>
         /// Soft Version
         /// </summary>
-        public string Version { get; } = "0.0.1.5";
+        public string Version { get; } = "0.0.1.6";
     }
 }

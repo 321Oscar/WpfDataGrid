@@ -32,6 +32,7 @@ namespace ERad5TestGUI.ViewModels
         public PPAWLViewModel PPAWLViewModel { get; private set; }
         public ELockerViewModel ELockerViewModel { get; private set; }
         public SafingLogicViewModel SafingLogicViewModel { get; private set; }
+        public LogViewModel LogViewModel { get; private set; }
 
         protected override void DeivceConfig()
         {
@@ -73,6 +74,7 @@ namespace ERad5TestGUI.ViewModels
             SafingLogicViewModel = new SafingLogicViewModel(SignalStore, _deviceStore, _logService, _dialogService);
             //DisConnectViewModel.Init(); 
             MemoryViewModel = new MemoryViewModel(SignalStore, _deviceStore, _logService);
+            LogViewModel = new LogViewModel(SignalStore, _deviceStore, _logService);
            // MemoryViewModel.Init();
         }
 

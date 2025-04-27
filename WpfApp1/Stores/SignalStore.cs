@@ -3,6 +3,7 @@ using ERad5TestGUI.Helpers;
 using ERad5TestGUI.Models;
 using ERad5TestGUI.Services;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -20,6 +21,7 @@ namespace ERad5TestGUI.Stores
         private readonly List<Signal> _dbcSignals = new List<Signal>();
         private readonly LogService logService;
         private UDS.UDSConfig _udsConfig;
+        private readonly log4net.ILog _logger;
         //public const double AnalogConst = 5 / 4096;
         [Obsolete]
         public DbcFile DbcFile { get; private set; }
@@ -28,7 +30,9 @@ namespace ERad5TestGUI.Stores
         public SignalStore(Services.LogService logService)
         {
             this.logService = logService;
+            _logger = logService.GetLogger();
             _signals = new List<SignalBase>();
+            InitLogMapping();
             LoadMsgStates();
             LoadUDSConfig();
             ValueTable.LoadTables();
@@ -61,6 +65,8 @@ namespace ERad5TestGUI.Stores
 
         public List<CANMessage> Messages { get; } = new List<CANMessage>();
         public List<MessageReceiveState> MessagesStates { get; } = new List<MessageReceiveState>();
+        public Dictionary<Type, bool> SignalTypeLoggerEnableMapping { get => _signalTypeLoggerEnableMapping; }
+        private Dictionary<Type, bool> _signalTypeLoggerEnableMapping;
         public void Dispose()
         {
             try
@@ -76,6 +82,24 @@ namespace ERad5TestGUI.Stores
                 Console.WriteLine(ex.Message);
             }
         }
+        public ConcurrentQueue<string> SignalValueLogQuere { get; private set; }
+        private void InitLogMapping()
+        {
+            SignalValueLogQuere = new ConcurrentQueue<string>();
+            _signalTypeLoggerEnableMapping = new Dictionary<Type, bool>()
+            {
+                {typeof(AnalogSignal),true },
+                {typeof(PulseInSignal),true },
+                {typeof(PulseOutSingleSignal),true },
+            };
+        }
+
+        public void LogSignal(string value, Type signalType)
+        {
+            if (SignalTypeLoggerEnableMapping != null && SignalTypeLoggerEnableMapping.TryGetValue(signalType, out bool isEnable) && isEnable)
+                SignalValueLogQuere.Enqueue(value);
+        }
+
         private void LoadMsgStates()
         {
             MessagesStates.Add(new MessageReceiveState("TCAN1145_DEVCAN", 0x610, 0x620)
@@ -109,7 +133,7 @@ namespace ERad5TestGUI.Stores
             {
                 _signals.Add(signal);
 #if DEBUG
-                logService.Debug($"add Signal {signal.Name}");
+                _logger.Debug($"add Signal {signal.Name}");
 #endif
                 if (this.Messages.FirstOrDefault(x => x.MessageID == signal.MessageID) == null)
                 {
@@ -304,6 +328,10 @@ namespace ERad5TestGUI.Stores
         }
 
         #region DBC Parse
+        public IEnumerable<SignalBase> ParseMsgYield(uint id, byte[] data)
+        {
+            return ParseMsgYield(id, data, this.Signals.Where(x => x.MessageID == id));
+        }
         public IEnumerable<SignalBase> ParseMsgsYield(IEnumerable<IFrame> can_msg)
         {
             return ParseMsgsYield(can_msg, this.Signals);
@@ -368,6 +396,20 @@ namespace ERad5TestGUI.Stores
             }
         }
 
+        public IEnumerable<SignalBase> ParseMsgYield(uint id, byte[] data , IEnumerable<SignalBase> singals)
+        {
+            foreach (var signal in singals)
+            {
+                if (signal.MessageID != id)
+                    yield return signal;
+
+                var val = ParseBytes(data, signal);
+                signal.OriginValue = val;
+                //signal.TimeStamp = (int)item.TimeStampInt;
+                yield return signal;
+            }
+        }
+
         public double ParseBytes(byte[] msg, SignalBase signal)
         {
             int startBit = signal.StartBit;
@@ -397,7 +439,7 @@ namespace ERad5TestGUI.Stores
                     int bitIndex = (startOffset + i) % 8;
                     if (byteIndex >= msg.Length)
                     {
-                        logService.Warn($"{signal.MessageID:X} Can Msg Length Error:${signal.Name}.Startbit bigger than can msg");
+                        _logger.Warn($"{signal.MessageID:X} Can Msg Length Error:${signal.Name}.Startbit bigger than can msg");
                         continue;
                     }
                     if ((msg[byteIndex] & (1 << bitIndex)) != 0)
@@ -819,7 +861,7 @@ namespace ERad5TestGUI.Stores
             //int startbit = 0;
             //GeneratePulseInSignals(viewName, 12, ref msgID, ref startbit);
         }
-
+        [Obsolete]
         private void GeneratePulseInSignals(string viewName, int signalLength, ref uint msgID, ref int startbit)
         {
 

@@ -159,6 +159,18 @@ namespace ERad5TestGUI.ViewModels
         {
             Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, action);
         }
+
+        protected void ShowMsgInfoBox(string text, string caption)
+        {
+            AdonisUI.Controls.MessageBox.Show(text, caption: caption,
+                        icon: AdonisUI.Controls.MessageBoxImage.Information);
+        }
+
+        protected void ShowMsgErrorBox(string text, string caption)
+        {
+            AdonisUI.Controls.MessageBox.Show(text, caption: caption,
+                        icon: AdonisUI.Controls.MessageBoxImage.Error);
+        }
     }
 
     public class SendFrameViewModelBase : ViewModelBase

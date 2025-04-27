@@ -29,7 +29,7 @@
                                 <Setter Property="Content" Value="Cancel"/>
                                 <Setter Property="ToolTip">
                                     <Setter.Value>
-                                        <TextBlock Text="Stop Send 0x15,0x16 Can2.0 msg"/>
+                                        <TextBlock Text="Stop Send 0x500 Can2.0 msg"/>
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger> 

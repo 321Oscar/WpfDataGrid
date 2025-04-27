@@ -82,12 +82,12 @@ namespace ERad5TestGUI.Services
             appender.ActivateOptions();
 
             //配置缓存，增加日志效率
-            //var aa = new BufferingForwardingAppender();
-            //aa.AddAppender(appender);
-            //aa.BufferSize = 500;
-            //aa.Lossy = false;
-            //aa.Fix = log4net.Core.FixFlags.None;
-            //aa.ActivateOptions();
+            var aa = new BufferingForwardingAppender();
+            aa.AddAppender(appender);
+            aa.BufferSize = 500;
+            aa.Lossy = false;
+            aa.Fix = log4net.Core.FixFlags.None;
+            aa.ActivateOptions();
             log4net.Config.BasicConfigurator.Configure(repository, appender);
             return logger;
         }
