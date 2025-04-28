@@ -18,23 +18,35 @@ namespace ERad5TestGUI.ViewModels
         private int _interval = 50;
         private Thread _pushThread;
         private RelayCommand _startCommand;
+        private RelayCommand _clearCommand;
+        private bool _analogSignalLogEnable = true;
 
-
-        public LogViewModel(  SignalStore signalStore, DeviceStore deviceStore, LogService logService):base(signalStore,deviceStore,logService)
+        public LogViewModel(SignalStore signalStore, DeviceStore deviceStore, LogService logService) : base(signalStore, deviceStore, logService)
         {
             SignalLogs = new ObservableCollection<string>();
         }
         public ICommand StartCommand { get => _startCommand ?? (_startCommand = new RelayCommand(StartLog)); }
+        public ICommand ClearCommand { get => _clearCommand ?? (_clearCommand = new RelayCommand(Clear)); }
         public int Interval { get => _interval; set => _interval = value; }
+        public bool IsLogging { get => _startLog; set => SetProperty(ref _startLog, value); }
 
-      
         public ObservableCollection<string> SignalLogs { get; private set; }
-
+        public bool AnalogSignalLogEnable
+        {
+            get => _analogSignalLogEnable;
+            set 
+            {
+                if (SetProperty(ref _analogSignalLogEnable, value))
+                {
+                    SignalStore.RegisterLogMapping(typeof(Models.AnalogSignal), _analogSignalLogEnable);
+                }
+            }
+        }
         private void StartLog()
         {
-            if(_startLog && _pushThread != null)
+            if (IsLogging && _pushThread != null)
             {
-                _startLog = false;
+                IsLogging = false;
                 DeviceStore.SignalLogEnable = false;
                 _pushThread.Abort();
                 while (!SignalStore.SignalValueLogQuere.IsEmpty)
@@ -45,7 +57,7 @@ namespace ERad5TestGUI.ViewModels
             else
             {
                 DeviceStore.SignalLogEnable = true;
-                _startLog = true;
+                IsLogging = true;
                 _pushThread = new Thread(new ThreadStart(PushLogToView));
                 _pushThread.Start();
             }
@@ -64,8 +76,13 @@ namespace ERad5TestGUI.ViewModels
                         logs.Add(log);
                     }
                 }
-                Dispatch(()=> SignalLogs.AddRange(logs));
+                Dispatch(() => SignalLogs.AddRange(logs));
             }
+        }
+
+        private void Clear()
+        {
+            SignalLogs.Clear();
         }
     }
 }

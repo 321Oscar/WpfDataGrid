@@ -67,6 +67,20 @@ namespace ERad5TestGUI.Stores
         public List<MessageReceiveState> MessagesStates { get; } = new List<MessageReceiveState>();
         public Dictionary<Type, bool> SignalTypeLoggerEnableMapping { get => _signalTypeLoggerEnableMapping; }
         private Dictionary<Type, bool> _signalTypeLoggerEnableMapping;
+
+        public void RegisterLogMapping(Type t, bool isLogger)
+        {
+            if (_signalTypeLoggerEnableMapping.TryGetValue(t, out _))
+            {
+                _signalTypeLoggerEnableMapping[t] = isLogger;
+            }
+            else
+            {
+                _signalTypeLoggerEnableMapping.Add(t, isLogger);
+            }
+        }
+
+
         public void Dispose()
         {
             try
@@ -332,36 +346,28 @@ namespace ERad5TestGUI.Stores
         {
             return ParseMsgYield(id, data, this.Signals.Where(x => x.MessageID == id));
         }
-        public IEnumerable<SignalBase> ParseMsgsYield(IEnumerable<IFrame> can_msg)
+        public IEnumerable<SignalBase> ParseMsgsYield(IEnumerable<IFrame> can_msgs)
         {
-            return ParseMsgsYield(can_msg, this.Signals);
+            return ParseMsgsYield(this.Signals,can_msgs);
         }
 
         /// <summary>
-        /// 解析CAN报文 DBC 信号
+        /// 解析CAN报文 DBC 信号：按照信号顺序
         /// </summary>
         /// <param name="can_msg"></param>
         /// <param name="singals"></param>
         /// <returns>signal or NULL</returns>
         public IEnumerable<SignalBase> ParseMsgsYield(IEnumerable<IFrame> can_msg, IEnumerable<SignalBase> singals)
         {
-            //Dictionary<SignalItem, string> signalValue = new Dictionary<SignalItem, string>();
-            //解析can msg
-            // 为每一个 signal 执行以下逻辑：
-            foreach (var baseSignal in singals)
+            foreach (SignalBase signal in singals)
             {
-                SignalBase signal = baseSignal as SignalBase;
-                // 若信号无需收发，则跳过此次循环。
-                //if (!signal.WhetherSendOrGet)
-                //    continue;
-                // 获取 can_msg 中 messageID 与当前信号相符的 CANReceiveFrame 元素集合，若不存在则直接返回当前 signal（yield return）。
                 var canThisID = can_msg.Where(x => x.MessageID == signal.MessageID);
                 if (canThisID != null && canThisID.Count() != 0)
                 {
                     // 对于查找到匹配 CAN 消息中包含当前 Signal Item 的情况进行如下处理：
-                    foreach (var item in canThisID)
+                    foreach (var frame in canThisID)
                     {
-                        var val = ParseBytes(item.Data, signal);
+                        var val = ParseBytes(frame.Data, signal);
 
                         signal.OriginValue = val;
                         //signal.TimeStamp = (int)item.TimeStampInt;
@@ -376,6 +382,28 @@ namespace ERad5TestGUI.Stores
             }
             //return signalValue;
         }
+        /// <summary>
+        /// 按照Msg顺序
+        /// </summary>
+        /// <param name="singals"></param>
+        /// <param name="can_msgs"></param>
+        /// <returns></returns>
+        public IEnumerable<SignalBase> ParseMsgsYield(IEnumerable<SignalBase> singals, IEnumerable<IFrame> can_msgs)
+        {
+            foreach (var frame in can_msgs)
+            {
+                var signals = singals.Where(x => x.MessageID == frame.MessageID);
+                foreach (var signal in signals)
+                {
+                    var val = ParseBytes(frame.Data, signal);
+
+                    signal.OriginValue = val;
+                    //signal.TimeStamp = (int)item.TimeStampInt;
+                    yield return signal;
+                }
+            }
+        }
+
         /// <summary>
         /// 解析单个ID 报文
         /// </summary>

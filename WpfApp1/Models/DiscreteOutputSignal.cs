@@ -30,6 +30,7 @@ namespace ERad5TestGUI.Models
         /// <summary>
         /// 如果是同步的，则把数据存在Temp中
         /// </summary>
+        [XmlIgnore]
         public bool Sync { get; set; }
         [XmlIgnore]
         public bool Pin_High

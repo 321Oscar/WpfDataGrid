@@ -759,7 +759,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>Y19</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_ACT_DISCHARGE_State</Name>
@@ -795,7 +794,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>K20</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>KP_ALIVE_MP_State</Name>
@@ -831,7 +829,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>F19</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_MTR_SPEED_STAT_State</Name>
@@ -871,7 +868,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>G20</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_3PS_MAIN_MICRO_State</Name>
@@ -907,7 +903,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>B20</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>MTR_TEMP_SEL_State</Name>
@@ -943,7 +938,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>E7</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>INST_TRIGGER_MAIN_MICRO_State</Name>
@@ -983,7 +977,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>A3</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_HVOV_PHOC_LATCH_CLR_State</Name>
@@ -1019,7 +1012,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>A9</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>OIL_PMP_RLY_CTRL_State</Name>
@@ -1055,7 +1047,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>J17</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>SBC_WD_TRIG_State</Name>
@@ -1095,7 +1086,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>D12</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>eLOCKER_EN_State</Name>
@@ -1131,7 +1121,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>F5</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>HVIL_RTN_SW_State</Name>
@@ -1171,7 +1160,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>B10</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>PWM_EN_State</Name>
@@ -1211,7 +1199,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>K17</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_RST_PPAWL_MTR_OC_FLT_State</Name>
@@ -1251,7 +1238,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>D13</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>PPAWL_MTR_EN_State</Name>
@@ -1291,7 +1277,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>A8</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>PPAWL_MTR_CTRL2_State</Name>
@@ -1327,7 +1312,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>G19</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>GS_ENL_U_State</Name>
@@ -1363,7 +1347,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>D10</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>GS_ENL_V_State</Name>
@@ -1399,7 +1382,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>R16</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>GS_ENL_W_State</Name>
@@ -1435,7 +1417,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>Y18</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>GS_ENH_U_State</Name>
@@ -1471,7 +1452,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>N17</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>GS_ENH_V_State</Name>
@@ -1507,7 +1487,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>T19</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>GS_ENH_W_State</Name>
@@ -16566,7 +16545,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>PTC3</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>INST_TRIGGER_State</Name>
@@ -16606,7 +16584,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>PTD5</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>SPD_HW_3PS_I_O_State</Name>
@@ -16646,7 +16623,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber>PTA7</PinNumber>
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_F_RESET_NXP_State</Name>
@@ -17222,7 +17198,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
@@ -17243,7 +17218,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
@@ -17264,7 +17238,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
@@ -17285,7 +17258,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="LinConfigSignal">
@@ -18516,7 +18488,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="PulseInSignal">
@@ -19374,7 +19345,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
@@ -19390,7 +19360,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="PulseOutGroupSignal">
@@ -20505,7 +20474,6 @@
       <Unit />
       <InOrOut>false</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
@@ -20834,7 +20802,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
@@ -20850,7 +20817,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
@@ -20866,7 +20832,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
@@ -20887,8 +20852,7 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
-      <IsOutput>true</IsOutput>
+      <IsOutput>false</IsOutput>
       <State>
         <Name>LOW_HVDC_OV_FLT_FB</Name>
         <Views>
@@ -20932,8 +20896,7 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
-      <IsOutput>true</IsOutput>
+      <IsOutput>false</IsOutput>
       <State>
         <Name>LOW_UVLO_TOP_FLT_FB</Name>
         <Views>
@@ -20977,8 +20940,7 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
-      <IsOutput>true</IsOutput>
+      <IsOutput>false</IsOutput>
       <State>
         <Name>LOW_DSAT_TOP_FLT_FB</Name>
         <Views>
@@ -21017,8 +20979,7 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
-      <IsOutput>true</IsOutput>
+      <IsOutput>false</IsOutput>
       <State>
         <Name>LOW_PHASE_UVW_OC_FLT_FB</Name>
         <Views>
@@ -21057,7 +21018,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>false</IsOutput>
       <State>
         <Name>LOW_UVLO_BOT_FLT_FB</Name>
@@ -21097,8 +21057,7 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
-      <IsOutput>true</IsOutput>
+      <IsOutput>false</IsOutput>
       <State>
         <Name>LOW_DSAT_BOT_FLT_FB</Name>
         <Views>
@@ -21137,7 +21096,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>false</IsOutput>
       <State>
         <Name>LOW_OC_U_FLT</Name>
@@ -21177,7 +21135,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>false</IsOutput>
       <State>
         <Name>LOW_OC_V_FLT</Name>
@@ -21217,8 +21174,7 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
-      <IsOutput>true</IsOutput>
+      <IsOutput>false</IsOutput>
       <State>
         <Name>LOW_OC_W_FLT</Name>
         <Views>
@@ -21257,7 +21213,6 @@
       <Unit />
       <InOrOut>false</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
@@ -21273,8 +21228,7 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
-      <IsOutput>true</IsOutput>
+      <IsOutput>false</IsOutput>
       <State>
         <Name>LOW_E_STOP_MAIN_MICRO</Name>
         <Views>
@@ -21328,7 +21282,6 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <Sync>false</Sync>
       <IsOutput>true</IsOutput>
     </SignalBase>
   </Signals>

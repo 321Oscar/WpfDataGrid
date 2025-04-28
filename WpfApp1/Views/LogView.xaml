@@ -15,16 +15,33 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <StackPanel>
-            <CheckBox Content="Log A I/O" />
-            <CheckBox Content="Log DI" />
-            <CheckBox Content="Log DO" />
-            <CheckBox Content="Log PWM IN and TEMP" />
-            <Button Content="Start" Command="{Binding StartCommand}"/>
-            <Button Content="Stop" />
-            <Button Content="Clear" />
+            <CheckBox Content="Log A I/O" IsChecked="{Binding AnalogSignalLogEnable}"/>
+            <CheckBox Content="Log DI" IsEnabled="False"/>
+            <CheckBox Content="Log DO" IsEnabled="False"/>
+            <CheckBox Content="Log PWM IN and TEMP" IsEnabled="False"/>
+            
+            
+            <Button Command="{Binding StartCommand}" Width="80" Margin="0,5">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                        <Setter Property="Content" Value="Start"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLogging}" Value="True">
+                                <Setter Property="Content" Value="Stop"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsLogging}" Value="False">
+                                <Setter Property="Content" Value="Start"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Clear" Command="{Binding ClearCommand}" Width="80"/>
         </StackPanel>
+        <GroupBox  Grid.Column="1" Header="Logs">
+            <ListBox ItemsSource="{Binding SignalLogs}"/>
+        </GroupBox>
         
-        <ListBox ItemsSource="{Binding SignalLogs}" Grid.Column="1"/>
         <!--<TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="1" VerticalScrollBarVisibility="Visible" />-->
     </Grid>
 </UserControl>

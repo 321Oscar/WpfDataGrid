@@ -52,7 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>logo.ico</ApplicationIcon>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CustomMarshalers" />
@@ -460,6 +460,11 @@
     </None>
     <Resource Include="Resources\logo.ico" />
     <Resource Include="logo.ico" />
+    <Resource Include="Resources\icon.png" />
+    <Resource Include="Resources\title.png" />
+    <Resource Include="Resources\favicon.ico" />
+    <Resource Include="icon.ico" />
+    <Resource Include="Resources\icon.ico" />
     <Content Include="vxlapi.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

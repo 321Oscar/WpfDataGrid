@@ -9,10 +9,11 @@
     xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
     xmlns:s="clr-namespace:System;assembly=mscorlib"
     mc:Ignorable="d" 
+    d:Background="White"
     d:DesignHeight="150" 
     d:DesignWidth="1300">
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <Grid MinWidth="1200">
+        <Grid MinWidth="1010">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
@@ -178,10 +179,10 @@
                         Margin="1"
                         Command="{Binding SendWakeUpCommand}">
                             <Button.CommandParameter>
-                                <s:UInt32>0x4fd</s:UInt32>
+                                <s:UInt32>0x4fE</s:UInt32>
                             </Button.CommandParameter>
                             <Button.ToolTip>
-                                <TextBlock>Send 0x4FD(Can2.0 )</TextBlock>
+                                <TextBlock>Send 0x4FE(Can2.0 )</TextBlock>
                             </Button.ToolTip>
                         </Button>
                         <Button 
@@ -189,10 +190,10 @@
                         Margin="1"
                         Command="{Binding SendWakeUpCommand}">
                             <Button.CommandParameter>
-                                <s:UInt32>0x4fE</s:UInt32>
+                                <s:UInt32>0x4fD</s:UInt32>
                             </Button.CommandParameter>
                             <Button.ToolTip>
-                                <TextBlock>Send 0x4FE(Can2.0 )</TextBlock>
+                                <TextBlock>Send 0x4FD(Can2.0 )</TextBlock>
                             </Button.ToolTip>
                         </Button>
                     </StackPanel>
@@ -213,7 +214,15 @@
                     <Button Content="Sleep TLF"/>
                 </WrapPanel>
             </GroupBox>
-            <Image Grid.Column="5" Source="pack://application:,,,/Resources/logo.ico" Width="100" HorizontalAlignment="Right"/>
+            <!--<Image 
+                Grid.Column="5" 
+                Source="pack://application:,,,/Resources/logo.ico" 
+                HorizontalAlignment="Right"/>-->
+            <Image 
+                Grid.ColumnSpan="5"
+                Height="130"
+                Source="pack://application:,,,/Resources/title.png" 
+                HorizontalAlignment="Right"/>
         </Grid>
     </ScrollViewer>
 </UserControl>

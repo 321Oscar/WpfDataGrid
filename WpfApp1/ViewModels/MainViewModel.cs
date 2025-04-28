@@ -193,6 +193,8 @@ namespace ERad5TestGUI.ViewModels
         private void SendWakeUp(uint msgID)
         {
             _deviceStore.CurrentDevice.Send(new CanFrame(msgID, new byte[8], FrameFlags.CAN));
+            System.Threading.Thread.Sleep(200);
+            _deviceStore.CurrentDevice.Send(new CanFrame(msgID, new byte[8], FrameFlags.CAN));
         }
 
 #region DID
@@ -298,10 +300,14 @@ namespace ERad5TestGUI.ViewModels
         * 修改解析报文后的日志逻辑；
         * 修改Memory读写的结果弹窗；
         * 增加LogView
+        * 0.0.1.7
+        * 修改Enable CANFD5 /CANFD16 发送报文ID
+        * 0.0.1.8( 版本太多 为 0.0.1.5)
+        * 修改SafingLogic中的State为全局的
         */
         /// <summary>
         /// Soft Version
         /// </summary>
-        public string Version { get; } = "0.0.1.6";
+        public string Version { get; } = "0.0.1.5";
     }
 }

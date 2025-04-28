@@ -247,6 +247,8 @@ namespace ERad5TestGUI.ViewModels
         {
             var s = SignalStore.GetSignalByName<DiscreteOutputSignal>(outSignalName, inOrOut: true);
 
+            s.PropertyChanged += Signal_PropertyChanged;
+
             if (s != null)
             {
                 if (s.State == null)
@@ -256,6 +258,14 @@ namespace ERad5TestGUI.ViewModels
                         s.State = GetSignalAndAddViewName<DiscreteInputSignal>(stateName);
                     else
                         s.SetStateSignal(this.SignalStore);
+                }
+                else if (!string.IsNullOrEmpty(stateName))
+                {
+                    var stateExsit = SignalStore.GetSignalByName<DiscreteInputSignal>(stateName, inOrOut: false);
+                    if (SignalStore.GetSignalByName<DiscreteInputSignal>(stateName, inOrOut: false) != null)
+                    {
+                        s.State = stateExsit;
+                    }
                 }
             }
             else
@@ -267,6 +277,41 @@ namespace ERad5TestGUI.ViewModels
             }
 
             return s;
+        }
+
+        private void Signal_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (sender is DiscreteOutputSignal outputSignal && !IsTest)
+            {
+                if (e.PropertyName == nameof(DiscreteOutputSignal.Pin_High))
+                {
+                    outputSignal.UpdateRealValue();
+                }
+                else if (e.PropertyName == nameof(SignalBase.OriginValue))
+                {
+                    //var syncTemp = outputSignal.Sync;
+                    if (double.IsNaN(outputSignal.OriginValue))
+                        return;
+
+                    if (outputSignal.OriginValue == outputSignal.State.OriginValue)
+                    {
+                        return;
+                    }
+                }
+
+                SendSignal(sender as SignalBase);
+            }
+
+        }
+
+        private void SendSignal(SignalBase signal)
+        {
+            SendFD(SignalStore.BuildFrames(new SignalBase[] { signal }));
+        }
+
+        public override void Send()
+        {
+            SendFD(SignalStore.BuildFrames(SignalStore.GetSignals<DiscreteOutputSignal>(ViewName)));
         }
 
         private TSignal GetSignalAndAddViewName<TSignal>(string name)

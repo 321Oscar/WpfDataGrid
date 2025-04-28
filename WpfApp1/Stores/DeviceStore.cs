@@ -119,10 +119,10 @@ namespace ERad5TestGUI.Stores
         }
         private bool _signalLog = false;
         public bool SignalLogEnable { get => _signalLog; set => _signalLog = value; }
-        private void CurrentDevice_OnIFramesReceived(IEnumerable<IFrame> can_msg)
+        private void CurrentDevice_OnIFramesReceived(IEnumerable<IFrame> can_msgs)
         {
-            FramesCount += can_msg.Count();
-            foreach (var item in _signalStore.ParseMsgsYield(can_msg))
+            FramesCount += can_msgs.Count();
+            foreach (var item in _signalStore.ParseMsgsYield(can_msgs))
             {
                 if (item != null)
                 {
@@ -136,7 +136,7 @@ namespace ERad5TestGUI.Stores
                     //logService.Log($"{item.GetValue()}", item.GetType());
                 }
             }
-            _signalStore.MessagesStates.ForEach(x => x.UpdateReceiveTime(can_msg.Select(msg => msg.MessageID)));
+            _signalStore.MessagesStates.ForEach(x => x.UpdateReceiveTime(can_msgs.Select(msg => msg.MessageID)));
             
         }
 
