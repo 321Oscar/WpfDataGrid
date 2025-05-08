@@ -623,6 +623,11 @@ namespace ERad5TestGUI.UDS
                             ResultMsg = $"{CurrentStep} CAN {CanChannel} Send Fail";
                             this.CurrentStatue = ServerStatus.Done;
                         }
+                        else
+                        {
+                            if (NeedReceive)
+                                CurrentStatue = ServerStatus.WaitReceive;
+                        }
                         preDate = DateTime.Now;
                     }
                     Thread.Sleep(1);

@@ -295,19 +295,28 @@ namespace ERad5TestGUI.ViewModels
         * 增加Memory Read/Write All
         * 增加UDS 取消操作
         * 增加Limit信号修改限值
-        * 0.0.1.6
+        * (0.0.1.6)
         * 修改VectorCAN 接收数据逻辑；
         * 修改解析报文后的日志逻辑；
         * 修改Memory读写的结果弹窗；
         * 增加LogView
-        * 0.0.1.7
+        * (0.0.1.7)
         * 修改Enable CANFD5 /CANFD16 发送报文ID
-        * 0.0.1.8( 版本太多 为 0.0.1.5)
+        * (0.0.1.8)( 版本太多 为 0.0.1.5)
         * 修改SafingLogic中的State为全局的
+        * 20250507:
+        * 修改Safinglogic中的信号输出 Sync
+        * 修改Memory Readll 失败重试
+        * 修改弹窗样式
+        * 0.0.1.5 20250508
+        * 支持Memory 保存Srec文件
+        * 0.0.1.5 2025050801
+        * DiscreteOutput信号 选择Sync并更新temp值后 不跟随实时信号
+        * Memory Cancel按钮优化
         */
         /// <summary>
         /// Soft Version
         /// </summary>
-        public string Version { get; } = "0.0.1.5";
+        public string Version { get; } = "0.0.1.5-2025050801";
     }
 }

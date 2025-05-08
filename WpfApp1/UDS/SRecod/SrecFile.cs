@@ -322,7 +322,13 @@ namespace ERad5TestGUI.UDS.SRecord
             //    Add(item);
             //}
         }
-
+        /// <summary>
+        /// 数据大 则很慢
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="startPosition"></param>
+        /// <param name="调用方"></param>
+        /// <param name="index"></param>
         public void Add(byte[] data, uint startPosition, string 调用方 = "", int index = 0)
         {
             //if (startPosition >= this.StartPosition)
@@ -362,38 +368,38 @@ namespace ERad5TestGUI.UDS.SRecord
             //}
             //else
             //{
-#if DEBUG
-            int cutCount = 0x20 * 5000;
+//#if DEBUG
+//            int cutCount = 0x20 * 5000;
 
-            List<byte[]> cutDatas = new List<byte[]>();
-            int remainLength = data.Length;
-            int takedCount = 0;
-            if (data.Length > cutCount)
-            {
-                List<Task> tasks = new List<Task>();
-                do
-                {
-                    List<byte> cutData = new List<byte>();
-                    int takeCount = Math.Min(cutCount, remainLength);
-                    cutData.AddRange(data.Skip(takedCount).Take(takeCount));
-                    uint startpositiontemp = (uint)(startPosition + takedCount);
-                    tasks.Add(Task.Run(new Action(() =>
-                    {
-                        foreach (SrecData srecdata in BytesToSrecDataYeild(cutData.ToArray(), Datalength, startpositiontemp))
-                        {
-                            if (srecdata != null)
-                                this.Add(srecdata, index);
-                        }
-                    })));
-                    remainLength -= takeCount;
-                    takedCount += takeCount;
-                } while (remainLength > 0);
+//            List<byte[]> cutDatas = new List<byte[]>();
+//            int remainLength = data.Length;
+//            int takedCount = 0;
+//            if (data.Length > cutCount)
+//            {
+//                List<Task> tasks = new List<Task>();
+//                do
+//                {
+//                    List<byte> cutData = new List<byte>();
+//                    int takeCount = Math.Min(cutCount, remainLength);
+//                    cutData.AddRange(data.Skip(takedCount).Take(takeCount));
+//                    uint startpositiontemp = (uint)(startPosition + takedCount);
+//                    tasks.Add(Task.Run(new Action(() =>
+//                    {
+//                        foreach (SrecData srecdata in BytesToSrecDataYeild(cutData.ToArray(), Datalength, startpositiontemp))
+//                        {
+//                            if (srecdata != null)
+//                                this.Add(srecdata, index);
+//                        }
+//                    })));
+//                    remainLength -= takeCount;
+//                    takedCount += takeCount;
+//                } while (remainLength > 0);
 
-                System.Threading.Tasks.Task.WaitAll(tasks.ToArray());
-                srecDatas.Sort();
-            }
-            else
-#endif
+//                System.Threading.Tasks.Task.WaitAll(tasks.ToArray());
+//                srecDatas.Sort();
+//            }
+//            else
+//#endif
             {
                 foreach (SrecData srecdata in BytesToSrecDataYeild(data, Datalength, startPosition))
                 {
@@ -730,24 +736,14 @@ namespace ERad5TestGUI.UDS.SRecord
             }
             else
             {
-                int count = data.Length / datalength + ((data.Length % datalength > 0) ? 1 : 0);
-                int 余数 = data.Length % datalength == 0 ? datalength : data.Length % datalength;
+                //int count = data.Length / datalength + ((data.Length % datalength > 0) ? 1 : 0);
+                //int 余数 = data.Length % datalength == 0 ? datalength : data.Length % datalength;
                 uint position = startPosition;
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < data.Length; i+= datalength)
                 {
-                    int length = datalength;
-
-                    if (i + 1 == count)//最后一个
-                    {
-                        length = 余数;
-                    }
-                    byte[] lineData = new byte[length];
-                    //string dataStr = type + (length + addrLength + 1).HexToString() + position.HexToString(addrLength * 2);
-                    for (int j = 0; j < length; j++)
-                    {
-                        lineData[j] = data[j + i * datalength];
-                    }
-                    //SrecData srecData = new SrecData(dataStr, false);
+                    int length = Math.Min(datalength, data.Length - i);
+                    byte[] lineData = new byte[datalength];
+                    Array.Copy(data, i, lineData, 0, length);
                     SrecData srecData = new SrecData(RecordType, length, position, lineData, EightOrsixteen);
                     position += (uint)(length / EightOrsixteen);
                     yield return srecData;

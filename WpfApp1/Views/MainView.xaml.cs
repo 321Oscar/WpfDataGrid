@@ -53,5 +53,23 @@ namespace ERad5TestGUI.Views
 
             base.OnClosed(e);
         }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ( this.DataContext is ViewModels.Main2ViewModel mainVm && mainVm != null)
+            {
+                var tabControl = sender as TabControl;
+                if (tabControl.SelectedItem == this.tabItem_Discrete)
+                {
+                    mainVm.SafingLogicViewModel.RemoveSignalOriginalValueChanged();
+                }
+                else if (tabControl.SelectedItem == this.tabItem_Safinglogic)
+                {
+                   // var mainVm = this.DataContext as ViewModels.Main2ViewModel;
+                    mainVm.SafingLogicViewModel.AddSignalOriginalValueChanged();
+                }
+            }
+            
+        }
     }
 }

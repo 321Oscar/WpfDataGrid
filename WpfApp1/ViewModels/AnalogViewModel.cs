@@ -306,9 +306,8 @@ namespace ERad5TestGUI.ViewModels
         {
             if (DeviceStore.CurrentDevice.Started)
             {
-                AdonisUI.Controls.MessageBox.Show($"calculate Standrad Must without receive Data!",
-                      "Calculate Stad",
-                      icon: AdonisUI.Controls.MessageBoxImage.Information);
+                ShowMsgInfoBox($"calculate Standrad Must without receive Data!",
+                      "Calculate Stad");
                 return;
             }
 

@@ -162,14 +162,16 @@ namespace ERad5TestGUI.ViewModels
 
         protected void ShowMsgInfoBox(string text, string caption)
         {
-            AdonisUI.Controls.MessageBox.Show(text, caption: caption,
-                        icon: AdonisUI.Controls.MessageBoxImage.Information);
+            MessageBox.Show(text, caption, MessageBoxButton.OK, MessageBoxImage.Information);
+            //AdonisUI.Controls.MessageBox.Show(text, caption: caption,
+            //            icon: AdonisUI.Controls.MessageBoxImage.Information);
         }
 
         protected void ShowMsgErrorBox(string text, string caption)
         {
-            AdonisUI.Controls.MessageBox.Show(text, caption: caption,
-                        icon: AdonisUI.Controls.MessageBoxImage.Error);
+            MessageBox.Show(text, caption, MessageBoxButton.OK, MessageBoxImage.Error);
+            //AdonisUI.Controls.MessageBox.Show(text, caption: caption,
+            //            icon: AdonisUI.Controls.MessageBoxImage.Error);
         }
     }
 

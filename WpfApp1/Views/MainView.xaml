@@ -25,11 +25,11 @@
 
         <!-- Tabs -->
         <Grid Grid.Row="1">
-            <TabControl>
+            <TabControl SelectionChanged="TabControl_SelectionChanged">
                 <TabItem Header="Analog">
                     <ContentControl Content="{Binding AnalogViewModel}"/>
                 </TabItem>
-                <TabItem Header="Discrete">
+                <TabItem Header="Discrete" x:Name="tabItem_Discrete">
                     <ContentControl Content="{Binding DiscreteViewModel}" Margin="-4"/>
                 </TabItem>
                 <TabItem Header="PulseIn">
@@ -62,10 +62,10 @@
                 <TabItem Header="E-Locker">
                     <ContentControl Content="{Binding ELockerViewModel}"/>
                 </TabItem>
-                <TabItem Header="SafingLogic">
+                <TabItem Header="SafingLogic" x:Name="tabItem_Safinglogic">
                     <ContentControl Content="{Binding SafingLogicViewModel}"/>
                 </TabItem>
-                <TabItem Header="Memory-UnFinish">
+                <TabItem Header="Memory">
                     <ContentControl Content="{Binding MemoryViewModel}"/>
                 </TabItem>
                 <TabItem Header="Log-UnFinish">

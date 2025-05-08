@@ -134,6 +134,7 @@ namespace ERad5TestGUI.Models
 
         private void StateChanged(double x)
         {
+            this.TempValue = null;
             this.OriginValue = x;
         }
 

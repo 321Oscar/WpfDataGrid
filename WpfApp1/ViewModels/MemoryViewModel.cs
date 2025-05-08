@@ -144,6 +144,8 @@ namespace ERad5TestGUI.ViewModels
 
         private async Task<int> ReadMemory()
         {
+            cancelSource = new CancellationTokenSource();
+
             var res = await ReadMemoryByLengthAsync(Erad5MemoryAddr, 0x04);
             //var suc = res.UDSResponse == UDSResponse.Positive;
             if (res != null)
@@ -153,11 +155,11 @@ namespace ERad5TestGUI.ViewModels
                 try
                 {
                     Erad5MemoryValue = BitConverter.ToInt32(data.ToArray(), 0);
-                    ShowMsgInfoBox($"Success : {string.Join("", data.Select(x => x.ToString("X2")))}", caption: "Read Memory");
+                    ShowMsgInfoBox($"Success : {Erad5MemoryValue:X8}", caption: "Read Memory");
                 }
                 catch (Exception ex)
                 {
-                    ShowMsgErrorBox($"Read {Erad5MemoryAddr:X} Data : {string.Join("", data.Select(x => x.ToString("X2")))} Error : {ex.Message}",
+                    ShowMsgErrorBox($"Read {Erad5MemoryAddr:X} Data : {string.Join("", res.Select(x => x.ToString("X2")))} Error : {ex.Message}",
                         caption: "Read Memory");
                 }
             }
@@ -179,30 +181,48 @@ namespace ERad5TestGUI.ViewModels
             int startAddr = 0x00;
             if (SrecFileOnlyData == null) SrecFileOnlyData = new SrecFileOnlyData();
             SrecFileOnlyData.Content.Clear();
+            int retry = 0;
+            bool fail = false;
+            cancelSource = new CancellationTokenSource();
             for (int i = 0; i < count; i++)
             {
-                if (cancelSource != null && cancelSource.IsCancellationRequested)
-                    break;
-
-                var data = await ReadMemoryByLengthAsync(startAddr, step);
-
-                if (data != null)
+                do
                 {
-                    await Task.Run(() =>
+                    if (cancelSource != null && cancelSource.IsCancellationRequested)
+                        break;
+
+                    var data = await ReadMemoryByLengthAsync(startAddr, step);
+
+                    if (data != null)
                     {
-                        Application.Current.Dispatcher.Invoke(() =>
+                        fail = false;
+                        retry = 0;
+                        await Task.Run(() =>
                         {
-                            SrecFileOnlyData.InsertData(data.ToArray(), (uint)startAddr);
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                SrecFileOnlyData.InsertData(data.ToArray(), (uint)startAddr);
+                            });
                         });
-                    });
-                }
-                else
+                        break;
+                    }
+                    else
+                    {
+                        fail = true;
+                        retry++;
+                    }
+                } while (retry < 3 && fail);
+
+                if (retry == 3 || fail)
                 {
-                    ShowMsgErrorBox($"Read 0x{startAddr:X} Memory Fail/Cancel", caption: "Read Memory");
+                    ShowMsgErrorBox($"Read 0x{startAddr:X} Memory Fail / Cancel", caption: "Read Memory");
                     return -1;
                 }
+
                 startAddr += step;
             }
+
+            ShowMsgInfoBox("Read All Memory(0x00~0x200000) Success!", "Read Memory");
 
             return 1;
         }
@@ -210,7 +230,7 @@ namespace ERad5TestGUI.ViewModels
         private async Task<int> WriteMemory()
         {
             var data = BitConverter.GetBytes(Erad5MemoryWriteValue).Reverse().ToArray();
-
+            cancelSource = new CancellationTokenSource();
             var res = await WriteMemoryByLengthAsync(new Dictionary<int, byte[]>() { { Erad5MemoryWriteAddr, data } }); ;
 
             return res;
@@ -218,6 +238,7 @@ namespace ERad5TestGUI.ViewModels
 
         private async Task<int> WriteMemoryAll()
         {
+            cancelSource = new CancellationTokenSource();
             if (SrecFileOnlyData == null || SrecFileOnlyData.SrecFile == null)
             {
                 if (AdonisUI.Controls.MessageBox.Show("No S19 File Loaded, it will write random data. Click OK to Write.",
@@ -253,7 +274,7 @@ namespace ERad5TestGUI.ViewModels
         private CancellationTokenSource cancelSource;
         private async Task<IEnumerable<byte>> ReadMemoryByLengthAsync(int startAddr, int length)
         {
-            cancelSource = new CancellationTokenSource();
+            
             var readMemory = new Erad5ReadMemoryServer(_udsConfig.NormalTimeout, _udsConfig.PendingTimeout, this.DeviceStore.CurrentDevice, LogService,
                 $"Read Memory : 0x{startAddr:X},length:0x{length:X}")
             {
@@ -290,7 +311,7 @@ namespace ERad5TestGUI.ViewModels
             }
 
             CommonSaveFileDialog sfd = new CommonSaveFileDialog();
-            sfd.Filters.Add(new CommonFileDialogFilter("srec file", "*.s19"));
+            sfd.Filters.Add(new CommonFileDialogFilter("srec file", "*.srec;*.s19;*.s28;*.s37"));
             //sfd.DefaultDirectory 
             if (sfd.ShowDialog() == CommonFileDialogResult.Ok)
             {
@@ -302,7 +323,7 @@ namespace ERad5TestGUI.ViewModels
                     {
                         if (SrecFileOnlyData.SrecFile == null)
                         {
-                            SrecFileOnlyData.SrecFile = new SrecFile(type: "S1", datalength: 0x20);
+                            SrecFileOnlyData.SrecFile = new SrecFile(type: "S3", datalength: 0x20);
                         }
                         List<byte> allData = new List<byte>();
                         foreach (var item in SrecFileOnlyData.Content)
@@ -310,13 +331,7 @@ namespace ERad5TestGUI.ViewModels
                             //SrecFileOnlyData.Content
                             allData.AddRange(item.Data);
                         }
-#if DEBUG
-                        byte[] byteArray = new byte[2 * 1024 * 1024];
-                        // 填充数组（这里可以根据需要填充数据）
-                        new Random().NextBytes(byteArray);
-                        
-                        //SrecFileOnlyData.OutoutFile(saveFilePath, byteArray);
-#endif
+                        ByteArrayToSrecFile(allData.ToArray(), saveFilePath);
                         //SrecFileOnlyData.SrecFile.Add(allData.ToArray(), startPosition: 0x00);
                         //SrecFileOnlyData.SrecFile.Output(saveFilePath);
                     }
@@ -330,15 +345,66 @@ namespace ERad5TestGUI.ViewModels
                 });
                 if (res)
                 {
-                    ShowMsgInfoBox($"Save S19 File to [{saveFilePath}] Success.", caption: "Save S19 File");
+                    ShowMsgInfoBox($"Save Srec File to [{saveFilePath}] Success.", caption: "Save Srec File");
                 }
                 else
                 {
-                    ShowMsgErrorBox($"Save S19 File Fail: {errMsg}", caption: "Save S19 File");
+                    ShowMsgErrorBox($"Save Srec File Fail: {errMsg}", caption: "Save Srec File");
                 }
             }
 
             return;
+        }
+
+        public static void ByteArrayToSrecFile(byte[] data, string filePath)
+        {
+            using (System.IO.StreamWriter writer = new System.IO.StreamWriter(filePath))
+            {
+                int addressSize = 4; // S3记录使用32位地址
+                int bytesPerLine = 0x20 + 4 + 2; // 每行最多包含的字节数，可以根据需要调整
+                int maxDataBytes = bytesPerLine - (addressSize + 2); // 地址和校验和占用的空间
+
+                for (int i = 0; i < data.Length; i += maxDataBytes)
+                {
+                    int length = Math.Min(maxDataBytes, data.Length - i);
+                    byte[] lineData = new byte[length];
+                    Array.Copy(data, i, lineData, 0, length);
+
+                    uint address = (uint)(i); // 假设地址从0开始
+                    string srecLine = CreateS3Record(lineData, address, addressSize);
+                    writer.WriteLine(srecLine);
+                }
+
+                // 写入结束记录 S7
+                writer.WriteLine("S70500000000FA");
+            }
+        }
+
+        private static string CreateS3Record(byte[] data, uint address,int addressSize)
+        {
+            int byteCount = data.Length + addressSize + 1; // 数据长度+地址长度+校验和长度
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append("S3"); // S3记录标识
+            sb.Append(byteCount.ToString("X2")); // 字节计数
+            sb.Append(address.ToString("X8")); // 地址
+
+            int checksum = byteCount;
+            foreach (byte b in BitConverter.GetBytes(address))
+            {
+                checksum += b;
+                //sb.Append(b.ToString("X2"));
+            }
+
+            foreach (byte b in data)
+            {
+                checksum += b;
+                sb.Append(b.ToString("X2"));
+            }
+
+            checksum = (~checksum); // 取反加一得到补码
+            sb.Append(((byte)checksum).ToString("X2")); // 校验和
+
+            return sb.ToString();
         }
 
         private void CancelUds()
@@ -346,7 +412,7 @@ namespace ERad5TestGUI.ViewModels
             if (cancelSource != null)
             {
                 cancelSource.Cancel();
-                cancelSource = null;
+                //cancelSource = null;
             }
         }
 
@@ -357,7 +423,6 @@ namespace ERad5TestGUI.ViewModels
         /// <returns>1 & -1</returns>
         private async Task<int> WriteMemoryByLengthAsync(Dictionary<int, byte[]> addrAndDatas)
         {
-            cancelSource = new CancellationTokenSource();
             var writeMemory = new Erad5WriteMemoryServer(_udsConfig.NormalTimeout, _udsConfig.PendingTimeout, this.DeviceStore.CurrentDevice, LogService)
             {
                 FunctionID = CurrentUpgradeType.ReqFunID,

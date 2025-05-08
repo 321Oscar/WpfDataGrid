@@ -285,7 +285,10 @@
                                         <TextBlock Text="Support Srec File Only"/>
                                     </Button.ToolTip>
                                 </Button>
-                                <Button Content="Save" Command="{Binding SaveAsSrecCommand}" IsEnabled="False"/>
+                                <Button 
+                                    Content="Save" 
+                                    Command="{Binding SaveAsSrecCommand}" 
+                                    />
                             </WrapPanel>
 
                             <Grid Grid.Row="1" Panel.ZIndex="99">

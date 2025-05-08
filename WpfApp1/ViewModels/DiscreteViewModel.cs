@@ -204,9 +204,9 @@ namespace ERad5TestGUI.ViewModels
                     {
                         return;
                     }
+                    Send();
                 }
 
-                Send();
             }
         }
 

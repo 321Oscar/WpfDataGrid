@@ -278,7 +278,33 @@ namespace ERad5TestGUI.ViewModels
 
             return s;
         }
-
+        public void AddSignalOriginalValueChanged()
+        {
+            foreach (var item in _inputSignals.Signals)
+            {
+                //while (item.PropertyChanged != null)
+                    item.PropertyChanged -= Signal_PropertyChanged;//避免两次
+                item.PropertyChanged += Signal_PropertyChanged;
+                
+                   // item.PropertyChanged -= Signal_PropertyChanged;//避免两次
+            }
+            foreach (var item in _outputSignals.Signals)
+            {
+                item.PropertyChanged -= Signal_PropertyChanged;//避免两次
+                item.PropertyChanged += Signal_PropertyChanged;
+            }
+        }
+        public void RemoveSignalOriginalValueChanged()
+        {
+            foreach (var item in _inputSignals.Signals)
+            {
+                item.PropertyChanged -= Signal_PropertyChanged;//避免两次
+            }
+            foreach (var item in _outputSignals.Signals)
+            {
+                item.PropertyChanged -= Signal_PropertyChanged;//避免两次
+            }
+        }
         private void Signal_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (sender is DiscreteOutputSignal outputSignal && !IsTest)
@@ -286,6 +312,7 @@ namespace ERad5TestGUI.ViewModels
                 if (e.PropertyName == nameof(DiscreteOutputSignal.Pin_High))
                 {
                     outputSignal.UpdateRealValue();
+                    return;
                 }
                 else if (e.PropertyName == nameof(SignalBase.OriginValue))
                 {
@@ -297,9 +324,9 @@ namespace ERad5TestGUI.ViewModels
                     {
                         return;
                     }
+                    SendSignal(sender as SignalBase);
                 }
 
-                SendSignal(sender as SignalBase);
             }
 
         }
