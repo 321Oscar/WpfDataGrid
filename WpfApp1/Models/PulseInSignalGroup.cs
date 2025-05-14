@@ -22,12 +22,21 @@ namespace ERad5TestGUI.Models
     /// <summary>
     /// has List of PulseInSignalGroup
     /// </summary>
-    public class PulseInGroupGroup : SignalGroupBase
+    public class PulseInGroupGroup : SignalGroupBase, Interfaces.IClearData
     {
         public System.Collections.Generic.List<PulseInSignalGroup> Groups { get; }
         public PulseInGroupGroup(string groupName) : base(groupName)
         {
             Groups = new System.Collections.Generic.List<PulseInSignalGroup>();
+        }
+
+        public void ClearData()
+        {
+            foreach (var g in Groups)
+            {
+                g.Signal_Freq.Clear();
+                g.Signal_DC.Clear();
+            }
         }
     }
 

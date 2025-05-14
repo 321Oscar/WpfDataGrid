@@ -95,6 +95,7 @@
       <DependentUpon>Layout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\ListBoxScroll.cs" />
+    <Compile Include="Components\ListBoxScrollBehavior.cs" />
     <Compile Include="Components\Modal.cs" />
     <Compile Include="Components\NavigationBar.xaml.cs">
       <DependentUpon>NavigationBar.xaml</DependentUpon>
@@ -490,6 +491,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>9.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
+      <Version>1.1.77</Version>
     </PackageReference>
     <PackageReference Include="NPOI">
       <Version>2.5.5</Version>

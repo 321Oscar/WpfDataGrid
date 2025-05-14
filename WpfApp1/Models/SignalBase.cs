@@ -348,10 +348,26 @@ namespace ERad5TestGUI.Models
         protected override void OnOriginValueChaned(double originValue, bool changed)
         {
             valueCount++;
+            
             base.OnOriginValueChaned(originValue, changed);
             var realValue = TransForm(originValue);
-            totalValue += realValue;
-            Average = totalValue / valueCount;
+
+            if (double.IsNaN(realValue))
+            {
+                valueCount = 0;
+                totalValue = 0;
+                Average = 0;
+            }
+            else
+            {
+                //if (valueCount > 100)
+                //{
+                //    valueCount = 2;
+                //    totalValue = Average;
+                //}
+                totalValue += realValue;
+                Average = totalValue / valueCount;
+            }
         }
 
     }

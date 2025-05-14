@@ -103,8 +103,10 @@ namespace ERad5TestGUI.Stores
             _signalTypeLoggerEnableMapping = new Dictionary<Type, bool>()
             {
                 {typeof(AnalogSignal),true },
+                {typeof(DiscreteInputSignal),true },
+                {typeof(DiscreteOutputSignal),true },
                 {typeof(PulseInSignal),true },
-                {typeof(PulseOutSingleSignal),true },
+                //{typeof(PulseOutSingleSignal),true },
             };
         }
 

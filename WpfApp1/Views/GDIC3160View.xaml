@@ -58,6 +58,7 @@
                 Margin="5,0"
                 Content="Clear Data" 
                 Height="25"
+                Click="SplitButton_Click"
                 VerticalAlignment="Center">
                 <adonisControls:SplitButton.SplitMenu>
                     <ContextMenu MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">

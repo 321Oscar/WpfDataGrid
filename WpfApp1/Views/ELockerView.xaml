@@ -13,7 +13,19 @@
             <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding ViewName}" d:Text="E-Locker" Style="{StaticResource TitleLabel}"/>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock 
+                Text="{Binding ViewName}" 
+                d:Text="E-Locker" 
+                Style="{StaticResource TitleLabel}"/>
+            <Button 
+                Margin="10,0,0,0"
+                Content="Clear" 
+                Height="25"
+                Command="{StaticResource ClearSignalDataCommand}" 
+                CommandParameter="{Binding}"/>
+        </StackPanel>
+        
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />

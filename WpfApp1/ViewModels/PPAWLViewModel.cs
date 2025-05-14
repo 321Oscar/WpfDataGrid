@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace ERad5TestGUI.ViewModels
 {
-    public class PPAWLViewModel : SendFrameViewModelBase
+    public class PPAWLViewModel : SendFrameViewModelBase, Interfaces.IClearData
     {
         private readonly ObservableCollection<AnalogSignal> _analogSignals = new ObservableCollection<AnalogSignal>();
         //private readonly ObservableCollection<DiscreteOutputSignal> _outputSignals = new ObservableCollection<DiscreteOutputSignal>();
@@ -288,6 +288,18 @@ namespace ERad5TestGUI.ViewModels
             GDICRegisterSignal analogSignal = new GDICRegisterSignal(signal, ViewName);
             SignalStore.AddSignal(analogSignal);
             return analogSignal;
+        }
+
+        public void ClearData()
+        {
+            foreach (var item in AnalogSignals)
+            {
+                item.Clear();
+            }
+            foreach (var item in SignalStore.GetSignals<SignalBase>(ViewName,false))
+            {
+                item.Clear();
+            }
         }
 
 

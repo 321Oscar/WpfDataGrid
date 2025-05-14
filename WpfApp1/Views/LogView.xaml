@@ -3,7 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:ERad5TestGUI.Views"
+    xmlns:utils="clr-namespace:ERad5TestGUI.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -14,13 +16,19 @@
             <ColumnDefinition Width="auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <StackPanel>
+        <StackPanel Margin="5">
             <CheckBox Content="Log A I/O" IsChecked="{Binding AnalogSignalLogEnable}"/>
-            <CheckBox Content="Log DI" IsEnabled="False"/>
-            <CheckBox Content="Log DO" IsEnabled="False"/>
-            <CheckBox Content="Log PWM IN and TEMP" IsEnabled="False"/>
-            
-            
+            <CheckBox Content="Log DI" IsChecked="{Binding DiscreteInSignalLogEnable}"/>
+            <!--<CheckBox Content="Log DO" IsChecked="{Binding DiscreteOutSignalLogEnable}"/>-->
+            <CheckBox Content="Log PulseIn" IsChecked="{Binding PulseInSignalLogEnable}"/>
+            <utils:ControlWithTitle Title="Intervel(ms)" Margin="5,5,5,0">
+                <utils:ControlWithTitle.Content>
+                    <TextBox 
+                        Width="80" 
+                        Text="{Binding Interval,Mode=TwoWay}"
+                        IsReadOnly="{Binding IsLogging}"/>
+                </utils:ControlWithTitle.Content>
+            </utils:ControlWithTitle>
             <Button Command="{Binding StartCommand}" Width="80" Margin="0,5">
                 <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
@@ -36,10 +44,35 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Content="Clear" Command="{Binding ClearCommand}" Width="80"/>
+            
+            <Button 
+                Content="Clear" 
+                Command="{Binding ClearCommand}" 
+                Width="80"
+                Margin="0,0,0,5"/>
+            <Button Width="80"
+                    Command="{Binding SaveToCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                        <Setter Property="Content" Value="Save To"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SavingLogFile}" Value="True">
+                                <Setter Property="Content" Value="Stop Saving"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SavingLogFile}" Value="False">
+                                <Setter Property="Content" Value="Save To"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
         <GroupBox  Grid.Column="1" Header="Logs">
-            <ListBox ItemsSource="{Binding SignalLogs}"/>
+            <ListBox ItemsSource="{Binding SignalLogs}">
+                <!--<i:Interaction.Behaviors>
+                    <utils:ListBoxScrollBehavior />
+                </i:Interaction.Behaviors>-->
+            </ListBox>
         </GroupBox>
         
         <!--<TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="1" VerticalScrollBarVisibility="Visible" />-->

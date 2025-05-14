@@ -16,6 +16,12 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
                     <TextBlock Text="PPAWL" Style="{StaticResource TitleLabel}"/>
+            <Button 
+                Margin="10,0,0,0"
+                Content="Clear All" 
+                Height="25" 
+                Command="{StaticResource ClearSignalDataCommand}" 
+                CommandParameter="{Binding}"/>
             <Button Content="loc reg"
                     Command="{Binding LocResCommand}"
                     Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"/>
@@ -30,6 +36,14 @@
                 <RowDefinition Height="auto" MaxHeight="500"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
+            <Button 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Content="Clear" 
+                Panel.ZIndex="99" 
+                Margin="100,5,0,0"
+                Command="{StaticResource ClearSignalDataCommand}" 
+                    CommandParameter="{Binding AnalogSignals}"/>
             <GroupBox Header="Analog Inputs" >
                 <DataGrid IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding AnalogSignals}">
                     <DataGrid.Columns>

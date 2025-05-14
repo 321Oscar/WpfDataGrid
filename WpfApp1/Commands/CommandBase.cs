@@ -62,35 +62,43 @@ namespace ERad5TestGUI.Commands
             }
             else
             {
-                var values = (object[])parameter;
+                object[] values = null;
 
-                if (values == null)
-                    return;
-
-                //first is SignalStore
-                Stores.SignalStore signalStore = (Stores.SignalStore)values[0];
-                //ViewName string
-                string viewName = values[1].ToString();
-                //Type
-                if (values.Length == 3)
+                try
                 {
-                    Type t = (Type)values[2];
-                    var method = signalStore.GetType().GetMethod("GetSignals", new Type[] { typeof(string), typeof(bool?) }).MakeGenericMethod(t);
-                    var test = method.Invoke(signalStore, new object[] { viewName, false });
-                    if (test is IEnumerable<SignalBase> enumerable)
+                    values = (object[])parameter;
+                    if (values == null)
+                        return;
+
+                    //first is SignalStore
+                    Stores.SignalStore signalStore = (Stores.SignalStore)values[0];
+                    //ViewName string
+                    string viewName = values[1].ToString();
+                    //Type
+                    if (values.Length == 3)
                     {
-                        foreach (var item in enumerable)
+                        Type t = (Type)values[2];
+                        var method_GetSignals = signalStore.GetType().GetMethod("GetSignals", new Type[] { typeof(string), typeof(bool?) }).MakeGenericMethod(t);
+                        var signals_2 = method_GetSignals.Invoke(signalStore, new object[] { viewName, false });
+                        if (signals_2 is IEnumerable<SignalBase> signalList)
+                        {
+                            foreach (var item in signalList)
+                            {
+                                item.Clear();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var item in signalStore.GetSignals<SignalBase>(viewName, false))
                         {
                             item.Clear();
                         }
                     }
                 }
-                else
+                catch (Exception)
                 {
-                    foreach (var item in signalStore.GetSignals<SignalBase>(viewName, false))
-                    {
-                        item.Clear();
-                    }
+                    return;
                 }
 
             }

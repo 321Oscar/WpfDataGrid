@@ -649,7 +649,18 @@
 
     <DataTemplate DataType="{x:Type models:DiscreteInputSignalGroup}">
         <GroupBox Header="{Binding GroupName}" Margin="2">
-            <ContentControl Content="{Binding Signals}" ContentTemplate="{StaticResource DisInSignals}" Margin="-7"/>
+            <Grid>
+                <Button 
+                    Content="Clear Data" 
+                    Width="80" 
+                    Height="25"
+                     HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Margin="100,-35,0,0" 
+                    Command="{StaticResource ClearSignalDataCommand}" 
+                    CommandParameter="{Binding Signals}"/>
+                <ContentControl Content="{Binding Signals}" ContentTemplate="{StaticResource DisInSignals}" Margin="-7"/>
+            </Grid>
         </GroupBox>
     </DataTemplate>
     <DataTemplate DataType="{x:Type models:DiscreteOutputSignalGroup}">
@@ -659,7 +670,18 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type models:PulseInGroupGroup}">
         <GroupBox Header="{Binding GroupName}" Margin="2">
-            <ContentControl Content="{Binding Groups}" ContentTemplate="{StaticResource PulseInGroupList}"  Margin="-7"/>
+            <Grid>
+                <Button 
+                    Content="Clear Data" 
+                    Width="80" 
+                    Height="25"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Margin="80,-35,0,0" 
+                    Command="{StaticResource ClearSignalDataCommand}" 
+                    CommandParameter="{Binding}"/>
+                <ContentControl Content="{Binding Groups}" ContentTemplate="{StaticResource PulseInGroupList}"  Margin="-7"/>
+            </Grid>
         </GroupBox>
     </DataTemplate>
     <DataTemplate DataType="{x:Type models:TextBoxSignalView}">

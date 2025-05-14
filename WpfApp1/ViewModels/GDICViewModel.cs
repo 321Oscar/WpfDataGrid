@@ -15,7 +15,7 @@ using ERad5TestGUI.Stores;
 
 namespace ERad5TestGUI.ViewModels
 {
-    public class GDICViewModel : SendFrameViewModelBase
+    public class GDICViewModel : SendFrameViewModelBase,Interfaces.IClearData
     {
         public const string GDICStatusViewName = "GDIC_Status";
         public const string GDICAoutViewName = "GDIC_Aout";
@@ -414,8 +414,17 @@ namespace ERad5TestGUI.ViewModels
 
             //adcSignals = 
         }
+
+
         //--------------------------------------------------------------------
 
-
+        public void ClearData()
+        {
+            //throw new NotImplementedException();
+            foreach (var item in SignalStore.GetSignals<SignalBase>(ViewName, false))
+            {
+                item.Clear();
+            }
+        }
     }
 }

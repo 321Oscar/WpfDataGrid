@@ -313,10 +313,13 @@ namespace ERad5TestGUI.ViewModels
         * 0.0.1.5 2025050801
         * DiscreteOutput信号 选择Sync并更新temp值后 不跟随实时信号
         * Memory Cancel按钮优化
+        * 20250513
+        * 修复平均值信号，当清空一次后，计算出的平均值为NAN的bug
+        * Log界面增加信号可选，增加保存文件按钮
         */
         /// <summary>
         /// Soft Version
         /// </summary>
-        public string Version { get; } = "0.0.1.5-2025050801";
+        public string Version { get; } = "0.0.1.5-20250513";
     }
 }
