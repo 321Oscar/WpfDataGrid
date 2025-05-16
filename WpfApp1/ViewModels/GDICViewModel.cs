@@ -255,7 +255,7 @@ namespace ERad5TestGUI.ViewModels
                 }
             }
         }
-        public double MaxThreshold { get; set; }
+        public double MaxThreshold { get; set; } = 5;
         public double MinThreshold { get; set; }
         public int ThresholdType { get; set; }
         public ICommand UpdateThresholdCommand { get => _updateThresholdCommand ?? (_updateThresholdCommand = new RelayCommand(UpdateThreshold)); }

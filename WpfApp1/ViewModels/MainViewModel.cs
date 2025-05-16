@@ -316,10 +316,12 @@ namespace ERad5TestGUI.ViewModels
         * 20250513
         * 修复平均值信号，当清空一次后，计算出的平均值为NAN的bug
         * Log界面增加信号可选，增加保存文件按钮
+        * 20250516
+        * 增加舍弗勒 Sent 信号解析【PPAWL】
         */
         /// <summary>
         /// Soft Version
         /// </summary>
-        public string Version { get; } = "0.0.1.5-20250513";
+        public string Version { get; } = "0.0.1.5-20250516";
     }
 }

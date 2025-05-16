@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 using ERad5TestGUI.Stores;
@@ -148,8 +149,10 @@ namespace ERad5TestGUI.Models
         }
     }
 
-    public class GDICRegisterSignal : TransFormSignalBase, IGroupSignal
+    public class GDICRegisterSignal : TransFormSignalBase, IGroupSignal, IHexValue
     {
+        private string _hexValue;
+
         /// <summary>
         /// Top-U-Config
         /// </summary>
@@ -158,6 +161,9 @@ namespace ERad5TestGUI.Models
         public string Address { get; set; }
         public bool Fixed { get; set; }
         public string FixedValue { get; set; }
+
+        public string HexValue { get => _hexValue; set => SetProperty(ref _hexValue, value); }
+
         public GDICRegisterSignal()
         {
 
@@ -165,7 +171,7 @@ namespace ERad5TestGUI.Models
 
         public GDICRegisterSignal(Signal signal, string viewName) : base(signal, viewName)
         {
-           
+
         }
 
         public override void UpdateFormDBC(Signal signal)
@@ -182,7 +188,57 @@ namespace ERad5TestGUI.Models
             else
             {
                 Value1 = ((int)originValue).ToString("X");
+                HexValue = ((int)originValue).ToString("X");
             }
+        }
+    }
+
+    public class StatusDataSignalBinary : TransFormSignalBase, IBinaryValue
+    {
+        private string _binaryValue;
+        [XmlIgnore]
+        public string BinaryValue { get => _binaryValue; set => SetProperty(ref _binaryValue, value); }
+        protected override void OnOriginValueChaned(double originValue, bool changed)
+        {
+            base.OnOriginValueChaned(originValue, changed);
+            BinaryValue = System.Convert.ToString((int)originValue, 2);
+        }
+    }
+    public class StatusDataSignalBinaryHex : StatusDataSignalBinary, IHexValue
+    {
+        private string _hexValue;
+        [XmlIgnore]
+        public string HexValue { get => _hexValue; set => SetProperty(ref _hexValue, value); }
+
+        protected override void OnOriginValueChaned(double originValue, bool changed)
+        {
+            base.OnOriginValueChaned(originValue, changed);
+            HexValue = System.Convert.ToString((int)originValue, 16);
+        }
+    }
+
+    public class StatusDataSignal : StatusDataSignalBinaryHex
+    {
+        private string _status;
+        [XmlIgnore]
+        public string Status
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_status)) return Value1;
+                else return _status;
+            }
+            set => SetProperty(ref _status, value);
+        }
+        [XmlIgnore]
+        public Func<int, string> StatusTransForm { get; set; }
+        protected override void OnOriginValueChaned(double originValue, bool changed)
+        {
+            base.OnOriginValueChaned(originValue, changed);
+            if (StatusTransForm != null)
+                Status = StatusTransForm?.Invoke((int)originValue);
+            else
+                OnPropertyChanged(nameof(Status));
         }
     }
 

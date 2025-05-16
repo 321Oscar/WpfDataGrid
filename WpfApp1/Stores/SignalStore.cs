@@ -104,8 +104,10 @@ namespace ERad5TestGUI.Stores
             {
                 {typeof(AnalogSignal),true },
                 {typeof(DiscreteInputSignal),true },
-                {typeof(DiscreteOutputSignal),true },
+                //{typeof(DiscreteOutputSignal),true },
                 {typeof(PulseInSignal),true },
+                //{typeof(StatusDataSignal),true },
+                //{typeof(GDICStatusDataSignal),true },
                 //{typeof(PulseOutSingleSignal),true },
             };
         }
@@ -137,15 +139,15 @@ namespace ERad5TestGUI.Stores
             _udsConfig = XmlHelper.DeserializeFromXml<UDS.UDSConfig>(UDSConfigFilePath);
         }
 
-        public void AddSignal(SignalBase signal)
+        public SignalBase AddSignal(SignalBase signal)
         {
             var updateSignal = DBCSignals.FirstOrDefault(x => x.SignalName == signal.Name);
             if (updateSignal != null)
             {
                 signal.UpdateFormDBC(updateSignal);
             }
-
-            if (Signals.FirstOrDefault(x => x.MessageID == signal.MessageID && x.Name == signal.Name) == null)
+            var existSignal = Signals.FirstOrDefault(x => x.MessageID == signal.MessageID && x.Name == signal.Name);
+            if (existSignal == null)
             {
                 _signals.Add(signal);
 #if DEBUG
@@ -160,6 +162,11 @@ namespace ERad5TestGUI.Stores
                 if (SignalLocation.Signals.FirstOrDefault(x => x.MessageID == signal.MessageID && x.Name == signal.Name) == null &&
                     !(signal is DiscreteInputSignal))
                     SignalLocation.Signals.Add(signal);
+                return signal;
+            }
+            else
+            {
+                return existSignal;
             }
         }
         /// <summary>
@@ -228,7 +235,7 @@ namespace ERad5TestGUI.Stores
                            });
         }
         /// <summary>
-        /// 模糊查询信号，若没有则新建信号
+        /// 模糊查询信号，若没有则从DBC文件中新建信号
         /// </summary>
         /// <typeparam name="TSignal"></typeparam>
         /// <param name="signalName"></param>

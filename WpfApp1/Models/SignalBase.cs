@@ -22,6 +22,9 @@ namespace ERad5TestGUI.Models
     [XmlInclude(typeof(ResolverSignal))]
     [XmlInclude(typeof(SPISignal))]
     [XmlInclude(typeof(SafingLogicDirectionSignal))]
+    [XmlInclude(typeof(StatusDataSignalBinary))]
+    [XmlInclude(typeof(StatusDataSignalBinaryHex))]
+    [XmlInclude(typeof(StatusDataSignal))]
     public class SignalBase : ObservableObject, IDBCSignal
     {
         public const string ViewNameSplit = ";";
@@ -80,6 +83,7 @@ namespace ERad5TestGUI.Models
             get => originValue;
             set
             {
+                BeforeOriginValueChanged(originValue, value);
                 var equal = SetProperty(ref originValue, value);
                 OnOriginValueChaned(value, equal);
             }
@@ -135,6 +139,11 @@ namespace ERad5TestGUI.Models
         {
             //RealValue = TransForm(originValue).ToString();
         }
+        protected virtual void BeforeOriginValueChanged(double old,double val)
+        {
+            BeforeOriginValueChange?.Invoke(old, val);
+        }
+        public event Action<double, double> BeforeOriginValueChange;
 
         /// <summary>
         /// start with "VI_" Replace ""
@@ -421,7 +430,12 @@ namespace ERad5TestGUI.Models
             Groups = new List<TGroup>();
         }
     }
-
+    public class SignalBaseGroup : SignalGroup<SignalBase>
+    {
+        public SignalBaseGroup(string groupName) : base(groupName)
+        {
+        }
+    }
     public class SignalGroup<TSignal> : SignalGroupBase
         where TSignal : SignalBase, new()
     {
@@ -436,6 +450,16 @@ namespace ERad5TestGUI.Models
     public interface IGroupSignal
     {
         string GroupName { get; }
+    }
+
+    public interface IHexValue
+    {
+        string HexValue { get; set; }
+    }
+
+    public interface IBinaryValue
+    {
+        string BinaryValue { get; set; }
     }
     
     public interface IDBCSignal

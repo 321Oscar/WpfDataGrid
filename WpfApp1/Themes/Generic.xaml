@@ -564,6 +564,48 @@
 
         </Grid>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type models:StatusDataSignal}">
+        <Border Style="{StaticResource CardBorder}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" SharedSizeGroup="SignalName" />
+                    <ColumnDefinition Width="auto" SharedSizeGroup="Value" MinWidth="40"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource SignalNameFontStyle}" Text="{Binding DisplayName}"/>
+                <Border Style="{StaticResource CellBorder}" Grid.Column="1" BorderThickness="2,0">
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock 
+                            Margin="0,0,5,0"
+                            Style="{StaticResource ValueTextBlockStyle}"
+                            Text="{Binding Status}" />
+                        <TextBlock 
+                            Text="{Binding HexValue}" 
+                            VerticalAlignment="Center" 
+                            Foreground="Gray"/>
+                        <TextBlock 
+                            Margin="5,0"
+                            Text="{Binding BinaryValue}" 
+                            VerticalAlignment="Center" 
+                            Foreground="Gray"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <Border.ToolTip>
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SignalToolTip}"/>
+            </Border.ToolTip>
+        </Border>
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type models:SignalBaseGroup}">
+        <GroupBox Header="{Binding GroupName}">
+            <ItemsControl ItemsSource="{Binding Signals}" >
+               
+            </ItemsControl>
+        </GroupBox>
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type models:PulseInSignalGroup}">
         <Border Style="{StaticResource CardBorder}">
             <Grid>
