@@ -29,7 +29,11 @@ namespace ERad5TestGUI.ViewModels
         private string log;
         private RelayCommand _disableINHCANCommand;
         private RelayCommand<uint> _sendCANFDWakeUpCommand;
-       
+#if DEBUG
+        public bool DebugMode { get => true; }
+#else
+        public bool DebugMode { get => false; }
+#endif
         public ObservableObject CurrentViewModel => _navigationStore.CurrentViewModel;
         public ObservableObject CurrentModalViewModel => _modalNavigationStore.CurrentViewModel;
         public bool IsOpen => _modalNavigationStore.IsOpen;
@@ -114,7 +118,7 @@ namespace ERad5TestGUI.ViewModels
         private void OnCurrentViewModelChanged()
         {
             OnPropertyChanged(nameof(CurrentViewModel));
-            Console.WriteLine($"{DateTime.Now:HH:mm:ss fff} view changed");
+            //Console.WriteLine($"{DateTime.Now:HH:mm:ss fff} view changed");
         }
 
         private void OnCurrentModalViewModelChanged()
@@ -123,9 +127,9 @@ namespace ERad5TestGUI.ViewModels
             OnPropertyChanged(nameof(IsOpen));
         }
 
-        public ICommand OpenCommand { get; }
-        public ICommand CloseCommand { get; }
-        public ICommand StartCommand { get; }
+        //public ICommand OpenCommand { get; }
+        //public ICommand CloseCommand { get; }
+        //public ICommand StartCommand { get; }
         public ICommand StopCommand { get; }
         public ICommand DeivceConfigCommand { get; }
         public ICommand DisableINHCANCommand { get => _disableINHCANCommand ?? (_disableINHCANCommand = new RelayCommand(DisableINHCAN, () => HasDevice)); }
@@ -142,21 +146,21 @@ namespace ERad5TestGUI.ViewModels
             {
                 _deviceStore.FramesCount = 0;
                 CurrentDevice.Start();
-                if (CurrentDevice is VectorCan)
-                {
-//#if DEBUG
-//                    HardwareID = "x.x.x.x";
-//                    EMSWVersion = "x.x.x.x";
-//#else
-                    EMSWVersion = await ReadDID(DIDF130);
-                    HardwareID = await ReadDID(DIDF193);
-//#endif
-
-                }
-                else
+                if (CurrentDevice is VirtualDevice)
                 {
                     HardwareID = "x.x.x.x";
                     EMSWVersion = "x.x.x.x";
+                }
+                else
+                {
+                    //#if DEBUG
+                    //                    HardwareID = "x.x.x.x";
+                    //                    EMSWVersion = "x.x.x.x";
+                    //#else
+                    EMSWVersion = await ReadDID(DIDF130);
+                    HardwareID = await ReadDID(DIDF193);
+                    //#endif
+
                 }
             }
             OnPropertyChanged(nameof(Started));
@@ -318,10 +322,14 @@ namespace ERad5TestGUI.ViewModels
         * Log界面增加信号可选，增加保存文件按钮
         * 20250516
         * 增加舍弗勒 Sent 信号解析【PPAWL】
+        * 20250519
+        * 增加缺失信号 LOW_NXP_ACT_DISCH
+        * 0.0.1.6（20250519重新打包)
+        * 更新版本
         */
         /// <summary>
         /// Soft Version
         /// </summary>
-        public string Version { get; } = "0.0.1.5-20250516";
+        public string Version { get; } = "0.0.1.6";
     }
 }

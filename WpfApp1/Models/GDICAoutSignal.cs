@@ -193,7 +193,7 @@ namespace ERad5TestGUI.Models
         }
     }
 
-    public class StatusDataSignalBinary : TransFormSignalBase, IBinaryValue
+    public class StatusDataSignalBinary : LimitsSignalBase, IBinaryValue
     {
         private string _binaryValue;
         [XmlIgnore]

@@ -33,10 +33,10 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Button 
-                    Height="25"
+                            Height="25"
                             Grid.Column="0"
                             Grid.Row="0"
-                            Content="Config"
+                            Content="{DynamicResource Config}"
                             Command="{Binding DeivceConfigCommand}" 
                             HorizontalAlignment="Left"
                             Width="80"/>
@@ -198,6 +198,19 @@
                         </Button>
                     </StackPanel>
                 </Grid>
+            </GroupBox>
+            <GroupBox 
+                Margin="0,5,5,5"
+                Header="Setting" 
+                Grid.Column="3" 
+                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel>
+                    <ComboBox x:Name="cbbLang" Loaded="cbbLang_Loaded">
+                        <!--<ComboBoxItem>English</ComboBoxItem>
+                        <ComboBoxItem>中文</ComboBoxItem>-->
+                    </ComboBox>
+                    <Button Content="Change Lang" Name="ChangeLang" Click="ChangeLang_Click"/>
+                </StackPanel>
             </GroupBox>
             <GroupBox Header="Controls" Margin="0,5" Visibility="Collapsed" Grid.Column="3">
                 <WrapPanel MaxWidth="500">

@@ -355,11 +355,13 @@
                             <ColumnDefinition Width="auto" SharedSizeGroup="title"/>
                             <ColumnDefinition Width="*" SharedSizeGroup="content"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{TemplateBinding Title}" 
-                                   FontWeight="Bold" 
-                                   VerticalAlignment="Center" 
-                                   Margin="0,0,10,0"
-                                   Grid.Column="0"/>
+                        <TextBlock 
+                            Text="{TemplateBinding Title}" 
+                            FontWeight="Bold" 
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Right"
+                            Margin="0,0,10,0"
+                            Grid.Column="0"/>
 
                         <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}" />
                     </Grid>

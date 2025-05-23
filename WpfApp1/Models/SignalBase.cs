@@ -329,7 +329,12 @@ namespace ERad5TestGUI.Models
                 if (double.IsNaN(realVal))
                     OutLimits = false;
                 else
-                    OutLimits = realVal > MaxThreshold || realVal < MinThreshold;
+                {
+                    if (!double.IsNaN(MaxThreshold))
+                        OutLimits = realVal > MaxThreshold;
+                    if (!double.IsNaN(MinThreshold))
+                        OutLimits = OutLimits || realVal < MinThreshold;
+                }
             }
         }
     }

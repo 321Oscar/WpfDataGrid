@@ -575,21 +575,30 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Style="{StaticResource SignalNameFontStyle}" Text="{Binding DisplayName}"/>
                 <Border Style="{StaticResource CellBorder}" Grid.Column="1" BorderThickness="2,0">
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock 
+                    <Grid Grid.Column="1" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" SharedSizeGroup="Value1" />
+                            <ColumnDefinition Width="auto" SharedSizeGroup="Value2" MinWidth="40"/>
+                            <ColumnDefinition Width="auto" SharedSizeGroup="Value3" MinWidth="40"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
                             Margin="0,0,5,0"
                             Style="{StaticResource ValueTextBlockStyle}"
-                            Text="{Binding Status}" />
+                            Text="{Binding Status}" 
+                            Foreground="{Binding OutLimits, Converter={StaticResource OutLimitsColorConverter}}"/>
                         <TextBlock 
-                            Text="{Binding HexValue}" 
+                            Grid.Column="1"
+                            Text="{Binding HexValue,StringFormat=0x{0}}" 
                             VerticalAlignment="Center" 
                             Foreground="Gray"/>
                         <TextBlock 
+                            Grid.Column="2"
                             Margin="5,0"
-                            Text="{Binding BinaryValue}" 
+                            Text="{Binding BinaryValue,StringFormat=0b{0}}" 
                             VerticalAlignment="Center" 
                             Foreground="Gray"/>
-                    </StackPanel>
+                    </Grid>
                 </Border>
             </Grid>
             <Border.ToolTip>
@@ -599,10 +608,8 @@
     </DataTemplate>
     
     <DataTemplate DataType="{x:Type models:SignalBaseGroup}">
-        <GroupBox Header="{Binding GroupName}">
-            <ItemsControl ItemsSource="{Binding Signals}" >
-               
-            </ItemsControl>
+        <GroupBox Header="{Binding GroupName}" Margin="2" MinWidth="400">
+            <ItemsControl ItemsSource="{Binding Signals}" Margin="-7" />
         </GroupBox>
     </DataTemplate>
     

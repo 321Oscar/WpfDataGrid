@@ -460,6 +460,7 @@ namespace ERad5TestGUI.Devices
             }
         }
 
+        public DeviceRecieveFrameStatus RecieveStatus { get => recieveStatus; private set => SetProperty(ref recieveStatus , value); }
         // -----------------------------------------------------------------------------------------------
         /// <summary>
         /// EVENT THREAD (RX)
@@ -467,7 +468,6 @@ namespace ERad5TestGUI.Devices
         /// RX thread waits for Vector interface events and displays filtered CAN messages.
         /// </summary>
         // ----------------------------------------------------------------------------------------------- 
-        public DeviceRecieveFrameStatus RecieveStatus { get => recieveStatus; private set => SetProperty(ref recieveStatus , value); }
         private void RXThread()
         {
             // Create new object containing received data 
@@ -557,7 +557,6 @@ namespace ERad5TestGUI.Devices
                 {
                     if (DataQueue.TryDequeue(out XLClass.XL_CAN_TAG_DATA data))
                     {
-
                         CanFrame frame = new CanFrame(
                             data.canRxOkMsg.canId,
                             data.canRxOkMsg.data,

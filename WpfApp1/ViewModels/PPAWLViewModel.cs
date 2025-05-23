@@ -185,61 +185,9 @@ namespace ERad5TestGUI.ViewModels
             sentSignals.Groups.AddRange(xx);
             _groups.Add(sentSignals);
 
-
-            SignalBaseGroup sentSignalspPawl = new SignalBaseGroup("Sent_2");
-            SignalBase raw_pos = new StatusDataSignal()
-            {
-                Name = "Raw_Pos",
-                MessageID = 0x610,
-                StartBit = 276,
-                Length = 12,
-                Factor = 1,
-                Format = "",
-                ByteOrder = 1,
-                //StatusTransForm = RawStatusTransForm
-            };
-            raw_pos = SignalStore.AddSignal(raw_pos);
-            ((StatusDataSignal)raw_pos).StatusTransForm = RawStatusTransForm;
-            SignalBase raw_Rlt = new StatusDataSignal()
-            {
-                Name = "Raw_RollingCnt",
-                MessageID = 0x610,
-                StartBit = 268,
-                Length = 8,
-                Factor = 1,
-                Format = "",
-                ByteOrder = 1,
-                //StatusTransForm = RawStatusTransForm
-            };
-            raw_Rlt = SignalStore.AddSignal(raw_Rlt);
-            raw_Rlt.BeforeOriginValueChange += (o, n) =>
-            {
-                if (n - o > 50)
-                {
-                    (raw_Rlt as StatusDataSignal).Status = "Error";
-                }
-                else
-                {
-                    (raw_Rlt as StatusDataSignal).Status = "Normal";
-                }
-            };
-            SignalBase raw_InverCode = new StatusDataSignal()
-            {
-                Name = "Raw_InverCode",
-                MessageID = 0x610,
-                StartBit = 264,
-                Length = 4,
-                Factor = 1,
-                Format = "",
-                ByteOrder = 1,
-                //StatusTransForm = RawStatusTransForm
-            };
-            raw_InverCode = SignalStore.AddSignal(raw_InverCode);
-
-            sentSignalspPawl.Signals.Add(raw_pos);
-            sentSignalspPawl.Signals.Add(raw_Rlt);
-            sentSignalspPawl.Signals.Add(raw_InverCode);
-            _groups.Add(sentSignalspPawl);
+#if DEBUG
+            AddSENT2Signals();
+#endif
 
             GDICRegistersGroup registers = new GDICRegistersGroup("DRV8705");
             var resDatas = SignalStore.GetSignals<GDICRegisterSignal>(ViewName);
@@ -267,6 +215,71 @@ namespace ERad5TestGUI.ViewModels
             //   });
             PPAWL_Current_Limit = SignalStore.GetSignalByName<PulseOutSingleSignal>("PPAWL_Current_Limit", true);
             PPAWL_Current_Limit_Update = SignalStore.GetSignalByName<PulseOutSingleSignal>("PPAWL_Current_Limit_Update", true);
+        }
+
+        private void AddSENT2Signals()
+        {
+            SignalBaseGroup sentSignalspPawl = new SignalBaseGroup("Sent_2");
+            SignalBase raw_pos = new StatusDataSignal()
+            {
+                Name = "Raw_Pos",
+                MessageID = 0x610,
+                StartBit = 276,
+                Length = 12,
+                Factor = 1,
+                Format = "",
+                ByteOrder = 1,
+                //StatusTransForm = RawStatusTransForm
+            };
+            raw_pos = SignalStore.AddSignal(raw_pos);
+            ((StatusDataSignal)raw_pos).MinThreshold = 0x258;
+            ((StatusDataSignal)raw_pos).MaxThreshold = 0xbe9;
+            ((StatusDataSignal)raw_pos).StatusTransForm = RawStatusTransForm;
+            SignalBase raw_Rlt = new StatusDataSignal()
+            {
+                Name = "Raw_RollingCnt",
+                MessageID = 0x610,
+                StartBit = 268,
+                Length = 8,
+                Factor = 1,
+                Format = "",
+                ByteOrder = 1,
+                //StatusTransForm = RawStatusTransForm
+            };
+            raw_Rlt = SignalStore.AddSignal(raw_Rlt);
+            ((StatusDataSignal)raw_Rlt).MinThreshold = double.NaN;
+            ((StatusDataSignal)raw_Rlt).MaxThreshold = double.NaN;
+            raw_Rlt.BeforeOriginValueChange += (o, n) =>
+            {
+                if (n - o > 50)
+                {
+                    (raw_Rlt as StatusDataSignal).Status = "Error";
+                    (raw_Rlt as StatusDataSignal).OutLimits = true;
+                }
+                else
+                {
+                    (raw_Rlt as StatusDataSignal).Status = "Normal";
+                    (raw_Rlt as StatusDataSignal).OutLimits = false;
+                }
+            };
+            SignalBase raw_InverCode = new StatusDataSignal()
+            {
+                Name = "Raw_InverCode",
+                MessageID = 0x610,
+                StartBit = 264,
+                Length = 4,
+                Factor = 1,
+                Format = "",
+                ByteOrder = 1,
+                //StatusTransForm = RawStatusTransForm
+            };
+            raw_InverCode = SignalStore.AddSignal(raw_InverCode);
+            ((StatusDataSignal)raw_InverCode).MinThreshold = double.NaN;
+            ((StatusDataSignal)raw_InverCode).MaxThreshold = double.NaN;
+            sentSignalspPawl.Signals.Add(raw_pos);
+            sentSignalspPawl.Signals.Add(raw_Rlt);
+            sentSignalspPawl.Signals.Add(raw_InverCode);
+            _groups.Add(sentSignalspPawl);
         }
 
         private string RawStatusTransForm(int or)
