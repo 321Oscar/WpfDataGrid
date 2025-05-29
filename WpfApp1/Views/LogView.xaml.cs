@@ -24,5 +24,11 @@ namespace ERad5TestGUI.Views
         {
             InitializeComponent();
         }
+
+        private void ListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var vm = (ViewModels.LogViewModel)DataContext;
+            vm.AttachScrollViewer((ListBox)sender);
+        }
     }
 }

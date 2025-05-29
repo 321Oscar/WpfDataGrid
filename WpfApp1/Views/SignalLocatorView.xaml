@@ -1,19 +1,19 @@
-﻿<UserControl x:Class="ERad5TestGUI.Views.SignalLocatorView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ERad5TestGUI.Views"
-             xmlns:models="clr-namespace:ERad5TestGUI.Models"
-             xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
-             mc:Ignorable="d" 
-             Background="White"
-             >
+﻿<UserControl
+    x:Class="ERad5TestGUI.Views.SignalLocatorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ERad5TestGUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:ERad5TestGUI.Models"
+    Background="White"
+    mc:Ignorable="d">
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type models:SignalBase}" x:Key="CommonLoca">
+        <DataTemplate x:Key="CommonLoca" DataType="{x:Type models:SignalBase}">
             <StackPanel>
-                <TextBlock Text="{Binding DisplayName}"/>
-                <DataGrid ItemsSource="{Binding Views}"/>
+                <TextBlock Text="{Binding DisplayName}" />
+                <DataGrid ItemsSource="{Binding Views}" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate DataType="{x:Type models:AnalogSignal}">
@@ -22,11 +22,10 @@
                     <Expander Header="Details">
 
                         <StackPanel Margin="5,2,0,0">
-                            <ctrls:LabelWithContent Title="TransformType:" Content="{Binding Transform2Type}"/>
-                            <TextBlock Text="{Binding TableName}" Margin="5,0,0,0"/>
-                            <CheckBox IsChecked="{Binding NeedTransform}" Content="Transform"/>
-                            <DataGrid ItemsSource="{Binding Views}">
-                            </DataGrid>
+                            <ctrls:LabelWithContent Title="TransformType:" Content="{Binding Transform2Type}" />
+                            <TextBlock Margin="5,0,0,0" Text="{Binding TableName}" />
+                            <CheckBox Content="Transform" IsChecked="{Binding NeedTransform}" />
+                            <DataGrid ItemsSource="{Binding Views}" />
                         </StackPanel>
                     </Expander>
                 </ctrls:ControlWithTitle.Content>
@@ -34,31 +33,34 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type models:DiscreteInputSignal}">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Name}"/>
-                <TextBox Text="{Binding ViewName}"/>
-                <CheckBox IsChecked="{Binding NeedTransitions}" Content="NeedTransitions"/>
+                <TextBlock Text="{Binding Name}" />
+                <TextBox Text="{Binding ViewName}" />
+                <CheckBox Content="NeedTransitions" IsChecked="{Binding NeedTransitions}" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate DataType="{x:Type models:DiscreteOutputSignal}">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Name}"/>
-                <TextBox Text="{Binding ViewName}"/>
+                <TextBlock Text="{Binding Name}" />
+                <TextBox Text="{Binding ViewName}" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate DataType="{x:Type models:PulseInSignalGroup}">
 
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding GroupName}" Style="{StaticResource SignalNameFontStyle}" HorizontalAlignment="Center"/>
-                <TextBlock Text="{Binding Signal_DC.Name}"/>
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource SignalNameFontStyle}"
+                    Text="{Binding GroupName}" />
+                <TextBlock Text="{Binding Signal_DC.Name}" />
                 <TextBox Text="{Binding Signal_DC.ViewName}" />
-                <TextBlock Text="{Binding Signal_Freq.Name}"/>
+                <TextBlock Text="{Binding Signal_Freq.Name}" />
                 <TextBox Text="{Binding Signal_Freq.ViewName}" />
             </StackPanel>
 
         </DataTemplate>
         <DataTemplate DataType="{x:Type models:NXPSignal}">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding DisplayName}"/>
+                <TextBlock Text="{Binding DisplayName}" />
                 <TextBox Text="{Binding ViewName}" />
             </StackPanel>
         </DataTemplate>
@@ -66,14 +68,17 @@
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <TextBlock d:Text="Title" Text="{Binding Title}" Style="{StaticResource TitleLabel}"/>
+        <TextBlock
+            d:Text="Title"
+            Style="{StaticResource TitleLabel}"
+            Text="{Binding Title}" />
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <GroupBox Header="Signal From Dbc">
@@ -83,71 +88,94 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Filter By View" IsChecked="{Binding FilterView}"/>
-                        <TextBox Width="80" Margin="5,0"
-                                 Text="{Binding FilterStr, UpdateSourceTrigger=PropertyChanged}"/>
+                        <CheckBox Content="Filter By View" IsChecked="{Binding FilterView}" />
+                        <TextBox
+                            Width="80"
+                            Margin="5,0"
+                            Text="{Binding FilterStr, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
-                <ListView 
-                    Grid.Row="1"
-                    x:Name="dbcSignalView"
-                    ItemsSource="{Binding DbcSignals}" 
-                    SelectionMode="Multiple">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn DisplayMemberBinding="{Binding MessageID,StringFormat=0x{0:X}}" Header="ID" Width="60"/>
-                            <GridViewColumn DisplayMemberBinding="{Binding Page}" Header="Views" Width="70"/>
-                            <!--<GridViewColumn DisplayMemberBinding="{Binding Comment}" Header="Comment" Width="600"/>-->
-                            <!--<GridViewColumn DisplayMemberBinding="{Binding MessageName}" Header="Name" />-->
-                            <GridViewColumn DisplayMemberBinding="{Binding SignalName}" Header="Name" Width="200"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                    <ListView
+                        x:Name="dbcSignalView"
+                        Grid.Row="1"
+                        ItemsSource="{Binding DbcSignals}"
+                        SelectionMode="Multiple">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn
+                                    Width="60"
+                                    DisplayMemberBinding="{Binding MessageID, StringFormat=0x{0:X}}"
+                                    Header="ID" />
+                                <GridViewColumn
+                                    Width="70"
+                                    DisplayMemberBinding="{Binding Page}"
+                                    Header="Views" />
+                                <!--<GridViewColumn DisplayMemberBinding="{Binding Comment}" Header="Comment" Width="600"/>-->
+                                <!--<GridViewColumn DisplayMemberBinding="{Binding MessageName}" Header="Name" />-->
+                                <GridViewColumn
+                                    Width="200"
+                                    DisplayMemberBinding="{Binding SignalName}"
+                                    Header="Name" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
             </GroupBox>
-           
+
             <!--<ScrollViewer>
                 <ItemsControl ItemsSource="{ Binding SignalStore.DBCSignals}" />
             </ScrollViewer>-->
-            <StackPanel Grid.Column="1" VerticalAlignment="Center" Width="100">
-                <Button 
-                    Content="add" 
-                    Margin="5" 
+            <StackPanel
+                Grid.Column="1"
+                Width="100"
+                VerticalAlignment="Center">
+                <Button
+                    Margin="5"
                     Command="{Binding AddMultipCommand}"
-                    CommandParameter="{Binding ElementName=dbcSignalView, Path=SelectedItems,Mode=OneWay}"/>
-                <Button Content="del" Margin="5" Command="{Binding DelCommand}"/>
+                    CommandParameter="{Binding ElementName=dbcSignalView, Path=SelectedItems, Mode=OneWay}"
+                    Content="add" />
+                <Button
+                    Margin="5"
+                    Command="{Binding DelCommand}"
+                    Content="del" />
             </StackPanel>
-            <GroupBox Header="View's Signals" Grid.Column="2">
+            <GroupBox Grid.Column="2" Header="View's Signals">
                 <Grid>
-                    <ListBox 
-                        ItemsSource="{Binding TempSignals}" 
-                        SelectedValue="{Binding CurrentTSignal}"
-                        Grid.IsSharedSizeScope="True">
+                    <ListBox
+                        Grid.IsSharedSizeScope="True"
+                        ItemsSource="{Binding TempSignals}"
+                        SelectedValue="{Binding CurrentTSignal}">
                         <ListBox.Resources>
                             <DataTemplate DataType="{x:Type models:SignalBase}">
-                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock Text="{Binding Name}" />
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type models:PulseOutGroupSignalGroup}">
-                                <Grid >
+                                <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" SharedSizeGroup="name"/>
+                                        <ColumnDefinition Width="auto" SharedSizeGroup="name" />
                                         <ColumnDefinition />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding GroupName}" Margin="0,0,5,0"/>
-                                    <ContentControl Content="{Binding DutyCycle}" ContentTemplate="{StaticResource CommonLoca}" Grid.Column="1"/>
-                                    <ContentControl Content="{Binding Freq}" ContentTemplate="{StaticResource CommonLoca}" Grid.Column="2"/>
-                                  
+                                    <TextBlock Margin="0,0,5,0" Text="{Binding GroupName}" />
+                                    <ContentControl
+                                        Grid.Column="1"
+                                        Content="{Binding DutyCycle}"
+                                        ContentTemplate="{StaticResource CommonLoca}" />
+                                    <ContentControl
+                                        Grid.Column="2"
+                                        Content="{Binding Freq}"
+                                        ContentTemplate="{StaticResource CommonLoca}" />
+
                                 </Grid>
                             </DataTemplate>
                         </ListBox.Resources>
                         <!--<ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding MessageID}" Header="ID" Width="40"/>
-                                -->
+                        -->
                         <!--<GridViewColumn DisplayMemberBinding="{Binding MessageName}" Header="Name" />-->
                         <!--
                                 <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"/>
@@ -156,11 +184,15 @@
                     </ListBox>
                 </Grid>
             </GroupBox>
-           
+
         </Grid>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
-            <Button Content="Cancel" Command="{Binding CancelCommand}"/>
-            <Button Content="Ok" Command="{Binding OkCommand}"/>
+        <StackPanel
+            Grid.Row="2"
+            Margin="0,5,0,0"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button Command="{Binding CancelCommand}" Content="Cancel" />
+            <Button Command="{Binding OkCommand}" Content="Ok" />
         </StackPanel>
     </Grid>
 </UserControl>

@@ -2,19 +2,32 @@
     x:Class="ERad5TestGUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:ERad5TestGUI"
-    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI">
+    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:local="clr-namespace:ERad5TestGUI">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="lang\DefaultLanguage.xaml"/>
+                <ResourceDictionary Source="lang\DefaultLanguage.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Themes/Generic.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/AdonisUI;component/ColorSchemes/Light.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AdonisUI;component/ColorSchemes/Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!--<SolidColorBrush x:Key="{x:Static adonisUi:Brushes.AccentForegroundBrush}">#000000</SolidColorBrush>-->
-            
+
         </ResourceDictionary>
     </Application.Resources>
+    <!--<JumpList.JumpList>
+        <JumpList>
+            <JumpTask
+                Title="标题2"
+                ApplicationPath="C:\Windows\notepad.exe"
+                Arguments="readme.txt"
+                CustomCategory="DEMO 2"
+                Description="Open readme.txt in Notepad."
+                IconResourceIndex="15"
+                IconResourcePath="C:\Windows\System32\imageres.dll"
+                WorkingDirectory="C:\Users\54302\Desktop"/>
+        </JumpList>
+    </JumpList.JumpList>-->
 </Application>

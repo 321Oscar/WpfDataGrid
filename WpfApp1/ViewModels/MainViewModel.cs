@@ -11,6 +11,8 @@ using ERad5TestGUI.Devices;
 using ERad5TestGUI.Services;
 using ERad5TestGUI.Stores;
 using ERad5TestGUI.Models;
+using AdonisUI;
+using System.Windows;
 
 namespace ERad5TestGUI.ViewModels
 {
@@ -88,7 +90,7 @@ namespace ERad5TestGUI.ViewModels
             //OpenCommand = new RelayCommand(Open, () => HasDevice);
             //CloseCommand = new RelayCommand(Close, () => HasDevice);
             //StartCommand = new RelayCommand(Start, () => HasDevice);
-            StopCommand = new AsyncRelayCommand(Stop, () => HasDevice);
+            StopCommand = new AsyncRelayCommand(Start, () => HasDevice);
             DeivceConfigCommand = new RelayCommand(DeivceConfig);
         }
 
@@ -135,8 +137,9 @@ namespace ERad5TestGUI.ViewModels
         public ICommand DisableINHCANCommand { get => _disableINHCANCommand ?? (_disableINHCANCommand = new RelayCommand(DisableINHCAN, () => HasDevice)); }
         public ICommand SendWakeUpCommand { get => _sendCANFDWakeUpCommand ?? (_sendCANFDWakeUpCommand = new RelayCommand<uint>(SendWakeUp, (x) => HasDevice)); }
 
-        private async Task Stop() 
+        private async Task Start() 
         {
+            //ChangeTheme();
             if (CurrentDevice.Started)
             {
                 CurrentDevice?.Stop();
@@ -221,7 +224,25 @@ namespace ERad5TestGUI.ViewModels
             }
             return "";
         }
-#endregion
+        #endregion
+        public bool IsDark
+        {
+            get => _isDark;
+            set
+            {
+                if (SetProperty(ref _isDark, value))
+                {
+                    ChangeTheme();
+                }
+            }
+        }
+        private bool _isDark;
+        private void ChangeTheme()
+        {
+            ResourceLocator.SetColorScheme(Application.Current.Resources, _isDark ? ResourceLocator.DarkColorScheme : ResourceLocator.LightColorScheme);
+
+            //_isDark = !_isDark;
+        }
     }
 
     public partial class MainViewModel

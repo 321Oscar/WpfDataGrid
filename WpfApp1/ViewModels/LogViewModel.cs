@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using CommunityToolkit.Mvvm.Input;
 using ERad5TestGUI.Services;
 using ERad5TestGUI.Stores;
@@ -132,6 +134,11 @@ namespace ERad5TestGUI.ViewModels
                     {
                         SignalLogs.AddRange(logs);
                     }
+
+                    if(_autoScrollEnabled && _listBoxScrollViewer != null)
+                    {
+                        _listBoxScrollViewer.ScrollToEnd();
+                    }
                 });
                 if (SavingLogFile)
                     SaveToFile(logs);
@@ -183,5 +190,33 @@ namespace ERad5TestGUI.ViewModels
                 }
             }
         }
+        #region ListBox自动滚动
+        private bool _autoScrollEnabled = true;
+        private ScrollViewer _listBoxScrollViewer;
+
+        public void AttachScrollViewer(ListBox listbox)
+        {
+            if (VisualTreeHelper.GetChildrenCount(listbox) > 0)
+            {
+                var border = (Border)VisualTreeHelper.GetChild(listbox, 0);
+                _listBoxScrollViewer = (ScrollViewer)VisualTreeHelper.GetChild(border, 0);
+                _listBoxScrollViewer.ScrollChanged -= OnScrollChanged;
+                _listBoxScrollViewer.ScrollChanged += OnScrollChanged;
+            }
+        }
+
+        private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if(Math.Abs(e.VerticalChange - e.ExtentHeightChange) > 1e-6)
+            {
+                _autoScrollEnabled = false;
+            }
+
+            if(_listBoxScrollViewer.VerticalOffset >= _listBoxScrollViewer.ExtentHeight - _listBoxScrollViewer.ViewportHeight - 1)
+            {
+                _autoScrollEnabled = true;
+            }
+        }
+        #endregion
     }
 }

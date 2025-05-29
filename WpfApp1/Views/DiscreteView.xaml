@@ -2,73 +2,74 @@
     x:Class="ERad5TestGUI.Views.DiscreteView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
     xmlns:converters="clr-namespace:ERad5TestGUI.Converters"
+    xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ERad5TestGUI.Views"
-    xmlns:models="clr-namespace:ERad5TestGUI.Models"
-    xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:ERad5TestGUI.Models"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    Background="White"
+    Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        
+
         <WrapPanel
             Grid.Row="0"
             Grid.ColumnSpan="2"
             Orientation="Horizontal">
             <TextBlock Style="{StaticResource TitleLabel}" Text="Discrete" />
-            <Button 
-                Content="Locator Inputs" 
-                Command="{Binding LocatorSignalsCommand}"  
-                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"
-                Height="25"/>
-            <Button 
-                Content="Locator Outputs" 
-                Command="{Binding LocatorOutputsCommand}"  
-                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"
-                Height="25"/>
-            <Button 
-                Visibility="Collapsed"
-                Content="Reset Motor Faults" 
-                Height="25" 
-                Margin="5"/>
-            <Button 
-                Content="Clear Data"
-                Height="25" 
-                Command="{StaticResource ClearSignalDataCommand}" 
-                CommandParameter="{Binding}"/>
+            <Button
+                Height="25"
+                Command="{Binding LocatorSignalsCommand}"
+                Content="Locator Inputs"
+                Visibility="{Binding DebugMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button
+                Height="25"
+                Command="{Binding LocatorOutputsCommand}"
+                Content="Locator Outputs"
+                Visibility="{Binding DebugMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button
+                Height="25"
+                Margin="5"
+                Content="Reset Motor Faults"
+                Visibility="Collapsed" />
+            <Button
+                Height="25"
+                Command="{StaticResource ClearSignalDataCommand}"
+                CommandParameter="{Binding}"
+                Content="Clear Data" />
         </WrapPanel>
-        <GroupBox 
+        <GroupBox
             Grid.Row="1"
-            Header="Inputs" 
-            Margin="2" 
-            Grid.RowSpan="2">
+            Grid.RowSpan="2"
+            Margin="2"
+            Header="Inputs">
             <Grid Margin="-7">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal" Margin="60,-30,0,0">
-                    <Button 
-                        Content="Clear Transitions" 
+                <StackPanel Margin="60,-30,0,0" Orientation="Horizontal">
+                    <Button
                         Width="120"
                         Height="25"
-                        Command="{Binding ClearTransitionsCommand}"/>
+                        Command="{Binding ClearTransitionsCommand}"
+                        Content="Clear Transitions" />
                 </StackPanel>
-                <ContentControl 
+                <ContentControl
                     Grid.Row="1"
-                    Content="{Binding InputSignals}" 
+                    Content="{Binding InputSignals}"
                     ContentTemplate="{StaticResource DisInSignals}" />
 
                 <!--<Grid Grid.Row="1"  Grid.IsSharedSizeScope="True">
@@ -92,7 +93,7 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="SignalName" Style="{StaticResource SignalNameFontStyle}" />
-                                        <TextBlock 
+                                        <TextBlock
                                             Style="{StaticResource DescriptionTextBlockStyle}"
                                             Text=" PinNumber"
                                             Grid.Column="1"/>
@@ -127,7 +128,7 @@
 
             </Grid>
         </GroupBox>
-        <!--output Controls-->
+        <!--  output Controls  -->
         <GroupBox
             Grid.Row="2"
             Grid.Column="1"
@@ -140,30 +141,33 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="0">
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
                     <ContentControl Content="{Binding TLFCurrentState}">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type models:SPISignalGroup}">
                                 <StackPanel Orientation="Horizontal">
                                     <ctrls:ControlWithTitle Title="Current State" Orientation="Vertical">
                                         <ctrls:ControlWithTitle.Content>
-                                            <TextBox Width="80" IsReadOnly="True" Text="{Binding CurrentValue.Value1}"/>
+                                            <TextBox
+                                                Width="80"
+                                                IsReadOnly="True"
+                                                Text="{Binding CurrentValue.Value1}" />
                                         </ctrls:ControlWithTitle.Content>
                                         <ctrls:ControlWithTitle.ToolTip>
-                                            <ContentControl Content="{Binding CurrentValue}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                                            <ContentControl Content="{Binding CurrentValue}" ContentTemplate="{StaticResource SignalToolTip}" />
                                         </ctrls:ControlWithTitle.ToolTip>
                                     </ctrls:ControlWithTitle>
                                     <ctrls:ControlWithTitle Title="State Select" Orientation="Vertical">
                                         <ctrls:ControlWithTitle.Content>
-                                            <ComboBox 
-                                                Width="80" 
-                                                ItemsSource="{Binding SelectValue.Value2State}"
+                                            <ComboBox
+                                                Width="80"
                                                 DisplayMemberPath="Value"
-                                                SelectedValuePath="Key"
-                                                SelectedValue="{Binding SelectValue.OriginValue}"/>
+                                                ItemsSource="{Binding SelectValue.Value2State}"
+                                                SelectedValue="{Binding SelectValue.OriginValue}"
+                                                SelectedValuePath="Key" />
                                         </ctrls:ControlWithTitle.Content>
                                         <ctrls:ControlWithTitle.ToolTip>
-                                            <ContentControl Content="{Binding SelectValue}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                                            <ContentControl Content="{Binding SelectValue}" ContentTemplate="{StaticResource SignalToolTip}" />
                                         </ctrls:ControlWithTitle.ToolTip>
                                     </ctrls:ControlWithTitle>
                                 </StackPanel>
@@ -172,37 +176,41 @@
                     </ContentControl>
 
 
-                    <Button 
-                        Content="Update TLF35584 State"
+                    <Button
                         Command="{Binding UpdateStateCommand}"
-                        CommandParameter="{Binding UpdateTLFState}"/>
+                        CommandParameter="{Binding UpdateTLFState}"
+                        Content="Update TLF35584 State" />
                 </StackPanel>
-                <WrapPanel Orientation="Horizontal" Grid.Row="1" Margin="0,5">
+                <WrapPanel
+                    Grid.Row="1"
+                    Margin="0,5"
+                    Orientation="Horizontal">
                     <Button
                         Padding="5"
-                        Content="Disable SBC_WD_TRIG"
                         Command="{Binding UpdateStateCommand}"
-                        CommandParameter="{Binding DIS_SBC_WWD_TRIG}">
+                        CommandParameter="{Binding DIS_SBC_WWD_TRIG}"
+                        Content="Disable SBC_WD_TRIG">
                         <Button.ToolTip>
-                            <ContentControl Content="{Binding DIS_SBC_WWD_TRIG}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                            <ContentControl Content="{Binding DIS_SBC_WWD_TRIG}" ContentTemplate="{StaticResource SignalToolTip}" />
                         </Button.ToolTip>
                     </Button>
-                    <Button 
-                        Content="Send Bad Anwser"  
+                    <Button
                         Command="{Binding UpdateStateCommand}"
-                        CommandParameter="{Binding SEND_BAD_ANSWER}">
+                        CommandParameter="{Binding SEND_BAD_ANSWER}"
+                        Content="Send Bad Anwser">
                         <Button.ToolTip>
-                            <ContentControl Content="{Binding SEND_BAD_ANSWER}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                            <ContentControl Content="{Binding SEND_BAD_ANSWER}" ContentTemplate="{StaticResource SignalToolTip}" />
                         </Button.ToolTip>
                     </Button>
-                    <Button Content="Disable ERR Trigger"
-                             Command="{Binding UpdateStateCommand}"
-                        CommandParameter="{Binding DisableErrTigger}">
+                    <Button
+                        Command="{Binding UpdateStateCommand}"
+                        CommandParameter="{Binding DisableErrTigger}"
+                        Content="Disable ERR Trigger">
                         <Button.ToolTip>
-                            <ContentControl Content="{Binding DisableErrTigger}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                            <ContentControl Content="{Binding DisableErrTigger}" ContentTemplate="{StaticResource SignalToolTip}" />
                         </Button.ToolTip>
                     </Button>
-                  
+
                 </WrapPanel>
                 <StackPanel Grid.Row="2">
                     <TextBlock TextWrapping="WrapWithOverflow">NOTE: If you want to change the TLF35584 state, please confirm if the jump conditions are met.</TextBlock>
@@ -210,33 +218,26 @@
                 </StackPanel>
             </Grid>
         </GroupBox>
-        <!-- Output DataGrid -->
+        <!--  Output DataGrid  -->
         <GroupBox
             Grid.Row="1"
             Grid.Column="1"
-            Header="Outputs" Margin="0,2,2,0">
+            Margin="0,2,2,0"
+            Header="Outputs">
             <Grid Margin="-10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <ContentControl 
-                    Content="{Binding OutputSignals}" 
-                    ContentTemplate="{StaticResource DisOutSignals}"/>
-                <StackPanel 
+                <ContentControl Content="{Binding OutputSignals}" ContentTemplate="{StaticResource DisOutSignals}" />
+                <StackPanel
+                    Grid.Row="1"
                     Margin="5,2"
-                    Orientation="Horizontal" 
-                    Grid.Row="1">
-                    <CheckBox
-                        Content="Sync"
-                        IsChecked="{Binding OutputSignalSync}"
-                        Style="{StaticResource NormalCheckBox}" />
-                    <Button
-                        Command="{Binding UpdateCommand}"
-                        Content="Update"
-                     />
+                    Orientation="Horizontal">
+                    <CheckBox Content="Sync" IsChecked="{Binding OutputSignalSync}" />
+                    <Button Command="{Binding UpdateCommand}" Content="Update" />
                 </StackPanel>
-            <!--<DataGrid
+                <!--<DataGrid
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"
                     CanUserDeleteRows="False"
@@ -258,7 +259,7 @@
                                     <CheckBox HorizontalAlignment="Center" IsChecked="{Binding Pin_High, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn> 
+                        </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Pin_Low">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

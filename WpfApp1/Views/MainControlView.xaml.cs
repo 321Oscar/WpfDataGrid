@@ -70,7 +70,7 @@ namespace ERad5TestGUI.Views
                         //Application.Current..Resources.MergedDictionaries.RemoveAt(0);
                         Application.Current.Resources.MergedDictionaries.RemoveAt(0);
                     }
-                    Application.Current.Resources.MergedDictionaries.Insert(0,langRd);
+                    Application.Current.Resources.MergedDictionaries.Insert(0, langRd);
                 }
             }
             else
