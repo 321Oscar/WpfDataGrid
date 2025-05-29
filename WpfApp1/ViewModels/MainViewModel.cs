@@ -70,7 +70,7 @@ namespace ERad5TestGUI.ViewModels
                 _modalNavigationStore.CurrentViewModelChanged += OnCurrentModalViewModelChanged;
             }
         }
-
+        public LogService LogService => _logService;
         public MainViewModel(DeviceStore deviceStore, LogService logService, SignalStore signalStore)
         {
             this._logService = logService;

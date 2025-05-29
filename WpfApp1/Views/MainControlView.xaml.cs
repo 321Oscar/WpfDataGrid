@@ -23,6 +23,23 @@ namespace ERad5TestGUI.Views
         public MainControlView()
         {
             InitializeComponent();
+
+            this.DataContextChanged += MainControlView_DataContextChanged;
+        }
+
+        private void MainControlView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (this.DataContext is ViewModels.MainViewModel viewModel)
+            {
+                viewModel.LogService.UiLogAppender.LogControl = this.logListBox;
+            }
+        }
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+
+            
         }
     }
 }

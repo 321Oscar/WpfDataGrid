@@ -1,4 +1,6 @@
-﻿using log4net.Appender;
+﻿using ERad5TestGUI.Components;
+using log4net;
+using log4net.Appender;
 using log4net.Repository.Hierarchy;
 using System;
 using System.Collections.Generic;
@@ -19,9 +21,21 @@ namespace ERad5TestGUI.Services
         public LogService()
         {
             logInfo = log4net.LogManager.GetLogger("LogTest");
+
+            var appender = LogManager.GetRepository()
+           .GetAppenders()
+           .OfType<UiLogAppender>()
+           .FirstOrDefault();
+
             logFrame = log4net.LogManager.GetLogger("LogFrame");
             logUDS = log4net.LogManager.GetLogger("LogUDS");
         }
+
+        public UiLogAppender UiLogAppender => LogManager.GetRepository()
+           .GetAppenders()
+           .OfType<UiLogAppender>()
+           .FirstOrDefault();
+
         public void OnLogAdded(string context)
         {
             LogAdded?.Invoke(context);

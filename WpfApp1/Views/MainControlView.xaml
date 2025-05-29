@@ -199,6 +199,9 @@
                     </StackPanel>
                 </Grid>
             </GroupBox>
+            <GroupBox Header="Logs" Grid.Column="3" Width="380" Height="140">
+                <ListBox Name="logListBox" />
+            </GroupBox>
             <GroupBox Header="Controls" Margin="0,5" Visibility="Collapsed" Grid.Column="3">
                 <WrapPanel MaxWidth="500">
                     <WrapPanel.Resources>
