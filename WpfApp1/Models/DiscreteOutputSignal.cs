@@ -78,6 +78,9 @@ namespace ERad5TestGUI.Models
                 }
             }
         }
+        /// <summary>
+        /// 是否是输出信号。有些信号输入输出会变化
+        /// </summary>
         public bool IsOutput 
         { 
             get => _isOutput; 

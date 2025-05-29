@@ -11,11 +11,12 @@ namespace ERad5TestGUI.Stores
     public class DeviceStore
     {
         private readonly SignalStore _signalStore;
-        private readonly LogService logService;
-        private VectorCanService vectorCanService;
-        private IDevice currentDevice;
-        private ObservableCollection<IDevice> devices;
-        private int framesCount;
+        private readonly LogService _logService;
+        private VectorCanService _vectorCanService;
+        private ZlgDeviceService _zlgCanService;
+        private IDevice _currentDevice;
+        private ObservableCollection<IDevice> _devices;
+        private int _framesCount;
         private readonly log4net.ILog _logger;
 
         public event Action CurrentDeviceChanged;
@@ -25,24 +26,24 @@ namespace ERad5TestGUI.Stores
         public DeviceStore(SignalStore signalStore, Services.LogService logService)
         {
             _signalStore = signalStore;
-            this.logService = logService;
-            _logger = this.logService.GetLogger();
-            devices = new ObservableCollection<IDevice>();
+            this._logService = logService;
+            _logger = this._logService.GetLogger();
+            _devices = new ObservableCollection<IDevice>();
 
             LoadVirtualDevice();
             LoadVectorDevices();
-
+            _zlgCanService = new ZlgDeviceService(logService);
         }
-
-        public IEnumerable<IDevice> Devices => devices;
+        public ZlgDeviceService ZlgDeviceService => _zlgCanService;
+        public IEnumerable<IDevice> Devices => _devices;
 
         public IDevice CurrentDevice
         {
-            get { return currentDevice; }
+            get { return _currentDevice; }
             set
             {
-                OnCurrentDeviceChange(currentDevice);
-                currentDevice = value;
+                OnCurrentDeviceChange(_currentDevice);
+                _currentDevice = value;
                 OnCurrentDeviceChanged();
             }
         }
@@ -50,44 +51,47 @@ namespace ERad5TestGUI.Stores
         public bool HasDevice { get => CurrentDevice != null; }
         public int FramesCount
         {
-            get => framesCount;
+            get => _framesCount;
             set
             {
-                framesCount = value;
+                _framesCount = value;
                 OnFrameCountChanged();
             }
         }
 
         public IEnumerable<TDevice> GetDevices<TDevice>() where TDevice : IDevice
         {
-            return devices.OfType<TDevice>();
+            return _devices.OfType<TDevice>();
         }
 
         private void LoadVectorDevices()
         {
             //throw new NotImplementedException();
-            vectorCanService = new VectorCanService(logService);
-            foreach (var device in vectorCanService.VectorChannels)
+            _vectorCanService = new VectorCanService(_logService);
+            foreach (var device in _vectorCanService.VectorChannels)
             {
-                devices.Add(device);
+                _devices.Add(device);
             }
         }
 
         private void LoadVirtualDevice()
         {
-            devices.Add(new VirtualDevice(_signalStore, logService)
+            _devices.Add(new VirtualDevice(_signalStore, _logService)
             {
                 Name = "Virtual Device",
                 //Description = "This is a virtual device"
             });
         }
-
+        public void AddDevice(IDevice device)
+        {
+            _devices.Add(device);
+        }
        
         private void OnCurrentDeviceChanged()
         {
             if (HasDevice)
             {
-                logService.Debug($"Change Device: {CurrentDevice.Name}");
+                _logService.Debug($"Change Device: {CurrentDevice.Name}");
                 CurrentDevice.OnIFramesReceived += CurrentDevice_OnIFramesReceived;
                 CurrentDevice.OnMsgReceived += CurrentDevice_OnMsgReceived;
             }

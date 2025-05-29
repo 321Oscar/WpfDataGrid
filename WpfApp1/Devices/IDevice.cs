@@ -40,9 +40,12 @@ namespace ERad5TestGUI.Devices
     {
         None,
         Virtual,
-        Vector
+        Vector,
+        Zlg
     }
-
+    /// <summary>
+    /// can 2.0 or can fd
+    /// </summary>
     public enum FrameFlags
     {
         CAN,
@@ -92,6 +95,7 @@ namespace ERad5TestGUI.Devices
             this.dlc = dlc;
             this.fillData = fillData;
             int length = Math.Min(GetLengthByDlc(dlc), data.Length);
+            //length = Math.Min(length , 8);
 
             Data = Enumerable.Repeat(fillData, length).ToArray();
 

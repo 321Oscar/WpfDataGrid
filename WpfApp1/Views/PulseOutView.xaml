@@ -2,14 +2,14 @@
     x:Class="ERad5TestGUI.Views.PulseOutView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctls="clr-namespace:ERad5TestGUI.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ERad5TestGUI.Views"
-    xmlns:models="clr-namespace:ERad5TestGUI.Models"
-    xmlns:ctls="clr-namespace:ERad5TestGUI.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:ERad5TestGUI.Models"
+    d:Background="White"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    Background="White"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -23,47 +23,64 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
             <TextBlock Style="{StaticResource TitleLabel}">Pulse Out</TextBlock>
-            <Button 
-                Visibility="{Binding DebugMode,Converter={StaticResource BooleanToVisibilityConverter}}"
-                Width="120" 
+            <Button
+                Width="120"
                 Height="25"
-                Content="Locator Signals" 
-                Command="{Binding LocatorSignalsCommand}"/>
+                Command="{Binding LocatorSignalsCommand}"
+                Content="Locator Signals"
+                Visibility="{Binding DebugMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StackPanel>
 
-        <GroupBox Header="PWM Output (Hz,DutyCyle)" Grid.Row="1">
-            <Grid Grid.IsSharedSizeScope="True" Margin="-8,-4">
+        <GroupBox Grid.Row="1" Header="PWM Output (Hz,DutyCyle)">
+            <Grid Margin="-8,-4" Grid.IsSharedSizeScope="True">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto" />
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Border Grid.Row="0" Style="{StaticResource CardBorder}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition SharedSizeGroup="SignalName"/>
-                            <ColumnDefinition SharedSizeGroup="value1"/>
-                            <ColumnDefinition SharedSizeGroup="value2"/>
+                            <ColumnDefinition SharedSizeGroup="SignalName" />
+                            <ColumnDefinition SharedSizeGroup="value1" />
+                            <ColumnDefinition SharedSizeGroup="value2" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="SignalName" Grid.Column="0" Style="{StaticResource SignalNameFontStyle}" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Freq(Hz)" Grid.Column="1" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Duty(%)" Grid.Column="2" HorizontalAlignment="Center"/>
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource SignalNameFontStyle}"
+                            Text="SignalName" />
+                        <TextBlock
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            Text="Freq(Hz)" />
+                        <TextBlock
+                            Grid.Column="2"
+                            HorizontalAlignment="Center"
+                            Text="Duty(%)" />
                     </Grid>
                 </Border>
                 <ScrollViewer Grid.Row="1">
-                    <ItemsControl ItemsSource="{Binding Groups}" >
-                       
-                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding Groups}" />
                 </ScrollViewer>
-                <DataGrid  
-                    Visibility="Collapsed"
+                <DataGrid
                     Grid.Row="1"
                     AutoGenerateColumns="False"
-                    ItemsSource="{Binding Groups}">
+                    ItemsSource="{Binding Groups}"
+                    Visibility="Collapsed">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="SignalName" Binding="{Binding GroupName}" IsReadOnly="True"/>
-                        <DataGridTextColumn Width="*" Header="Fre" Binding="{Binding Freq.TempValue}"/>
-                        <DataGridTextColumn Width="*" Header="Duty" Binding="{Binding DutyCycle.TempValue}"/>
+                        <DataGridTextColumn
+                            Binding="{Binding GroupName}"
+                            Header="SignalName"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="*"
+                            Binding="{Binding Freq.TempValue}"
+                            Header="Fre" />
+                        <DataGridTextColumn
+                            Width="*"
+                            Binding="{Binding DutyCycle.TempValue}"
+                            Header="Duty" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
@@ -74,72 +91,72 @@
             MaxWidth="1000"
             HorizontalAlignment="Left"
             Header="Inverter PWM Output">
-            <StackPanel Background="White">
-                <StackPanel  Grid.Row="0" Orientation="Horizontal">
-                    <ctls:TextBoxWithLabel 
-                    Title="Frequency in Hz" 
-                    Content="{Binding UVW_PWM_Freq.TempValue,Mode=TwoWay}"
-                    Orientation="Vertical" 
-                    Style="{StaticResource TextBoxWithLabelStackStyle}">
-                        <ctls:TextBoxWithLabel.ToolTip>
-                            <ContentControl Content="{Binding UVW_PWM_Freq}" ContentTemplate="{StaticResource SignalToolTip}"/>
-                        </ctls:TextBoxWithLabel.ToolTip>
-                    </ctls:TextBoxWithLabel>
-                    <ctls:TextBoxWithLabel 
-                        Title="PWM Polarity" 
-                        Content="{Binding UVW_PWM_Polarity.TempValue,Mode=TwoWay}" 
-                        Orientation="Vertical" 
+            <StackPanel>
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <ctls:TextBoxWithLabel
+                        Title="Frequency in Hz"
+                        Content="{Binding UVW_PWM_Freq.TempValue, Mode=TwoWay}"
+                        Orientation="Vertical"
                         Style="{StaticResource TextBoxWithLabelStackStyle}">
                         <ctls:TextBoxWithLabel.ToolTip>
-                            <ContentControl Content="{Binding UVW_PWM_Polarity}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                            <ContentControl Content="{Binding UVW_PWM_Freq}" ContentTemplate="{StaticResource SignalToolTip}" />
                         </ctls:TextBoxWithLabel.ToolTip>
                     </ctls:TextBoxWithLabel>
-                    <ctls:TextBoxWithLabel 
-                        Title="Dead Time(0-15us)" 
-                        Content="{Binding UVW_PWM_Dead_Time.TempValue,Mode=TwoWay}" 
-                        Orientation="Vertical" 
+                    <ctls:TextBoxWithLabel
+                        Title="PWM Polarity"
+                        Content="{Binding UVW_PWM_Polarity.TempValue, Mode=TwoWay}"
+                        Orientation="Vertical"
                         Style="{StaticResource TextBoxWithLabelStackStyle}">
                         <ctls:TextBoxWithLabel.ToolTip>
-                            <ContentControl Content="{Binding UVW_PWM_Dead_Time}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                            <ContentControl Content="{Binding UVW_PWM_Polarity}" ContentTemplate="{StaticResource SignalToolTip}" />
+                        </ctls:TextBoxWithLabel.ToolTip>
+                    </ctls:TextBoxWithLabel>
+                    <ctls:TextBoxWithLabel
+                        Title="Dead Time(0-15us)"
+                        Content="{Binding UVW_PWM_Dead_Time.TempValue, Mode=TwoWay}"
+                        Orientation="Vertical"
+                        Style="{StaticResource TextBoxWithLabelStackStyle}">
+                        <ctls:TextBoxWithLabel.ToolTip>
+                            <ContentControl Content="{Binding UVW_PWM_Dead_Time}" ContentTemplate="{StaticResource SignalToolTip}" />
                         </ctls:TextBoxWithLabel.ToolTip>
                     </ctls:TextBoxWithLabel>
                 </StackPanel>
 
-                <ctls:TextBoxWithLabel  
-                    Grid.Row="1" 
-                    Title="PWM_U_TOP/BOT Duty Cycle(0%-100%)" 
-                    Content="{Binding PWM_U_Duty.TempValue,Mode=TwoWay}" 
-                    Orientation="Vertical" 
-                    Style="{StaticResource TextBoxWithLabelStackStyle}">
-                    <ctls:TextBoxWithLabel.ToolTip>
-                        <ContentControl Content="{Binding PWM_U_Duty}" ContentTemplate="{StaticResource SignalToolTip}"/>
-                    </ctls:TextBoxWithLabel.ToolTip>
-                </ctls:TextBoxWithLabel>
-                <ctls:TextBoxWithLabel 
-                    Grid.Row="2" 
-                    Title="PWM_V_TOP/BOT Duty Cycle(0%-100%)" 
-                    Content="{Binding PWM_V_Duty.TempValue,Mode=TwoWay}" 
-                    Orientation="Vertical" 
-                    Style="{StaticResource TextBoxWithLabelStackStyle}">
-                    <ctls:TextBoxWithLabel.ToolTip>
-                        <ContentControl Content="{Binding PWM_V_Duty}" ContentTemplate="{StaticResource SignalToolTip}"/>
-                    </ctls:TextBoxWithLabel.ToolTip>
-                </ctls:TextBoxWithLabel>
-                <ctls:TextBoxWithLabel 
-                    Grid.Row="3" 
-                    Title="PWM_W_TOP/BOT Duty Cycle(0%-100%)" 
-                    Content="{Binding PWM_W_Duty.TempValue,Mode=TwoWay}" 
+                <ctls:TextBoxWithLabel
+                    Title="PWM_U_TOP/BOT Duty Cycle(0%-100%)"
+                    Grid.Row="1"
+                    Content="{Binding PWM_U_Duty.TempValue, Mode=TwoWay}"
                     Orientation="Vertical"
                     Style="{StaticResource TextBoxWithLabelStackStyle}">
                     <ctls:TextBoxWithLabel.ToolTip>
-                        <ContentControl Content="{Binding PWM_W_Duty}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                        <ContentControl Content="{Binding PWM_U_Duty}" ContentTemplate="{StaticResource SignalToolTip}" />
+                    </ctls:TextBoxWithLabel.ToolTip>
+                </ctls:TextBoxWithLabel>
+                <ctls:TextBoxWithLabel
+                    Title="PWM_V_TOP/BOT Duty Cycle(0%-100%)"
+                    Grid.Row="2"
+                    Content="{Binding PWM_V_Duty.TempValue, Mode=TwoWay}"
+                    Orientation="Vertical"
+                    Style="{StaticResource TextBoxWithLabelStackStyle}">
+                    <ctls:TextBoxWithLabel.ToolTip>
+                        <ContentControl Content="{Binding PWM_V_Duty}" ContentTemplate="{StaticResource SignalToolTip}" />
+                    </ctls:TextBoxWithLabel.ToolTip>
+                </ctls:TextBoxWithLabel>
+                <ctls:TextBoxWithLabel
+                    Title="PWM_W_TOP/BOT Duty Cycle(0%-100%)"
+                    Grid.Row="3"
+                    Content="{Binding PWM_W_Duty.TempValue, Mode=TwoWay}"
+                    Orientation="Vertical"
+                    Style="{StaticResource TextBoxWithLabelStackStyle}">
+                    <ctls:TextBoxWithLabel.ToolTip>
+                        <ContentControl Content="{Binding PWM_W_Duty}" ContentTemplate="{StaticResource SignalToolTip}" />
                     </ctls:TextBoxWithLabel.ToolTip>
                 </ctls:TextBoxWithLabel>
                 <Button
                     Grid.Row="4"
                     Margin="0,2"
-                    Content="Update" 
-                    Command="{Binding UpdateCommand}"/>
+                    Command="{Binding UpdateCommand}"
+                    Content="Update" />
                 <TextBlock>
                     Notes: Click the [Update] Button to Change the freq and duty
                 </TextBlock>

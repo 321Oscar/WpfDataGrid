@@ -88,6 +88,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Components\EnumBindingSourceExtension.cs" />
     <Compile Include="Components\LabelWithContent.xaml.cs">
       <DependentUpon>LabelWithContent.xaml</DependentUpon>
     </Compile>
@@ -95,6 +96,7 @@
       <DependentUpon>Layout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\ListBoxScroll.cs" />
+    <Compile Include="Components\ListBoxScrollBehavior.cs" />
     <Compile Include="Components\Modal.cs" />
     <Compile Include="Components\NavigationBar.xaml.cs">
       <DependentUpon>NavigationBar.xaml</DependentUpon>
@@ -108,12 +110,14 @@
     <Compile Include="Converters\UDSConverters.cs" />
     <Compile Include="Devices\IDevice.cs" />
     <Compile Include="Devices\VirtualDevice.cs" />
+    <Compile Include="Devices\ZlgAPI\ZlgAPI.cs" />
     <Compile Include="Devices\ZlgDevice.cs" />
     <Compile Include="Dialogs\ChangeLimitDialog.xaml.cs">
       <DependentUpon>ChangeLimitDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CustomDllInvokeHelper.cs" />
     <Compile Include="Helpers\NPOIHelper.cs" />
+    <Compile Include="Helpers\ResourceHelper.cs" />
     <Compile Include="Helpers\XmlHelper.cs" />
     <Compile Include="Interfaces\ISeedNKey.cs" />
     <Compile Include="Models\AnalogSignal.cs" />
@@ -285,6 +289,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="lang\DefaultLanguage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Content Include="lang\zh_CN.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -492,6 +505,9 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>9.0.1</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
+      <Version>1.1.77</Version>
+    </PackageReference>
     <PackageReference Include="NPOI">
       <Version>2.5.5</Version>
     </PackageReference>
@@ -507,6 +523,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\UIRenders\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

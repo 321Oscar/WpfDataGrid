@@ -385,7 +385,7 @@ namespace ERad5TestGUI.ViewModels
 
         #region Safing logic Test
         private readonly string SafingLogicTableFilePath = @"./Config/SafingLogicTestTable_v11_PV.xlsx";
-        private DiscreteOutputSignal _testProgress;
+        private SignalBase _testProgress;
         private DiscreteOutputSignal _testStart;
         private DiscreteOutputSignal _testStop;
         private SignalBase _testFinish;
@@ -400,7 +400,7 @@ namespace ERad5TestGUI.ViewModels
         private RelayCommand _stopTestCommand;
         public DiscreteOutputSignal TestStart { get => _testStart; }
         public DiscreteOutputSignal TestStop { get => _testStop; }
-        public DiscreteOutputSignal TestProgress { get => _testProgress; }
+        public SignalBase TestProgress { get => _testProgress; }
         public ObservableCollection<SafingLogicTestTableRow> TableRows { get => _excelRows; }
 
         public string TestExcelFile
@@ -476,9 +476,9 @@ namespace ERad5TestGUI.ViewModels
 
         private void InitTestResultSignals()
         {
-            _testProgress = SignalStore.GetSignalByName<DiscreteOutputSignal>("Safing_Logic_Test_Current_Row");
+            _testProgress = SignalStore.GetSignalByName<SignalBase>("Safing_Logic_Test_Current_Row");
             _testProgress.PropertyChanged += TestProgress_PropertyChanged;
-            _testErrInfo = SignalStore.GetSignalByName<DiscreteOutputSignal>("Safing_Logic_Test_Error_info");
+            _testErrInfo = SignalStore.GetSignalByName<SignalBase>("Safing_Logic_Test_Error_info");
             _testErrInfo.PropertyChanged += TestErrInfo_PropertyChanged; ;
 
             _testStart = SignalStore.GetSignalByName<DiscreteOutputSignal>("Safing_Logic_Test_Start", inOrOut: true);

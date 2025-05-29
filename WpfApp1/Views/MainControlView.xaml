@@ -1,17 +1,19 @@
-﻿<UserControl 
+﻿<UserControl
     x:Class="ERad5TestGUI.Views.MainControlView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:ERad5TestGUI.Views"
-    xmlns:mdls="clr-namespace:ERad5TestGUI.Models"
+    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
     xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ERad5TestGUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdls="clr-namespace:ERad5TestGUI.Models"
     xmlns:s="clr-namespace:System;assembly=mscorlib"
-    mc:Ignorable="d" 
     d:Background="White"
-    d:DesignHeight="150" 
-    d:DesignWidth="1300">
+    d:DesignHeight="150"
+    d:DesignWidth="1300"
+    Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+    mc:Ignorable="d">
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <Grid MinWidth="1010">
             <Grid.ColumnDefinitions>
@@ -22,61 +24,66 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <!--  Device  -->
-            <GroupBox Header="CanDevice" Margin="5,5,0,5" Grid.Column="0">
-                <Grid Margin="0,-5" Width="300">
+            <GroupBox
+                Grid.Column="0"
+                Margin="5,5,0,5"
+                Header="CanDevice">
+                <Grid Width="300" Margin="0,-5">
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Button 
-                    Height="25"
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            Content="Config"
-                            Command="{Binding DeivceConfigCommand}" 
-                            HorizontalAlignment="Left"
-                            Width="80"/>
                     <Button
-                    d:Content="Start"
-                            Margin="0,2,0,0"
-                            Grid.Row="1"
-                            Command="{Binding StopCommand}"
-                            HorizontalAlignment="Left"
-                            Width="80"
-                    Height="25"
-                            Content="{Binding Started,Converter={StaticResource DeviceStartConverter}}"/>
-                    <ctrls:TextBoxWithLabel 
-                            Margin="2,2,0,0"
-                            Title="Comms Count:" 
-                            Content="{Binding FramesCount}" 
-                            Grid.Row="1" Grid.Column="1" Orientation="Vertical" />
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Width="80"
+                        Height="25"
+                        HorizontalAlignment="Left"
+                        Command="{Binding DeivceConfigCommand}"
+                        Content="{DynamicResource Config}" />
+                    <Button
+                        Grid.Row="1"
+                        Width="80"
+                        Height="25"
+                        Margin="0,2,0,0"
+                        HorizontalAlignment="Left"
+                        d:Content="Start"
+                        Command="{Binding StopCommand}"
+                        Content="{Binding Started, Converter={StaticResource DeviceStartConverter}}" />
+                    <ctrls:TextBoxWithLabel
+                        Title="Comms Count:"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="2,2,0,0"
+                        Content="{Binding FramesCount}"
+                        Orientation="Vertical" />
                     <!--<ctrls:LabelWithContent
                             Grid.Column="1"
                             Title="Connect:"
                             Content="{Binding CurrentDevice.RecieveStatus}">
                         </ctrls:LabelWithContent>-->
-                    <ctrls:ControlWithTitle  
-                            Margin="2,2,0,0"
-                            Grid.Column="1" 
-                            Title="Connect Status:" 
-                            Orientation="Vertical">
+                    <ctrls:ControlWithTitle
+                        Title="Connect Status:"
+                        Grid.Column="1"
+                        Margin="2,2,0,0"
+                        Orientation="Vertical">
                         <ctrls:ControlWithTitle.Content>
                             <TextBlock Text="{Binding CurrentDevice.RecieveStatus}">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Left"/>
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
-                                        <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left" />
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding CurrentDevice.RecieveStatus}" Value="Connected">
-                                                <Setter Property="Foreground" Value="Green" />
+                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUi:Brushes.SuccessBrush}}" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding CurrentDevice.RecieveStatus}" Value="DisConnect">
-                                                <Setter Property="Foreground" Value="Red" />
+                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUi:Brushes.ErrorBrush}}" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -86,98 +93,107 @@
                     </ctrls:ControlWithTitle>
                 </Grid>
             </GroupBox>
-            <GroupBox Header="Version" Margin="5" Grid.Column="1">
+            <GroupBox
+                Grid.Column="1"
+                Margin="5"
+                Header="Version">
                 <StackPanel Grid.IsSharedSizeScope="True">
-                    <ctrls:TextBoxWithLabel 
-                    Style="{StaticResource TextBlockWithLabelGridStyle}"
-                    Title="EM SW Version:" 
-                    Content="{Binding EMSWVersion}"                        
-                    Grid.Row="3"/>
-                    <ctrls:TextBoxWithLabel 
-                    Title="PC SW Version:"  
-                    Style="{StaticResource TextBlockWithLabelGridStyle}"
-                    Content="{Binding Version}"  
-                    d:Content="1.0.0.0"
-                    Grid.Row="3"/>
-                    <ctrls:TextBoxWithLabel 
-                    Style="{StaticResource TextBlockWithLabelGridStyle}"
-                    Title="Hardware ID:" 
-                    Content="{Binding HardwareID}"                        
-                    Grid.Row="3"/>
+                    <ctrls:TextBoxWithLabel
+                        Title="EM SW Version:"
+                        Grid.Row="3"
+                        Content="{Binding EMSWVersion}"
+                        Style="{StaticResource TextBlockWithLabelGridStyle}" />
+                    <ctrls:TextBoxWithLabel
+                        Title="PC SW Version:"
+                        Grid.Row="3"
+                        d:Content="1.0.0.0"
+                        Content="{Binding Version}"
+                        Style="{StaticResource TextBlockWithLabelGridStyle}" />
+                    <ctrls:TextBoxWithLabel
+                        Title="Hardware ID:"
+                        Grid.Row="3"
+                        Content="{Binding HardwareID}"
+                        Style="{StaticResource TextBlockWithLabelGridStyle}" />
 
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="CAN INH State" Margin="0,5,5,5" Grid.Column="2">
+            <GroupBox
+                Grid.Column="2"
+                Margin="0,5,5,5"
+                Header="CAN INH State">
                 <Grid Margin="-7">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Grid >
+                    <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <ItemsControl ItemsSource="{Binding SignalStore.MessagesStates}" Grid.IsSharedSizeScope="True">
+                        <ItemsControl Grid.IsSharedSizeScope="True" ItemsSource="{Binding SignalStore.MessagesStates}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type mdls:MessageReceiveState}">
                                     <Grid>
-                                        <Grid.ColumnDefinitions >
-                                            <ColumnDefinition SharedSizeGroup="state" Width="auto"/>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" SharedSizeGroup="state" />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-                                        <Ellipse Name="state" Width="10" Height="10">
+                                        <Ellipse
+                                            Name="state"
+                                            Width="10"
+                                            Height="10">
                                             <Ellipse.Style>
                                                 <Style TargetType="Ellipse">
-                                                    <Setter Property="Fill" Value="Red"/>
+                                                    <Setter Property="Fill" Value="{DynamicResource {x:Static adonisUi:Brushes.ErrorBrush}}" />
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding State}" Value="True">
-                                                            <Setter  Property="Fill" Value="Green"/>
+                                                            <Setter Property="Fill" Value="{DynamicResource {x:Static adonisUi:Brushes.SuccessBrush}}" />
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding State}" Value="False">
-                                                            <Setter  Property="Fill" Value="Red"/>
+                                                            <Setter Property="Fill" Value="{DynamicResource {x:Static adonisUi:Brushes.ErrorBrush}}" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </Ellipse.Style>
                                         </Ellipse>
-                                        <TextBlock Text="{Binding Name}" Grid.Column="1" Margin="5,0"/>
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Margin="5,0"
+                                            Text="{Binding Name}" />
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <StackPanel Grid.Column="1" Margin="5,0">
-                            <CheckBox 
-                        Margin="1"
-                        IsEnabled="False"/>
-                            <CheckBox 
-                        Margin="1"
-                        IsChecked="{Binding FD5_INH_DISABLE.Pin_High}"/>
-                            <CheckBox 
-                        Margin="1"
-                        IsChecked="{Binding FD16_INH_DISABLE.Pin_High}" />
+                            <CheckBox Margin="1" IsEnabled="False" />
+                            <CheckBox Margin="1" IsChecked="{Binding FD5_INH_DISABLE.Pin_High}" />
+                            <CheckBox Margin="1" IsChecked="{Binding FD16_INH_DISABLE.Pin_High}" />
                         </StackPanel>
-                        <Button 
-                        Content="Disable CAN INH"
-                        Grid.ColumnSpan="2" 
-                        Grid.Row="1"
-                        Margin="1"
-                        Command="{Binding DisableINHCANCommand}">
-                            <!--CAN_INH_Update-->
+                        <Button
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            Margin="1"
+                            Command="{Binding DisableINHCANCommand}"
+                            Content="Disable CAN INH">
+                            <!--  CAN_INH_Update  -->
                             <Button.ToolTip>
-                                <ContentControl Content="{Binding CAN_INH_Update}" ContentTemplate="{StaticResource SignalToolTip}"/>
+                                <ContentControl Content="{Binding CAN_INH_Update}" ContentTemplate="{StaticResource SignalToolTip}" />
                             </Button.ToolTip>
                         </Button>
                     </Grid>
-                    <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
-                        <Button 
-                        Content="Send CANFD5 WAKE UP"
-                        Margin="1"
-                        Command="{Binding SendWakeUpCommand}">
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Orientation="Horizontal">
+                        <Button
+                            Margin="1"
+                            Command="{Binding SendWakeUpCommand}"
+                            Content="Send CANFD5 WAKE UP">
                             <Button.CommandParameter>
                                 <s:UInt32>0x4fE</s:UInt32>
                             </Button.CommandParameter>
@@ -185,10 +201,10 @@
                                 <TextBlock>Send 0x4FE(Can2.0 )</TextBlock>
                             </Button.ToolTip>
                         </Button>
-                        <Button 
-                        Content="Send CANFD16 WAKE UP"
-                        Margin="1"
-                        Command="{Binding SendWakeUpCommand}">
+                        <Button
+                            Margin="1"
+                            Command="{Binding SendWakeUpCommand}"
+                            Content="Send CANFD16 WAKE UP">
                             <Button.CommandParameter>
                                 <s:UInt32>0x4fD</s:UInt32>
                             </Button.CommandParameter>
@@ -199,33 +215,60 @@
                     </StackPanel>
                 </Grid>
             </GroupBox>
+            <GroupBox
+                Grid.Column="3"
+                Margin="0,5,5,5"
+                Header="Setting"
+                Visibility="{Binding DebugMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel>
+                    <ComboBox x:Name="cbbLang" Loaded="cbbLang_Loaded">
+                        <!--<ComboBoxItem>English</ComboBoxItem>
+                        <ComboBoxItem>中文</ComboBoxItem>-->
+                    </ComboBox>
+                    <Button
+                        Name="ChangeLang"
+                        Margin="5"
+                        Click="ChangeLang_Click"
+                        Content="Change Lang" />
+                    <ToggleButton
+                        Margin="0,5"
+                        Content="Dark Mode"
+                        IsChecked="{Binding IsDark}"
+                        Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox
+                Grid.Column="3"
+                Margin="0,5"
+                Header="Controls"
+                Visibility="Collapsed">
             <GroupBox Header="Logs" Grid.Column="3" Width="380" Height="140">
                 <ListBox Name="logListBox" />
             </GroupBox>
             <GroupBox Header="Controls" Margin="0,5" Visibility="Collapsed" Grid.Column="3">
                 <WrapPanel MaxWidth="500">
                     <WrapPanel.Resources>
-                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                            <Setter Property="Margin" Value="2"/>
+                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                            <Setter Property="Margin" Value="2" />
                         </Style>
                     </WrapPanel.Resources>
-                    <Button Content="Disable TLF Reset" IsEnabled="False"/>
-                    <Button Content="Can Trcv Normal Mode"/>
+                    <Button Content="Disable TLF Reset" IsEnabled="False" />
+                    <Button Content="Can Trcv Normal Mode" />
 
-                    <Button Content="Send Can Wake Up"/>
-                    <Button Content="Reset Min/Max"/>
-                    <Button Content="Sleep TLF"/>
+                    <Button Content="Send Can Wake Up" />
+                    <Button Content="Reset Min/Max" />
+                    <Button Content="Sleep TLF" />
                 </WrapPanel>
             </GroupBox>
-            <!--<Image 
-                Grid.Column="5" 
-                Source="pack://application:,,,/Resources/logo.ico" 
+            <!--<Image
+                Grid.Column="5"
+                Source="pack://application:,,,/Resources/logo.ico"
                 HorizontalAlignment="Right"/>-->
-            <Image 
+            <Image
                 Grid.ColumnSpan="5"
                 Height="130"
-                Source="pack://application:,,,/Resources/title.png" 
-                HorizontalAlignment="Right"/>
+                HorizontalAlignment="Right"
+                Source="pack://application:,,,/Resources/title.png" />
         </Grid>
     </ScrollViewer>
 </UserControl>

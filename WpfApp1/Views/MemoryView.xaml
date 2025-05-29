@@ -1,18 +1,20 @@
-﻿<UserControl x:Class="ERad5TestGUI.Views.MemoryView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ERad5TestGUI.Views"
-             xmlns:udsModel="clr-namespace:ERad5TestGUI.UDS"
-             xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
-             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-             mc:Ignorable="d" 
-             Background="White"
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="ERad5TestGUI.Views.MemoryView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ERad5TestGUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:udsModel="clr-namespace:ERad5TestGUI.UDS"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type udsModel:UDSServerAbstract}">
-            <Expander BorderBrush="#e0e0e0" BorderThickness="0,0,0,1">
+            <Expander BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1BorderBrush}}" BorderThickness="0,0,0,1">
                 <Expander.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -21,10 +23,10 @@
                             <ColumnDefinition Width="Auto" SharedSizeGroup="ColumnResult" />
 
                         </Grid.ColumnDefinitions>
-                        <CheckBox 
-                            Visibility="Collapsed"
+                        <CheckBox
                             IsChecked="{Binding Checked, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}"
-                            IsEnabled="{Binding DataContext.UdsRunning, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource InvertBooleanConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                            IsEnabled="{Binding DataContext.UdsRunning, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource InvertBooleanConverter}, UpdateSourceTrigger=PropertyChanged}"
+                            Visibility="Collapsed" />
                         <TextBlock
                             Grid.Column="1"
                             Margin="5,0,0,0"
@@ -63,16 +65,12 @@
                 <StackPanel Margin="5,0,0,0">
                     <TextBox
                         Margin="5,0,0,0"
-                        
                         FontFamily="Consolas"
                         IsReadOnly="True"
-                       
                         Text="{Binding SendAndReceiveStr, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBox
                         Margin="5,0,0,0"
-                        
                         IsReadOnly="True"
-                        
                         Text="{Binding ResultMsg, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Expander>
@@ -82,7 +80,7 @@
             <Expander
                 x:Name="exp"
                 Padding="5"
-                BorderBrush="#e0e0e0"
+                BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1BorderBrush}}"
                 BorderThickness="0,0,0,1">
                 <Expander.Header>
                     <Grid>
@@ -94,9 +92,9 @@
 
                         <CheckBox
                             Grid.Column="0"
-                            Visibility="Collapsed"
                             IsChecked="{Binding Checked, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}"
-                            IsEnabled="{Binding DataContext.UdsRunning, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource InvertBooleanConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                            IsEnabled="{Binding DataContext.UdsRunning, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource InvertBooleanConverter}, UpdateSourceTrigger=PropertyChanged}"
+                            Visibility="Collapsed" />
                         <TextBlock
                             Grid.Column="1"
                             Margin="5,0,0,0"
@@ -143,10 +141,7 @@
 
         <DataTemplate DataType="{x:Type udsModel:ComplexServers}">
             <StackPanel>
-                <Expander
-                    
-                    BorderBrush="#e0e0e0"
-                    BorderThickness="0,0,0,1">
+                <Expander BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1BorderBrush}}" BorderThickness="0,0,0,1">
                     <Expander.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -154,10 +149,10 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition SharedSizeGroup="ColumnResult" />
                             </Grid.ColumnDefinitions>
-                            <CheckBox 
-                                Visibility="Collapsed"
-                                IsChecked="{Binding Checked, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" 
-                                IsEnabled="{Binding DataContext.UdsRunning, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource InvertBooleanConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                            <CheckBox
+                                IsChecked="{Binding Checked, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}"
+                                IsEnabled="{Binding DataContext.UdsRunning, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource InvertBooleanConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                Visibility="Collapsed" />
                             <TextBlock
                                 Grid.Column="1"
                                 MaxWidth="460"
@@ -208,160 +203,183 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Style="{StaticResource TitleLabel}" Text="Memory"/>
+        <TextBlock Style="{StaticResource TitleLabel}" Text="Memory" />
         <TabControl Grid.Row="1">
             <TabItem Header="Serial Flash">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <StackPanel>
                         <GroupBox Header="Read">
-                            <StackPanel Grid.IsSharedSizeScope="True" Margin="-4">
+                            <StackPanel Margin="-4" Grid.IsSharedSizeScope="True">
                                 <ctrls:ControlWithTitle Title="Pattern" Style="{StaticResource ControlWithTitleGridStyle}">
                                     <ctrls:ControlWithTitle.Content>
-                                        <TextBox Width="100" 
-                                                 Text="{Binding Erad5MemoryValue,Converter={StaticResource HexConverter}}" 
-                                                 IsReadOnly="True"/>
+                                        <TextBox
+                                            Width="100"
+                                            IsReadOnly="True"
+                                            Text="{Binding Erad5MemoryValue, Converter={StaticResource HexConverter}}" />
                                     </ctrls:ControlWithTitle.Content>
                                 </ctrls:ControlWithTitle>
-                                <ctrls:ControlWithTitle 
-                                    Margin="0,2,0,0"
+                                <ctrls:ControlWithTitle
                                     Title="Address"
+                                    Margin="0,2,0,0"
                                     Style="{StaticResource ControlWithTitleGridStyle}">
                                     <ctrls:ControlWithTitle.Content>
-                                        <TextBox Text="{Binding Erad5MemoryAddr,Converter={StaticResource HexConverter}}"/>
+                                        <TextBox Text="{Binding Erad5MemoryAddr, Converter={StaticResource HexConverter}}" />
                                     </ctrls:ControlWithTitle.Content>
                                 </ctrls:ControlWithTitle>
-                                <Button Content="Read" Margin="0,2,0,0" Command="{Binding ReadCommand}"/>
+                                <Button
+                                    Margin="0,2,0,0"
+                                    Command="{Binding ReadCommand}"
+                                    Content="Read" />
                             </StackPanel>
                         </GroupBox>
                         <GroupBox Header="Write">
-                            <StackPanel Grid.IsSharedSizeScope="True" Margin="-4">
+                            <StackPanel Margin="-4" Grid.IsSharedSizeScope="True">
                                 <ctrls:ControlWithTitle Title="Pattern" Style="{StaticResource ControlWithTitleGridStyle}">
                                     <ctrls:ControlWithTitle.Content>
-                                        <TextBox Width="100" Text="{Binding Erad5MemoryWriteValue,Converter={StaticResource HexConverter}}"/>
+                                        <TextBox Width="100" Text="{Binding Erad5MemoryWriteValue, Converter={StaticResource HexConverter}}" />
                                     </ctrls:ControlWithTitle.Content>
                                 </ctrls:ControlWithTitle>
-                                <ctrls:ControlWithTitle 
+                                <ctrls:ControlWithTitle
+                                    Title="Address"
                                     Margin="0,2,0,0"
-                                    Title="Address" Style="{StaticResource ControlWithTitleGridStyle}">
+                                    Style="{StaticResource ControlWithTitleGridStyle}">
                                     <ctrls:ControlWithTitle.Content>
-                                        <TextBox Text="{Binding Erad5MemoryWriteAddr,Converter={StaticResource HexConverter}}"/>
+                                        <TextBox Text="{Binding Erad5MemoryWriteAddr, Converter={StaticResource HexConverter}}" />
                                     </ctrls:ControlWithTitle.Content>
                                 </ctrls:ControlWithTitle>
-                                <Button Content="Write" Command="{Binding WriteCommand}" Margin="0,2,0,0"/>
+                                <Button
+                                    Margin="0,2,0,0"
+                                    Command="{Binding WriteCommand}"
+                                    Content="Write" />
                             </StackPanel>
                         </GroupBox>
                         <GroupBox Header="Test" Visibility="Collapsed">
                             <StackPanel Margin="-4">
-                                <Button Content="Test Serial Flash" IsEnabled="False"></Button>
-                                <ProgressBar Height="25" Value="80" Margin="0,2"/>
-                                <Button Content="Reset" IsEnabled="False"/>
+                                <Button Content="Test Serial Flash" IsEnabled="False" />
+                                <ProgressBar
+                                    Height="25"
+                                    Margin="0,2"
+                                    Value="80" />
+                                <Button Content="Reset" IsEnabled="False" />
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>
-                    <GroupBox 
-                        Grid.Column="1" 
-                        Header="Data"
-                        Margin="2,0">
+                    <GroupBox
+                        Grid.Column="1"
+                        Margin="2,0"
+                        Header="Data">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
 
-                            <WrapPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                <Button Content="Read All" Command="{Binding ReadAllCommand}"/>
-                                <Button Content="Write All" Margin="2,0" Command="{Binding WriteAllCommand}"/>
-                                <Button Content="Cancel" Command="{Binding CancelUdsServersCommand}"/>
-                                <Button Content="Load File" Command="{Binding LoadSrecFileCommand}" Margin="2,0">
+                            <WrapPanel Margin="0,0,0,8" Orientation="Horizontal">
+                                <Button Command="{Binding ReadAllCommand}" Content="Read All" />
+                                <Button
+                                    Margin="2,0"
+                                    Command="{Binding WriteAllCommand}"
+                                    Content="Write All" />
+                                <Button Command="{Binding CancelUdsServersCommand}" Content="Cancel" />
+                                <Button
+                                    Margin="2,0"
+                                    Command="{Binding LoadSrecFileCommand}"
+                                    Content="Load File">
                                     <Button.ToolTip>
-                                        <TextBlock Text="Support Srec File Only"/>
+                                        <TextBlock Text="Support Srec File Only" />
                                     </Button.ToolTip>
                                 </Button>
-                                <Button 
-                                    Content="Save" 
-                                    Command="{Binding SaveAsSrecCommand}" 
-                                    />
+                                <Button Command="{Binding SaveAsSrecCommand}" Content="Save" />
                             </WrapPanel>
 
                             <Grid Grid.Row="1" Panel.ZIndex="99">
                                 <Grid.Style>
                                     <Style TargetType="FrameworkElement">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding IsLoading}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Grid.Style>
 
-                                <Border 
-                                    Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
-                                    Opacity="0.5"/>
+                                <Border Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Opacity="0.5" />
 
-                                <ContentControl 
-                                    ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingCircle}}"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
+                                <ContentControl
                                     Width="{adonisUi:Space 5}"
                                     Height="{adonisUi:Space 5}"
-                                    Focusable="False"/>
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingCircle}}"
+                                    Focusable="False" />
                             </Grid>
 
-                            
-                            <ListView 
-                                ItemsSource="{Binding SrecFileOnlyData.Content}"
-                                Grid.Column="0" 
+
+                            <ListView
+                                Grid.Row="1"
+                                Grid.Column="0"
                                 FontFamily="Consolas"
                                 FontSize="16"
-                                Grid.Row="1" 
-                                VirtualizingPanel.IsVirtualizing="True">
+                                ItemsSource="{Binding SrecFileOnlyData.Content}"
+                                ScrollViewer.CanContentScroll="True"
+                                ScrollViewer.IsDeferredScrollingEnabled="True"
+                                VirtualizingPanel.IsVirtualizing="True"
+                                VirtualizingPanel.VirtualizationMode="Recycling">
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel
+                                            VirtualizingPanel.CacheLength="100000"
+                                            VirtualizingPanel.IsContainerVirtualizable="True"
+                                            VirtualizingPanel.ScrollUnit="Pixel" />
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn 
+                                        <GridViewColumn
                                             Width="100"
-                                            Header="Address" 
-                                            DisplayMemberBinding="{Binding Address,StringFormat={}{0:X8}}"/>
-                                        <GridViewColumn 
-                                            Header="Data" 
+                                            DisplayMemberBinding="{Binding Address, StringFormat={}{0:X8}}"
+                                            Header="Address" />
+                                        <GridViewColumn
                                             Width="100"
-                                            DisplayMemberBinding="{Binding DataStr}"/>
+                                            DisplayMemberBinding="{Binding DataStr}"
+                                            Header="Data" />
                                     </GridView>
                                 </ListView.View>
                             </ListView>
-                           
+
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox 
-                        Header="Details"
+                    <GroupBox
                         Grid.Row="0"
                         Grid.RowSpan="2"
-                        Grid.Column="2">
+                        Grid.Column="2"
+                        Header="Details">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                <Button Content="Clear" Command="{Binding ClearUdsServersCommand}"/>
+                            <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                                <Button Command="{Binding ClearUdsServersCommand}" Content="Clear" />
                             </StackPanel>
                             <ScrollViewer Grid.Row="1">
-                                <ItemsControl Background="White" ItemsSource="{Binding Servers}"/>
+                                <ItemsControl Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" ItemsSource="{Binding Servers}" />
                             </ScrollViewer>
                         </Grid>
                     </GroupBox>
                 </Grid>
             </TabItem>
-            
+
         </TabControl>
     </Grid>
 </UserControl>

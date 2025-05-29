@@ -175,12 +175,25 @@ namespace ERad5TestGUI.ViewModels
         private async Task<int> ReadMemoryAll()
         {
             int totalLength = 1024 * 1024 * 2;
-
-            int step = 1024 * 100;
-            int count = totalLength / step;
             int startAddr = 0x00;
             if (SrecFileOnlyData == null) SrecFileOnlyData = new SrecFileOnlyData();
             SrecFileOnlyData.Content.Clear();
+#if DEBUG
+            byte[] byteArray = new byte[totalLength];
+            // 填充数组（这里可以根据需要填充数据）
+            new Random().NextBytes(byteArray);
+            //await Task.Run(() =>
+            //{
+                Dispatch(() =>
+                {
+                    SrecFileOnlyData.InsertData(byteArray, (uint)startAddr);
+                });
+            //});
+            return 1;
+#endif
+            int step = 1024 * 100;
+            int count = totalLength / step;
+            
             int retry = 0;
             bool fail = false;
             cancelSource = new CancellationTokenSource();

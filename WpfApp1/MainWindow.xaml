@@ -2,26 +2,25 @@
     x:Class="ERad5TestGUI.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
+    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:components="clr-namespace:ERad5TestGUI.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ERad5TestGUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:ERad5TestGUI.ViewModels"
-    xmlns:views="clr-namespace:ERad5TestGUI.Views" 
-    xmlns:components="clr-namespace:ERad5TestGUI.Components"
-    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-    xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
+    xmlns:views="clr-namespace:ERad5TestGUI.Views"
     Title="MainWindow"
     Width="1100"
     Height="800"
     WindowState="Maximized"
     mc:Ignorable="d">
     <adonisControls:AdonisWindow.Style>
-        <Style TargetType="adonisControls:AdonisWindow" BasedOn="{StaticResource {x:Type adonisControls:AdonisWindow}}">
-        </Style>
+        <Style BasedOn="{StaticResource {x:Type adonisControls:AdonisWindow}}" TargetType="adonisControls:AdonisWindow" />
     </adonisControls:AdonisWindow.Style>
     <Grid>
-        <components:Modal IsOpen="{Binding IsOpen}" Panel.ZIndex="1">
-            <ContentControl Content="{Binding CurrentModalViewModel}"/>
+        <components:Modal Panel.ZIndex="1" IsOpen="{Binding IsOpen}">
+            <ContentControl Content="{Binding CurrentModalViewModel}" />
         </components:Modal>
         <Grid>
             <Grid.RowDefinitions>
@@ -29,9 +28,12 @@
                 <RowDefinition />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <views:MainControlView DataContext="{Binding}"/>
+            <views:MainControlView DataContext="{Binding}" />
 
-            <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}" Loaded="ContentControl_Loaded"/>
+            <ContentControl
+                Grid.Row="1"
+                Content="{Binding CurrentViewModel}"
+                Loaded="ContentControl_Loaded" />
             <StatusBar Grid.Row="2">
                 <StatusBarItem>
                     <TextBlock Text="{Binding Log}" />

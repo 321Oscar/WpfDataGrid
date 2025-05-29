@@ -1,82 +1,85 @@
-﻿<Window x:Class="ERad5TestGUI.Views.MainView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ERad5TestGUI.Views" 
-        xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
-        xmlns:cmds="clr-namespace:ERad5TestGUI.Commands"
-        mc:Ignorable="d"
-        Title="ERad5 Test GUI"
-        WindowState="Maximized"
-        Width="1100"
-        Height="800">
+﻿<Window
+    x:Class="ERad5TestGUI.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:cmds="clr-namespace:ERad5TestGUI.Commands"
+    xmlns:ctrls="clr-namespace:ERad5TestGUI.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ERad5TestGUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="ERad5 Test GUI"
+    Width="1100"
+    Height="800"
+    Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+    WindowState="Maximized"
+    mc:Ignorable="d">
     <Window.CommandBindings>
-        <CommandBinding Command="{x:Static cmds:ApplicationCommands.CopyNameCommand}" Executed="CommandBinding_Executed"></CommandBinding>
+        <CommandBinding Command="{x:Static cmds:ApplicationCommands.CopyNameCommand}" Executed="CommandBinding_Executed" />
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/> 
-            <RowDefinition Height="*"/> 
-            <RowDefinition Height="auto"/> 
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <!-- Global Ctrls and States -->
-        <local:MainControlView DataContext="{Binding}"/>
+        <!--  Global Ctrls and States  -->
+        <local:MainControlView DataContext="{Binding}" />
 
-        <!-- Tabs -->
+        <!--  Tabs  -->
         <Grid Grid.Row="1">
             <TabControl SelectionChanged="TabControl_SelectionChanged">
                 <TabItem Header="Analog">
-                    <ContentControl Content="{Binding AnalogViewModel}"/>
+                    <ContentControl Content="{Binding AnalogViewModel}" />
                 </TabItem>
-                <TabItem Header="Discrete" x:Name="tabItem_Discrete">
-                    <ContentControl Content="{Binding DiscreteViewModel}" Margin="-4"/>
+                <TabItem x:Name="tabItem_Discrete" Header="Discrete">
+                    <ContentControl Margin="-4" Content="{Binding DiscreteViewModel}" />
                 </TabItem>
                 <TabItem Header="PulseIn">
-                    <ContentControl Content="{Binding PulseInViewModel}"/>
+                    <ContentControl Content="{Binding PulseInViewModel}" />
                 </TabItem>
                 <TabItem Header="PulseOut">
-                    <ContentControl Content="{Binding PulseOutViewModel}"/>
+                    <ContentControl Content="{Binding PulseOutViewModel}" />
                 </TabItem>
                 <TabItem Header="NXP">
-                    <ContentControl Content="{Binding NXPViewModel}"/>
+                    <ContentControl Content="{Binding NXPViewModel}" />
                 </TabItem>
                 <TabItem Header="GDIC">
-                    <ContentControl Content="{Binding GDICViewModel}"/>
+                    <ContentControl Content="{Binding GDICViewModel}" />
                 </TabItem>
                 <TabItem Header="LIN">
-                    <ContentControl Content="{Binding LinViewModel}"/>
-                </TabItem> 
+                    <ContentControl Content="{Binding LinViewModel}" />
+                </TabItem>
                 <TabItem Header="DisConnect">
-                    <ContentControl Content="{Binding DisConnectViewModel}"/>
+                    <ContentControl Content="{Binding DisConnectViewModel}" />
                 </TabItem>
                 <TabItem Header="Resolver">
-                    <ContentControl Content="{Binding ResolverViewModel}"/>
+                    <ContentControl Content="{Binding ResolverViewModel}" />
                 </TabItem>
                 <TabItem Header="SPI">
-                    <ContentControl Content="{Binding SPIViewModel}"/>
+                    <ContentControl Content="{Binding SPIViewModel}" />
                 </TabItem>
                 <TabItem Header="PPAWL">
-                    <ContentControl Content="{Binding PPAWLViewModel}"/>
-                </TabItem> 
-                <TabItem Header="E-Locker">
-                    <ContentControl Content="{Binding ELockerViewModel}"/>
+                    <ContentControl Content="{Binding PPAWLViewModel}" />
                 </TabItem>
-                <TabItem Header="SafingLogic" x:Name="tabItem_Safinglogic">
-                    <ContentControl Content="{Binding SafingLogicViewModel}"/>
+                <TabItem Header="E-Locker">
+                    <ContentControl Content="{Binding ELockerViewModel}" />
+                </TabItem>
+                <TabItem x:Name="tabItem_Safinglogic" Header="SafingLogic">
+                    <ContentControl Content="{Binding SafingLogicViewModel}" />
                 </TabItem>
                 <TabItem Header="Memory">
-                    <ContentControl Content="{Binding MemoryViewModel}"/>
+                    <ContentControl Content="{Binding MemoryViewModel}" />
                 </TabItem>
                 <TabItem Header="Log-UnFinish">
-                    <ContentControl Content="{Binding LogViewModel}"/>
+                    <ContentControl Content="{Binding LogViewModel}" />
                 </TabItem>
             </TabControl>
         </Grid>
 
-        <StatusBar Grid.Row="2" >
+        <StatusBar Grid.Row="2">
             <StatusBarItem>
-                <TextBlock Text="{Binding Log}" d:Text="Log"/>
+                <TextBlock d:Text="Log" Text="{Binding Log}" />
             </StatusBarItem>
         </StatusBar>
     </Grid>

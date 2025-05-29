@@ -1,0 +1,13 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="OK">确认</sys:String>
+    <sys:String x:Key="Config">配置</sys:String>
+    <sys:String x:Key="Cancel">取消</sys:String>
+    <sys:String x:Key="InitZlgCANFDStandardError">设置CANFDStandard失败</sys:String>
+    <sys:String x:Key="InitZlgCANBaudError">设置波特率失败</sys:String>
+    <sys:String x:Key="InitZlgCANError">初始化CAN失败</sys:String>
+    <sys:String x:Key="InitZlgUSBCANFDResistanceEnableError">初始化使能终端电阻失败失败</sys:String>
+    <sys:String x:Key="InitZlgUSBCANFilterError">设置滤波失败</sys:String>
+</ResourceDictionary>

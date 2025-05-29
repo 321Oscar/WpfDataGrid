@@ -137,7 +137,18 @@ namespace ERad5TestGUI.Models
 
         public override string GetValue()
         {
-            return $"{Name} {Value2},Max:{MaxValue},Min:{MinValue},{Value1}";
+            if (Value1 == "/")
+            {
+                return $"{Name} {OriginValue},Max:{MaxValue},Min:{MinValue}";
+            }
+            else if (Value1.Equals(Value2))
+            {
+                return $"{Name} {Value1},Max:{MaxValue},Min:{MinValue}";
+            }
+            else
+            {
+                return $"{Name} {Value2},Max:{MaxValue},Min:{MinValue},{Value1}";
+            }
         }
 
         public void CalStandard(int count)

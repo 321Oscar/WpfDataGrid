@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ERad5TestGUI.ViewModels
 {
-    public class ELockerViewModel : SendFrameViewModelBase
+    public class ELockerViewModel : SendFrameViewModelBase,Interfaces.IClearData
     {
         private readonly List<SignalGroupBase> _groups = new List<SignalGroupBase>();
         private readonly List<SignalGroupBase> _settingGroups = new List<SignalGroupBase>();
@@ -175,6 +175,14 @@ namespace ERad5TestGUI.ViewModels
                 }
 
                 this.SendFD(SignalStore.BuildFrames(SignalStore.GetSignals<PulseOutGroupSignal>(ViewName)));
+            }
+        }
+
+        public void ClearData()
+        {
+            foreach (var item in SignalStore.GetSignals<SignalBase>(ViewName,false))
+            {
+                item.Clear();
             }
         }
     }

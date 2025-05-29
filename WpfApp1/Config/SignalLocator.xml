@@ -10010,6 +10010,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x17</Address>
       <Fixed>false</Fixed>
+      <HexValue>165</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_DISCHG_CRC</Name>
@@ -10032,6 +10033,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x17</Address>
       <Fixed>false</Fixed>
+      <HexValue>7</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_DISCHG_Data</Name>
@@ -10054,6 +10056,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x17</Address>
       <Fixed>false</Fixed>
+      <HexValue>F6</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_DISCHG_CRC</Name>
@@ -10076,6 +10079,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x17</Address>
       <Fixed>false</Fixed>
+      <HexValue>31</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_DISCHG_Data</Name>
@@ -10098,6 +10102,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x17</Address>
       <Fixed>false</Fixed>
+      <HexValue>36C</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_DISCHG_CRC</Name>
@@ -10120,6 +10125,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x17</Address>
       <Fixed>false</Fixed>
+      <HexValue>8C</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_DISCHG_Data</Name>
@@ -10142,6 +10148,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x17</Address>
       <Fixed>false</Fixed>
+      <HexValue>1A8</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_DISCHG_CRC</Name>
@@ -10164,6 +10171,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x17</Address>
       <Fixed>false</Fixed>
+      <HexValue>72</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_DISCHG_Data</Name>
@@ -10186,6 +10194,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x17</Address>
       <Fixed>false</Fixed>
+      <HexValue>2A8</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_DISCHG_CRC</Name>
@@ -10208,6 +10217,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x17</Address>
       <Fixed>false</Fixed>
+      <HexValue>30</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_DISCHG_Data</Name>
@@ -10230,6 +10240,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x17</Address>
       <Fixed>false</Fixed>
+      <HexValue>EB</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_DISCHG_CRC</Name>
@@ -10252,6 +10263,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x17</Address>
       <Fixed>false</Fixed>
+      <HexValue>B4</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_REQBIST_Data</Name>
@@ -10274,6 +10286,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x14</Address>
       <Fixed>false</Fixed>
+      <HexValue>7A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_REQBIST_CRC</Name>
@@ -10296,6 +10309,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x14</Address>
       <Fixed>false</Fixed>
+      <HexValue>DC</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_REQBIST_Data</Name>
@@ -10318,6 +10332,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x14</Address>
       <Fixed>false</Fixed>
+      <HexValue>19A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_REQBIST_CRC</Name>
@@ -10340,6 +10355,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x14</Address>
       <Fixed>false</Fixed>
+      <HexValue>A1</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_REQBIST_Data</Name>
@@ -10362,6 +10378,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x14</Address>
       <Fixed>false</Fixed>
+      <HexValue>26A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_REQBIST_CRC</Name>
@@ -10384,6 +10401,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x14</Address>
       <Fixed>false</Fixed>
+      <HexValue>C1</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_REQBIST_Data</Name>
@@ -10406,6 +10424,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x14</Address>
       <Fixed>false</Fixed>
+      <HexValue>215</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_REQBIST_CRC</Name>
@@ -10428,6 +10447,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x14</Address>
       <Fixed>false</Fixed>
+      <HexValue>C</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_REQBIST_Data</Name>
@@ -10450,6 +10470,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x14</Address>
       <Fixed>false</Fixed>
+      <HexValue>197</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_REQBIST_CRC</Name>
@@ -10472,6 +10493,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x14</Address>
       <Fixed>false</Fixed>
+      <HexValue>36</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_REQBIST_Data</Name>
@@ -10494,6 +10516,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x14</Address>
       <Fixed>false</Fixed>
+      <HexValue>1F0</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_REQBIST_CRC</Name>
@@ -10516,6 +10539,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x14</Address>
       <Fixed>false</Fixed>
+      <HexValue>D5</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIGAOUT_Data</Name>
@@ -10538,6 +10562,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>15E</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIGAOUT_CRC</Name>
@@ -10560,6 +10585,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>E4</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIGAOUT_Data</Name>
@@ -10582,6 +10608,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>1F2</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIGAOUT_CRC</Name>
@@ -10604,6 +10631,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>5E</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIGAOUT_Data</Name>
@@ -10626,6 +10654,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>3B3</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIGAOUT_CRC</Name>
@@ -10648,6 +10677,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIGAOUT_Data</Name>
@@ -10670,6 +10700,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>3DE</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIGAOUT_CRC</Name>
@@ -10692,6 +10723,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>E0</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIGAOUT_Data</Name>
@@ -10714,6 +10746,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>8B</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIGAOUT_CRC</Name>
@@ -10736,6 +10769,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>44</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIGAOUT_Data</Name>
@@ -10758,6 +10792,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>318</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIGAOUT_CRC</Name>
@@ -10780,6 +10815,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>BE</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_STATCON4_Data</Name>
@@ -10802,6 +10838,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x12</Address>
       <Fixed>false</Fixed>
+      <HexValue>292</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_STATCON4_CRC</Name>
@@ -10824,6 +10861,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x12</Address>
       <Fixed>false</Fixed>
+      <HexValue>88</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_STATCON4_Data</Name>
@@ -10846,6 +10884,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x12</Address>
       <Fixed>false</Fixed>
+      <HexValue>18E</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_STATCON4_CRC</Name>
@@ -10868,6 +10907,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x12</Address>
       <Fixed>false</Fixed>
+      <HexValue>4A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_STATCON4_Data</Name>
@@ -10890,6 +10930,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x12</Address>
       <Fixed>false</Fixed>
+      <HexValue>4</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_STATCON4_CRC</Name>
@@ -10912,6 +10953,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x12</Address>
       <Fixed>false</Fixed>
+      <HexValue>76</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_STATCON4_Data</Name>
@@ -10934,6 +10976,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x12</Address>
       <Fixed>false</Fixed>
+      <HexValue>1CD</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_STATCON4_CRC</Name>
@@ -10956,6 +10999,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x12</Address>
       <Fixed>false</Fixed>
+      <HexValue>13</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_STATCON4_Data</Name>
@@ -10978,6 +11022,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x12</Address>
       <Fixed>false</Fixed>
+      <HexValue>204</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_STATCON4_CRC</Name>
@@ -11000,6 +11045,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x12</Address>
       <Fixed>false</Fixed>
+      <HexValue>4E</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_STATCON4_Data</Name>
@@ -11022,6 +11068,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x12</Address>
       <Fixed>false</Fixed>
+      <HexValue>332</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_STATCON4_CRC</Name>
@@ -11044,6 +11091,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x12</Address>
       <Fixed>false</Fixed>
+      <HexValue>B2</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_STATUS3_Data</Name>
@@ -11066,6 +11114,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x11</Address>
       <Fixed>false</Fixed>
+      <HexValue>58</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_STATUS3_CRC</Name>
@@ -11088,6 +11137,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x11</Address>
       <Fixed>false</Fixed>
+      <HexValue>16</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_STATUS3_Data</Name>
@@ -11110,6 +11160,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x11</Address>
       <Fixed>false</Fixed>
+      <HexValue>1AC</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_STATUS3_CRC</Name>
@@ -11132,6 +11183,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x11</Address>
       <Fixed>false</Fixed>
+      <HexValue>7F</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_STATUS3_Data</Name>
@@ -11154,6 +11206,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x11</Address>
       <Fixed>false</Fixed>
+      <HexValue>4D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_STATUS3_CRC</Name>
@@ -11176,6 +11229,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x11</Address>
       <Fixed>false</Fixed>
+      <HexValue>AF</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_STATUS3_Data</Name>
@@ -11198,6 +11252,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x11</Address>
       <Fixed>false</Fixed>
+      <HexValue>2AC</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_STATUS3_CRC</Name>
@@ -11220,6 +11275,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x11</Address>
       <Fixed>false</Fixed>
+      <HexValue>F7</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_STATUS3_Data</Name>
@@ -11242,6 +11298,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x11</Address>
       <Fixed>false</Fixed>
+      <HexValue>3C0</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_STATUS3_CRC</Name>
@@ -11264,6 +11321,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x11</Address>
       <Fixed>false</Fixed>
+      <HexValue>37</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_STATUS3_Data</Name>
@@ -11286,6 +11344,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x11</Address>
       <Fixed>false</Fixed>
+      <HexValue>A4</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_STATUS3_CRC</Name>
@@ -11308,6 +11367,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x11</Address>
       <Fixed>false</Fixed>
+      <HexValue>AA</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_RMSK2_Data</Name>
@@ -11330,6 +11390,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x10</Address>
       <Fixed>false</Fixed>
+      <HexValue>236</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_RMSK2_CRC</Name>
@@ -11352,6 +11413,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x10</Address>
       <Fixed>false</Fixed>
+      <HexValue>AA</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_RMSK2_Data</Name>
@@ -11374,6 +11436,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x10</Address>
       <Fixed>false</Fixed>
+      <HexValue>1DD</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_RMSK2_CRC</Name>
@@ -11396,6 +11459,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x10</Address>
       <Fixed>false</Fixed>
+      <HexValue>EC</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_RMSK2_Data</Name>
@@ -11418,6 +11482,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x10</Address>
       <Fixed>false</Fixed>
+      <HexValue>240</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_RMSK2_CRC</Name>
@@ -11440,6 +11505,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x10</Address>
       <Fixed>false</Fixed>
+      <HexValue>2E</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_RMSK2_Data</Name>
@@ -11462,6 +11528,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x10</Address>
       <Fixed>false</Fixed>
+      <HexValue>D8</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_RMSK2_CRC</Name>
@@ -11484,6 +11551,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x10</Address>
       <Fixed>false</Fixed>
+      <HexValue>E</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_RMSK2_Data</Name>
@@ -11506,6 +11574,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x10</Address>
       <Fixed>false</Fixed>
+      <HexValue>309</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_RMSK2_CRC</Name>
@@ -11528,6 +11597,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x10</Address>
       <Fixed>false</Fixed>
+      <HexValue>3B</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_RMSK2_Data</Name>
@@ -11550,6 +11620,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x10</Address>
       <Fixed>false</Fixed>
+      <HexValue>2EB</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_RMSK2_CRC</Name>
@@ -11572,6 +11643,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x10</Address>
       <Fixed>false</Fixed>
+      <HexValue>6A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_MSK2_Data</Name>
@@ -11594,6 +11666,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0F</Address>
       <Fixed>false</Fixed>
+      <HexValue>3A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_MSK2_CRC</Name>
@@ -11616,6 +11689,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0F</Address>
       <Fixed>false</Fixed>
+      <HexValue>85</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_MSK2_Data</Name>
@@ -11638,6 +11712,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0F</Address>
       <Fixed>false</Fixed>
+      <HexValue>311</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_MSK2_CRC</Name>
@@ -11660,6 +11735,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0F</Address>
       <Fixed>false</Fixed>
+      <HexValue>67</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_MSK2_Data</Name>
@@ -11682,6 +11758,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0F</Address>
       <Fixed>false</Fixed>
+      <HexValue>144</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_MSK2_CRC</Name>
@@ -11704,6 +11781,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0F</Address>
       <Fixed>false</Fixed>
+      <HexValue>9</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_MSK2_Data</Name>
@@ -11726,6 +11804,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0F</Address>
       <Fixed>false</Fixed>
+      <HexValue>1BD</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_MSK2_CRC</Name>
@@ -11748,6 +11827,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0F</Address>
       <Fixed>false</Fixed>
+      <HexValue>BD</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_MSK2_Data</Name>
@@ -11770,6 +11850,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0F</Address>
       <Fixed>false</Fixed>
+      <HexValue>374</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_MSK2_CRC</Name>
@@ -11792,6 +11873,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0F</Address>
       <Fixed>false</Fixed>
+      <HexValue>28</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_MSK2_Data</Name>
@@ -11814,6 +11896,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0F</Address>
       <Fixed>false</Fixed>
+      <HexValue>34</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_MSK2_CRC</Name>
@@ -11836,6 +11919,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0F</Address>
       <Fixed>false</Fixed>
+      <HexValue>42</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_STATUS2_Data</Name>
@@ -11858,6 +11942,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0E</Address>
       <Fixed>false</Fixed>
+      <HexValue>234</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_STATUS2_CRC</Name>
@@ -11880,6 +11965,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0E</Address>
       <Fixed>false</Fixed>
+      <HexValue>F1</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_STATUS2_Data</Name>
@@ -11902,6 +11988,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0E</Address>
       <Fixed>false</Fixed>
+      <HexValue>72</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_STATUS2_CRC</Name>
@@ -11924,6 +12011,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0E</Address>
       <Fixed>false</Fixed>
+      <HexValue>1F</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_STATUS2_Data</Name>
@@ -11946,6 +12034,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0E</Address>
       <Fixed>false</Fixed>
+      <HexValue>61</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_STATUS2_CRC</Name>
@@ -11968,6 +12057,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0E</Address>
       <Fixed>false</Fixed>
+      <HexValue>EE</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_STATUS2_Data</Name>
@@ -11990,6 +12080,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0E</Address>
       <Fixed>false</Fixed>
+      <HexValue>15A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_STATUS2_CRC</Name>
@@ -12012,6 +12103,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0E</Address>
       <Fixed>false</Fixed>
+      <HexValue>79</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_STATUS2_Data</Name>
@@ -12034,6 +12126,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0E</Address>
       <Fixed>false</Fixed>
+      <HexValue>1AA</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_STATUS2_CRC</Name>
@@ -12056,6 +12149,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0E</Address>
       <Fixed>false</Fixed>
+      <HexValue>52</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_STATUS2_Data</Name>
@@ -12078,6 +12172,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0E</Address>
       <Fixed>false</Fixed>
+      <HexValue>91</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_STATUS2_CRC</Name>
@@ -12100,6 +12195,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0E</Address>
       <Fixed>false</Fixed>
+      <HexValue>7A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_RMSK1_Data</Name>
@@ -12122,6 +12218,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0D</Address>
       <Fixed>false</Fixed>
+      <HexValue>3E7</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_RMSK1_CRC</Name>
@@ -12144,6 +12241,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0D</Address>
       <Fixed>false</Fixed>
+      <HexValue>2</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_RMSK1_Data</Name>
@@ -12166,6 +12264,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0D</Address>
       <Fixed>false</Fixed>
+      <HexValue>264</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_RMSK1_CRC</Name>
@@ -12188,6 +12287,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0D</Address>
       <Fixed>false</Fixed>
+      <HexValue>4C</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_RMSK1_Data</Name>
@@ -12210,6 +12310,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0D</Address>
       <Fixed>false</Fixed>
+      <HexValue>133</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_RMSK1_CRC</Name>
@@ -12232,6 +12333,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0D</Address>
       <Fixed>false</Fixed>
+      <HexValue>8D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_RMSK1_Data</Name>
@@ -12254,6 +12356,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0D</Address>
       <Fixed>false</Fixed>
+      <HexValue>164</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_RMSK1_CRC</Name>
@@ -12276,6 +12379,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0D</Address>
       <Fixed>false</Fixed>
+      <HexValue>57</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_RMSK1_Data</Name>
@@ -12298,6 +12402,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0D</Address>
       <Fixed>false</Fixed>
+      <HexValue>12F</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_RMSK1_CRC</Name>
@@ -12320,6 +12425,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0D</Address>
       <Fixed>false</Fixed>
+      <HexValue>9F</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_RMSK1_Data</Name>
@@ -12342,6 +12448,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0D</Address>
       <Fixed>false</Fixed>
+      <HexValue>321</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_RMSK1_CRC</Name>
@@ -12364,6 +12471,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0D</Address>
       <Fixed>false</Fixed>
+      <HexValue>FC</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_MSK1_Data</Name>
@@ -12386,6 +12494,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0C</Address>
       <Fixed>false</Fixed>
+      <HexValue>8</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_MSK1_CRC</Name>
@@ -12408,6 +12517,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0C</Address>
       <Fixed>false</Fixed>
+      <HexValue>44</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_MSK1_Data</Name>
@@ -12430,6 +12540,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0C</Address>
       <Fixed>false</Fixed>
+      <HexValue>3F2</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_MSK1_CRC</Name>
@@ -12452,6 +12563,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0C</Address>
       <Fixed>false</Fixed>
+      <HexValue>AE</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_MSK1_Data</Name>
@@ -12474,6 +12586,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0C</Address>
       <Fixed>false</Fixed>
+      <HexValue>A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_MSK1_CRC</Name>
@@ -12496,6 +12609,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0C</Address>
       <Fixed>false</Fixed>
+      <HexValue>9D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_MSK1_Data</Name>
@@ -12518,6 +12632,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0C</Address>
       <Fixed>false</Fixed>
+      <HexValue>1D8</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_MSK1_CRC</Name>
@@ -12540,6 +12655,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0C</Address>
       <Fixed>false</Fixed>
+      <HexValue>BC</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_MSK1_Data</Name>
@@ -12562,6 +12678,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0C</Address>
       <Fixed>false</Fixed>
+      <HexValue>324</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_MSK1_CRC</Name>
@@ -12584,6 +12701,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0C</Address>
       <Fixed>false</Fixed>
+      <HexValue>A8</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_MSK1_Data</Name>
@@ -12606,6 +12724,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0C</Address>
       <Fixed>false</Fixed>
+      <HexValue>347</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_MSK1_CRC</Name>
@@ -12628,6 +12747,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0C</Address>
       <Fixed>false</Fixed>
+      <HexValue>47</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_STATUS1_Data</Name>
@@ -12650,6 +12770,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0B</Address>
       <Fixed>false</Fixed>
+      <HexValue>2FA</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_STATUS1_CRC</Name>
@@ -12672,6 +12793,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0B</Address>
       <Fixed>false</Fixed>
+      <HexValue>EF</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_STATUS1_Data</Name>
@@ -12694,6 +12816,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0B</Address>
       <Fixed>false</Fixed>
+      <HexValue>26A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_STATUS1_CRC</Name>
@@ -12716,6 +12839,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0B</Address>
       <Fixed>false</Fixed>
+      <HexValue>FE</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_STATUS1_Data</Name>
@@ -12738,6 +12862,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0B</Address>
       <Fixed>false</Fixed>
+      <HexValue>311</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_STATUS1_CRC</Name>
@@ -12760,6 +12885,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0B</Address>
       <Fixed>false</Fixed>
+      <HexValue>E4</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_STATUS1_Data</Name>
@@ -12782,6 +12908,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0B</Address>
       <Fixed>false</Fixed>
+      <HexValue>2A5</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_STATUS1_CRC</Name>
@@ -12804,6 +12931,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0B</Address>
       <Fixed>false</Fixed>
+      <HexValue>2D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_STATUS1_Data</Name>
@@ -12826,6 +12954,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0B</Address>
       <Fixed>false</Fixed>
+      <HexValue>356</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_STATUS1_CRC</Name>
@@ -12848,6 +12977,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0B</Address>
       <Fixed>false</Fixed>
+      <HexValue>51</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_STATUS1_Data</Name>
@@ -12870,6 +13000,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0B</Address>
       <Fixed>false</Fixed>
+      <HexValue>288</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_STATUS1_CRC</Name>
@@ -12892,6 +13023,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0B</Address>
       <Fixed>false</Fixed>
+      <HexValue>B9</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_OTW_TH_Data</Name>
@@ -12914,6 +13046,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0A</Address>
       <Fixed>false</Fixed>
+      <HexValue>100</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_OTW_TH_CRC</Name>
@@ -12936,6 +13069,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0A</Address>
       <Fixed>false</Fixed>
+      <HexValue>7B</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_OTW_TH_Data</Name>
@@ -12958,6 +13092,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0A</Address>
       <Fixed>false</Fixed>
+      <HexValue>176</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_OTW_TH_CRC</Name>
@@ -12980,6 +13115,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0A</Address>
       <Fixed>false</Fixed>
+      <HexValue>4F</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_OTW_TH_Data</Name>
@@ -13002,6 +13138,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0A</Address>
       <Fixed>false</Fixed>
+      <HexValue>2B1</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_OTW_TH_CRC</Name>
@@ -13024,6 +13161,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0A</Address>
       <Fixed>false</Fixed>
+      <HexValue>F1</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_OTW_TH_Data</Name>
@@ -13046,6 +13184,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0A</Address>
       <Fixed>false</Fixed>
+      <HexValue>292</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_OTW_TH_CRC</Name>
@@ -13068,6 +13207,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0A</Address>
       <Fixed>false</Fixed>
+      <HexValue>26</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_OTW_TH_Data</Name>
@@ -13090,6 +13230,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0A</Address>
       <Fixed>false</Fixed>
+      <HexValue>2C1</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_OTW_TH_CRC</Name>
@@ -13112,6 +13253,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0A</Address>
       <Fixed>false</Fixed>
+      <HexValue>7</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_OTW_TH_Data</Name>
@@ -13134,6 +13276,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0A</Address>
       <Fixed>false</Fixed>
+      <HexValue>12B</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_OTW_TH_CRC</Name>
@@ -13156,6 +13299,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0A</Address>
       <Fixed>false</Fixed>
+      <HexValue>B9</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_OT_TH_Data</Name>
@@ -13178,6 +13322,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x09</Address>
       <Fixed>false</Fixed>
+      <HexValue>8E</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_OT_TH_CRC</Name>
@@ -13200,6 +13345,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x09</Address>
       <Fixed>false</Fixed>
+      <HexValue>2</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_OT_TH_Data</Name>
@@ -13222,6 +13368,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x09</Address>
       <Fixed>false</Fixed>
+      <HexValue>2FF</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_OT_TH_CRC</Name>
@@ -13244,6 +13391,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x09</Address>
       <Fixed>false</Fixed>
+      <HexValue>B6</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_OT_TH_Data</Name>
@@ -13266,6 +13414,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x09</Address>
       <Fixed>false</Fixed>
+      <HexValue>138</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_OT_TH_CRC</Name>
@@ -13288,6 +13437,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x09</Address>
       <Fixed>false</Fixed>
+      <HexValue>FE</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_OT_TH_Data</Name>
@@ -13310,6 +13460,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x09</Address>
       <Fixed>false</Fixed>
+      <HexValue>157</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_OT_TH_CRC</Name>
@@ -13332,6 +13483,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x09</Address>
       <Fixed>false</Fixed>
+      <HexValue>23</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_OT_TH_Data</Name>
@@ -13354,6 +13506,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x09</Address>
       <Fixed>false</Fixed>
+      <HexValue>6D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_OT_TH_CRC</Name>
@@ -13376,6 +13529,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x09</Address>
       <Fixed>false</Fixed>
+      <HexValue>6</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_OT_TH_Data</Name>
@@ -13398,6 +13552,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x09</Address>
       <Fixed>false</Fixed>
+      <HexValue>50</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_OT_TH_CRC</Name>
@@ -13420,6 +13575,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x09</Address>
       <Fixed>false</Fixed>
+      <HexValue>D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIG7_Data</Name>
@@ -13442,6 +13598,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x08</Address>
       <Fixed>false</Fixed>
+      <HexValue>3AD</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIG7_CRC</Name>
@@ -13464,6 +13621,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x08</Address>
       <Fixed>false</Fixed>
+      <HexValue>A3</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIG7_Data</Name>
@@ -13486,6 +13644,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x08</Address>
       <Fixed>false</Fixed>
+      <HexValue>205</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIG7_CRC</Name>
@@ -13508,6 +13667,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x08</Address>
       <Fixed>false</Fixed>
+      <HexValue>D4</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIG7_Data</Name>
@@ -13530,6 +13690,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x08</Address>
       <Fixed>false</Fixed>
+      <HexValue>338</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIG7_CRC</Name>
@@ -13552,6 +13713,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x08</Address>
       <Fixed>false</Fixed>
+      <HexValue>9E</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIG7_Data</Name>
@@ -13574,6 +13736,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x08</Address>
       <Fixed>false</Fixed>
+      <HexValue>199</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIG7_CRC</Name>
@@ -13596,6 +13759,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x08</Address>
       <Fixed>false</Fixed>
+      <HexValue>48</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIG7_Data</Name>
@@ -13618,6 +13782,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x08</Address>
       <Fixed>false</Fixed>
+      <HexValue>2E8</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIG7_CRC</Name>
@@ -13640,6 +13805,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x08</Address>
       <Fixed>false</Fixed>
+      <HexValue>55</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIG7_Data</Name>
@@ -13662,6 +13828,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x08</Address>
       <Fixed>false</Fixed>
+      <HexValue>3F0</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIG7_CRC</Name>
@@ -13684,6 +13851,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x08</Address>
       <Fixed>false</Fixed>
+      <HexValue>A8</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIG6_Data</Name>
@@ -13706,6 +13874,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x07</Address>
       <Fixed>false</Fixed>
+      <HexValue>E8</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIG6_CRC</Name>
@@ -13728,6 +13897,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x07</Address>
       <Fixed>false</Fixed>
+      <HexValue>F7</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIG6_Data</Name>
@@ -13750,6 +13920,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x07</Address>
       <Fixed>false</Fixed>
+      <HexValue>1E7</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIG6_CRC</Name>
@@ -13772,6 +13943,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x07</Address>
       <Fixed>false</Fixed>
+      <HexValue>B1</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIG6_Data</Name>
@@ -13794,6 +13966,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x07</Address>
       <Fixed>false</Fixed>
+      <HexValue>2F3</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIG6_CRC</Name>
@@ -13816,6 +13989,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x07</Address>
       <Fixed>false</Fixed>
+      <HexValue>E7</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIG6_Data</Name>
@@ -13838,6 +14012,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x07</Address>
       <Fixed>false</Fixed>
+      <HexValue>5A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIG6_CRC</Name>
@@ -13860,6 +14035,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x07</Address>
       <Fixed>false</Fixed>
+      <HexValue>D9</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIG6_Data</Name>
@@ -13882,6 +14058,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x07</Address>
       <Fixed>false</Fixed>
+      <HexValue>1F7</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIG6_CRC</Name>
@@ -13904,6 +14081,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x07</Address>
       <Fixed>false</Fixed>
+      <HexValue>3A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIG6_Data</Name>
@@ -13926,6 +14104,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x07</Address>
       <Fixed>false</Fixed>
+      <HexValue>123</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIG6_CRC</Name>
@@ -13948,6 +14127,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x07</Address>
       <Fixed>false</Fixed>
+      <HexValue>DC</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIG5_Data</Name>
@@ -13970,6 +14150,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x06</Address>
       <Fixed>false</Fixed>
+      <HexValue>9C</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIG5_CRC</Name>
@@ -13992,6 +14173,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x06</Address>
       <Fixed>false</Fixed>
+      <HexValue>5F</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIG5_Data</Name>
@@ -14014,6 +14196,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x06</Address>
       <Fixed>false</Fixed>
+      <HexValue>306</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIG5_CRC</Name>
@@ -14036,6 +14219,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x06</Address>
       <Fixed>false</Fixed>
+      <HexValue>12</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIG5_Data</Name>
@@ -14058,6 +14242,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x06</Address>
       <Fixed>false</Fixed>
+      <HexValue>3E1</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIG5_CRC</Name>
@@ -14080,6 +14265,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x06</Address>
       <Fixed>false</Fixed>
+      <HexValue>35</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIG5_Data</Name>
@@ -14102,6 +14288,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x06</Address>
       <Fixed>false</Fixed>
+      <HexValue>137</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIG5_CRC</Name>
@@ -14124,6 +14311,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x06</Address>
       <Fixed>false</Fixed>
+      <HexValue>C5</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIG5_Data</Name>
@@ -14146,6 +14334,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x06</Address>
       <Fixed>false</Fixed>
+      <HexValue>8D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIG5_CRC</Name>
@@ -14168,6 +14357,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x06</Address>
       <Fixed>false</Fixed>
+      <HexValue>BA</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIG5_Data</Name>
@@ -14190,6 +14380,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x06</Address>
       <Fixed>false</Fixed>
+      <HexValue>3BF</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIG5_CRC</Name>
@@ -14212,6 +14403,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x06</Address>
       <Fixed>false</Fixed>
+      <HexValue>9F</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIG4_Data</Name>
@@ -14234,6 +14426,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x05</Address>
       <Fixed>false</Fixed>
+      <HexValue>2</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIG4_CRC</Name>
@@ -14256,6 +14449,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x05</Address>
       <Fixed>false</Fixed>
+      <HexValue>F5</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIG4_Data</Name>
@@ -14278,6 +14472,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x05</Address>
       <Fixed>false</Fixed>
+      <HexValue>1B4</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIG4_CRC</Name>
@@ -14300,6 +14495,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x05</Address>
       <Fixed>false</Fixed>
+      <HexValue>E0</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIG4_Data</Name>
@@ -14322,6 +14518,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x05</Address>
       <Fixed>false</Fixed>
+      <HexValue>289</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIG4_CRC</Name>
@@ -14344,6 +14541,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x05</Address>
       <Fixed>false</Fixed>
+      <HexValue>67</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIG4_Data</Name>
@@ -14366,6 +14564,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x05</Address>
       <Fixed>false</Fixed>
+      <HexValue>383</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIG4_CRC</Name>
@@ -14388,6 +14587,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x05</Address>
       <Fixed>false</Fixed>
+      <HexValue>83</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIG4_Data</Name>
@@ -14410,6 +14610,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x05</Address>
       <Fixed>false</Fixed>
+      <HexValue>356</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIG4_CRC</Name>
@@ -14432,6 +14633,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x05</Address>
       <Fixed>false</Fixed>
+      <HexValue>D4</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIG4_Data</Name>
@@ -14454,6 +14656,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x05</Address>
       <Fixed>false</Fixed>
+      <HexValue>192</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIG4_CRC</Name>
@@ -14476,6 +14679,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x05</Address>
       <Fixed>false</Fixed>
+      <HexValue>E8</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIG3_Data</Name>
@@ -14498,6 +14702,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x04</Address>
       <Fixed>false</Fixed>
+      <HexValue>1D4</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIG3_CRC</Name>
@@ -14520,6 +14725,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x04</Address>
       <Fixed>false</Fixed>
+      <HexValue>E0</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIG3_Data</Name>
@@ -14542,6 +14748,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x04</Address>
       <Fixed>false</Fixed>
+      <HexValue>225</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIG3_CRC</Name>
@@ -14564,6 +14771,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x04</Address>
       <Fixed>false</Fixed>
+      <HexValue>42</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIG3_Data</Name>
@@ -14586,6 +14794,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x04</Address>
       <Fixed>false</Fixed>
+      <HexValue>201</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIG3_CRC</Name>
@@ -14608,6 +14817,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x04</Address>
       <Fixed>false</Fixed>
+      <HexValue>CE</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIG3_Data</Name>
@@ -14630,6 +14840,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x04</Address>
       <Fixed>false</Fixed>
+      <HexValue>1D9</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIG3_CRC</Name>
@@ -14652,6 +14863,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x04</Address>
       <Fixed>false</Fixed>
+      <HexValue>B8</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIG3_Data</Name>
@@ -14674,6 +14886,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x04</Address>
       <Fixed>false</Fixed>
+      <HexValue>A8</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIG3_CRC</Name>
@@ -14696,6 +14909,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x04</Address>
       <Fixed>false</Fixed>
+      <HexValue>64</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIG3_Data</Name>
@@ -14718,6 +14932,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x04</Address>
       <Fixed>false</Fixed>
+      <HexValue>197</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIG3_CRC</Name>
@@ -14740,6 +14955,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x04</Address>
       <Fixed>false</Fixed>
+      <HexValue>CC</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIG2_Data</Name>
@@ -14762,6 +14978,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x03</Address>
       <Fixed>false</Fixed>
+      <HexValue>39D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIG2_CRC</Name>
@@ -14784,6 +15001,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x03</Address>
       <Fixed>false</Fixed>
+      <HexValue>53</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIG2_Data</Name>
@@ -14806,6 +15024,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x03</Address>
       <Fixed>false</Fixed>
+      <HexValue>20D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIG2_CRC</Name>
@@ -14828,6 +15047,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x03</Address>
       <Fixed>false</Fixed>
+      <HexValue>C</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIG2_Data</Name>
@@ -14850,6 +15070,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x03</Address>
       <Fixed>false</Fixed>
+      <HexValue>192</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIG2_CRC</Name>
@@ -14872,6 +15093,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x03</Address>
       <Fixed>false</Fixed>
+      <HexValue>F4</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIG2_Data</Name>
@@ -14894,6 +15116,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x03</Address>
       <Fixed>false</Fixed>
+      <HexValue>21</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIG2_CRC</Name>
@@ -14916,6 +15139,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x03</Address>
       <Fixed>false</Fixed>
+      <HexValue>5</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIG2_Data</Name>
@@ -14938,6 +15162,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x03</Address>
       <Fixed>false</Fixed>
+      <HexValue>285</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIG2_CRC</Name>
@@ -14960,6 +15185,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x03</Address>
       <Fixed>false</Fixed>
+      <HexValue>4</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIG2_Data</Name>
@@ -14982,6 +15208,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x03</Address>
       <Fixed>false</Fixed>
+      <HexValue>26</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIG2_CRC</Name>
@@ -15004,6 +15231,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x03</Address>
       <Fixed>false</Fixed>
+      <HexValue>96</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIG1_Data</Name>
@@ -15026,6 +15254,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x02</Address>
       <Fixed>false</Fixed>
+      <HexValue>2C1</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_CONFIG1_CRC</Name>
@@ -15048,6 +15277,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x02</Address>
       <Fixed>false</Fixed>
+      <HexValue>88</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIG1_Data</Name>
@@ -15070,6 +15300,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x02</Address>
       <Fixed>false</Fixed>
+      <HexValue>8C</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_CONFIG1_CRC</Name>
@@ -15092,6 +15323,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x02</Address>
       <Fixed>false</Fixed>
+      <HexValue>E5</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIG1_Data</Name>
@@ -15114,6 +15346,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x02</Address>
       <Fixed>false</Fixed>
+      <HexValue>145</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_CONFIG1_CRC</Name>
@@ -15136,6 +15369,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x02</Address>
       <Fixed>false</Fixed>
+      <HexValue>8B</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIG1_Data</Name>
@@ -15158,6 +15392,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x02</Address>
       <Fixed>false</Fixed>
+      <HexValue>140</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_CONFIG1_CRC</Name>
@@ -15180,6 +15415,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x02</Address>
       <Fixed>false</Fixed>
+      <HexValue>2</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIG1_Data</Name>
@@ -15202,6 +15438,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x02</Address>
       <Fixed>false</Fixed>
+      <HexValue>388</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_CONFIG1_CRC</Name>
@@ -15224,6 +15461,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x02</Address>
       <Fixed>false</Fixed>
+      <HexValue>B6</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIG1_Data</Name>
@@ -15246,6 +15484,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x02</Address>
       <Fixed>false</Fixed>
+      <HexValue>22E</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_CONFIG1_CRC</Name>
@@ -15268,6 +15507,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x02</Address>
       <Fixed>false</Fixed>
+      <HexValue>D0</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_MODE2_Data</Name>
@@ -15290,6 +15530,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x01</Address>
       <Fixed>false</Fixed>
+      <HexValue>14</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_MODE2_CRC</Name>
@@ -15312,6 +15553,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x01</Address>
       <Fixed>false</Fixed>
+      <HexValue>99</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_MODE2_Data</Name>
@@ -15334,6 +15576,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x01</Address>
       <Fixed>false</Fixed>
+      <HexValue>11A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_MODE2_CRC</Name>
@@ -15356,6 +15599,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x01</Address>
       <Fixed>false</Fixed>
+      <HexValue>78</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_MODE2_Data</Name>
@@ -15378,6 +15622,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x01</Address>
       <Fixed>false</Fixed>
+      <HexValue>48</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_MODE2_CRC</Name>
@@ -15400,6 +15645,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x01</Address>
       <Fixed>false</Fixed>
+      <HexValue>8D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_MODE2_Data</Name>
@@ -15422,6 +15668,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x01</Address>
       <Fixed>false</Fixed>
+      <HexValue>173</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_MODE2_CRC</Name>
@@ -15444,6 +15691,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x01</Address>
       <Fixed>false</Fixed>
+      <HexValue>A1</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_MODE2_Data</Name>
@@ -15466,6 +15714,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x01</Address>
       <Fixed>false</Fixed>
+      <HexValue>B</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_MODE2_CRC</Name>
@@ -15488,6 +15737,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x01</Address>
       <Fixed>false</Fixed>
+      <HexValue>D0</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_MODE2_Data</Name>
@@ -15510,6 +15760,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x01</Address>
       <Fixed>false</Fixed>
+      <HexValue>1F1</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_MODE2_CRC</Name>
@@ -15532,6 +15783,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x01</Address>
       <Fixed>false</Fixed>
+      <HexValue>79</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_MODE1_Data</Name>
@@ -15554,6 +15806,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x00</Address>
       <Fixed>false</Fixed>
+      <HexValue>EF</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_MODE1_CRC</Name>
@@ -15576,6 +15829,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x00</Address>
       <Fixed>false</Fixed>
+      <HexValue>7F</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_MODE1_Data</Name>
@@ -15598,6 +15852,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x00</Address>
       <Fixed>false</Fixed>
+      <HexValue>322</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_MODE1_CRC</Name>
@@ -15620,6 +15875,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x00</Address>
       <Fixed>false</Fixed>
+      <HexValue>5C</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_MODE1_Data</Name>
@@ -15642,6 +15898,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x00</Address>
       <Fixed>false</Fixed>
+      <HexValue>16D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_MODE1_CRC</Name>
@@ -15664,6 +15921,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x00</Address>
       <Fixed>false</Fixed>
+      <HexValue>CA</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_MODE1_Data</Name>
@@ -15686,6 +15944,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x00</Address>
       <Fixed>false</Fixed>
+      <HexValue>3EA</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_MODE1_CRC</Name>
@@ -15708,6 +15967,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x00</Address>
       <Fixed>false</Fixed>
+      <HexValue>97</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_MODE1_Data</Name>
@@ -15730,6 +15990,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x00</Address>
       <Fixed>false</Fixed>
+      <HexValue>9F</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_MODE1_CRC</Name>
@@ -15752,6 +16013,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x00</Address>
       <Fixed>false</Fixed>
+      <HexValue>9A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_MODE1_Data</Name>
@@ -15774,6 +16036,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x00</Address>
       <Fixed>false</Fixed>
+      <HexValue>13A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_MODE1_CRC</Name>
@@ -15796,6 +16059,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x00</Address>
       <Fixed>false</Fixed>
+      <HexValue>C7</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_ID_Data</Name>
@@ -15818,6 +16082,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x15</Address>
       <Fixed>false</Fixed>
+      <HexValue>13E</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_ID_CRC</Name>
@@ -15840,6 +16105,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x15</Address>
       <Fixed>false</Fixed>
+      <HexValue>9C</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_ID_Data</Name>
@@ -15862,6 +16128,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x15</Address>
       <Fixed>false</Fixed>
+      <HexValue>3C</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_ID_CRC</Name>
@@ -15884,6 +16151,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x15</Address>
       <Fixed>false</Fixed>
+      <HexValue>AE</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_ID_Data</Name>
@@ -15906,6 +16174,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x15</Address>
       <Fixed>false</Fixed>
+      <HexValue>274</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_ID_CRC</Name>
@@ -15928,6 +16197,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x15</Address>
       <Fixed>false</Fixed>
+      <HexValue>62</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_ID_Data</Name>
@@ -15950,6 +16220,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x15</Address>
       <Fixed>false</Fixed>
+      <HexValue>6D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_ID_CRC</Name>
@@ -15972,6 +16243,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x15</Address>
       <Fixed>false</Fixed>
+      <HexValue>DB</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_ID_Data</Name>
@@ -15994,6 +16266,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x15</Address>
       <Fixed>false</Fixed>
+      <HexValue>3BD</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_ID_CRC</Name>
@@ -16016,6 +16289,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x15</Address>
       <Fixed>false</Fixed>
+      <HexValue>3A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_ID_Data</Name>
@@ -16038,6 +16312,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x15</Address>
       <Fixed>false</Fixed>
+      <HexValue>2DF</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_ID_CRC</Name>
@@ -16060,6 +16335,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x15</Address>
       <Fixed>false</Fixed>
+      <HexValue>BC</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_REQADC_Data</Name>
@@ -16086,6 +16362,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>2DC</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_REQADC_CRC</Name>
@@ -16108,6 +16385,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>9C</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_REQADC_Data</Name>
@@ -16134,6 +16412,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>1CC</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_REQADC_CRC</Name>
@@ -16156,6 +16435,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>B9</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_REQADC_Data</Name>
@@ -16182,6 +16462,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>2C</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_REQADC_CRC</Name>
@@ -16204,6 +16485,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>D7</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_REQADC_Data</Name>
@@ -16230,6 +16512,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>205</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_REQADC_CRC</Name>
@@ -16252,6 +16535,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>59</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_REQADC_Data</Name>
@@ -16278,6 +16562,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>42</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_REQADC_CRC</Name>
@@ -16300,6 +16585,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>EA</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_REQADC_Data</Name>
@@ -16326,6 +16612,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>123</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_REQADC_CRC</Name>
@@ -16348,6 +16635,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x13</Address>
       <Fixed>false</Fixed>
+      <HexValue>EB</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_AMUX_SEL</Name>
@@ -18691,6 +18979,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0xD</Address>
       <Fixed>false</Fixed>
+      <HexValue>2F</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>DRV8705_UVOV_CTRL_Read_Data</Name>
@@ -18713,6 +19002,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0xC</Address>
       <Fixed>false</Fixed>
+      <HexValue>FB</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>DRV8705_OLSC_CTRL_Read_Data</Name>
@@ -18735,6 +19025,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0xB</Address>
       <Fixed>false</Fixed>
+      <HexValue>D1</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>DRV8705_VDS_CTRL_2_Read_Data</Name>
@@ -18757,6 +19048,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0xA</Address>
       <Fixed>false</Fixed>
+      <HexValue>43</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>DRV8705_VDS_CTRL_1_Read_Data</Name>
@@ -18779,6 +19071,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x9</Address>
       <Fixed>false</Fixed>
+      <HexValue>A7</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>DRV8705_DRV_CTRL_3_Read_Data</Name>
@@ -18801,6 +19094,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x8</Address>
       <Fixed>false</Fixed>
+      <HexValue>85</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>DRV8705_DRV_CTRL_2_Read_Data</Name>
@@ -18823,6 +19117,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x7</Address>
       <Fixed>false</Fixed>
+      <HexValue>B7</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>DRV8705_DRV_CTRL_1_Read_Data</Name>
@@ -18845,6 +19140,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x6</Address>
       <Fixed>false</Fixed>
+      <HexValue>87</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>DRV8705_IC_CTRL_Read_Data</Name>
@@ -18867,6 +19163,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x4</Address>
       <Fixed>false</Fixed>
+      <HexValue>1B</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>DRV8705_BRG_CTRL_Read_Data</Name>
@@ -18889,6 +19186,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x5</Address>
       <Fixed>false</Fixed>
+      <HexValue>36</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>DRV8705_IC_STAT_2_Read_Data</Name>
@@ -18911,6 +19209,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x2</Address>
       <Fixed>false</Fixed>
+      <HexValue>18</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>DRV8705_VGS_VDS_STAT_Read_Data</Name>
@@ -18933,6 +19232,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x1</Address>
       <Fixed>false</Fixed>
+      <HexValue>2D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>DRV8705_IC_STAT_1_Read_Data</Name>
@@ -18955,6 +19255,7 @@
       <NeedTransform>true</NeedTransform>
       <Address>0x0</Address>
       <Fixed>false</Fixed>
+      <HexValue>56</HexValue>
     </SignalBase>
     <SignalBase xsi:type="PulseInSignal">
       <Name>eLOCKER_LS_VSENSE_Duty</Name>
@@ -19690,6 +19991,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>E0</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_Power_TEMP_ADC_Data</Name>
@@ -19712,6 +20014,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>11</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_VEE_ADC_Data</Name>
@@ -19734,6 +20037,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>315</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_VCC_ADC_Data</Name>
@@ -19756,6 +20060,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>26E</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_AMUXIN_ADC_Data</Name>
@@ -19778,6 +20083,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>37E</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_W_DESAT_ADC_Data</Name>
@@ -19800,6 +20106,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>1B6</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_Die_TEMP_ADC_Data</Name>
@@ -19822,6 +20129,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>205</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_Power_TEMP_ADC_Data</Name>
@@ -19844,6 +20152,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>24C</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_VEE_ADC_Data</Name>
@@ -19866,6 +20175,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>38B</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_VCC_ADC_Data</Name>
@@ -19888,6 +20198,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>351</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_AMUXIN_ADC_Data</Name>
@@ -19910,6 +20221,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>3AA</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_V_DESAT_ADC_Data</Name>
@@ -19932,6 +20244,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>372</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_Die_TEMP_ADC_Data</Name>
@@ -19954,6 +20267,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>179</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_Power_TEMP_ADC_Data</Name>
@@ -19976,6 +20290,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>248</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_VEE_ADC_Data</Name>
@@ -19998,6 +20313,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>25D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_VCC_ADC_Data</Name>
@@ -20020,6 +20336,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>9E</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_AMUXIN_ADC_Data</Name>
@@ -20042,6 +20359,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>C1</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>BOT_U_DESAT_ADC_Data</Name>
@@ -20064,6 +20382,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>1E0</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_Die_TEMP_ADC_Data</Name>
@@ -20086,6 +20405,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>275</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_Power_TEMP_ADC_Data</Name>
@@ -20108,6 +20428,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>158</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_VEE_ADC_Data</Name>
@@ -20130,6 +20451,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>9B</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_VCC_ADC_Data</Name>
@@ -20152,6 +20474,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>1EB</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_AMUXIN_ADC_Data</Name>
@@ -20174,6 +20497,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>3DB</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_W_DESAT_ADC_Data</Name>
@@ -20196,6 +20520,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>224</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_Die_TEMP_ADC_Data</Name>
@@ -20218,6 +20543,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>3C2</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_Power_TEMP_ADC_Data</Name>
@@ -20240,6 +20566,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>389</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_VEE_ADC_Data</Name>
@@ -20262,6 +20589,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>119</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_VCC_ADC_Data</Name>
@@ -20284,6 +20612,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>202</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_AMUXIN_ADC_Data</Name>
@@ -20306,6 +20635,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>71</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_V_DESAT_ADC_Data</Name>
@@ -20328,6 +20658,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>1F7</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_Die_TEMP_ADC_Data</Name>
@@ -20350,6 +20681,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>17A</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_Power_TEMP_ADC_Data</Name>
@@ -20372,6 +20704,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>29D</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_VEE_ADC_Data</Name>
@@ -20394,6 +20727,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>DB</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_VCC_ADC_Data</Name>
@@ -20416,6 +20750,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>95</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_AMUXIN_ADC_Data</Name>
@@ -20438,6 +20773,7 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>32E</HexValue>
     </SignalBase>
     <SignalBase xsi:type="GDICRegisterSignal">
       <Name>TOP_U_DESAT_ADC_Data</Name>
@@ -20460,8 +20796,9 @@
       <NeedTransform>true</NeedTransform>
       <Address />
       <Fixed>false</Fixed>
+      <HexValue>115</HexValue>
     </SignalBase>
-    <SignalBase xsi:type="DiscreteOutputSignal">
+    <SignalBase>
       <Name>Safing_Logic_Test_Current_Row</Name>
       <Views />
       <MessageID>1553</MessageID>
@@ -20473,8 +20810,6 @@
       <Offset>0</Offset>
       <Unit />
       <InOrOut>false</InOrOut>
-      <PinNumber />
-      <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="SafingLogicDirectionSignal">
       <Name>Safing_Logic_E_STOP_MAIN_MICRO_Dir_Select</Name>
@@ -20852,7 +21187,7 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <IsOutput>false</IsOutput>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_HVDC_OV_FLT_FB</Name>
         <Views>
@@ -21057,7 +21392,7 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <IsOutput>false</IsOutput>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_DSAT_BOT_FLT_FB</Name>
         <Views>
@@ -21096,7 +21431,7 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <IsOutput>false</IsOutput>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_OC_U_FLT</Name>
         <Views>
@@ -21135,7 +21470,7 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <IsOutput>false</IsOutput>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_OC_V_FLT</Name>
         <Views>
@@ -21174,7 +21509,7 @@
       <Unit />
       <InOrOut>true</InOrOut>
       <PinNumber />
-      <IsOutput>false</IsOutput>
+      <IsOutput>true</IsOutput>
       <State>
         <Name>LOW_OC_W_FLT</Name>
         <Views>
@@ -21200,7 +21535,7 @@
         <NeedTransitions>true</NeedTransitions>
       </State>
     </SignalBase>
-    <SignalBase xsi:type="DiscreteOutputSignal">
+    <SignalBase>
       <Name>Safing_Logic_Test_Error_info</Name>
       <Views />
       <MessageID>1553</MessageID>
@@ -21212,8 +21547,6 @@
       <Offset>0</Offset>
       <Unit />
       <InOrOut>false</InOrOut>
-      <PinNumber />
-      <IsOutput>true</IsOutput>
     </SignalBase>
     <SignalBase xsi:type="DiscreteOutputSignal">
       <Name>E_STOP_MAIN_MICRO_OUTPUT</Name>
@@ -21283,6 +21616,89 @@
       <InOrOut>true</InOrOut>
       <PinNumber />
       <IsOutput>true</IsOutput>
+    </SignalBase>
+    <SignalBase xsi:type="StatusDataSignal">
+      <Name>Raw_Pos</Name>
+      <Views />
+      <MessageID>1552</MessageID>
+      <StartBit>276</StartBit>
+      <Length>12</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <InOrOut>false</InOrOut>
+      <Format>f2</Format>
+      <NeedTransform>true</NeedTransform>
+      <MaxThreshold>3049</MaxThreshold>
+      <MinThreshold>600</MinThreshold>
+    </SignalBase>
+    <SignalBase xsi:type="StatusDataSignal">
+      <Name>Raw_RollingCnt</Name>
+      <Views />
+      <MessageID>1552</MessageID>
+      <StartBit>268</StartBit>
+      <Length>8</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <InOrOut>false</InOrOut>
+      <Format />
+      <NeedTransform>true</NeedTransform>
+      <MaxThreshold>NaN</MaxThreshold>
+      <MinThreshold>NaN</MinThreshold>
+    </SignalBase>
+    <SignalBase xsi:type="StatusDataSignal">
+      <Name>Raw_InverCode</Name>
+      <Views />
+      <MessageID>1552</MessageID>
+      <StartBit>264</StartBit>
+      <Length>4</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <InOrOut>false</InOrOut>
+      <Format />
+      <NeedTransform>true</NeedTransform>
+      <MaxThreshold>NaN</MaxThreshold>
+      <MinThreshold>NaN</MinThreshold>
+    </SignalBase>
+    <SignalBase xsi:type="DiscreteOutputSignal">
+      <Name>LOW_NXP_ACT_DISCH</Name>
+      <Views>
+        <ViewEnable>
+          <ViewName>NXPViewModel</ViewName>
+          <IsEnabled>true</IsEnabled>
+        </ViewEnable>
+      </Views>
+      <MessageID>1283</MessageID>
+      <StartBit>3</StartBit>
+      <Length>1</Length>
+      <ByteOrder>1</ByteOrder>
+      <ValueType>0</ValueType>
+      <Factor>1</Factor>
+      <Offset>0</Offset>
+      <Unit />
+      <InOrOut>true</InOrOut>
+      <PinNumber>PTA3</PinNumber>
+      <IsOutput>true</IsOutput>
+      <State>
+        <Name>LOW_NXP_ACT_DISCH_State</Name>
+        <Views />
+        <MessageID>1553</MessageID>
+        <StartBit>67</StartBit>
+        <Length>1</Length>
+        <ByteOrder>1</ByteOrder>
+        <ValueType>0</ValueType>
+        <Factor>1</Factor>
+        <Offset>0</Offset>
+        <Unit />
+        <InOrOut>false</InOrOut>
+        <PinNumber>PTA3</PinNumber>
+        <NeedTransitions>true</NeedTransitions>
+      </State>
     </SignalBase>
   </Signals>
 </SignalCollection>

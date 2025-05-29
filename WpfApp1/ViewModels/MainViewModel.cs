@@ -11,6 +11,8 @@ using ERad5TestGUI.Devices;
 using ERad5TestGUI.Services;
 using ERad5TestGUI.Stores;
 using ERad5TestGUI.Models;
+using AdonisUI;
+using System.Windows;
 
 namespace ERad5TestGUI.ViewModels
 {
@@ -29,7 +31,11 @@ namespace ERad5TestGUI.ViewModels
         private string log;
         private RelayCommand _disableINHCANCommand;
         private RelayCommand<uint> _sendCANFDWakeUpCommand;
-       
+#if DEBUG
+        public bool DebugMode { get => true; }
+#else
+        public bool DebugMode { get => false; }
+#endif
         public ObservableObject CurrentViewModel => _navigationStore.CurrentViewModel;
         public ObservableObject CurrentModalViewModel => _modalNavigationStore.CurrentViewModel;
         public bool IsOpen => _modalNavigationStore.IsOpen;
@@ -84,7 +90,7 @@ namespace ERad5TestGUI.ViewModels
             //OpenCommand = new RelayCommand(Open, () => HasDevice);
             //CloseCommand = new RelayCommand(Close, () => HasDevice);
             //StartCommand = new RelayCommand(Start, () => HasDevice);
-            StopCommand = new AsyncRelayCommand(Stop, () => HasDevice);
+            StopCommand = new AsyncRelayCommand(Start, () => HasDevice);
             DeivceConfigCommand = new RelayCommand(DeivceConfig);
         }
 
@@ -114,7 +120,7 @@ namespace ERad5TestGUI.ViewModels
         private void OnCurrentViewModelChanged()
         {
             OnPropertyChanged(nameof(CurrentViewModel));
-            Console.WriteLine($"{DateTime.Now:HH:mm:ss fff} view changed");
+            //Console.WriteLine($"{DateTime.Now:HH:mm:ss fff} view changed");
         }
 
         private void OnCurrentModalViewModelChanged()
@@ -123,16 +129,17 @@ namespace ERad5TestGUI.ViewModels
             OnPropertyChanged(nameof(IsOpen));
         }
 
-        public ICommand OpenCommand { get; }
-        public ICommand CloseCommand { get; }
-        public ICommand StartCommand { get; }
+        //public ICommand OpenCommand { get; }
+        //public ICommand CloseCommand { get; }
+        //public ICommand StartCommand { get; }
         public ICommand StopCommand { get; }
         public ICommand DeivceConfigCommand { get; }
         public ICommand DisableINHCANCommand { get => _disableINHCANCommand ?? (_disableINHCANCommand = new RelayCommand(DisableINHCAN, () => HasDevice)); }
         public ICommand SendWakeUpCommand { get => _sendCANFDWakeUpCommand ?? (_sendCANFDWakeUpCommand = new RelayCommand<uint>(SendWakeUp, (x) => HasDevice)); }
 
-        private async Task Stop() 
+        private async Task Start() 
         {
+            //ChangeTheme();
             if (CurrentDevice.Started)
             {
                 CurrentDevice?.Stop();
@@ -142,21 +149,21 @@ namespace ERad5TestGUI.ViewModels
             {
                 _deviceStore.FramesCount = 0;
                 CurrentDevice.Start();
-                if (CurrentDevice is VectorCan)
-                {
-//#if DEBUG
-//                    HardwareID = "x.x.x.x";
-//                    EMSWVersion = "x.x.x.x";
-//#else
-                    EMSWVersion = await ReadDID(DIDF130);
-                    HardwareID = await ReadDID(DIDF193);
-//#endif
-
-                }
-                else
+                if (CurrentDevice is VirtualDevice)
                 {
                     HardwareID = "x.x.x.x";
                     EMSWVersion = "x.x.x.x";
+                }
+                else
+                {
+                    //#if DEBUG
+                    //                    HardwareID = "x.x.x.x";
+                    //                    EMSWVersion = "x.x.x.x";
+                    //#else
+                    EMSWVersion = await ReadDID(DIDF130);
+                    HardwareID = await ReadDID(DIDF193);
+                    //#endif
+
                 }
             }
             OnPropertyChanged(nameof(Started));
@@ -217,7 +224,25 @@ namespace ERad5TestGUI.ViewModels
             }
             return "";
         }
-#endregion
+        #endregion
+        public bool IsDark
+        {
+            get => _isDark;
+            set
+            {
+                if (SetProperty(ref _isDark, value))
+                {
+                    ChangeTheme();
+                }
+            }
+        }
+        private bool _isDark;
+        private void ChangeTheme()
+        {
+            ResourceLocator.SetColorScheme(Application.Current.Resources, _isDark ? ResourceLocator.DarkColorScheme : ResourceLocator.LightColorScheme);
+
+            //_isDark = !_isDark;
+        }
     }
 
     public partial class MainViewModel
@@ -313,10 +338,19 @@ namespace ERad5TestGUI.ViewModels
         * 0.0.1.5 2025050801
         * DiscreteOutput信号 选择Sync并更新temp值后 不跟随实时信号
         * Memory Cancel按钮优化
+        * 20250513
+        * 修复平均值信号，当清空一次后，计算出的平均值为NAN的bug
+        * Log界面增加信号可选，增加保存文件按钮
+        * 20250516
+        * 增加舍弗勒 Sent 信号解析【PPAWL】
+        * 20250519
+        * 增加缺失信号 LOW_NXP_ACT_DISCH
+        * 0.0.1.6（20250519重新打包)
+        * 更新版本
         */
         /// <summary>
         /// Soft Version
         /// </summary>
-        public string Version { get; } = "0.0.1.5-2025050801";
+        public string Version { get; } = "0.0.1.6";
     }
 }
