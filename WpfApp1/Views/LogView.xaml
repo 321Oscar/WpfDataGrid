@@ -73,7 +73,7 @@
         <GroupBox Grid.Column="1" Header="Logs">
             <ListBox ItemsSource="{Binding SignalLogs}" Loaded="ListBox_Loaded">
                 <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
+                    <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="ListBoxItem">
                         <Style.Triggers>
                             <EventTrigger RoutedEvent="Loaded">
                                 <BeginStoryboard>

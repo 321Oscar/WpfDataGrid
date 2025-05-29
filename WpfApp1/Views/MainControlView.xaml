@@ -21,6 +21,7 @@
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <!--  Device  -->
@@ -238,14 +239,17 @@
                 </StackPanel>
             </GroupBox>
             <GroupBox
+                Grid.Column="4"
+                Width="380"
+                Height="140"
+                Header="Logs">
+                <ListBox Name="logListBox" />
+            </GroupBox>
+            <GroupBox
                 Grid.Column="3"
                 Margin="0,5"
                 Header="Controls"
                 Visibility="Collapsed">
-            <GroupBox Header="Logs" Grid.Column="3" Width="380" Height="140">
-                <ListBox Name="logListBox" />
-            </GroupBox>
-            <GroupBox Header="Controls" Margin="0,5" Visibility="Collapsed" Grid.Column="3">
                 <WrapPanel MaxWidth="500">
                     <WrapPanel.Resources>
                         <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
@@ -265,7 +269,7 @@
                 Source="pack://application:,,,/Resources/logo.ico"
                 HorizontalAlignment="Right"/>-->
             <Image
-                Grid.ColumnSpan="5"
+                Grid.Column="5"
                 Height="130"
                 HorizontalAlignment="Right"
                 Source="pack://application:,,,/Resources/title.png" />
